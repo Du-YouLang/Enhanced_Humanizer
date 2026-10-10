@@ -81,6 +81,8 @@ class TestUI(unittest.TestCase):
         self.assertEqual(self.request('/api/artifact?id=../../auth.json')[0],400)
         self.assertEqual(self.request('/api/unknown',{})[0],400)
         self.assertEqual(self.request('/api/annotate',{'node':'fixture/node','reason':'sk-'+'a'*24})[0],400)
+        for action in ('fork','handoff','pr-intent','annotate','route'):
+            self.assertEqual(self.request('/api/'+action,{'node':'fixture/node','reason':{'invalid':'shape'}})[0],400)
 
     def test_failed_tests_and_changed_evidence_invalidate_product_review(self):
         self.login()

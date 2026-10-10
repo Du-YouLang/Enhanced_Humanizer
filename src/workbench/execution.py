@@ -205,8 +205,11 @@ print('prepared')
                     try:native=json.loads(line)
                     except ValueError:pass
             current=self.memory.get('run',run_id)
+            segment_wall=time.perf_counter()-tick;previous_wall=value.get('windows_total_elapsed_seconds',0 if mode=='start' else 'unavailable')
             self.memory.record('run',run_id,current|{'status':native.get('status','INFRA_FAIL'),'native':native,'log_artifact':ref,
-                    'elapsed_seconds':native.get('active_elapsed_seconds',time.perf_counter()-tick),'transport_exit':result.returncode})
+                    'elapsed_seconds':native.get('active_elapsed_seconds',time.perf_counter()-tick),'transport_exit':result.returncode,
+                    'windows_segment_elapsed_seconds':segment_wall,
+                    'windows_total_elapsed_seconds':previous_wall+segment_wall if isinstance(previous_wall,(int,float)) else 'unavailable'})
             task=self.memory.get('task',current['task_id'])
             self.memory.record('task',current['task_id'],task|{'status':native.get('task_verdict',native.get('status','INFRA_FAIL'))})
             self._finish_nodes(run_id,native.get('status','INFRA_FAIL'))

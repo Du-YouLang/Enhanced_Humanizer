@@ -112,6 +112,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def action(self,path,value):
         memory=self.server.memory;node_id=value.get('node');reason=value.get('reason','')
+        if not isinstance(reason,str):raise ValueError('Reason must be text')
         if path in ('/api/annotate','/api/reject','/api/route'):
             node=memory.get('attempt',node_id)
             if not isinstance(reason,str) or not reason.strip():raise ValueError('Decision reason required')
