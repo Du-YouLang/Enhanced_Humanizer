@@ -35,17 +35,21 @@
         "P1",
         "P3"
       ],
-      "issue": "PLANNED:P1",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
-        "P1-A01..A04 (计划；不能视为已通过)",
-        "P3-A01..A04 (计划；不能视为已通过)"
+        "P3-A01..A04 (计划；不能视为已通过)",
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0007"
       ],
-      "source_line": 37
+      "source_line": 37,
+      "phase_evidence": {
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+      }
     },
     {
       "id": "V-03",
@@ -100,20 +104,22 @@
         "P0",
         "P1"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
-        "P1-A01..A04 (计划；不能视为已通过)"
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
       ],
-      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
+      "implementation_status": "P0_P1_MODEL_IDENTITIES_VERIFIED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0006"
+        "ADR-0006",
+        "ADR-0007"
       ],
       "source_line": 43,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
       }
     },
     {
@@ -127,20 +133,22 @@
         "P0",
         "P1"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
-        "P1-A01..A04 (计划；不能视为已通过)"
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
       ],
-      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
+      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0006"
+        "ADR-0006",
+        "ADR-0007"
       ],
       "source_line": 47,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
       }
     },
     {
@@ -153,16 +161,20 @@
       "phases": [
         "P1"
       ],
-      "issue": "PLANNED:P1",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
-        "P1-A01..A04 (计划；不能视为已通过)"
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0007"
       ],
-      "source_line": 49
+      "source_line": 49,
+      "phase_evidence": {
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+      }
     },
     {
       "id": "WF-03",
@@ -175,17 +187,21 @@
         "P1",
         "P3"
       ],
-      "issue": "PLANNED:P1",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
-        "P1-A01..A04 (计划；不能视为已通过)",
-        "P3-A01..A04 (计划；不能视为已通过)"
+        "P3-A01..A04 (计划；不能视为已通过)",
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0007"
       ],
-      "source_line": 51
+      "source_line": 51,
+      "phase_evidence": {
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+      }
     },
     {
       "id": "WF-04",
@@ -198,16 +214,20 @@
       "phases": [
         "P1"
       ],
-      "issue": "PLANNED:P1",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
-        "P1-A01..A04 (计划；不能视为已通过)"
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
       ],
-      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "implementation_status": "BUILTIN_FLOWS_MEASURED_UI_OPTION_DEFERRED",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0007"
       ],
-      "source_line": 53
+      "source_line": 53,
+      "phase_evidence": {
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+      }
     },
     {
       "id": "WF-05",
@@ -241,17 +261,21 @@
         "P1",
         "P4"
       ],
-      "issue": "PLANNED:P1",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
-        "P1-A01..A04 (计划；不能视为已通过)",
-        "P4-A01..A04 (计划；不能视为已通过)"
+        "P4-A01..A04 (计划；不能视为已通过)",
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
       ],
-      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0007"
       ],
-      "source_line": 57
+      "source_line": 57,
+      "phase_evidence": {
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+      }
     },
     {
       "id": "WF-07",
@@ -265,17 +289,21 @@
         "P1",
         "P4"
       ],
-      "issue": "PLANNED:P1",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
-        "P1-A01..A04 (计划；不能视为已通过)",
-        "P4-A01..A04 (计划；不能视为已通过)"
+        "P4-A01..A04 (计划；不能视为已通过)",
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0007"
       ],
-      "source_line": 59
+      "source_line": 59,
+      "phase_evidence": {
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+      }
     },
     {
       "id": "WF-08",
@@ -486,17 +514,21 @@
         "P1",
         "P6"
       ],
-      "issue": "PLANNED:P1",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
-        "P1-A01..A04 (计划；不能视为已通过)",
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01..A04 (计划；不能视为已通过)",
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
       ],
-      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "implementation_status": "P1_SMOKE_MEASURED_ENHANCED_BENCHMARK_PENDING_P6",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0007"
       ],
-      "source_line": 81
+      "source_line": 81,
+      "phase_evidence": {
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+      }
     },
     {
       "id": "DS-10",
@@ -545,7 +577,7 @@
       ],
       "source_line": 87,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -574,7 +606,7 @@
       ],
       "source_line": 89,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -601,7 +633,7 @@
       ],
       "source_line": 91,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -749,15 +781,17 @@
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)"
       ],
-      "implementation_status": "P0_ACCEPTANCE_READY_PENDING_CURRENT_CI",
+      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
-        "ADR-0006"
+        "ADR-0006",
+        "ADR-0007"
       ],
       "source_line": 107,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
       }
     },
     {
@@ -774,15 +808,17 @@
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)"
       ],
-      "implementation_status": "P0_ACCEPTANCE_READY_PENDING_CURRENT_CI",
+      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
-        "ADR-0006"
+        "ADR-0006",
+        "ADR-0007"
       ],
       "source_line": 109,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
       }
     },
     {
@@ -807,7 +843,7 @@
       ],
       "source_line": 111,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -898,7 +934,7 @@
       ],
       "source_line": 119,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -936,12 +972,16 @@
       "tests": [
         "P4-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0007"
       ],
-      "source_line": 125
+      "source_line": 125,
+      "phase_evidence": {
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+      }
     },
     {
       "id": "CX-03",
@@ -1055,7 +1095,7 @@
       ],
       "source_line": 137,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -1082,7 +1122,7 @@
       ],
       "source_line": 139,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -1132,7 +1172,7 @@
       ],
       "source_line": 143,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -1159,7 +1199,7 @@
       ],
       "source_line": 145,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -1186,7 +1226,7 @@
       ],
       "source_line": 147,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -1214,7 +1254,7 @@
       ],
       "source_line": 149,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -1654,17 +1694,21 @@
         "P1",
         "P6"
       ],
-      "issue": "PLANNED:P1",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
-        "P1-A01..A04 (计划；不能视为已通过)",
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01..A04 (计划；不能视为已通过)",
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P1_SMOKE_MEASURED_ENHANCED_BENCHMARK_PENDING_P6",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0007"
       ],
-      "source_line": 197
+      "source_line": 197,
+      "phase_evidence": {
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+      }
     },
     {
       "id": "OP-04",
@@ -1734,7 +1778,7 @@
       ],
       "source_line": 205,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -1759,7 +1803,7 @@
       ],
       "source_line": 207,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -1784,7 +1828,7 @@
       ],
       "source_line": 209,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -1853,7 +1897,7 @@
       ],
       "source_line": 239,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -1878,7 +1922,7 @@
       ],
       "source_line": 240,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -1903,7 +1947,7 @@
       ],
       "source_line": 241,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -1928,7 +1972,7 @@
       ],
       "source_line": 242,
       "phase_evidence": {
-        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
       }
     },
     {
@@ -1963,17 +2007,21 @@
         "P1",
         "P5"
       ],
-      "issue": "PLANNED:P1",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
-        "P1-A01..A04 (计划)",
-        "P5-A01..A03 (计划)"
+        "P5-A01..A03 (计划)",
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
       ],
-      "implementation_status": "PENDING_USER_DECISION",
+      "implementation_status": "DEFERRED_UI_DECISION_P5",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0007"
       ],
-      "source_line": 244
+      "source_line": 244,
+      "phase_evidence": {
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+      }
     }
   ],
   "additional_user_requirements": [

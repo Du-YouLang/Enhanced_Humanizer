@@ -59,3 +59,19 @@ Conda 保留给 P6 按实例预建固定科学环境，使用项目内 prefix �
 
 完整已执行结果和边界：[P0 Linux 验收](audits/P0-Linux-2026-10-10.md)。后面的 Windows 安装记录保留供审计。
 
+## P1 入口与无模型验收
+
+P1 已完成五个真实实验，结果见 [P1 验收](audits/P1-2026-10-10.md)。P1 Linux lock 为 `configs/requirements-p1-linux.lock`，36 项 wheel；在现有 native Linux venv 内用项目 uv 的 `pip sync --require-hashes --no-build` 安装，不重建登录或删除旧环境。`configs/requirements-p1.in` 只增加 httpx 0.28.1（BSD-3-Clause）及传递依赖，安装约束保留 P0 版本。
+
+真实运行入口为 Windows `.venv\Scripts\python.exe scripts/run_p1_experiment.py <native|humanize|rlar|flame|relay>`。它会消耗剩余 P1 预算，要求 P0 PASS/用户 P1 授权，并调用 Linux 持久 ledger；不能用直接 hmz 调用代替预算 gate。当前账本已用 30 DS 请求和 3 Codex 回合，不要重置或重复运行冒充首次实验。API Key 从已有本机 DSH ref 读入内存；不在命令行、文件或日志中写 Key。
+
+不调用模型的检查：
+
+```powershell
+.\.venv\Scripts\python.exe scripts/check_repository.py
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+.\.venv\Scripts\python.exe -m unittest discover -s examples/p1-relay/after-sol -v
+```
+
+在 Windows 项目 Python 导入 `scripts/wsl_project.py` 后，`run(['python','/opt/workbench/source/verify_p1_results_linux.py'])` 复验保存的五个独立仓库；模型调用 0。`audit_p1_controls_linux.py` 与 `audit_p1_transport_linux.py` 分别是无付费控制/模拟传输检查，不能作为真实模型结果。外部测试同样执行候选代码，P1 已用 Humanize 只读/禁网 fence 收紧并追加复验。
+

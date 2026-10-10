@@ -1,6 +1,6 @@
 # P0→P6 实施计划
 
-用户已授权项目 WSL2 安装，并在 P0 全部 Gate 通过后直接进入 P1。当前系统组件安装成功但要求手动重启，P0 尚未通过；后续产品功能不提前实现。所有新环境状态位于当前工作区，已批准微软系统组件 C 盘例外。
+P0 已通过真实 Linux/模型门禁并经 PR #4/CI 同步 main；P1 功能已按授权完成，见 [P1 验收](audits/P1-2026-10-10.md)。当前不进入 P2。所有新环境状态位于项目 D 盘，Microsoft 系统组件为已批准 C 盘例外。
 
 | 阶段 | 具体实施 | 独立交付与门禁 |
 |---|---|---|
@@ -12,18 +12,9 @@
 | P5 | 优先扩展 Humanize Web 或轻量只读事件/控制前端，交互探索图与节点证据 | 用户查看全路径、diff/log/test/PR、预算时延；能注释/拒绝/审批/暂停/继续/分叉；后端授权 |
 | P6 | 冻结 16 项及每实例环境，2 项 smoke 后运行 A–F、J0–J3、Merge 消融；统计图表和技术决策 | 逐任务可复现的成本/时间/完成率/干预；科研数值验收；包含负结果与不确定性 |
 
-P0 剩余执行顺序：
+已完成 P0/P1：固定上游和依赖、三正确 Fork、公开仓库/Issue/PR/CI、独立 Linux 登录/隔离、真实 demo、原版 Flow 对照、双 Builder/结构化 handoff/暂停恢复、执行层预算及原生时延测量。各次失败、账本、refs 和 bundle 保留。P1-A01..A04 实测通过，开发交付还须实际 PR CI 成功。P2 需新的阶段指示与独立预算，P1 剩余额度不自动结转。
 
-1. 已确认主仓库保持公开、三个正确 Fork 与 P0 限额；开发仓库采用 ADR-0004 的轻量 PR/CI 流程。
-2. 已接入用户既有 main、Issue #1 / PR #2 / push / 无模型 CI；追加提交继续验证各自 head。
-3. Fork Humanize / DSH / LAV 并在 `.local-workbench/upstreams/` 检出审核 SHA；检查完整许可证/NOTICE 与已装发布版本的映射。Codex 继续复用已有二进制，不 Fork 整套 Harness。
-4. 在不调用模型的情况下测试 Humanize 实际 OS fence 与路径拒绝。Windows 不成立则形成明确的 WSL2/受限系统方案，由用户批准后实施；不绕过隔离。
-5. 用户批准模型路由与预算后，做最小真实 DS/Sol/Humanize smoke；记录 actual model ID、Token/现金/订阅、超时、日志、工具结果。Jev/LAV 端点不具备时保留真实阻碍和 mock 路径。
-6. CI 通过的开发基线可经 PR 同步 main；P0 的真实 demo 等 Gate 全有证据后提交独立验收成果，再按最新授权直接启动 P1，不把部分成果合并当作 P0 通过。
-
-WSL 执行现状：固定镜像已下载校验，系统组件已安装，Windows 要求重启；尚未注册 Ubuntu。见 [实际安装证据](audits/P0-WSL-2026-10-10.md)。P1 单独预算与名称已确认，见 `configs/budget-p1.json` 和项目状态；不重置 P0 ledger。
-
-正式目录按指南增量形成：`.hmz/flows/`、`src/workbench/{adapters,orchestration,candidates,judging,synthesis,evidence,memory,gitops,api}`、`ui/`、`benchmarks/`。本轮只建立必要 P0 文件，不提前用空实现冒充完整产品。
+后续目录按指南增量形成：src/workbench 的 candidates/judging/synthesis/memory/api、ui 和 benchmarks。当前实际实现位于 .hmz/flows/basic_relay 和 scripts/p1_*，只是调用官方 Harness 的编排/控制/计费/验收层。未用空目录冒充完整产品。
 
 需求与科学边界：Sol 不只评分；候选单位是完整工程任务；失败候选保留；Jev/LAV/Sol 算法身份分清；Reviewer 可重写；M 无保证；首轮只固定环境，保持 6+6+4；科研材料到 P6 前再索取，缺失不阻塞 P0–P5。
 

@@ -1,8 +1,8 @@
-# P0 真实能力矩阵
+# P0/P1 真实能力矩阵
 
 日期：2026-10-10（Asia/Shanghai）。`PASS` 只针对表内实际操作；mock、初始化、文档说明均不能推出真实编码任务通过。
 
-重启后实测更新优先于下表早期状态：WSL2 Ubuntu 24.04.5、Humanize filesystem/network fence 都可执行，11 项实际 OS 测试通过；Linux Codex 0.162.0-alpha.2 独立 ChatGPT 登录成功，Humanize 自定义 Flow 驱动 gpt-6.1-sol 真实编辑/测试/commit 通过（31.692826 秒，input 55,512 / cached 31,872 / output 448）。详见 [P0 Linux 验收](audits/P0-Linux-2026-10-10.md)。DSH 真实编码、RLAR/Flame Chase、双 Builder、恢复及时延对照仍属于待执行的 P1，不能由本次 Sol demo 推出。
+最新实测优先于下表历史快照：WSL2 Ubuntu 24.04.5、Humanize filesystem/network fence 可执行，11 项 OS 测试通过；独立 Linux Codex 登录和真实 demo 通过，P0 PR #4 已合并。P1 原生 DSH 与 Humanize DSH 真实编码、原版 RLAR/Flame Chase、DS→新 Sol 双 Builder、暂停恢复、独立隔离复验和请求前预算均已通过。见 [P0 Linux](audits/P0-Linux-2026-10-10.md)、[P1 验收](audits/P1-2026-10-10.md)。五个模型实验共 30 DS 请求 / 3 Codex 回合；只是合成任务可用性，LAV/Jev、增强器与科研质量仍未验收。以下 P0 早期探针的“未验证”保留为历史，不再表示当前阶段阻塞。
 
 | 组件 | 已验证事实 | 未验证 / 阻碍 | 下一项验收 |
 |---|---|---|---|

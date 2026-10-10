@@ -1,6 +1,18 @@
 """Independent, explicit P1 redesign contract checks, outside the model's repository."""
 
-DESIGN_CHECK='''import ast
+
+def verification_command(work,argv,scratch):
+    """Test imports execute candidate code too: fence them with no API/auth-state access."""
+    from dataclasses import replace
+    from pathlib import Path
+    from hmz.coganchor.fence import Fence,wrapper
+    scratch=Path(scratch)
+    scratch.mkdir(parents=True,exist_ok=True)
+    fence=Fence.of(local='none',user='none',system='none',online=False,workdir=work,home=Path.home(),
+                   read=(work,'/opt/workbench/.venv-linux'),write=(scratch,),hosts=())
+    return [*wrapper(replace(fence,tmp=str(scratch))),*argv]
+
+DESIGN_CHECK='''
 from pathlib import Path
 import weighted_stats as module
 

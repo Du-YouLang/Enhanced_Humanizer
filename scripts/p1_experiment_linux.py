@@ -12,7 +12,7 @@ import time
 
 from p1_broker import Broker,protect_memory
 from p1_budget import Ledger
-from p1_acceptance import DESIGN_CHECK
+from p1_acceptance import DESIGN_CHECK, verification_command
 from export_codex_usage import collect
 
 BASE=Path('/opt/workbench')
@@ -91,7 +91,8 @@ def flow_run(mode,work,root,base,ledger,experiment,turns,deadline):
     if mode=='flame':
         task+=' If the weighted mean is already correct and committed, implement a new streaming WeightedMean class with add(value, weight), merge(other), result(); make weighted_mean delegate to it, add test_accumulator.py, run all tests and make another commit. Do not merely review.'
     def construct(resume=False):
-        params={'base_commit':base,'pause_signal':str(root/'pause.ready'),'pause_at_boundary':not bool(resume)} if mode=='relay' else None
+        params={'base_commit':base,'pause_signal':str(root/'pause.ready'),'pause_at_boundary':not bool(resume),
+                'workspace_path':str(work),'verification_scratch':str(root/'verify-tmp')} if mode=='relay' else None
         return Hmz(workspace=work).run(flow,task,
                 agents={role:MeteredDriver(role+'='+spec,ledger,experiment,turns,2) for role,spec in roles.items()},
                 params=params,budget={'duration':timedelta(seconds=max(1,deadline-time.monotonic())),'graceful':False},resume=resume)
@@ -141,12 +142,14 @@ def main():
         result=native(work,broker,BASE/'state'/experiment) if mode=='native' else flow_run(mode,work,root,base,ledger,experiment,turns,deadline)
         if mode=='native' and result['finish_reason']!='completed':raise RuntimeError('Official DSH turn did not complete; inspect retained runtime evidence')
         record['result']=result
-        tested=subprocess.run([sys.executable,'-m','unittest','-v'],cwd=work,text=True,capture_output=True,timeout=15)
+        tested=subprocess.run(verification_command(work,[sys.executable,'-m','unittest','-v'],root/'verify-tmp'),
+                              cwd=work,text=True,capture_output=True,timeout=15)
         record.update(test_exit_code=tested.returncode,test_log=tested.stderr,head_commit=git(work,'rev-parse','HEAD'),
                       frozen_test_unchanged=(work/'test_weighted_stats.py').read_text()==TESTS,working_tree=git(work,'status','--porcelain'))
         record['verdict']='PASS' if tested.returncode==0 and record['head_commit']!=base and record['frozen_test_unchanged'] and not record['working_tree'] else 'FAIL'
         if mode in ('flame','relay'):
-            design=subprocess.run([sys.executable,'-c',DESIGN_CHECK],cwd=work,text=True,capture_output=True,timeout=15)
+            design=subprocess.run(verification_command(work,[sys.executable,'-c',DESIGN_CHECK],root/'verify-tmp'),
+                                  cwd=work,text=True,capture_output=True,timeout=15)
             record['independent_redesign']={'exit_code':design.returncode,'stdout':design.stdout,'stderr':design.stderr}
             if design.returncode:record['verdict']='FAIL'
     except BaseException as error:

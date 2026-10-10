@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import sys
 import time
 
 import yaml
@@ -48,12 +49,15 @@ def main():
     destination=ROOT/'.local-workbench/audits'
     (destination/(run_id+'.private.log')).write_bytes(p.stdout+b'\nSTDERR\n'+p.stderr)
     result=run(['cat','/opt/workbench/evidence/'+run_id+'.json'])
+    verdict='TIMEOUT_OR_INFRA_FAIL'
     if result.returncode==0:
         (destination/(run_id+'.json')).write_bytes(result.stdout)
         record=json.loads(result.stdout)
+        verdict=record['verdict']
         print(json.dumps({k:v for k,v in record.items() if k not in ('result','requests','test_log')},default=str),flush=True)
     else:print(json.dumps({'run_id':run_id,'verdict':'TIMEOUT_OR_INFRA_FAIL','exit_code':p.returncode}))
     print(json.dumps({'wall_clock_seconds':round(time.perf_counter()-tick,6),'exit_code':p.returncode}),flush=True)
+    return 0 if p.returncode==0 and verdict=='PASS' else 1
 
 
-if __name__=='__main__':main()
+if __name__=='__main__':sys.exit(main())

@@ -45,6 +45,7 @@ def main():
         checks['unauthorized_client_denied']=request(auth=False)==403
         checks['alternate_route_denied']=request('/v1/messages')==403
         checks['other_model_denied']=request(data=body|{'model':'deepseek-v4-pro'})==402
+        checks['billed_server_tools_denied']=request(data=body|{'tools':[{'type':'web_search'}]})==402
         checks['no_reservation_for_policy_rejections']=not ledger.path.exists()
         checks['request_reserved_before_transport']=request()==200 and calls==[1]
         checks['next_request_denied_before_transport']=request()==402 and calls==[1]
