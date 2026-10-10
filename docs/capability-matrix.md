@@ -2,6 +2,8 @@
 
 日期：2026-10-10（Asia/Shanghai）。`PASS` 只针对表内实际操作；mock、初始化、文档说明均不能推出真实编码任务通过。
 
+重启后实测更新优先于下表早期状态：WSL2 Ubuntu 24.04.5、Humanize filesystem/network fence 都可执行，11 项实际 OS 测试通过；Linux Codex 0.162.0-alpha.2 独立 ChatGPT 登录成功，Humanize 自定义 Flow 驱动 gpt-6.1-sol 真实编辑/测试/commit 通过（31.692826 秒，input 55,512 / cached 31,872 / output 448）。详见 [P0 Linux 验收](audits/P0-Linux-2026-10-10.md)。DSH 真实编码、RLAR/Flame Chase、双 Builder、恢复及时延对照仍属于待执行的 P1，不能由本次 Sol demo 推出。
+
 | 组件 | 已验证事实 | 未验证 / 阻碍 | 下一项验收 |
 |---|---|---|---|
 | DeepSeek 官方 API | 原 GET /models 通过；本轮两个无工具真实文本 POST 均 HTTP 200，返回 deepseek-flash；分别 1.084/1.276 秒，各输入 12/输出 4 Tokens；第二次真实返回 4 个 token 的 logprobs | 未测工具调用/限流；账单实扣及这两次 request ID unavailable；不能推出 score-token 算法有效 | 隔离就绪后验证官方 Harness 真实 Coding；保持原版 LAV 接口与概率含义 |
