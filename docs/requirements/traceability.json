@@ -20,9 +20,13 @@
       "implementation_status": "PLANNED",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 35
+      "source_line": 35,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "V-02",
@@ -95,9 +99,13 @@
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 41
+      "source_line": 41,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "V-05",
@@ -465,11 +473,13 @@
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0012"
       ],
       "source_line": 73,
       "phase_evidence": {
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
       }
     },
     {
@@ -493,11 +503,13 @@
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0012"
       ],
       "source_line": 75,
       "phase_evidence": {
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
       }
     },
     {
@@ -580,12 +592,14 @@
         "ADR-0001",
         "ADR-0002",
         "ADR-0007",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0012"
       ],
       "source_line": 81,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
       }
     },
     {
@@ -605,9 +619,13 @@
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 83
+      "source_line": 83,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "JR-01",
@@ -632,12 +650,14 @@
         "ADR-0001",
         "ADR-0002",
         "ADR-0006",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0012"
       ],
       "source_line": 87,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
       }
     },
     {
@@ -663,12 +683,14 @@
         "ADR-0001",
         "ADR-0002",
         "ADR-0006",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0012"
       ],
       "source_line": 89,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
       }
     },
     {
@@ -795,11 +817,13 @@
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0009"
+        "ADR-0009",
+        "ADR-0012"
       ],
       "source_line": 99,
       "phase_evidence": {
-        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。",
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
       }
     },
     {
@@ -976,9 +1000,13 @@
       "implementation_status": "PLANNED",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0012"
       ],
-      "source_line": 115
+      "source_line": 115,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "HR-06",
@@ -1186,11 +1214,13 @@
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0010"
+        "ADR-0010",
+        "ADR-0012"
       ],
       "source_line": 133,
       "phase_evidence": {
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
       }
     },
     {
@@ -1573,16 +1603,20 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 167
+      "source_line": 167,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "BM-02",
@@ -1594,16 +1628,20 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 169
+      "source_line": 169,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "BM-03",
@@ -1615,16 +1653,20 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 171
+      "source_line": 171,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "BM-04",
@@ -1636,16 +1678,20 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 173
+      "source_line": 173,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "BM-05",
@@ -1657,16 +1703,20 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 175
+      "source_line": 175,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "BM-06",
@@ -1678,16 +1728,20 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 177
+      "source_line": 177,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "BM-07",
@@ -1699,16 +1753,20 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 179
+      "source_line": 179,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "BM-08",
@@ -1720,16 +1778,20 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 181
+      "source_line": 181,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "BM-09",
@@ -1741,16 +1803,20 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 183
+      "source_line": 183,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "BM-10",
@@ -1762,16 +1828,20 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
       ],
-      "implementation_status": "PENDING_USER_DECISION",
+      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 185
+      "source_line": 185,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "BM-11",
@@ -1783,16 +1853,20 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
       ],
-      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0012"
       ],
-      "source_line": 187
+      "source_line": 187,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "BM-12",
@@ -1835,11 +1909,13 @@
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0012"
       ],
       "source_line": 193,
       "phase_evidence": {
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
       }
     },
     {
@@ -1861,9 +1937,13 @@
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0012"
       ],
-      "source_line": 195
+      "source_line": 195,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "OP-03",
@@ -1886,11 +1966,13 @@
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
-        "ADR-0007"
+        "ADR-0007",
+        "ADR-0012"
       ],
       "source_line": 197,
       "phase_evidence": {
-        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
       }
     },
     {
@@ -1912,9 +1994,13 @@
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0012"
       ],
-      "source_line": 199
+      "source_line": 199,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "OP-05",
@@ -1933,9 +2019,13 @@
       "implementation_status": "DEFERRED_FUTURE",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0012"
       ],
-      "source_line": 201
+      "source_line": 201,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "SG-01",
@@ -2036,11 +2126,13 @@
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
-        "ADR-0010"
+        "ADR-0010",
+        "ADR-0012"
       ],
       "source_line": 211,
       "phase_evidence": {
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
       }
     },
     {
@@ -2060,9 +2152,13 @@
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0012"
       ],
-      "source_line": 213
+      "source_line": 213,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "O-01",
@@ -2181,9 +2277,13 @@
       "implementation_status": "PENDING_USER_DECISION",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0012"
       ],
-      "source_line": 243
+      "source_line": 243,
+      "phase_evidence": {
+        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+      }
     },
     {
       "id": "O-06",
@@ -2233,6 +2333,12 @@
       "requirement": "软件产品自身每一次 PR 必须经过人工审核",
       "status": "LOCAL_BACKEND_GATE_VERIFIED_PUBLISHING_DEFERRED",
       "checkpoint": "Fixture/adversarial exact-head/test/evidence/single-use human review verified; real product PR approval and remote preflight still pending"
+    },
+    {
+      "id": "USR-P7-01",
+      "requirement": "用户请求P6之后继续P7，但保留v0.4合同只定义P0-P6",
+      "status": "PENDING_SCOPE_CLARIFICATION",
+      "checkpoint": "Async question asks whether P7 means installation/package/delivery preparation or another provided document; no release/publish authorization inferred"
     }
   ]
 }

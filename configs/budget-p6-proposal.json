@@ -1,0 +1,15 @@
+{
+  "phase": "P6",
+  "authorization_status": "PENDING_HUMAN_REPLY",
+  "scope": "two public smoke tasks only; not the full 16-task matrix",
+  "api_cash_usd": 5,
+  "deepseek_inference_requests": 200,
+  "codex_subscription_turns": 32,
+  "per_request_timeout_seconds": 120,
+  "per_candidate_timeout_seconds": 600,
+  "per_role_timeout_seconds": 600,
+  "per_experiment_timeout_seconds": 1200,
+  "top_up_allowed": false,
+  "carry_over_allowed": false,
+  "model_execution_enabled": false
+}

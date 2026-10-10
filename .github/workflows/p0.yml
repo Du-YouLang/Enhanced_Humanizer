@@ -67,3 +67,4 @@ jobs:
       - run: git config --global user.email 'ci@example.invalid'
       - run: python -m unittest discover -s tests -p 'test_memory.py' -v
       - run: python -m unittest discover -s tests -p 'test_ui.py' -v
+      - run: python -m unittest discover -s tests -p 'test_benchmark.py' -v

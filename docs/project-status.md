@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-11 最新：用户授权继续P6，并提到P7；原指导书只定义P0–P6，P7范围待确认。P6在feature/p6-frozen-benchmark进行本地准备：12公共实例身份/材料hash+4缺料科研槽位、A–F96计划单元已冻结v2，Black/Python3.8.3正负对照与实际隔离、依赖封条通过。真实模型基准尚未运行，P6预算提案等待答复，不能结转P5。第二项Requests环境/原生执行适配、主集/消融/科学材料仍待完成；详见audits/P6-preparation-2026-10-11.md和ADR-0012。P7不视为已定义或验收。GitHub仍按用户指示暂缓，main/P4/P5 refs不变。以下旧“P6未开始/未授权”为历史记录，由本段取代。
+
 2026-10-11 当前：P0–P3已功能与远程交付验收，main仍为8d9b11de9ccbe13f12fb8a9b32a89fb19991404b。P4本地功能PASS，独立阶段提交8de702adf9d13d343fada7b85b317c938bf8401f、Issue #11此前已创建；远程P4交付暂缓。P5分支feature/p5-exploration-workbench的P5-A01..A03本地原型功能PASS；54 Windows（1 Linux skip）、47 native Linux、Node3、原生Flow/独立会话/硬测试/备份已验证。P6未开始。
 
 真实完成run p5-20261010170912-de864bc2，复用原N3池、新候选生成0；Reviewer后真暂停/新worktree/恢复→M硬测试→独立J3比较→Sol Builder→最终J3完成。M 3a828fcf1e91dc987faab993564cf733d2aa20f1，Builder 57fa264299c45719fffc670e3cdfb5fe53ed3ac0；五个角色session独立。活动150.649352399秒、Windows控制172.8471566秒。5个隐藏复验、M的5项及Builder的12项可见测试PASS；不据此宣称科学质量或增强收益。

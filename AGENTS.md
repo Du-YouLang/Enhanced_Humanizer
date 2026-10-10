@@ -1,5 +1,7 @@
 # Project instructions
 
+- Latest user instruction (2026-10-11) authorizes continuing P6 after local P4/P5; P7 is mentioned but absent from the preserved P0-P6 baseline, so its scope is awaiting clarification. P6 metadata v2 and Black environment/evaluator preparation are verified, not full model benchmark acceptance. The proposed separate P6 smoke budget is awaiting a human reply; do not execute models or carry over P5 funds. GitHub remains deferred. Read docs/audits/P6-preparation-2026-10-11.md and ADR-0012. Historical “no P6 work” below is superseded by this instruction.
+
 - Latest 2026-10-11: P4 local functional gate PASS, commit 8de702adf9d13d343fada7b85b317c938bf8401f. P5 local prototype functional gates and its new live independent Sol chain PASS; remote GitHub delivery remains deferred by the user; see docs/audits/P5-2026-10-11.md. No P6 work. Do not treat historical P3 graph replay or mocked transport controls as new P5 model acceptance.
 - Git connection remains disconnected by the user: continue local changes/commits/backups only; no remote push/Issue/PR/CI or alternate GitHub identity until the user restores Du-YouLang. No automatic future inference/upload task.
 
