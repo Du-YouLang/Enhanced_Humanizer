@@ -38,3 +38,15 @@ def weighted_mean(pairs):
     for value, weight in pairs:
         accumulator.add(value, weight)
     return accumulator.result()
+
+
+def weighted_mean_many(groups):
+    """Return a list with one weighted mean per group in ``groups``.
+
+    Each group is any iterable of (value, weight) pairs accepted by
+    weighted_mean, including one-shot generators. The outer iterable is
+    also consumed once and may itself be a generator; an empty outer
+    iterable yields an empty list. Errors from an individual group
+    (negative weights or zero total weight) propagate unchanged.
+    """
+    return [weighted_mean(group) for group in groups]
