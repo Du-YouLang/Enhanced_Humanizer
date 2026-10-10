@@ -1,0 +1,6 @@
+# P0 candidate runtime; published packages, no upstream source checkout.
+# Exact direct versions; compiled lock records all transitive versions and hashes.
+hmz[dsh]==0.1.0b2
+deepseek-harness-sdk==0.1.5rc1
+# Prefer the stable Sentry major; P0 explicitly disables telemetry.
+sentry-sdk>=2.71.0,<3

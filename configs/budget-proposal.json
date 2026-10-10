@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "status": "PROPOSED_NOT_AUTHORIZED",
+  "inference_enabled": false,
+  "current_authorized_additional_api_cash_usd": 0,
+  "proposed_p0_limits": {
+    "api_cash_usd": 1,
+    "deepseek_inference_requests": 4,
+    "codex_subscription_turns": 2,
+    "per_probe_timeout_seconds": 120,
+    "runtime_smoke_window_minutes": 30,
+    "automatic_top_up": false,
+    "jev_enabled_without_separate_credentials_and_limit": false
+  },
+  "notes": [
+    "These values are a proposal, not user approval and not an implemented inference budget controller.",
+    "Existing Codex chat subscription consumption cannot be converted into API cash cost.",
+    "A Humanize cost budget alone only checks between turns; reserve a per-request upper bound before paid calls."
+  ]
+}

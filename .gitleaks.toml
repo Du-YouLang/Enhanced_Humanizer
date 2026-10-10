@@ -1,0 +1,4 @@
+title = "Enhanced_Humanizer secret scanning"
+
+[extend]
+useDefault = true
