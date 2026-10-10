@@ -1,0 +1,19 @@
+{
+  "phase": "P3",
+  "status": "AUTHORIZED_P3_AFTER_P2_GATE",
+  "inference_enabled": true,
+  "api_cash_usd": 1,
+  "deepseek_inference_requests": 40,
+  "codex_subscription_turns": 12,
+  "per_request_timeout_seconds": 120,
+  "per_candidate_timeout_seconds": 600,
+  "per_role_timeout_seconds": 600,
+  "per_experiment_timeout_seconds": 1200,
+  "candidate_request_cap": 12,
+  "candidate_cash_cap_usd": 0.5,
+  "codex_role_turn_cap": 2,
+  "judge_backend": "Sol/J3",
+  "jev_status": "BLOCKED_REGION_REPORTED_BY_USER",
+  "outer_infrastructure_retries": 0,
+  "top_up_allowed": false
+}
