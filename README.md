@@ -3,7 +3,7 @@
 本地科研工程工作台；项目名暂定，正式发布前需与产品所有者再次确认。
 
 开发基线为 `GPT_guides/` 中的 Implementation Guide v0.4 与 PRD v0.4，保留原文。
-用户本轮只授权 P0 环境审计与本地准备。GitHub 可见性、Fork、权限、付费模型调用与主干合并按明确授权执行。
+当前仅执行 P0。用户已确认主仓库保持公开、补建正确的 Humanize Fork，以及 P0 模型测试上限；主干合并仍须人工验收。
 
 优先复用 Humanfia Humanize Flow、DeepSeek Harness 与 Codex Harness。DS-Enhanced、Jev、候选综合与双 Builder 的收益均待受控实验检验。
 
