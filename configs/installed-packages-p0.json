@@ -1,0 +1,522 @@
+{
+  "python": "3.13.14",
+  "platform": "Windows x64",
+  "scope": "P0 installed package metadata, not a license-compatibility conclusion",
+  "packages": [
+    {
+      "name": "annotated-types",
+      "version": "0.8.0",
+      "license_metadata": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_files": [
+        "annotated_types-0.8.0.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Homepage, https://github.com/annotated-types/annotated-types",
+        "Source, https://github.com/annotated-types/annotated-types",
+        "Changelog, https://github.com/annotated-types/annotated-types/releases"
+      ]
+    },
+    {
+      "name": "certifi",
+      "version": "2026.7.22",
+      "license_metadata": "MPL-2.0",
+      "license_classifiers": [
+        "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)"
+      ],
+      "license_files": [
+        "certifi-2026.7.22.dist-info/licenses/LICENSE"
+      ],
+      "home_page": "https://github.com/certifi/python-certifi",
+      "project_urls": [
+        "Source, https://github.com/certifi/python-certifi"
+      ]
+    },
+    {
+      "name": "dateparser",
+      "version": "1.4.3",
+      "license_metadata": "BSD-3-Clause",
+      "license_classifiers": [],
+      "license_files": [
+        "dateparser-1.4.3.dist-info/licenses/AUTHORS.rst",
+        "dateparser-1.4.3.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Source, https://github.com/scrapinghub/dateparser",
+        "History, https://dateparser.readthedocs.io/en/latest/history.html"
+      ]
+    },
+    {
+      "name": "deepseek-harness-runtime-bin",
+      "version": "0.1.5rc1",
+      "license_metadata": "MIT",
+      "license_classifiers": [],
+      "license_files": [
+        "deepseek_harness_runtime_bin-0.1.5rc1.dist-info/licenses/LICENSE",
+        "deepseek_harness_runtime_bin-0.1.5rc1.dist-info/licenses/THIRD_PARTY_NOTICES.md"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Homepage, https://github.com/deepseek-ai/deepseek-harness",
+        "Documentation, https://github.com/deepseek-ai/deepseek-harness/blob/master/python/sdk-runtime/README.md",
+        "Issues, https://github.com/deepseek-ai/deepseek-harness/issues",
+        "Source, https://github.com/deepseek-ai/deepseek-harness"
+      ]
+    },
+    {
+      "name": "deepseek-harness-sdk",
+      "version": "0.1.5rc1",
+      "license_metadata": "MIT",
+      "license_classifiers": [],
+      "license_files": [
+        "deepseek_harness_sdk-0.1.5rc1.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Homepage, https://github.com/deepseek-ai/deepseek-harness",
+        "Documentation, https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/user/guide/python-sdk.md",
+        "Issues, https://github.com/deepseek-ai/deepseek-harness/issues",
+        "Source, https://github.com/deepseek-ai/deepseek-harness"
+      ]
+    },
+    {
+      "name": "hmz",
+      "version": "0.1.0b2",
+      "license_metadata": "Apache-2.0",
+      "license_classifiers": [],
+      "license_files": [
+        "hmz-0.1.0b2.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Homepage, https://github.com/humanfia/humanize",
+        "Documentation, https://docs.humanfia.ai/humanize/",
+        "Changelog, https://github.com/humanfia/humanize/releases",
+        "Source, https://github.com/humanfia/humanize",
+        "Issues, https://github.com/humanfia/humanize/issues"
+      ]
+    },
+    {
+      "name": "linkify-it-py",
+      "version": "2.2.0",
+      "license_metadata": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_files": [
+        "linkify_it_py-2.2.0.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Homepage, https://github.com/tsutsu3/linkify-it-py"
+      ]
+    },
+    {
+      "name": "markdown-it-py",
+      "version": "4.2.0",
+      "license_metadata": "unavailable",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_files": [
+        "markdown_it_py-4.2.0.dist-info/licenses/LICENSE",
+        "markdown_it_py-4.2.0.dist-info/licenses/LICENSE.markdown-it"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Documentation, https://markdown-it-py.readthedocs.io",
+        "Homepage, https://github.com/executablebooks/markdown-it-py"
+      ]
+    },
+    {
+      "name": "mdit-py-plugins",
+      "version": "0.6.1",
+      "license_metadata": "unavailable",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_files": [
+        "mdit_py_plugins-0.6.1.dist-info/licenses/LICENSE",
+        "mdit_py_plugins/admon/LICENSE",
+        "mdit_py_plugins/container/LICENSE",
+        "mdit_py_plugins/deflist/LICENSE",
+        "mdit_py_plugins/footnote/LICENSE",
+        "mdit_py_plugins/front_matter/LICENSE",
+        "mdit_py_plugins/texmath/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Documentation, https://mdit-py-plugins.readthedocs.io",
+        "Homepage, https://github.com/executablebooks/mdit-py-plugins"
+      ]
+    },
+    {
+      "name": "mdurl",
+      "version": "0.1.2",
+      "license_metadata": "unavailable",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_files": [
+        "mdurl-0.1.2.dist-info/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Homepage, https://github.com/executablebooks/mdurl"
+      ]
+    },
+    {
+      "name": "platformdirs",
+      "version": "4.12.4",
+      "license_metadata": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_files": [
+        "platformdirs-4.12.4.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Changelog, https://platformdirs.readthedocs.io/en/latest/changelog.html",
+        "Documentation, https://platformdirs.readthedocs.io",
+        "Homepage, https://github.com/tox-dev/platformdirs",
+        "Source, https://github.com/tox-dev/platformdirs",
+        "Tracker, https://github.com/tox-dev/platformdirs/issues"
+      ]
+    },
+    {
+      "name": "psutil",
+      "version": "7.2.2",
+      "license_metadata": "BSD-3-Clause",
+      "license_classifiers": [],
+      "license_files": [
+        "psutil-7.2.2.dist-info/LICENSE"
+      ],
+      "home_page": "https://github.com/giampaolo/psutil",
+      "project_urls": []
+    },
+    {
+      "name": "pydantic",
+      "version": "2.14.0",
+      "license_metadata": "MIT",
+      "license_classifiers": [],
+      "license_files": [
+        "pydantic-2.14.0.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Homepage, https://github.com/pydantic/pydantic",
+        "Documentation, https://pydantic.dev/docs/validation/latest/get-started/",
+        "Funding, https://github.com/sponsors/samuelcolvin",
+        "Source, https://github.com/pydantic/pydantic",
+        "Changelog, https://pydantic.dev/docs/validation/latest/get-started/changelog/"
+      ]
+    },
+    {
+      "name": "pydantic_core",
+      "version": "2.50.0",
+      "license_metadata": "MIT",
+      "license_classifiers": [],
+      "license_files": [
+        "pydantic_core-2.50.0.dist-info/licenses/LICENSE"
+      ],
+      "home_page": "https://github.com/pydantic/pydantic",
+      "project_urls": [
+        "Funding, https://github.com/sponsors/samuelcolvin",
+        "Homepage, https://github.com/pydantic",
+        "Source, https://github.com/pydantic/pydantic/tree/main/pydantic-core"
+      ]
+    },
+    {
+      "name": "pyfiglet",
+      "version": "1.0.4",
+      "license_metadata": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_files": [
+        "pyfiglet-1.0.4.dist-info/licenses/LICENSE"
+      ],
+      "home_page": "https://github.com/pwaller/pyfiglet",
+      "project_urls": []
+    },
+    {
+      "name": "Pygments",
+      "version": "2.21.0",
+      "license_metadata": "BSD-2-Clause",
+      "license_classifiers": [],
+      "license_files": [
+        "pygments-2.21.0.dist-info/licenses/AUTHORS",
+        "pygments-2.21.0.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Homepage, https://pygments.org",
+        "Documentation, https://pygments.org/docs",
+        "Source, https://github.com/pygments/pygments",
+        "Bug Tracker, https://github.com/pygments/pygments/issues",
+        "Changelog, https://github.com/pygments/pygments/blob/master/CHANGES"
+      ]
+    },
+    {
+      "name": "python-dateutil",
+      "version": "2.9.0.post0",
+      "license_metadata": "Dual License",
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License",
+        "License :: OSI Approved :: Apache Software License"
+      ],
+      "license_files": [
+        "python_dateutil-2.9.0.post0.dist-info/LICENSE"
+      ],
+      "home_page": "https://github.com/dateutil/dateutil",
+      "project_urls": [
+        "Documentation, https://dateutil.readthedocs.io/en/stable/",
+        "Source, https://github.com/dateutil/dateutil"
+      ]
+    },
+    {
+      "name": "python-dotenv",
+      "version": "1.2.4",
+      "license_metadata": "BSD-3-Clause",
+      "license_classifiers": [],
+      "license_files": [
+        "python_dotenv-1.2.4.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Source, https://github.com/theskumar/python-dotenv"
+      ]
+    },
+    {
+      "name": "pytz",
+      "version": "2026.5",
+      "license_metadata": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_files": [
+        "pytz-2026.5.dist-info/LICENSE.txt"
+      ],
+      "home_page": "http://pythonhosted.org/pytz",
+      "project_urls": [
+        "Source, https://github.com/stub42/pytz.git",
+        "Issues, https://github.com/stub42/pytz/issues"
+      ]
+    },
+    {
+      "name": "PyYAML",
+      "version": "6.0.3",
+      "license_metadata": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_files": [
+        "pyyaml-6.0.3.dist-info/licenses/LICENSE"
+      ],
+      "home_page": "https://pyyaml.org/",
+      "project_urls": [
+        "Bug Tracker, https://github.com/yaml/pyyaml/issues",
+        "CI, https://github.com/yaml/pyyaml/actions",
+        "Documentation, https://pyyaml.org/wiki/PyYAMLDocumentation",
+        "Mailing lists, http://lists.sourceforge.net/lists/listinfo/yaml-core",
+        "Source Code, https://github.com/yaml/pyyaml"
+      ]
+    },
+    {
+      "name": "regex",
+      "version": "2026.9.29",
+      "license_metadata": "Apache-2.0 AND CNRI-Python",
+      "license_classifiers": [],
+      "license_files": [
+        "regex-2026.9.29.dist-info/licenses/LICENSE.txt"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Homepage, https://github.com/mrabarnett/mrab-regex"
+      ]
+    },
+    {
+      "name": "rich",
+      "version": "15.0.0",
+      "license_metadata": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_files": [
+        "rich-15.0.0.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Documentation, https://rich.readthedocs.io/en/latest/",
+        "Homepage, https://github.com/Textualize/rich"
+      ]
+    },
+    {
+      "name": "semver",
+      "version": "3.1.0",
+      "license_metadata": "embedded full license text; see installed distribution license files",
+      "license_classifiers": [
+        "License :: OSI Approved :: BSD License"
+      ],
+      "license_files": [
+        "semver-3.1.0.dist-info/licenses/LICENSE.txt"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "GitHub Homepage, https://github.com/python-semver/python-semver",
+        "Changelog, https://python-semver.readthedocs.io/en/latest/changelog.html",
+        "Documentation, https://python-semver.rtfd.io",
+        "Releases, https://github.com/python-semver/python-semver/releases",
+        "Bug Tracker, https://github.com/python-semver/python-semver/issues"
+      ]
+    },
+    {
+      "name": "sentry-sdk",
+      "version": "2.71.0",
+      "license_metadata": "MIT",
+      "license_classifiers": [],
+      "license_files": [
+        "sentry_sdk-2.71.0.dist-info/licenses/LICENSE"
+      ],
+      "home_page": "https://github.com/getsentry/sentry-python",
+      "project_urls": [
+        "Documentation, https://docs.sentry.io/platforms/python/",
+        "Changelog, https://github.com/getsentry/sentry-python/blob/master/CHANGELOG.md"
+      ]
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "license_metadata": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_files": [
+        "six-1.17.0.dist-info/LICENSE"
+      ],
+      "home_page": "https://github.com/benjaminp/six",
+      "project_urls": []
+    },
+    {
+      "name": "textual",
+      "version": "8.2.8",
+      "license_metadata": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_files": [
+        "textual-8.2.8.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Bug Tracker, https://github.com/Textualize/textual/issues",
+        "Documentation, https://textual.textualize.io/",
+        "Homepage, https://github.com/Textualize/textual",
+        "Repository, https://github.com/Textualize/textual"
+      ]
+    },
+    {
+      "name": "tomlkit",
+      "version": "0.15.1",
+      "license_metadata": "MIT",
+      "license_classifiers": [
+        "License :: OSI Approved :: MIT License"
+      ],
+      "license_files": [
+        "tomlkit-0.15.1.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Homepage, https://github.com/python-poetry/tomlkit",
+        "Repository, https://github.com/python-poetry/tomlkit"
+      ]
+    },
+    {
+      "name": "typing-inspection",
+      "version": "0.4.4",
+      "license_metadata": "MIT",
+      "license_classifiers": [],
+      "license_files": [
+        "typing_inspection-0.4.4.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Homepage, https://github.com/pydantic/typing-inspection",
+        "Documentation, https://pydantic.github.io/typing-inspection/dev/",
+        "Source, https://github.com/pydantic/typing-inspection",
+        "Changelog, https://github.com/pydantic/typing-inspection/blob/main/HISTORY.md"
+      ]
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "license_metadata": "PSF-2.0",
+      "license_classifiers": [],
+      "license_files": [
+        "typing_extensions-4.16.0.dist-info/licenses/LICENSE"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Bug Tracker, https://github.com/python/typing_extensions/issues",
+        "Changes, https://github.com/python/typing_extensions/blob/main/CHANGELOG.md",
+        "Documentation, https://typing-extensions.readthedocs.io/",
+        "Home, https://github.com/python/typing_extensions",
+        "Q & A, https://github.com/python/typing/discussions",
+        "Repository, https://github.com/python/typing_extensions"
+      ]
+    },
+    {
+      "name": "tzdata",
+      "version": "2026.5",
+      "license_metadata": "Apache-2.0",
+      "license_classifiers": [],
+      "license_files": [
+        "tzdata-2026.5.dist-info/licenses/LICENSE",
+        "tzdata-2026.5.dist-info/licenses/licenses/LICENSE_APACHE"
+      ],
+      "home_page": "https://github.com/python/tzdata",
+      "project_urls": [
+        "Bug Reports, https://github.com/python/tzdata/issues",
+        "Source, https://github.com/python/tzdata",
+        "Documentation, https://tzdata.python.org"
+      ]
+    },
+    {
+      "name": "tzlocal",
+      "version": "5.4.4",
+      "license_metadata": "MIT",
+      "license_classifiers": [],
+      "license_files": [
+        "tzlocal-5.4.4.dist-info/licenses/LICENSE.txt"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Source code, https://github.com/regebro/tzlocal",
+        "Changelog, https://github.com/regebro/tzlocal/blob/master/CHANGES.txt",
+        "Issue tracker, https://github.com/regebro/tzlocal/issues"
+      ]
+    },
+    {
+      "name": "urllib3",
+      "version": "2.8.0",
+      "license_metadata": "MIT",
+      "license_classifiers": [],
+      "license_files": [
+        "urllib3-2.8.0.dist-info/licenses/LICENSE.txt"
+      ],
+      "home_page": null,
+      "project_urls": [
+        "Changelog, https://github.com/urllib3/urllib3/blob/main/CHANGES.rst",
+        "Documentation, https://urllib3.readthedocs.io",
+        "Code, https://github.com/urllib3/urllib3",
+        "Issue tracker, https://github.com/urllib3/urllib3/issues",
+        "Security policy, https://urllib3.readthedocs.io/en/latest/security.html"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "path": "GPT_guides/Codex_Research_Agent_Workbench_Implementation_Guide_v0.4.md",
+      "sha256": "d2eac13daefdfe0cf4ba211e3d57b3003e2383f4c1bea55b5f155bc372a0c206"
+    },
+    {
+      "path": "GPT_guides/Research_Agent_Workbench_PRD_v0.4_2026-10-10.md",
+      "sha256": "5e404e6fd44e68d3b96489eb61ce6f2fede2309d4e58f6b36636cf3c54f11edf"
+    }
+  ]
+}

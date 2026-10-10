@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.ps1 text eol=lf
+.githooks/* text eol=lf
+# Preserve the exact bytes and SHA256 of the two supplied baseline documents.
+GPT_guides/*.md -text

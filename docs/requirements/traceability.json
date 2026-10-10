@@ -1,0 +1,1910 @@
+{
+  "schema_version": 1,
+  "baseline": "GPT_guides/Research_Agent_Workbench_PRD_v0.4_2026-10-10.md",
+  "baseline_sha256": "5e404e6fd44e68d3b96489eb61ce6f2fede2309d4e58f6b36636cf3c54f11edf",
+  "requirements": [
+    {
+      "id": "V-01",
+      "tags": [
+        "C"
+      ],
+      "sources": "S1/S2",
+      "requirement": "面向个人高强度科研探索与复杂软件工程，目的是用有限的 DeepSeek 和 GPT Sol/Astra 配额，提高完成真实工程任务的成功率、交付速度和可追溯性，而非只提高聊天回答质量。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 35
+    },
+    {
+      "id": "V-02",
+      "tags": [
+        "C"
+      ],
+      "sources": "S1/S2",
+      "requirement": "DeepSeek 保留其快速响应/低成本的价值，Sol/Astra 不是“只给分的监督员”，而是能够直接阅读、重构、设计、实施、运行和优化工程代码的共同开发者。",
+      "phases": [
+        "P1",
+        "P3"
+      ],
+      "issue": "PLANNED:P1",
+      "tests": [
+        "P1-A01..A04 (计划；不能视为已通过)",
+        "P3-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 37
+    },
+    {
+      "id": "V-03",
+      "tags": [
+        "C"
+      ],
+      "sources": "S2",
+      "requirement": "用户主要通过一个工作台定义目标、验收标准、预算和探索方向；观察、暂停、介入、恢复、审批或从历史节点重新分叉。",
+      "phases": [
+        "P5"
+      ],
+      "issue": "PLANNED:P5",
+      "tests": [
+        "P5-A01..A03 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 39
+    },
+    {
+      "id": "V-04",
+      "tags": [
+        "E"
+      ],
+      "sources": "S1–S4",
+      "requirement": "核心成功标准不等于 Top-1 分数：比较真实任务完成率、每成功任务总开销、端到端交付时间、人工干预及科研正确性；并报告是否优于基模各自官方/成熟 Harness。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 41
+    },
+    {
+      "id": "V-05",
+      "tags": [
+        "C"
+      ],
+      "sources": "S2",
+      "requirement": "本轮主生成模型组合固定为 DeepSeek V4.1 Flash 与 GPT-6.1 Sol；Astra 作为可选高能力参考/未来升级。长期希望按工作流步骤改模型，但**不在第一版开发通用多模型配置平台**。",
+      "phases": [
+        "P0",
+        "P1"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)",
+        "P1-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 43
+    },
+    {
+      "id": "WF-01",
+      "tags": [
+        "C"
+      ],
+      "sources": "S1/S2",
+      "requirement": "优先复用 `humanfia/humanize` 作为*唯一*主编排框架。评估其现有 Flow 接口、暂停/恢复、预算、CLI/TUI/Web、日志和后端适配，优先增量扩展。",
+      "phases": [
+        "P0",
+        "P1"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)",
+        "P1-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 47
+    },
+    {
+      "id": "WF-02",
+      "tags": [
+        "C"
+      ],
+      "sources": "S2/S3",
+      "requirement": "至少两个真正可编辑的构建者：`DS-Enhanced` 和 `Sol-Builder`；能多轮串行接管同一项目并独立提出新方案，Sol 不能退化为只改局部 bug 的审查者。",
+      "phases": [
+        "P1"
+      ],
+      "issue": "PLANNED:P1",
+      "tests": [
+        "P1-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 49
+    },
+    {
+      "id": "WF-03",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "Sol-Builder、Sol-Verifier 与 Sol-Reviewer/Merger 为独立身份、独立上下文、独立预算；DeepSeek 各候选也独立会话。多个角色可使用同一底层模型，但不能暗中共享推理会话。",
+      "phases": [
+        "P1",
+        "P3"
+      ],
+      "issue": "PLANNED:P1",
+      "tests": [
+        "P1-A01..A04 (计划；不能视为已通过)",
+        "P3-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 51
+    },
+    {
+      "id": "WF-04",
+      "tags": [
+        "P",
+        "E"
+      ],
+      "sources": "S0",
+      "requirement": "参考 Humanize 原生 `RLAR`（实现↔审查↔修复）和 `Flame Chase`（双方直接优化并交替进行）两种已有流程；基线先复现实测，再决定是否在自定义 Flow 中显式保留两个可切换运行模式。**这项模式对照在 v0.3 中没有作为独立规划写明。**",
+      "phases": [
+        "P1"
+      ],
+      "issue": "PLANNED:P1",
+      "tests": [
+        "P1-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 53
+    },
+    {
+      "id": "WF-05",
+      "tags": [
+        "C"
+      ],
+      "sources": "S2/S3",
+      "requirement": "强模型接力时可以彻底推翻上一版结构、回到更早检查点、选择替代设计；不强行规定一方只能在另一方代码上做增量修复。每轮结果需要重新测试。",
+      "phases": [
+        "P3"
+      ],
+      "issue": "PLANNED:P3",
+      "tests": [
+        "P3-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 55
+    },
+    {
+      "id": "WF-06",
+      "tags": [
+        "P"
+      ],
+      "sources": "S0/S3",
+      "requirement": "任务交接以标准化工程工件为核心而不是共享完整对话；支持“下一个由谁做什么、为什么”和人工改变交接方向。借鉴 MetaGPT、AutoGen、CrewAI、Gas Town、Beads、LangGraph 等思想，但不一次引入多个编排器。",
+      "phases": [
+        "P1",
+        "P4"
+      ],
+      "issue": "PLANNED:P1",
+      "tests": [
+        "P1-A01..A04 (计划；不能视为已通过)",
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 57
+    },
+    {
+      "id": "WF-07",
+      "tags": [
+        "C",
+        "P"
+      ],
+      "sources": "S1/S3",
+      "requirement": "设置任务通过即停、时间/Token/费用用尽停止、连续多轮无进步停止、人工暂停、基础设施失败等状态；从暂停/失败处可恢复。建议默认短轮次、按需要升级复杂流程。",
+      "phases": [
+        "P1",
+        "P4"
+      ],
+      "issue": "PLANNED:P1",
+      "tests": [
+        "P1-A01..A04 (计划；不能视为已通过)",
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 59
+    },
+    {
+      "id": "WF-08",
+      "tags": [
+        "F"
+      ],
+      "sources": "S2",
+      "requirement": "后续允许每一步指定执行模型、增强模型、Reviewer/Judge 模型，并新增模型供应商；第一版仅预留配置字段与适配接口，不实现全部排列组合。",
+      "phases": [
+        "FUTURE"
+      ],
+      "issue": "PLANNED:FUTURE",
+      "tests": [
+        "后续立项 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "DEFERRED_FUTURE",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 61
+    },
+    {
+      "id": "DS-01",
+      "tags": [
+        "C"
+      ],
+      "sources": "S2/S3",
+      "requirement": "对一个已定义的工程任务，DeepSeek 运行 N 个独立完整 Coding Agent 候选，N=3、4、5 由用户配置，N=1 作为关闭增强的对照；默认 N=3 仅是首版推荐值。",
+      "phases": [
+        "P2"
+      ],
+      "issue": "PLANNED:P2",
+      "tests": [
+        "P2-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 65
+    },
+    {
+      "id": "DS-02",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "候选任务粒度可以是小型局部工程修改，也可以是从零开发整个小项目。候选不能仅仅是采样 N 段普通回答；各自必须有代码、工具执行、测试和可恢复版本。",
+      "phases": [
+        "P2"
+      ],
+      "issue": "PLANNED:P2",
+      "tests": [
+        "P2-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 67
+    },
+    {
+      "id": "DS-03",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "在相同起始 Git commit/任务合同上运行，候选 A…N 采用独立 worktree、独立进程/Session、日志和预算；可并行；防止写入互相污染与读取其他候选结果。",
+      "phases": [
+        "P2"
+      ],
+      "issue": "PLANNED:P2",
+      "tests": [
+        "P2-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 69
+    },
+    {
+      "id": "DS-04",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "固定、记录每个候选的模型 ID、Harness、提示词/配置哈希、Git SHA、测试、日志、Token/费用、启动—结束时间、失败类型及产物。",
+      "phases": [
+        "P2"
+      ],
+      "issue": "PLANNED:P2",
+      "tests": [
+        "P2-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 71
+    },
+    {
+      "id": "DS-05",
+      "tags": [
+        "E"
+      ],
+      "sources": "S0/S1",
+      "requirement": "官方原版 LLM-as-a-Verifier 的核心是细粒度概率评分与候选排序，它*没有被证明*能让 DS 每一轮的基础模型能力提升。应对相同候选池明确比较：自动测试、原版 LAV、Jev、Sol 结构化评判，以及新增 Merge 的额外收益。",
+      "phases": [
+        "P2",
+        "P6"
+      ],
+      "issue": "PLANNED:P2",
+      "tests": [
+        "P2-A01..A04 (计划；不能视为已通过)",
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 73
+    },
+    {
+      "id": "DS-06",
+      "tags": [
+        "P",
+        "E"
+      ],
+      "sources": "S0/S2",
+      "requirement": "TurboAgent 的“每次 API 回复 N 采样”作为*独立对照/未来可选增强粒度*保留，不应取代本轮确认的任务级 N 路执行。比较延迟、总 Token、真实成功率之后再决定是否值得支持。",
+      "phases": [
+        "P2",
+        "P6"
+      ],
+      "issue": "PLANNED:P2",
+      "tests": [
+        "P2-A01..A04 (计划；不能视为已通过)",
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 75
+    },
+    {
+      "id": "DS-07",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "各候选先按冻结测试器执行客观测试。失败候选仍然存档并送给 Reviewer；不能默认全部丢弃。对于全部失败，不能将“相对最好”当作完成。",
+      "phases": [
+        "P2",
+        "P3"
+      ],
+      "issue": "PLANNED:P2",
+      "tests": [
+        "P2-A01..A04 (计划；不能视为已通过)",
+        "P3-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 77
+    },
+    {
+      "id": "DS-08",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "若所有候选失败，系统输出结构化原因、失败复现、共同缺陷、每个候选的局部亮点与下一轮建议。允许 Reviewer 继续独立重新实现 M；若 M 也失败，保持 FAIL/INDETERMINATE，按预算重试或上报。",
+      "phases": [
+        "P2",
+        "P3"
+      ],
+      "issue": "PLANNED:P2",
+      "tests": [
+        "P2-A01..A04 (计划；不能视为已通过)",
+        "P3-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 79
+    },
+    {
+      "id": "DS-09",
+      "tags": [
+        "E"
+      ],
+      "sources": "S1/S3",
+      "requirement": "必须测 DS-Enhanced 是否仍然保持原生 DeepSeek 在 CC/Codex/DSH 中的低延迟体验；监控并发限流、排队、测试时间、Reviewer/Judge 增加的延迟；不得只报告 DS 单请求生成速度。",
+      "phases": [
+        "P1",
+        "P6"
+      ],
+      "issue": "PLANNED:P1",
+      "tests": [
+        "P1-A01..A04 (计划；不能视为已通过)",
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 81
+    },
+    {
+      "id": "DS-10",
+      "tags": [
+        "P"
+      ],
+      "sources": "S0",
+      "requirement": "原版 LAV `ProgressTracker` 可用于判断进度/是否应提前放弃候选，但不应仅凭未经校准的评分终止可能成功的任务。可列为后续特性试验。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 83
+    },
+    {
+      "id": "JR-01",
+      "tags": [
+        "C"
+      ],
+      "sources": "S2–S4",
+      "requirement": "至少有三条评分比较路线：`J0` 自动测试/规则筛选，`J1` 原版 LAV 概率评分，`J2` Jev-as-a-Judge，`J3` Sol 独立结构化评分；统一冻结候选池与 Rubric 做 Judge ablation。",
+      "phases": [
+        "P0",
+        "P2",
+        "P6"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)",
+        "P2-A01..A04 (计划；不能视为已通过)",
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 87
+    },
+    {
+      "id": "JR-02",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3/S4",
+      "requirement": "Jev 是待验证的候选接口，不预设替代原版，也不能把 Jev 的结构化判断称为原版概率期望分数。检查真实 API 可用性、正确率、胜负排序、幻觉/误判、成本、延迟与失败处理。",
+      "phases": [
+        "P0",
+        "P2",
+        "P6"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)",
+        "P2-A01..A04 (计划；不能视为已通过)",
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 89
+    },
+    {
+      "id": "JR-03",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "原版 LAV 依赖可返回评分 Token 的 logprobs 的后端；Sol/Astra 如接口不提供 logprobs，则不可原样代替评分模型。可以使用 Sol 直接结构化判断，或使用 Sol 分析 + 支持 logprobs 的后端评分的两阶段方案，**分别标记算法身份**。",
+      "phases": [
+        "P0",
+        "P2"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)",
+        "P2-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 91
+    },
+    {
+      "id": "JR-04",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3/S4",
+      "requirement": "Sol-Reviewer 必须阅读所有候选，包括失败代码、局部通过证据、错误和执行摘要；可以自主综合设计、选择部分实现、推翻所有实现或在新分支重新实现 M。不能人为限制为机械拼接。",
+      "phases": [
+        "P3"
+      ],
+      "issue": "PLANNED:P3",
+      "tests": [
+        "P3-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 93
+    },
+    {
+      "id": "JR-05",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3/S4",
+      "requirement": "候选 M 是一个*新的完整实现*，单独 commit/worktree，经过与 A…N 相同的硬测试，公平比较，不保证 M 必然优于原候选。",
+      "phases": [
+        "P3"
+      ],
+      "issue": "PLANNED:P3",
+      "tests": [
+        "P3-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 95
+    },
+    {
+      "id": "JR-06",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "若候选之间不可组合，Reviewer 应报告技术冲突、保持多个备选并提出替代路线，不强行创建不可工作的“集大成”版本。",
+      "phases": [
+        "P3"
+      ],
+      "issue": "PLANNED:P3",
+      "tests": [
+        "P3-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 97
+    },
+    {
+      "id": "JR-07",
+      "tags": [
+        "E"
+      ],
+      "sources": "S3/S4",
+      "requirement": "对冻结候选池开展 `Best-of-N` vs `Best-of-N + Sol-Reviewer-M` 消融；覆盖部分成功、全部失败、不兼容候选；计入 Reviewer/M 的额外 Token 与时间。",
+      "phases": [
+        "P3",
+        "P6"
+      ],
+      "issue": "PLANNED:P3",
+      "tests": [
+        "P3-A01..A04 (计划；不能视为已通过)",
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 99
+    },
+    {
+      "id": "JR-08",
+      "tags": [
+        "P"
+      ],
+      "sources": "S1/S3",
+      "requirement": "评分和综合优先使用结构化、可追溯的代码差异、测试证据和风险摘要；复杂分歧可展开原始轨迹。避免每次重读五份极长对话导致 Token 预算爆炸。",
+      "phases": [
+        "P2",
+        "P3"
+      ],
+      "issue": "PLANNED:P2",
+      "tests": [
+        "P2-A01..A04 (计划；不能视为已通过)",
+        "P3-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 101
+    },
+    {
+      "id": "JR-09",
+      "tags": [
+        "F",
+        "P"
+      ],
+      "sources": "S0",
+      "requirement": "以后可在高难度场景额外引入 Astra 作为仲裁/Reviewer；首版不强制占用 Astra 配额。",
+      "phases": [
+        "FUTURE"
+      ],
+      "issue": "PLANNED:FUTURE",
+      "tests": [
+        "后续立项 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "DEFERRED_FUTURE",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 103
+    },
+    {
+      "id": "HR-01",
+      "tags": [
+        "C"
+      ],
+      "sources": "S2",
+      "requirement": "先检查“CC/Codex Skills 插件方案 vs 现成 DSH/Codex Harness 增量开发 vs 自建 Harness”的取舍；已选优先路线为 Humanize Flow + DSH 执行 DS + Codex Harness 执行 Sol。Skills 用作必要时的辅助，不承担跨角色编排主体。",
+      "phases": [
+        "P0"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 107
+    },
+    {
+      "id": "HR-02",
+      "tags": [
+        "C"
+      ],
+      "sources": "S2/S3",
+      "requirement": "实际验证模型及 CLI/SDK 能否执行文件读写、命令、测试、提交、记录 token、限制费用、恢复会话；版本锁定，保存真实能力矩阵。未验证的 API 兼容性不算已完成。",
+      "phases": [
+        "P0"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 109
+    },
+    {
+      "id": "HR-03",
+      "tags": [
+        "C"
+      ],
+      "sources": "S4",
+      "requirement": "首轮所有源代码、worktrees、WSL2 虚拟磁盘（如需）、Conda/uv、SQLite、日志及项目独立 memory 存放本地内置 SSD；外置机械硬盘不参与第一轮。",
+      "phases": [
+        "P0"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 111
+    },
+    {
+      "id": "HR-04",
+      "tags": [
+        "F"
+      ],
+      "sources": "S3",
+      "requirement": "后续可将环境/数据/记忆移到外置 HDD 或实验室服务器；但 WSL2 注册、路径迁移、HDD I/O、热插拔风险和备份机制须另立项，不视为当前已支持“即插即用”。",
+      "phases": [
+        "FUTURE"
+      ],
+      "issue": "PLANNED:FUTURE",
+      "tests": [
+        "后续立项 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "DEFERRED_FUTURE",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 113
+    },
+    {
+      "id": "HR-05",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3/S4",
+      "requirement": "第一轮 Benchmark 使用预先设置并冻结的环境。Codex 配置依赖，必要的账户/系统权限先问用户；历史仓库需要按实例隔离环境时允许多个**预先固定的** conda env/容器，不强迫一个环境强行兼容所有旧版本。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 115
+    },
+    {
+      "id": "HR-06",
+      "tags": [
+        "F"
+      ],
+      "sources": "S3/S4",
+      "requirement": "若首轮 benchmark 过易、不足以辨别能力，再计划新 benchmark 和允许 agent 自己配置环境的第二轨；第一轮不把环境自治计入模型能力。",
+      "phases": [
+        "FUTURE"
+      ],
+      "issue": "PLANNED:FUTURE",
+      "tests": [
+        "后续立项 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "DEFERRED_FUTURE",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 117
+    },
+    {
+      "id": "HR-07",
+      "tags": [
+        "C",
+        "P"
+      ],
+      "sources": "S3",
+      "requirement": "用户自己的 Token、订阅额度和 API 费用是主要现实约束。每个角色、候选和任务应记录输入/输出/缓存/token 可见性、API 费用或订阅使用（两者不直接混算现金），并具备预算熔断。",
+      "phases": [
+        "P0",
+        "P2"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)",
+        "P2-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 119
+    },
+    {
+      "id": "CX-01",
+      "tags": [
+        "C"
+      ],
+      "sources": "S2/S3",
+      "requirement": "项目的工程记忆、对话证据、决策、任务与 Git 关联独立于 Codex/CC 原生 Memory，位于本地项目可迁移目录，可导出/备份/恢复。",
+      "phases": [
+        "P4"
+      ],
+      "issue": "PLANNED:P4",
+      "tests": [
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 123
+    },
+    {
+      "id": "CX-02",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "Builder / Reviewer / Verifier 各有独立角色约束及会话。交接不是完整聊天拼接，而是可追踪的结构化包（当前 commit、已验证事实、猜测、被证伪路线、测试、未解决问题、下一步、预算）。",
+      "phases": [
+        "P4"
+      ],
+      "issue": "PLANNED:P4",
+      "tests": [
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 125
+    },
+    {
+      "id": "CX-03",
+      "tags": [
+        "C",
+        "P"
+      ],
+      "sources": "S3",
+      "requirement": "建议 SQLite 索引任务/决策/依赖 + append-only NDJSON 保存事件 + 实际产物目录保存完整工具轨迹、Diff、测试、审查、模型配置和人工指令；摘要不能覆盖原始证据。",
+      "phases": [
+        "P4"
+      ],
+      "issue": "PLANNED:P4",
+      "tests": [
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 127
+    },
+    {
+      "id": "CX-04",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "研究历史至少包含：问题、根因假说、证据、实施尝试、为何失败、为何放弃、何时重启、解决方案和后继任务；区分 `fact / hypothesis / rejected / superseded / unresolved`，每条支持返回来源证据。",
+      "phases": [
+        "P4"
+      ],
+      "issue": "PLANNED:P4",
+      "tests": [
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 129
+    },
+    {
+      "id": "CX-05",
+      "tags": [
+        "P"
+      ],
+      "sources": "S0/S3",
+      "requirement": "借鉴 MetaGPT 标准工件、Beads 依赖图、Gas Town 持久任务交接、LangGraph checkpoint、上下文工程资料；仅提取机制，不必把它们都加入运行依赖。",
+      "phases": [
+        "P4"
+      ],
+      "issue": "PLANNED:P4",
+      "tests": [
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 131
+    },
+    {
+      "id": "CX-06",
+      "tags": [
+        "P",
+        "E"
+      ],
+      "sources": "S3",
+      "requirement": "上下文质量必须可评测：测平均上下文 Token、重复读取比例、正确获取历史失败的召回率、因历史摘要错误导致的返工率；可作为后续诊断，不必进入首轮四项主指标。",
+      "phases": [
+        "P4",
+        "P6"
+      ],
+      "issue": "PLANNED:P4",
+      "tests": [
+        "P4-A01..A04 (计划；不能视为已通过)",
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 133
+    },
+    {
+      "id": "GC-01",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "项目从 P0 就通过用户授权的 GitHub 账号建立自己的远程仓库并维护 Issue/Branch/PR/CI、分支保护、定期 Push 和回滚能力。账户可见性、仓库名称、授权范围须用户确认。",
+      "phases": [
+        "P0",
+        "P4"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)",
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 137
+    },
+    {
+      "id": "GC-02",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "一个 Issue 表达工程目标；一个正式 PR 汇总可验收成果；一个任务可同时有多个候选分支、融合分支和 Sol 接力分支；不要每个模型回复都建 PR。",
+      "phases": [
+        "P0",
+        "P4"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)",
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 139
+    },
+    {
+      "id": "GC-03",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "候选 A…N、M、Sol-Builder 工作分别采用独立 worktree/branch；保存 base SHA、head SHA、审查/测试和 PR 关联；主分支只经 CI 与人工审批合并。",
+      "phases": [
+        "P2",
+        "P4"
+      ],
+      "issue": "PLANNED:P2",
+      "tests": [
+        "P2-A01..A04 (计划；不能视为已通过)",
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 141
+    },
+    {
+      "id": "GC-04",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "保留所有有意义的代码历史，包括失败候选的可恢复 Git refs 与完整运行元数据；支持 revert、从任意已保存节点分叉、回滚演练；避免自动清理导致历史丢失。",
+      "phases": [
+        "P0",
+        "P4"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)",
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 143
+    },
+    {
+      "id": "GC-05",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "Codex 使用用户本人授权的 GitHub 账号 Fork 实际参与源码开发/复现的上游项目，并保留 upstream URL、commit、许可证、用途；未经用户授权不得代其批量 Fork 或 Star。最后给用户重点参考项目清单供其自行 Star。",
+      "phases": [
+        "P0",
+        "P4"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)",
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 145
+    },
+    {
+      "id": "GC-06",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "`.gitignore`、机密扫描和隐私审计为强制项；不能把 API 密钥、虚拟磁盘、Conda 缓存、大型原始科研数据或敏感材料直接推送 GitHub。",
+      "phases": [
+        "P0",
+        "P4"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)",
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 147
+    },
+    {
+      "id": "GC-07",
+      "tags": [
+        "C",
+        "P"
+      ],
+      "sources": "S3",
+      "requirement": "对破坏性 Git/文件操作使用外部安全门禁，检测工作树未提交改动，先保存 checkpoint 或请求用户授权；仅写 Prompt“不准删除”不足以保护文件。",
+      "phases": [
+        "P0",
+        "P4"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)",
+        "P4-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 149
+    },
+    {
+      "id": "UI-01",
+      "tags": [
+        "C"
+      ],
+      "sources": "S2/S3",
+      "requirement": "工程探索图是核心交互界面；能看到任务及子任务、多个候选、各自测试、Reviewer 判断、融合版本、接力开发、失败、预算与时间，以及人工决策。",
+      "phases": [
+        "P5"
+      ],
+      "issue": "PLANNED:P5",
+      "tests": [
+        "P5-A01..A03 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 153
+    },
+    {
+      "id": "UI-02",
+      "tags": [
+        "C"
+      ],
+      "sources": "S2/S3",
+      "requirement": "点击节点需能展开 Git Diff/commit、完整或摘要执行日志、测试、结论证据、Issue/PR、父子和依赖关系；用户能够添加注释、拒绝、批准、暂停/恢复和从此节点启动新的分叉。",
+      "phases": [
+        "P5"
+      ],
+      "issue": "PLANNED:P5",
+      "tests": [
+        "P5-A01..A03 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 155
+    },
+    {
+      "id": "UI-03",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "`cathrynlavery/diagram-design` 提供美学参考与图表导出约束，不应误认为支持自动日志存储或实时交互。首版优先扩展 Humanize Web，画布可用 React Flow 等组件，实际数据来自结构化事件仓库。",
+      "phases": [
+        "P5"
+      ],
+      "issue": "PLANNED:P5",
+      "tests": [
+        "P5-A01..A03 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 157
+    },
+    {
+      "id": "UI-04",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "UI 可多轮迭代，第一版先可用再优化；不必在首轮开发独立 Electron 客户端或自动生成精美静态海报。",
+      "phases": [
+        "P5"
+      ],
+      "issue": "PLANNED:P5",
+      "tests": [
+        "P5-A01..A03 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 159
+    },
+    {
+      "id": "UI-05",
+      "tags": [
+        "P"
+      ],
+      "sources": "S2/S3",
+      "requirement": "顶栏状态与预算、左栏项目/任务树、中央可缩放探索画布、右栏节点证据/代码差异、底栏用户命令；可以依据真实测试修改布局。",
+      "phases": [
+        "P5"
+      ],
+      "issue": "PLANNED:P5",
+      "tests": [
+        "P5-A01..A03 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 161
+    },
+    {
+      "id": "UI-06",
+      "tags": [
+        "C",
+        "P"
+      ],
+      "sources": "S3",
+      "requirement": "界面不只是历史回放，也是执行控制台：启动/停止、设置 N 和预算、选择历史节点恢复、人工改变下一轮路线。审批必须由后端硬性执行，不以 UI 按钮作为唯一安全保障。",
+      "phases": [
+        "P5"
+      ],
+      "issue": "PLANNED:P5",
+      "tests": [
+        "P5-A01..A03 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 163
+    },
+    {
+      "id": "BM-01",
+      "tags": [
+        "C"
+      ],
+      "sources": "S2–S4",
+      "requirement": "首轮固定 16 项：BugsInPy×6、SWE-bench Lite×6、科学编程×4；不要求用户提前积累十几个高难个人科研历史项目。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 167
+    },
+    {
+      "id": "BM-02",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "科学四项：①PC_ALM 轻量复现；②基于用户指定论文实现卒中诊断/分析代码、输出数值表格和图像；③Exponential Gradient Learning 轻量复现、重建原论文表格和图像；④CPU Granger Causality 改为 CuPy GPU 实现，验证数值精度和性能。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 169
+    },
+    {
+      "id": "BM-03",
+      "tags": [
+        "C"
+      ],
+      "sources": "S4",
+      "requirement": "首轮由 Codex 统一准备固定环境；每个任务/基准实例跨模型、跨配置使用同样环境。依赖版本冲突时可以为不同任务预建独立环境。若要用户介入环境设置，先说明。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 171
+    },
+    {
+      "id": "BM-04",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "A=DS 原生 DSH、B=DS×N+自动测试、C=DS-Enhanced、D=Sol 原生 Codex、E=DS+Sol Humanize、F=DS-Enhanced+Sol Humanize；另保留 DS 原生 CC/Codex Harness 的速度参照（如可用）。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 173
+    },
+    {
+      "id": "BM-05",
+      "tags": [
+        "C"
+      ],
+      "sources": "S4",
+      "requirement": "Judge 消融：同一批候选，自动测试/规则 vs LAV 原版 vs Jev vs Sol；比较排序/正确性、误判、费用、延迟。Merge 消融：Best-of-N vs Best-of-N+Sol-Reviewer-M。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 175
+    },
+    {
+      "id": "BM-06",
+      "tags": [
+        "C"
+      ],
+      "sources": "S2/S3",
+      "requirement": "主指标：完成率、每成功任务总成本、端到端时间、人工干预。次指标：TTFT、首个可运行补丁、首个测试通过、最终交付、候选生成/测试/Judge/Reviewer/Sol-Builder/CI 延时拆分、吞吐、Token、p50/p90。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 177
+    },
+    {
+      "id": "BM-07",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "衡量实际系统效率，不能仅测模型 token/s。公平比较固定任务/初始代码/工具权限/硬件/实际预算，提供等成本与等时长分析，报告逐任务结果和失败类别，不夸大 16 项小样本的统计显著性。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 179
+    },
+    {
+      "id": "BM-08",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "科学实验不能只用图像相似度或是否输出文件验收；必须参考可执行金标准、数值容差、统计不变量、协议准确性；GPU 任务记录硬件/驱动/CuPy/CUDA 和浮点误差。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 181
+    },
+    {
+      "id": "BM-09",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "任务环境失败 `INFRA_FAIL`、能力失败 `FAIL`、超时 `TIMEOUT`、无法判断 `INDETERMINATE` 区分报告；不要把缺论文、缺 GPU 或 API 凭据伪报为模型失败。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 183
+    },
+    {
+      "id": "BM-10",
+      "tags": [
+        "O"
+      ],
+      "sources": "S3/S4",
+      "requirement": "四项科研任务的确切论文/输入数据/代码基线/数值表格尚需用户在评测前给出；不得虚构材料，可先跑 12 项公共任务或先做 smoke test。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PENDING_USER_DECISION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 185
+    },
+    {
+      "id": "BM-11",
+      "tags": [
+        "E"
+      ],
+      "sources": "S0",
+      "requirement": "可另设轻量低成本的局部补丁 vs 全任务重试比较（借鉴 Agentless），及强模型设计→廉价模型执行 vs 轮换（借鉴 Aider）。是后续对照建议，**不属于用户确认的首轮必跑实验**。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 187
+    },
+    {
+      "id": "BM-12",
+      "tags": [
+        "F"
+      ],
+      "sources": "S4",
+      "requirement": "如果固定环境 16 项不够区分系统，再新增有挑战性的任务/环境自主管理轨道；首轮不强迫完成第二轨。",
+      "phases": [
+        "FUTURE"
+      ],
+      "issue": "PLANNED:FUTURE",
+      "tests": [
+        "后续立项 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "DEFERRED_FUTURE",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0002"
+      ],
+      "source_line": 189
+    },
+    {
+      "id": "OP-01",
+      "tags": [
+        "C"
+      ],
+      "sources": "S1/S3",
+      "requirement": "对 N 候选并发、任务轮次数、Reviewer 生成 M、Jev/LAV 多次评分、Sol 接力分别设置可见预算与耗时上限，支持用户覆盖。预算用尽应优雅停止、保存工作产物。",
+      "phases": [
+        "P2",
+        "P6"
+      ],
+      "issue": "PLANNED:P2",
+      "tests": [
+        "P2-A01..A04 (计划；不能视为已通过)",
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 193
+    },
+    {
+      "id": "OP-02",
+      "tags": [
+        "P"
+      ],
+      "sources": "S0",
+      "requirement": "建议提供低成本/常规/深度三种运行预设：①单 DS + 自动测试，②DS N + Judge/Reviewer，③DS-Enhanced↔Sol 长期轮换。**不自动默认开启最贵组合**，实际门槛通过 Benchmark 校准。",
+      "phases": [
+        "P2",
+        "P6"
+      ],
+      "issue": "PLANNED:P2",
+      "tests": [
+        "P2-A01..A04 (计划；不能视为已通过)",
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 195
+    },
+    {
+      "id": "OP-03",
+      "tags": [
+        "C",
+        "E"
+      ],
+      "sources": "S1",
+      "requirement": "对比同任务下 DeepSeek 在 CC/Codex/DSH/Humanize 中的速度与响应流畅度；根据真实墙钟判断增强后的吞吐是否仍值得。",
+      "phases": [
+        "P1",
+        "P6"
+      ],
+      "issue": "PLANNED:P1",
+      "tests": [
+        "P1-A01..A04 (计划；不能视为已通过)",
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 197
+    },
+    {
+      "id": "OP-04",
+      "tags": [
+        "P"
+      ],
+      "sources": "S0/S3",
+      "requirement": "可先用低成本规则/测试做第一轮筛选，减少 Sol 需要阅读的候选内容；保留失败候选供诊断。若涉及科研方法有效性争议，不能用廉价 Judge 的分数取代独立审计。",
+      "phases": [
+        "P2",
+        "P6"
+      ],
+      "issue": "PLANNED:P2",
+      "tests": [
+        "P2-A01..A04 (计划；不能视为已通过)",
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 199
+    },
+    {
+      "id": "OP-05",
+      "tags": [
+        "F"
+      ],
+      "sources": "S0",
+      "requirement": "面向 GPU 算子、数值性能任务，未来可采用 OpenEvolve/NVIDIA KDA 的测试驱动搜索与持续优化循环，但不将其等同于通用科研假设选择。",
+      "phases": [
+        "FUTURE"
+      ],
+      "issue": "PLANNED:FUTURE",
+      "tests": [
+        "后续立项 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "DEFERRED_FUTURE",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 201
+    },
+    {
+      "id": "SG-01",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "Humanize 可启动高权限编程 Agent；必须使用权限受限的隔离工作区/进程或容器、最小权限凭据、拒绝直接修改主分支，明确无完全隔离时的真实风险，不得用提示词冒充安全边界。",
+      "phases": [
+        "P0",
+        "P2"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)",
+        "P2-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 205
+    },
+    {
+      "id": "SG-02",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "用户负责最终科研正确性、产品目标、账号/费用和敏感资料授权。Codex 负责实施、测试、仓库运维、PR/Issue、审计、上游清单和运行报告；仅在必须人工授权/重大方向争议时打断用户。",
+      "phases": [
+        "P0"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 207
+    },
+    {
+      "id": "SG-03",
+      "tags": [
+        "C"
+      ],
+      "sources": "S3",
+      "requirement": "主分支合并、公开仓库、额外购买 API、安装/清理高风险操作、敏感科研数据上传必须有人工批准。不可让 Agent 在未经授权下无限循环和花费。",
+      "phases": [
+        "P0"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 209
+    },
+    {
+      "id": "SG-04",
+      "tags": [
+        "C"
+      ],
+      "sources": "S1/S3",
+      "requirement": "研究任务必须保留完整正负结果，防止测试集泄漏/选择性报告/错误归因。审查记录要区分客观测试和语言模型意见。",
+      "phases": [
+        "P4",
+        "P6"
+      ],
+      "issue": "PLANNED:P4",
+      "tests": [
+        "P4-A01..A04 (计划；不能视为已通过)",
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 211
+    },
+    {
+      "id": "SG-05",
+      "tags": [
+        "P"
+      ],
+      "sources": "S1/S3",
+      "requirement": "对神经科学特有协议（例如分组数据划分、标准化只用训练集、删失/风险集、随机种子报告）提供可编写的科研不变量模板；由具体任务决定是否启用，不应默认把某个实验的约束强加给所有项目。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划；不能视为已通过)"
+      ],
+      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 213
+    },
+    {
+      "id": "O-01",
+      "tags": [
+        "O"
+      ],
+      "sources": "PRD §13",
+      "requirement": "GitHub 新仓库名称、私有/公开、归属、Fork 授权范围；只能经用户操作或授权工具确定。",
+      "phases": [
+        "P0"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划)"
+      ],
+      "implementation_status": "PENDING_USER_DECISION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 239
+    },
+    {
+      "id": "O-02",
+      "tags": [
+        "O"
+      ],
+      "sources": "PRD §13",
+      "requirement": "本地内置 SSD 目录、是否真正需要 WSL2、Conda/uv 组合、已有 DSH/CC/Codex 工具实际安装情况。",
+      "phases": [
+        "P0"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划)"
+      ],
+      "implementation_status": "AUDITED_PATH_CONFIRMED",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 240
+    },
+    {
+      "id": "O-03",
+      "tags": [
+        "O"
+      ],
+      "sources": "PRD §13",
+      "requirement": "当前 DeepSeek/Sol/Astra、Jev 的可用 API/CLI/登录方式；不能假设订阅可用于某个程序化调用。",
+      "phases": [
+        "P0"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划)"
+      ],
+      "implementation_status": "PENDING_USER_DECISION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 241
+    },
+    {
+      "id": "O-04",
+      "tags": [
+        "O"
+      ],
+      "sources": "PRD §13",
+      "requirement": "每任务与每阶段费用、时长和人类审批的具体阈值。",
+      "phases": [
+        "P0"
+      ],
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "tests": [
+        "P0-A01..A08 (计划)"
+      ],
+      "implementation_status": "PENDING_USER_DECISION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 242
+    },
+    {
+      "id": "O-05",
+      "tags": [
+        "O"
+      ],
+      "sources": "PRD §13",
+      "requirement": "四项科学任务的论文、数据/参考结果、许可范围及可执行金标准。",
+      "phases": [
+        "P6"
+      ],
+      "issue": "PLANNED:P6",
+      "tests": [
+        "P6-A01..A04 (计划)"
+      ],
+      "implementation_status": "PENDING_USER_DECISION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 243
+    },
+    {
+      "id": "O-06",
+      "tags": [
+        "O"
+      ],
+      "sources": "PRD §13",
+      "requirement": "是否要把 RLAR 与 Flame Chase 单独展示在 UI，还是仅展示我们自定义的单一轮换 Flow（用户尚未指定）。",
+      "phases": [
+        "P1",
+        "P5"
+      ],
+      "issue": "PLANNED:P1",
+      "tests": [
+        "P1-A01..A04 (计划)",
+        "P5-A01..A03 (计划)"
+      ],
+      "implementation_status": "PENDING_USER_DECISION",
+      "relevant_adrs": [
+        "ADR-0001",
+        "ADR-0003"
+      ],
+      "source_line": 244
+    }
+  ],
+  "additional_user_requirements": [
+    {
+      "id": "USR-NAME-01",
+      "requirement": "项目名 Enhanced_Humanizer 暂定，后续向用户确认命名",
+      "status": "OPEN",
+      "checkpoint": "P0 结束后、P1 启动前；当前仓库仍沿用暂定名"
+    },
+    {
+      "id": "USR-GIT-01",
+      "requirement": "开发仓库轻量 PR/CI，给予代理自主权并保持本地与 GitHub 代码一致",
+      "status": "ADOPTED_ADR-0004"
+    },
+    {
+      "id": "USR-PR-01",
+      "requirement": "软件产品自身每一次 PR 必须经过人工审核",
+      "status": "REQUIRED_FUTURE_IMPLEMENTATION",
+      "checkpoint": "产品 PR 功能实现与独立验收"
+    }
+  ]
+}

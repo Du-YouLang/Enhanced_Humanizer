@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+python scripts/check_repository.py --staged
+if [ -f .local-workbench/tools/gitleaks/8.30.1/gitleaks.exe ]; then
+  .local-workbench/tools/gitleaks/8.30.1/gitleaks.exe git --staged --redact --no-banner --timeout 30
+elif command -v gitleaks >/dev/null 2>&1; then
+  gitleaks git --staged --redact --no-banner --timeout 30
+else
+  echo 'gitleaks is required before committing; see docs/local-setup.md' >&2
+  exit 1
+fi
