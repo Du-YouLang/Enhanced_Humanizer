@@ -1892,8 +1892,8 @@
     {
       "id": "USR-NAME-01",
       "requirement": "项目名 Enhanced_Humanizer 暂定，后续向用户确认命名",
-      "status": "OPEN",
-      "checkpoint": "P0 结束后、P1 启动前；当前仓库仍沿用暂定名"
+      "status": "CONFIRMED_CURRENT_NAME_2026-10-10",
+      "checkpoint": "用户确认 P1 继续使用 Enhanced_Humanizer；首次对外产品发布前再复核"
     },
     {
       "id": "USR-GIT-01",

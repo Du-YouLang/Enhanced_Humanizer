@@ -1,6 +1,6 @@
-# P0 外部隔离待授权方案
+# P0 外部隔离方案与安装状态
 
-状态：仅方案，未安装、未修改 Windows 功能、未自动重启。用户要求先说明存储占用，安装授权仍待决定。P0 的真实 Humanize Coding demo 保持未通过。
+状态：用户已接受空间方案并授权安装。WSL 3.0.1 系统组件安装成功，虚拟机平台已启用，Windows 要求手动重启；Ubuntu 镜像已下载校验但尚未注册。未自动重启。P0 的真实 Humanize Coding demo 保持未通过，见 [安装记录](audits/P0-WSL-2026-10-10.md) 和 ADR-0005。
 
 ## 实测依据
 
@@ -30,6 +30,6 @@
 
 2026-10-10 15:56 +08 实测目录文件逻辑长度：`.venv` 0.269 GiB（约 276 MiB）、独立 Python 0.059 GiB、缓存 0.322 GiB、三个上游源码 0.713 GiB、扫描工具 0.029 GiB，连同 Git/备份合计约 1.39 GiB。uv 硬链接可能重复计数，不能把该总和冒充 NTFS 物理分配大小；测量耗时 1.526 秒，明细在 ignored audits/storage-followup.json。
 
-WSL2 尚未安装，不能实测实际占用。P0 Ubuntu + Git/Python/Node/Humanize/DSH/Codex 的新增容量工程估计为 5–10 GiB；建议留出 15–20 GiB 余量，C 盘系统组件暂按 4 GiB 预留。不是立即预分配这些容量。微软说明 WSL2 VHD 会按使用增长，虚拟容量上限也不等于当前物理占用，见 [WSL 磁盘说明](https://learn.microsoft.com/en-us/windows/wsl/disk-space)。后续 P6 的科学依赖/数据/镜像另行测量和规划。
+Ubuntu VHD 尚未建立，不能实测最终环境占用；已下载的两个官方安装文件合计约 0.705 GiB。P0 Ubuntu + Git/Python/Node/Humanize/DSH/Codex 的新增容量工程估计为 5–10 GiB；建议留出 15–20 GiB 余量，C 盘系统组件暂按 4 GiB 预留。不是立即预分配这些容量。微软说明 WSL2 VHD 会按使用增长，虚拟容量上限也不等于当前物理占用，见 [WSL 磁盘说明](https://learn.microsoft.com/en-us/windows/wsl/disk-space)。后续 P6 的科学依赖/数据/镜像另行测量和规划。
 
-因当前只有用户一个账号，PR 作者不能自我批准，故服务器独立 reviewer 数设为 0；用户在 PR/聊天中对具体 SHA 的人工验收仍是项目约束。该设置能阻止直接 push 和失败 CI 合并，不能证明独立人工 review 已完成。未经此项权限授权不应用 JSON。
+原保护提案中的独立 reviewer 数为 0，因为当前只有一个账号且 PR 作者不能自我批准；这不是已应用设置。开发仓库遵循 ADR-0004 的轻量 PR/CI；产品自身每次 PR 的真实人工审核另行实现，不能混同。

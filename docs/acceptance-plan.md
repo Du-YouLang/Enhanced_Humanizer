@@ -6,11 +6,11 @@
 |---|---|---|
 | P0-A01 | 完整读基线，硬件/SSD/路径/工具/环境审计，原始哈希不变 | 本地环境报告、两份 SHA256、无研究数据外传 |
 | P0-A02 | 用户确认 GitHub 身份/可见性/归属；接入已获批的公开仓库、Issue/PR、push、CI、main 规则或人工门禁 | 用户 2026-10-10 确认保持公开；真实 URL、head SHA、CI logs；权限规则单独授权 |
-| P0-A03 | 固定版本可重装、CLI/SDK 探针、上游许可证/commit | 32 项哈希 lock、版本与导入、DSH initialize；源码 Fork 待批准 |
+| P0-A03 | 固定版本可重装、CLI/SDK 探针、上游许可证/commit | 32 项哈希 lock、版本与导入、DSH initialize；三个正确 Fork 已核验并固定检出；WSL/Ubuntu 固定镜像已校验 |
 | P0-A04 | 本地自定义 Humanize Flow 可加载；官方 fake 测预算；真实 hmz demo 成功 | mock 与真实结果分开，真实 Coding demo 仍待隔离与预算 |
-| P0-A05 | DS/Sol 的真实模型访问、工具/日志/恢复/Token 能力，Jev/LAV 能力界限 | /models 与登录不能代替真正 turn；缺 Jev key、缺 logprobs 明确 BLOCKED |
+| P0-A05 | DS/Sol 的真实模型访问、工具/日志/恢复/Token 能力，Jev/LAV 能力界限 | 两次无工具 DeepSeek 请求成功且第二次返回 logprobs；Sol 新会话、完整 LAV/Jev 与 Coding 工具链仍未验收 |
 | P0-A06 | ignore/路径拒绝/机密扫描；OS 层拒绝越界、读取别的候选、危险操作 | 本地治理单测 + Gitleaks；Windows 自主 agent 的外部隔离待验证 |
-| P0-A07 | 用户确认初始成本和时间上限；真实 usage 可见性、超限停止记录 | 初始推理额度 0、提案未授权；不可见填 unavailable |
+| P0-A07 | 用户确认初始成本和时间上限；真实 usage 可见性、超限停止记录 | P0 USD 1 / 4 DS 请求 / 2 Codex 回合 / 120 秒已授权；直接 API 探针持久预留预算；不能代替通用 Agent 执行门禁 |
 | P0-A08 | checkpoint/revert/历史 worktree 与远程 refs 恢复演练 | 独立本地 demo 与项目远程恢复分开，保留正负结果 |
 | P1-A01 | 原生 RLAR / Flame Chase 接口、角色、可用性/资源实测并写 ADR | 不强制两个模式都进入 UI |
 | P1-A02 | DS 与 Sol 各真实改代码、运行测试、commit，且交接 session 独立 | Sol 必须能替代设计；交接包含事实与失败证据 |

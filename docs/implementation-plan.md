@@ -1,6 +1,6 @@
 # P0→P6 实施计划
 
-本轮只推进 P0，其他阶段只列计划与验收；不得在 P0 尚未通过时实现后续产品功能。所有新目录位于当前工作区。
+用户已授权项目 WSL2 安装，并在 P0 全部 Gate 通过后直接进入 P1。当前系统组件安装成功但要求手动重启，P0 尚未通过；后续产品功能不提前实现。所有新环境状态位于当前工作区，已批准微软系统组件 C 盘例外。
 
 | 阶段 | 具体实施 | 独立交付与门禁 |
 |---|---|---|
@@ -19,7 +19,9 @@ P0 剩余执行顺序：
 3. Fork Humanize / DSH / LAV 并在 `.local-workbench/upstreams/` 检出审核 SHA；检查完整许可证/NOTICE 与已装发布版本的映射。Codex 继续复用已有二进制，不 Fork 整套 Harness。
 4. 在不调用模型的情况下测试 Humanize 实际 OS fence 与路径拒绝。Windows 不成立则形成明确的 WSL2/受限系统方案，由用户批准后实施；不绕过隔离。
 5. 用户批准模型路由与预算后，做最小真实 DS/Sol/Humanize smoke；记录 actual model ID、Token/现金/订阅、超时、日志、工具结果。Jev/LAV 端点不具备时保留真实阻碍和 mock 路径。
-6. CI 通过的开发基线可经 PR 同步 main；P0 的真实 demo 等 Gate 全有证据后再交用户独立验收，不把部分成果合并当作 P0 通过或 P1 启动授权。
+6. CI 通过的开发基线可经 PR 同步 main；P0 的真实 demo 等 Gate 全有证据后提交独立验收成果，再按最新授权直接启动 P1，不把部分成果合并当作 P0 通过。
+
+WSL 执行现状：固定镜像已下载校验，系统组件已安装，Windows 要求重启；尚未注册 Ubuntu。见 [实际安装证据](audits/P0-WSL-2026-10-10.md)。P1 单独预算与名称已确认，见 `configs/budget-p1.json` 和项目状态；不重置 P0 ledger。
 
 正式目录按指南增量形成：`.hmz/flows/`、`src/workbench/{adapters,orchestration,candidates,judging,synthesis,evidence,memory,gitops,api}`、`ui/`、`benchmarks/`。本轮只建立必要 P0 文件，不提前用空实现冒充完整产品。
 

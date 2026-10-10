@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "observed_date": "2026-10-10",
+  "wsl_release": "3.0.1",
+  "release_source": "https://api.github.com/repos/microsoft/WSL/releases/latest",
+  "distribution_source": "https://raw.githubusercontent.com/microsoft/WSL/master/distributions/DistributionInfo.json",
+  "distribution_name": "EnhancedHumanizer-P0",
+  "location": ".local-workbench/wsl/EnhancedHumanizer-P0",
+  "assets": [
+    {
+      "name": "wsl.3.0.1.0.x64.msi",
+      "url": "https://github.com/microsoft/WSL/releases/download/3.0.1/wsl.3.0.1.0.x64.msi",
+      "sha256": "28b1a0d013640a2ac95898ea705fa186e5b4ff767a1c1b49257161bc106599c6",
+      "expected_bytes": 367669248
+    },
+    {
+      "name": "ubuntu-24.04.5-wsl-amd64.wsl",
+      "url": "https://releases.ubuntu.com/24.04.5/ubuntu-24.04.5-wsl-amd64.wsl",
+      "sha256": "bb415d824822c4b878125729af451a5d18fb13d1cf5cbed9a7393ad64ac6039e"
+    }
+  ]
+}
