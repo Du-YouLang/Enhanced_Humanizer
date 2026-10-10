@@ -23,7 +23,7 @@ def main():
     approval=json.loads((ROOT/'.local-workbench/approvals/p1.json').read_text(encoding='utf-8-sig'))
     if p0['verdict']!='PASS' or config['status']!='AUTHORIZED_P1_AFTER_P0_GATE' or not config['inference_enabled'] or approval['approved_by']!='human_user':
         raise PermissionError('P1 execution gates are not satisfied')
-    files=['scripts/p1_budget.py','scripts/p1_broker.py','scripts/p1_drivers.py','scripts/p1_experiment_linux.py',
+    files=['scripts/p1_fixture.py','scripts/p1_budget.py','scripts/p1_broker.py','scripts/p1_drivers.py','scripts/p1_experiment_linux.py',
            'scripts/p1_acceptance.py','scripts/export_codex_usage.py',
            '.hmz/flows/p0_coding_demo/__init__.py','.hmz/flows/basic_relay/__init__.py']
     for source in files:

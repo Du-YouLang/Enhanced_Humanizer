@@ -20,11 +20,14 @@ class BudgetDenied(RuntimeError):
 
 
 class Ledger:
-    def __init__(self, path, *, requests=40, codex_turns=6, cash_nano=1_000_000_000):
+    def __init__(self, path, *, requests=40, codex_turns=6, cash_nano=1_000_000_000, phase='P1'):
+        caps={'P1':(40,1_000_000_000),'P2':(100,2_000_000_000)}
+        if phase not in caps:raise BudgetDenied('Unauthorized phase')
         self.path=Path(path)
-        self.requests=min(requests,40)
+        self.phase=phase
+        self.requests=min(requests,caps[phase][0])
         self.codex_turns=min(codex_turns,6)
-        self.cash_nano=min(cash_nano,1_000_000_000)
+        self.cash_nano=min(cash_nano,caps[phase][1])
         self.lock=threading.Lock()
 
     @contextmanager
@@ -36,8 +39,8 @@ class Ledger:
                     import fcntl
                     fcntl.flock(lock,fcntl.LOCK_EX)
                 value=json.loads(self.path.read_text()) if self.path.exists() else {
-                    'schema_version':1,'phase':'P1','requests':[],'codex_turns':[],'cash_bound_nano':0}
-                if value.get('phase')!='P1' or not isinstance(value.get('requests'),list) or not isinstance(value.get('codex_turns'),list):
+                    'schema_version':1,'phase':self.phase,'requests':[],'codex_turns':[],'cash_bound_nano':0}
+                if value.get('phase')!=self.phase or not isinstance(value.get('requests'),list) or not isinstance(value.get('codex_turns'),list):
                     raise BudgetDenied('Invalid phase ledger')
                 expected=sum(r['charge_bound_nano'] for r in value['requests'])
                 if type(value.get('cash_bound_nano')) is not int or value['cash_bound_nano']!=expected or expected<0:
@@ -48,8 +51,13 @@ class Ledger:
                     handle.write(json.dumps(value,indent=2)+'\n');handle.flush();os.fsync(handle.fileno())
                 os.replace(temporary,self.path)
 
-    def reserve_request(self, experiment):
+    def reserve_request(self, experiment, *, scope_requests=None, scope_cash_nano=None):
         with self.transaction() as value:
+            scoped=[r for r in value['requests'] if r['experiment']==experiment]
+            if scope_requests is not None and len(scoped)>=scope_requests:
+                raise BudgetDenied('Candidate request cap exhausted')
+            if scope_cash_nano is not None and sum(r['charge_bound_nano'] for r in scoped)+REQUEST_RESERVE>scope_cash_nano:
+                raise BudgetDenied('Candidate cash cap exhausted')
             if len(value['requests'])>=self.requests or value['cash_bound_nano']+REQUEST_RESERVE>self.cash_nano:
                 raise BudgetDenied('P1 request/cash cap exhausted')
             index=len(value['requests'])+1

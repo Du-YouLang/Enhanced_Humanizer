@@ -1,0 +1,11 @@
+{
+  "task_id": "tiny-square-project",
+  "prompt": "Implement the entire tiny project: create square.py exposing square(value), write meaningful tests, run them and create a clean new Git commit. Do not install dependencies or spawn subagents.",
+  "base_repository": "/opt/workbench/source/prepared-empty-project",
+  "base_commit": "0000000000000000000000000000000000000000",
+  "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+  "source_file": "square.py",
+  "visible_test_program": "from square import square\nassert square(3) == 9\n",
+  "acceptance_test_program": "from square import square\nassert square(3) == 9\nassert square(-4) == 16\nassert square(0) == 0\n",
+  "protected_files": {}
+}

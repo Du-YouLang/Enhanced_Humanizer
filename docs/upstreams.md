@@ -23,3 +23,5 @@ Codex 上游 HEAD 不是已安装 CLI 的源码映射。实际固定 CLI 0.162.0
 集成时逐项保留 LICENSE/NOTICE/作者与来源；本项目自己的许可证尚未由用户决定，未擅自选择开源许可证。
 
 P0 实际已装的 32 项包版本、许可证元数据与分发内 license 文件索引见 [installed-packages-p0.json](../configs/installed-packages-p0.json)。原有上游 notice 保留在发布包中；缺元数据项明确记为 unavailable，不将此清单冒充完整许可兼容性结论。
+
+P2复用固定LAV源码90e8fc2，MIT LICENSE随Linux源码保留。通过原版select(client=...)注入计费HTTP客户端，算法/概率提取/PPT未改写。optional OpenAI/Google客户端构造器未使用，不安装额外SDK。Jev仅按官方typed Score文档实现接口，不嵌入无许可示例库；TurboAgent仅请求级对照参考。P1 Linux依赖lock未变。详见ADR-0008。

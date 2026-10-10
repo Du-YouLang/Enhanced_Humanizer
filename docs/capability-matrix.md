@@ -1,8 +1,8 @@
-# P0/P1 真实能力矩阵
+# P0/P1/P2 真实能力矩阵
 
 日期：2026-10-10（Asia/Shanghai）。`PASS` 只针对表内实际操作；mock、初始化、文档说明均不能推出真实编码任务通过。
 
-最新实测优先于下表历史快照：WSL2 Ubuntu 24.04.5、Humanize filesystem/network fence 可执行，11 项 OS 测试通过；独立 Linux Codex 登录和真实 demo 通过，P0 PR #4 已合并。P1 原生 DSH 与 Humanize DSH 真实编码、原版 RLAR/Flame Chase、DS→新 Sol 双 Builder、暂停恢复、独立隔离复验和请求前预算均已通过。见 [P0 Linux](audits/P0-Linux-2026-10-10.md)、[P1 验收](audits/P1-2026-10-10.md)。五个模型实验共 30 DS 请求 / 3 Codex 回合；只是合成任务可用性，LAV/Jev、增强器与科研质量仍未验收。以下 P0 早期探针的“未验证”保留为历史，不再表示当前阶段阻塞。
+最新实测优先于下表历史快照：WSL2 Ubuntu 24.04.5、Humanize filesystem/network fence 可执行，11 项 OS 测试通过；独立 Linux Codex 登录和真实 demo 通过，P0 PR #4 已合并。P1 原生 DSH 与 Humanize DSH 真实编码、原版 RLAR/Flame Chase、DS→新 Sol 双 Builder、暂停恢复、独立隔离复验和请求前预算均已通过。见 [P0 Linux](audits/P0-Linux-2026-10-10.md)、[P1 验收](audits/P1-2026-10-10.md)。五个模型实验共 30 DS 请求 / 3 Codex 回合；只是合成任务可用性，后续 P2 实际结果见下文；增强净收益与科研质量仍未验收。以下 P0 早期探针的“未验证”保留为历史，不再表示当前阶段阻塞。
 
 | 组件 | 已验证事实 | 未验证 / 阻碍 | 下一项验收 |
 |---|---|---|---|
@@ -21,3 +21,7 @@
 [OpenAI 身份说明](https://developers.openai.com/codex/auth)区分 ChatGPT 订阅登录与 API 计费；[非交互接口说明](https://developers.openai.com/codex/noninteractive)支持 JSONL usage。已安装 CLI 帮助与本机登录先于文档推断；真正的会话 Token 与现金成本仍需运行测量。
 
 Humanize 安全资料使用 Linux Landlock / macOS Seatbelt；当前 DSH driver 采用 bypass rung + 外部 fence。Windows wheel 存在且初始化成功不能证明 sandbox 成立。见 ADR-0003。
+
+## P2 最新实际能力（历史表不再作为当前阻塞）
+
+N=1/3/4/5 共13个完整官方DSH候选，独立对象/Session/后台目录/PID namespace与实际fence拒绝、提交和硬测试均通过。候选/阶段原子预算在请求前执行，真实排队和超时停止通过。J0、固定原版LAV的score-position logprobs/PPT、独立只读Sol结构化评分已在同一池完成；Jev仅接口离线通过，真实BLOCKED_CREDENTIAL。LAV关闭思考/K1仅接口smoke，两次低思考无评分答案的失败保留；不推出判断或增强有效。见 [P2验收](audits/P2-2026-10-10.md)。

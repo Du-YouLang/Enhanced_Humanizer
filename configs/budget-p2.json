@@ -1,0 +1,17 @@
+{
+  "phase": "P2",
+  "status": "AUTHORIZED_P2_AFTER_P1_GATE",
+  "inference_enabled": true,
+  "api_cash_usd": 2,
+  "deepseek_inference_requests": 100,
+  "codex_subscription_turns": 6,
+  "per_request_timeout_seconds": 120,
+  "per_candidate_timeout_seconds": 600,
+  "per_experiment_timeout_seconds": 1200,
+  "candidate_request_cap": 12,
+  "candidate_cash_cap_usd": 0.5,
+  "max_concurrency": 5,
+  "outer_infrastructure_retries": 0,
+  "top_up_allowed": false,
+  "enforcement": "Windows gate, phase+candidate atomic reservation, protected broker, namespace process watchdog"
+}

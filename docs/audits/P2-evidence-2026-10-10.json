@@ -1,0 +1,2348 @@
+{
+  "schema_version": 1,
+  "phase": "P2",
+  "functional_verdict": "PASS",
+  "delivery_verdict": "REQUIRES_FINAL_PR_CI_MAIN_ACCEPTANCE_RECORD",
+  "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
+  "actual_models": {
+    "DS": "deepseek-flash (DeepSeek V4.1 Flash)",
+    "Sol": "gpt-6.1-sol"
+  },
+  "budget": {
+    "requests": 87,
+    "codex_turns_reserved": 2,
+    "api_peak_upper_bound_usd": 0.2236917,
+    "api_bill_usd": "unavailable",
+    "cache_aware_estimate_usd_range": [
+      0.037955418,
+      0.075910836
+    ],
+    "deepseek_disjoint_tokens": {
+      "input_tokens": 111099,
+      "cache_read_input_tokens": 502656,
+      "cache_creation_input_tokens": 0,
+      "output_tokens": 32971
+    },
+    "cache_creation_accounting": "not_applicable_in_chat_completions",
+    "ledger_sha256": "760385b37cd6246be664c0d33aae3eb9b351a5badfcdee02650241a111b74dea",
+    "subscription_cost_usd": "unavailable",
+    "subscription_api_cash_usd": 0,
+    "limits": {
+      "api_cash_usd": 2,
+      "requests": 100,
+      "codex_turns": 6,
+      "per_request_seconds": 120,
+      "per_candidate_seconds": 600,
+      "per_experiment_seconds": 1200
+    },
+    "all_requests_settled": true
+  },
+  "pools": [
+    {
+      "run_id": "p2-n1-20261010T123639Z",
+      "n": 1,
+      "concurrency": 1,
+      "elapsed_seconds": 9.533880848999999,
+      "total_elapsed_seconds": 9.839739309,
+      "pool_hash": "e190aa77723e7816581a218d96460d4ed5ea8d960e11e4c2654ce20665f9704f",
+      "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+      "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+      "task_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+      "candidates": [
+        {
+          "id": "A",
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "branch": "run/p2/p2-n1-20261010T123639Z/A",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "5b92710c782fbabe63eebeb49da3795496e19c47",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "session_id": "session-5682607ee430443e98e13086b68ce1a5",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..4962366 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,11 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    total_weight = 0\n+    weighted_sum = 0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        total_weight += weight\n+        weighted_sum += value * weight\n+    if total_weight == 0:\n+        raise ValueError(\"total weight must be greater than zero\")\n+    return weighted_sum / total_weight",
+          "source": "def weighted_mean(pairs):\n    total_weight = 0\n    weighted_sum = 0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        total_weight += weight\n        weighted_sum += value * weight\n    if total_weight == 0:\n        raise ValueError(\"total weight must be greater than zero\")\n    return weighted_sum / total_weight\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.15108,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 7642,
+            "cache_read_input_tokens": 38400,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 681
+          },
+          "request_count": 6,
+          "api_peak_upper_bound_usd": 0.0146298,
+          "timeline": {
+            "started_at_seconds": 4.217800000017036e-05,
+            "time_to_first_patch": 5.5098389690000005,
+            "time_to_first_test_pass": 5.668519706,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 8.673771339000002,
+            "candidate_wall_seconds": 8.673730113000001
+          },
+          "queue_seconds": 4.217800000017036e-05,
+          "api_seconds_sum": 5.682396000000001,
+          "non_api_residual_seconds": 2.9913341130000006,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "verification_seconds": 0.608498,
+          "outer_retries": 0,
+          "retries_observed": 0,
+          "bundle_sha256": "866a9abc01e9a58d1e86018a314109848ec7b53d4788212e9572a14974ff62bc",
+          "working_tree": "",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "isolation": {
+            "verdict": "PASS",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "denied_read_write_checks": 4,
+            "effective_capabilities_hex": "0000000000000000"
+          },
+          "api_timing": [
+            {
+              "index": 1,
+              "http_status": 200,
+              "elapsed_seconds": 0.796172,
+              "first_delta_seconds": 0.329361,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 2,
+              "http_status": 200,
+              "elapsed_seconds": 0.837265,
+              "first_delta_seconds": 0.28961,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 3,
+              "http_status": 200,
+              "elapsed_seconds": 1.184374,
+              "first_delta_seconds": 0.26582,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 4,
+              "http_status": 200,
+              "elapsed_seconds": 0.766097,
+              "first_delta_seconds": 0.256319,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 5,
+              "http_status": 200,
+              "elapsed_seconds": 0.848241,
+              "first_delta_seconds": 0.297095,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 6,
+              "http_status": 200,
+              "elapsed_seconds": 1.250247,
+              "first_delta_seconds": 0.302262,
+              "model_id": "deepseek-flash"
+            }
+          ]
+        }
+      ],
+      "failure_report": {
+        "status": "PASS",
+        "successful_candidates": [
+          "A"
+        ],
+        "all_failed": false,
+        "infrastructure_failures": [],
+        "failures": [],
+        "common_defects": "See frozen test failures; no model diagnosis has been inferred",
+        "next_action": "Review passing candidates",
+        "best_failure_is_success": false
+      }
+    },
+    {
+      "run_id": "p2-n3-20261010T123808Z",
+      "n": 3,
+      "concurrency": 3,
+      "elapsed_seconds": 13.305678324000013,
+      "total_elapsed_seconds": 14.157084650999991,
+      "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+      "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+      "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+      "task_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+      "candidates": [
+        {
+          "id": "A",
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "branch": "run/p2/p2-n3-20261010T123808Z/A",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "5c8889379264a14d9e463eeca11c75a9a65898c5",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "session_id": "session-9e521af13fbc4322aa0c0bc6ed5cad61",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..68b13d4 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,17 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    \"\"\"Compute sum(value * weight) / sum(weight) over an iterable of pairs.\n+\n+    Accepts any iterable of ``(value, weight)`` pairs, including generators.\n+    Raises ``ValueError`` if any weight is negative or if the total weight is\n+    zero (including an empty iterable).\n+    \"\"\"\n+    total_weight = 0\n+    weighted_sum = 0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        weighted_sum += value * weight\n+        total_weight += weight\n+    if total_weight == 0:\n+        raise ValueError(\"total weight must be non-zero\")\n+    return weighted_sum / total_weight",
+          "source": "def weighted_mean(pairs):\n    \"\"\"Compute sum(value * weight) / sum(weight) over an iterable of pairs.\n\n    Accepts any iterable of ``(value, weight)`` pairs, including generators.\n    Raises ``ValueError`` if any weight is negative or if the total weight is\n    zero (including an empty iterable).\n    \"\"\"\n    total_weight = 0\n    weighted_sum = 0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        weighted_sum += value * weight\n        total_weight += weight\n    if total_weight == 0:\n        raise ValueError(\"total weight must be non-zero\")\n    return weighted_sum / total_weight\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.156032,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 7750,
+            "cache_read_input_tokens": 39296,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 1007
+          },
+          "request_count": 6,
+          "api_peak_upper_bound_usd": 0.0153222,
+          "timeline": {
+            "started_at_seconds": 4.533400000639176e-05,
+            "time_to_first_patch": 7.518037618999998,
+            "time_to_first_test_pass": 7.6780377159999915,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 11.193729173000008,
+            "candidate_wall_seconds": 11.193684399999995
+          },
+          "queue_seconds": 4.533400000639176e-05,
+          "api_seconds_sum": 7.938964,
+          "non_api_residual_seconds": 3.2547203999999947,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "verification_seconds": 0.61936,
+          "outer_retries": 0,
+          "retries_observed": 0,
+          "bundle_sha256": "99bf280a04407053cb15a96c3e5f4a88867829e1e2c51e60b78207b9b26dc6e0",
+          "working_tree": "",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "isolation": {
+            "verdict": "PASS",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "denied_read_write_checks": 20,
+            "effective_capabilities_hex": "0000000000000000"
+          },
+          "api_timing": [
+            {
+              "index": 8,
+              "http_status": 200,
+              "elapsed_seconds": 1.051037,
+              "first_delta_seconds": 0.332075,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 11,
+              "http_status": 200,
+              "elapsed_seconds": 1.689383,
+              "first_delta_seconds": 0.656211,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 15,
+              "http_status": 200,
+              "elapsed_seconds": 1.977417,
+              "first_delta_seconds": 0.343199,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 19,
+              "http_status": 200,
+              "elapsed_seconds": 0.999562,
+              "first_delta_seconds": 0.425192,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 22,
+              "http_status": 200,
+              "elapsed_seconds": 1.104075,
+              "first_delta_seconds": 0.244549,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 24,
+              "http_status": 200,
+              "elapsed_seconds": 1.11749,
+              "first_delta_seconds": 0.262174,
+              "model_id": "deepseek-flash"
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "branch": "run/p2/p2-n3-20261010T123808Z/B",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "1a3c3e279cacef263a88d64b0c48a3593e7b8c10",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "session_id": "session-73558fd8e0d6492a86bd63f99a277ff9",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..8cecce3 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,11 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    total_weight = 0\n+    weighted_sum = 0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must not be negative\")\n+        weighted_sum += value * weight\n+        total_weight += weight\n+    if total_weight == 0:\n+        raise ValueError(\"total weight must be non-zero\")\n+    return weighted_sum / total_weight",
+          "source": "def weighted_mean(pairs):\n    total_weight = 0\n    weighted_sum = 0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must not be negative\")\n        weighted_sum += value * weight\n        total_weight += weight\n    if total_weight == 0:\n        raise ValueError(\"total weight must be non-zero\")\n    return weighted_sum / total_weight\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.152144,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 7704,
+            "cache_read_input_tokens": 38400,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 746
+          },
+          "request_count": 6,
+          "api_peak_upper_bound_usd": 0.0147264,
+          "timeline": {
+            "started_at_seconds": 0.0010518670000010388,
+            "time_to_first_patch": 5.511289692999995,
+            "time_to_first_test_pass": 5.6712049310000054,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 9.183049213000004,
+            "candidate_wall_seconds": 9.181998762999996
+          },
+          "queue_seconds": 0.0010518670000010388,
+          "api_seconds_sum": 6.022589,
+          "non_api_residual_seconds": 3.1594097629999958,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "verification_seconds": 0.613858,
+          "outer_retries": 0,
+          "retries_observed": 0,
+          "bundle_sha256": "7f0b3e42e20c1fa5d1a67155b2430ce641a1345f69dab0a8ca6b85c8162b788a",
+          "working_tree": "",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "isolation": {
+            "verdict": "PASS",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "denied_read_write_checks": 20,
+            "effective_capabilities_hex": "0000000000000000"
+          },
+          "api_timing": [
+            {
+              "index": 7,
+              "http_status": 200,
+              "elapsed_seconds": 0.798306,
+              "first_delta_seconds": 0.322664,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 10,
+              "http_status": 200,
+              "elapsed_seconds": 1.0909,
+              "first_delta_seconds": 0.389441,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 13,
+              "http_status": 200,
+              "elapsed_seconds": 1.161332,
+              "first_delta_seconds": 0.261694,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 16,
+              "http_status": 200,
+              "elapsed_seconds": 0.710368,
+              "first_delta_seconds": 0.19545,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 17,
+              "http_status": 200,
+              "elapsed_seconds": 0.810841,
+              "first_delta_seconds": 0.243716,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 20,
+              "http_status": 200,
+              "elapsed_seconds": 1.450842,
+              "first_delta_seconds": 0.408605,
+              "model_id": "deepseek-flash"
+            }
+          ]
+        },
+        {
+          "id": "C",
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "branch": "run/p2/p2-n3-20261010T123808Z/C",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "a0606b0aaa0d35af997a99f5a6f74ae430024c2c",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "session_id": "session-c3034d787b1a4ac3b6ad2bd5004c708c",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..4ca9a52 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,11 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    weighted_total = 0.0\n+    weight_total = 0.0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        weighted_total += value * weight\n+        weight_total += weight\n+    if weight_total == 0:\n+        raise ValueError(\"total weight must be non-zero\")\n+    return weighted_total / weight_total",
+          "source": "def weighted_mean(pairs):\n    weighted_total = 0.0\n    weight_total = 0.0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        weighted_total += value * weight\n        weight_total += weight\n    if weight_total == 0:\n        raise ValueError(\"total weight must be non-zero\")\n    return weighted_total / weight_total\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.158575,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 7620,
+            "cache_read_input_tokens": 39680,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 1090
+          },
+          "request_count": 6,
+          "api_peak_upper_bound_usd": 0.015498,
+          "timeline": {
+            "started_at_seconds": 0.0017544770000057497,
+            "time_to_first_patch": 6.5129407860000015,
+            "time_to_first_test_pass": 6.6706418189999965,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 10.690942312000004,
+            "candidate_wall_seconds": 10.689188406
+          },
+          "queue_seconds": 0.0017544770000057497,
+          "api_seconds_sum": 7.416936,
+          "non_api_residual_seconds": 3.272252406,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "verification_seconds": 0.642385,
+          "outer_retries": 0,
+          "retries_observed": 0,
+          "bundle_sha256": "693871227aa7f31674b4809f374c355d4e5765a99403793cee126f076b8e85ab",
+          "working_tree": "",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "isolation": {
+            "verdict": "PASS",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "denied_read_write_checks": 20,
+            "effective_capabilities_hex": "0000000000000000"
+          },
+          "api_timing": [
+            {
+              "index": 9,
+              "http_status": 200,
+              "elapsed_seconds": 1.331578,
+              "first_delta_seconds": 0.335159,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 12,
+              "http_status": 200,
+              "elapsed_seconds": 0.898474,
+              "first_delta_seconds": 0.251881,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 14,
+              "http_status": 200,
+              "elapsed_seconds": 1.72239,
+              "first_delta_seconds": 0.312661,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 18,
+              "http_status": 200,
+              "elapsed_seconds": 1.256878,
+              "first_delta_seconds": 0.261573,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 21,
+              "http_status": 200,
+              "elapsed_seconds": 0.997226,
+              "first_delta_seconds": 0.229376,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 23,
+              "http_status": 200,
+              "elapsed_seconds": 1.21039,
+              "first_delta_seconds": 0.355311,
+              "model_id": "deepseek-flash"
+            }
+          ]
+        }
+      ],
+      "failure_report": {
+        "status": "PASS",
+        "successful_candidates": [
+          "A",
+          "B",
+          "C"
+        ],
+        "all_failed": false,
+        "infrastructure_failures": [],
+        "failures": [],
+        "common_defects": "See frozen test failures; no model diagnosis has been inferred",
+        "next_action": "Review passing candidates",
+        "best_failure_is_success": false
+      }
+    },
+    {
+      "run_id": "p2-n4-20261010T123838Z",
+      "n": 4,
+      "concurrency": 2,
+      "elapsed_seconds": 21.520290604999985,
+      "total_elapsed_seconds": 22.515733463999993,
+      "pool_hash": "fb6538f36b8b7949c63ca2402dec3c82d7d317d2199c5a21f118943076eca8f8",
+      "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+      "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+      "task_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+      "candidates": [
+        {
+          "id": "A",
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "branch": "run/p2/p2-n4-20261010T123838Z/A",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "ad80e3c6c6ce4fe71610517f006ae2fe2f0106ab",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "session_id": "session-36e9da214ba349fa87f8f765cdf974c6",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..7f7eeed 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,11 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    total = 0\n+    total_weight = 0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        total += value * weight\n+        total_weight += weight\n+    if total_weight == 0:\n+        raise ValueError(\"total weight must be non-zero\")\n+    return total / total_weight",
+          "source": "def weighted_mean(pairs):\n    total = 0\n    total_weight = 0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        total += value * weight\n        total_weight += weight\n    if total_weight == 0:\n        raise ValueError(\"total weight must be non-zero\")\n    return total / total_weight\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.154021,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 7666,
+            "cache_read_input_tokens": 39296,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 1073
+          },
+          "request_count": 6,
+          "api_peak_upper_bound_usd": 0.0153762,
+          "timeline": {
+            "started_at_seconds": 7.02109999934919e-05,
+            "time_to_first_patch": 6.022427757000003,
+            "time_to_first_test_pass": 6.196047211999996,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 10.205445914000009,
+            "candidate_wall_seconds": 10.205376364000017
+          },
+          "queue_seconds": 7.02109999934919e-05,
+          "api_seconds_sum": 7.225562,
+          "non_api_residual_seconds": 2.979814364000017,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "verification_seconds": 0.606819,
+          "outer_retries": 0,
+          "retries_observed": 0,
+          "bundle_sha256": "b94d7d6385422dbcf72b884a4188a6c07a93c2a204e1ab63b72bea55188aa77b",
+          "working_tree": "",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "isolation": {
+            "verdict": "PASS",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "denied_read_write_checks": 28,
+            "effective_capabilities_hex": "0000000000000000"
+          },
+          "api_timing": [
+            {
+              "index": 26,
+              "http_status": 200,
+              "elapsed_seconds": 1.148792,
+              "first_delta_seconds": 0.301513,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 28,
+              "http_status": 200,
+              "elapsed_seconds": 0.972255,
+              "first_delta_seconds": 0.194876,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 29,
+              "http_status": 200,
+              "elapsed_seconds": 1.580721,
+              "first_delta_seconds": 0.254638,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 32,
+              "http_status": 200,
+              "elapsed_seconds": 0.860346,
+              "first_delta_seconds": 0.199278,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 34,
+              "http_status": 200,
+              "elapsed_seconds": 1.342571,
+              "first_delta_seconds": 0.505107,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 35,
+              "http_status": 200,
+              "elapsed_seconds": 1.320877,
+              "first_delta_seconds": 0.714119,
+              "model_id": "deepseek-flash"
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "branch": "run/p2/p2-n4-20261010T123838Z/B",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "32803cb8e71431efa8e84c1fd4208dbf1f4f2d71",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "session_id": "session-a3f2b7ee2f254e16aca76f709366fd5f",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..4589e8f 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,11 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    total_weight = 0\n+    weighted_sum = 0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        weighted_sum += value * weight\n+        total_weight += weight\n+    if total_weight == 0:\n+        raise ValueError(\"total weight must be non-zero\")\n+    return weighted_sum / total_weight",
+          "source": "def weighted_mean(pairs):\n    total_weight = 0\n    weighted_sum = 0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        weighted_sum += value * weight\n        total_weight += weight\n    if total_weight == 0:\n        raise ValueError(\"total weight must be non-zero\")\n    return weighted_sum / total_weight\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.15212,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 7587,
+            "cache_read_input_tokens": 30848,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 647
+          },
+          "request_count": 5,
+          "api_peak_upper_bound_usd": 0.0123069,
+          "timeline": {
+            "started_at_seconds": 0.0009939079999981004,
+            "time_to_first_patch": 5.017871502999995,
+            "time_to_first_test_pass": 5.194631615000006,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 8.704793009,
+            "candidate_wall_seconds": 8.703800063000003
+          },
+          "queue_seconds": 0.0009939079999981004,
+          "api_seconds_sum": 5.8713630000000006,
+          "non_api_residual_seconds": 2.832437063000002,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "verification_seconds": 0.605203,
+          "outer_retries": 0,
+          "retries_observed": 0,
+          "bundle_sha256": "8386a9fd99d441453be79da9d9a4f0980a098074d573a0cb47b87047aa33ac89",
+          "working_tree": "",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "isolation": {
+            "verdict": "PASS",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "denied_read_write_checks": 28,
+            "effective_capabilities_hex": "0000000000000000"
+          },
+          "api_timing": [
+            {
+              "index": 25,
+              "http_status": 200,
+              "elapsed_seconds": 0.940198,
+              "first_delta_seconds": 0.300817,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 27,
+              "http_status": 200,
+              "elapsed_seconds": 1.614292,
+              "first_delta_seconds": 0.645809,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 30,
+              "http_status": 200,
+              "elapsed_seconds": 0.867776,
+              "first_delta_seconds": 0.220842,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 31,
+              "http_status": 200,
+              "elapsed_seconds": 1.112247,
+              "first_delta_seconds": 0.215936,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 33,
+              "http_status": 200,
+              "elapsed_seconds": 1.33685,
+              "first_delta_seconds": 0.529033,
+              "model_id": "deepseek-flash"
+            }
+          ]
+        },
+        {
+          "id": "C",
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "branch": "run/p2/p2-n4-20261010T123838Z/C",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "1c7c5791ee76863e2c25b137ed245d899030120e",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "session_id": "session-8d18c32b326e42f48e72710fb3b77df9",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..4589e8f 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,11 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    total_weight = 0\n+    weighted_sum = 0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        weighted_sum += value * weight\n+        total_weight += weight\n+    if total_weight == 0:\n+        raise ValueError(\"total weight must be non-zero\")\n+    return weighted_sum / total_weight",
+          "source": "def weighted_mean(pairs):\n    total_weight = 0\n    weighted_sum = 0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        weighted_sum += value * weight\n        total_weight += weight\n    if total_weight == 0:\n        raise ValueError(\"total weight must be non-zero\")\n    return weighted_sum / total_weight\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.149277,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 7700,
+            "cache_read_input_tokens": 39040,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 979
+          },
+          "request_count": 6,
+          "api_peak_upper_bound_usd": 0.0151968,
+          "timeline": {
+            "started_at_seconds": 8.70482989700001,
+            "time_to_first_patch": 5.513879246999977,
+            "time_to_first_test_pass": 5.669845465999998,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 17.38385455999999,
+            "candidate_wall_seconds": 8.679025122999974
+          },
+          "queue_seconds": 8.70482989700001,
+          "api_seconds_sum": 6.199228,
+          "non_api_residual_seconds": 2.4797971229999742,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "verification_seconds": 0.603339,
+          "outer_retries": 0,
+          "retries_observed": 0,
+          "bundle_sha256": "95cf278ce56b52c888ed764775c0a795898888379a739d36356f2271b0e94a1f",
+          "working_tree": "",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "isolation": {
+            "verdict": "PASS",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "denied_read_write_checks": 28,
+            "effective_capabilities_hex": "0000000000000000"
+          },
+          "api_timing": [
+            {
+              "index": 36,
+              "http_status": 200,
+              "elapsed_seconds": 0.810433,
+              "first_delta_seconds": 0.156778,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 37,
+              "http_status": 200,
+              "elapsed_seconds": 0.998899,
+              "first_delta_seconds": 0.185928,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 39,
+              "http_status": 200,
+              "elapsed_seconds": 1.260502,
+              "first_delta_seconds": 0.216999,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 41,
+              "http_status": 200,
+              "elapsed_seconds": 0.848435,
+              "first_delta_seconds": 0.218246,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 43,
+              "http_status": 200,
+              "elapsed_seconds": 0.833094,
+              "first_delta_seconds": 0.187502,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 45,
+              "http_status": 200,
+              "elapsed_seconds": 1.447865,
+              "first_delta_seconds": 0.193908,
+              "model_id": "deepseek-flash"
+            }
+          ]
+        },
+        {
+          "id": "D",
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "branch": "run/p2/p2-n4-20261010T123838Z/D",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "c88bf754ff5d84ed59fc2a1bbd0f56fb169a1fa6",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "session_id": "session-b8b6de400c96449dbc224d1bd115c97a",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..900a16b 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,11 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    total_weight = 0.0\n+    weighted_sum = 0.0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        weighted_sum += value * weight\n+        total_weight += weight\n+    if total_weight == 0:\n+        raise ValueError(\"total weight must be non-zero\")\n+    return weighted_sum / total_weight",
+          "source": "def weighted_mean(pairs):\n    total_weight = 0.0\n    weighted_sum = 0.0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        weighted_sum += value * weight\n        total_weight += weight\n    if total_weight == 0:\n        raise ValueError(\"total weight must be non-zero\")\n    return weighted_sum / total_weight\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.150645,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 7635,
+            "cache_read_input_tokens": 38400,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 813
+          },
+          "request_count": 6,
+          "api_peak_upper_bound_usd": 0.0147861,
+          "timeline": {
+            "started_at_seconds": 10.205487380999998,
+            "time_to_first_patch": 5.5172823730000005,
+            "time_to_first_test_pass": 5.673760162000008,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 18.886895325999987,
+            "candidate_wall_seconds": 8.681408500999993
+          },
+          "queue_seconds": 10.205487380999998,
+          "api_seconds_sum": 5.937735,
+          "non_api_residual_seconds": 2.743673500999993,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "verification_seconds": 0.610162,
+          "outer_retries": 0,
+          "retries_observed": 0,
+          "bundle_sha256": "f3090f2399406a1c718f15042dbef47f4879b8cfe4716fbc31a474f066e789e7",
+          "working_tree": "",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "isolation": {
+            "verdict": "PASS",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "denied_read_write_checks": 28,
+            "effective_capabilities_hex": "0000000000000000"
+          },
+          "api_timing": [
+            {
+              "index": 38,
+              "http_status": 200,
+              "elapsed_seconds": 0.9158,
+              "first_delta_seconds": 0.189907,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 40,
+              "http_status": 200,
+              "elapsed_seconds": 0.960217,
+              "first_delta_seconds": 0.254479,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 42,
+              "http_status": 200,
+              "elapsed_seconds": 1.431776,
+              "first_delta_seconds": 0.178387,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 44,
+              "http_status": 200,
+              "elapsed_seconds": 0.575724,
+              "first_delta_seconds": 0.192079,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 46,
+              "http_status": 200,
+              "elapsed_seconds": 0.840353,
+              "first_delta_seconds": 0.181543,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 47,
+              "http_status": 200,
+              "elapsed_seconds": 1.213865,
+              "first_delta_seconds": 0.171383,
+              "model_id": "deepseek-flash"
+            }
+          ]
+        }
+      ],
+      "failure_report": {
+        "status": "PASS",
+        "successful_candidates": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ],
+        "all_failed": false,
+        "infrastructure_failures": [],
+        "failures": [],
+        "common_defects": "See frozen test failures; no model diagnosis has been inferred",
+        "next_action": "Review passing candidates",
+        "best_failure_is_success": false
+      }
+    },
+    {
+      "run_id": "p2-n5-20261010T124001Z",
+      "n": 5,
+      "concurrency": 5,
+      "elapsed_seconds": 15.15326325800001,
+      "total_elapsed_seconds": 16.145412508999982,
+      "pool_hash": "488bdc4bf6bef558b1e65a4b7ef157c1bbe2cac58428a7963872396f040e9b82",
+      "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+      "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+      "task_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+      "candidates": [
+        {
+          "id": "A",
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "branch": "run/p2/p2-n5-20261010T124001Z/A",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "0653d7dce9606809ce58804c228d58b63e1cf0b4",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "session_id": "session-82cb059a3a984130ac5630a649a44847",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..c634a2d 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,13 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    weighted_sum = 0.0\n+    total_weight = 0.0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        weighted_sum += value * weight\n+        total_weight += weight\n+\n+    if total_weight == 0:\n+        raise ValueError(\"total weight must be non-zero\")\n+\n+    return weighted_sum / total_weight",
+          "source": "def weighted_mean(pairs):\n    weighted_sum = 0.0\n    total_weight = 0.0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        weighted_sum += value * weight\n        total_weight += weight\n\n    if total_weight == 0:\n        raise ValueError(\"total weight must be non-zero\")\n\n    return weighted_sum / total_weight\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.174359,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 7694,
+            "cache_read_input_tokens": 39168,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 1027
+          },
+          "request_count": 6,
+          "api_peak_upper_bound_usd": 0.015291,
+          "timeline": {
+            "started_at_seconds": 5.984899999589288e-05,
+            "time_to_first_patch": 6.521718039999996,
+            "time_to_first_test_pass": 6.700470964999994,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 10.71090709500001,
+            "candidate_wall_seconds": 10.710848094
+          },
+          "queue_seconds": 5.984899999589288e-05,
+          "api_seconds_sum": 7.3191370000000004,
+          "non_api_residual_seconds": 3.391711093999999,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "verification_seconds": 0.649869,
+          "outer_retries": 0,
+          "retries_observed": 0,
+          "bundle_sha256": "8a36f690ea04d58679390a75e30b2870a479fb10327d2da031d1cd5abc09e57c",
+          "working_tree": "",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "isolation": {
+            "verdict": "PASS",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "denied_read_write_checks": 36,
+            "effective_capabilities_hex": "0000000000000000"
+          },
+          "api_timing": [
+            {
+              "index": 49,
+              "http_status": 200,
+              "elapsed_seconds": 0.973368,
+              "first_delta_seconds": 0.362122,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 54,
+              "http_status": 200,
+              "elapsed_seconds": 0.893296,
+              "first_delta_seconds": 0.290816,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 59,
+              "http_status": 200,
+              "elapsed_seconds": 1.418506,
+              "first_delta_seconds": 0.286546,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 63,
+              "http_status": 200,
+              "elapsed_seconds": 1.328305,
+              "first_delta_seconds": 0.340607,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 71,
+              "http_status": 200,
+              "elapsed_seconds": 1.190007,
+              "first_delta_seconds": 0.232127,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 76,
+              "http_status": 200,
+              "elapsed_seconds": 1.515655,
+              "first_delta_seconds": 0.258904,
+              "model_id": "deepseek-flash"
+            }
+          ]
+        },
+        {
+          "id": "B",
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "branch": "run/p2/p2-n5-20261010T124001Z/B",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "7cbbfa7ea1bfebab8fef4dad093b342f95edd85c",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "session_id": "session-bfea513c4dbe46ffa8d85d3715830e6d",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..4589e8f 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,11 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    total_weight = 0\n+    weighted_sum = 0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        weighted_sum += value * weight\n+        total_weight += weight\n+    if total_weight == 0:\n+        raise ValueError(\"total weight must be non-zero\")\n+    return weighted_sum / total_weight",
+          "source": "def weighted_mean(pairs):\n    total_weight = 0\n    weighted_sum = 0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        weighted_sum += value * weight\n        total_weight += weight\n    if total_weight == 0:\n        raise ValueError(\"total weight must be non-zero\")\n    return weighted_sum / total_weight\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.152285,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 7402,
+            "cache_read_input_tokens": 38784,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 820
+          },
+          "request_count": 6,
+          "api_peak_upper_bound_usd": 0.0148398,
+          "timeline": {
+            "started_at_seconds": 0.0010715340000047036,
+            "time_to_first_patch": 7.525197738000003,
+            "time_to_first_test_pass": 7.684528741999998,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 11.702762481000008,
+            "candidate_wall_seconds": 11.701691457999999
+          },
+          "queue_seconds": 0.0010715340000047036,
+          "api_seconds_sum": 7.953347,
+          "non_api_residual_seconds": 3.748344457999999,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "verification_seconds": 0.627663,
+          "outer_retries": 0,
+          "retries_observed": 0,
+          "bundle_sha256": "129c53fc10affd764628b320d953328179a6ce13b8e52f25eee7bc9aafc53713",
+          "working_tree": "",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "isolation": {
+            "verdict": "PASS",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "denied_read_write_checks": 36,
+            "effective_capabilities_hex": "0000000000000000"
+          },
+          "api_timing": [
+            {
+              "index": 50,
+              "http_status": 200,
+              "elapsed_seconds": 1.045825,
+              "first_delta_seconds": 0.391737,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 55,
+              "http_status": 200,
+              "elapsed_seconds": 0.833593,
+              "first_delta_seconds": 0.264784,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 58,
+              "http_status": 200,
+              "elapsed_seconds": 2.29249,
+              "first_delta_seconds": 0.325145,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 67,
+              "http_status": 200,
+              "elapsed_seconds": 1.170851,
+              "first_delta_seconds": 0.581319,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 72,
+              "http_status": 200,
+              "elapsed_seconds": 1.353438,
+              "first_delta_seconds": 0.336714,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 77,
+              "http_status": 200,
+              "elapsed_seconds": 1.25715,
+              "first_delta_seconds": 0.422929,
+              "model_id": "deepseek-flash"
+            }
+          ]
+        },
+        {
+          "id": "C",
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "branch": "run/p2/p2-n5-20261010T124001Z/C",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "24a4c32578d8c52768ea0c9ef2f4a462cadb65ac",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "session_id": "session-a8058c562b61446d9cccf3386a14871c",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..4589e8f 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,11 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    total_weight = 0\n+    weighted_sum = 0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        weighted_sum += value * weight\n+        total_weight += weight\n+    if total_weight == 0:\n+        raise ValueError(\"total weight must be non-zero\")\n+    return weighted_sum / total_weight",
+          "source": "def weighted_mean(pairs):\n    total_weight = 0\n    weighted_sum = 0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        weighted_sum += value * weight\n        total_weight += weight\n    if total_weight == 0:\n        raise ValueError(\"total weight must be non-zero\")\n    return weighted_sum / total_weight\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.158557,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 7617,
+            "cache_read_input_tokens": 38528,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 767
+          },
+          "request_count": 6,
+          "api_peak_upper_bound_usd": 0.0147639,
+          "timeline": {
+            "started_at_seconds": 0.0017171490000009726,
+            "time_to_first_patch": 6.520979444999995,
+            "time_to_first_test_pass": 6.705220679000007,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 10.715717900000016,
+            "candidate_wall_seconds": 10.714001150000001
+          },
+          "queue_seconds": 0.0017171490000009726,
+          "api_seconds_sum": 6.914785,
+          "non_api_residual_seconds": 3.7992161500000012,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "verification_seconds": 0.642892,
+          "outer_retries": 0,
+          "retries_observed": 0,
+          "bundle_sha256": "3990933bbd3f3727ab37d43a087d58507d446e486f8d4c9b931863a410fcd59a",
+          "working_tree": "",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "isolation": {
+            "verdict": "PASS",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "denied_read_write_checks": 36,
+            "effective_capabilities_hex": "0000000000000000"
+          },
+          "api_timing": [
+            {
+              "index": 48,
+              "http_status": 200,
+              "elapsed_seconds": 1.101078,
+              "first_delta_seconds": 0.380274,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 57,
+              "http_status": 200,
+              "elapsed_seconds": 1.069427,
+              "first_delta_seconds": 0.350773,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 62,
+              "http_status": 200,
+              "elapsed_seconds": 1.243746,
+              "first_delta_seconds": 0.277133,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 65,
+              "http_status": 200,
+              "elapsed_seconds": 0.865966,
+              "first_delta_seconds": 0.426646,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 69,
+              "http_status": 200,
+              "elapsed_seconds": 1.138814,
+              "first_delta_seconds": 0.418188,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 73,
+              "http_status": 200,
+              "elapsed_seconds": 1.495754,
+              "first_delta_seconds": 0.340047,
+              "model_id": "deepseek-flash"
+            }
+          ]
+        },
+        {
+          "id": "D",
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "branch": "run/p2/p2-n5-20261010T124001Z/D",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "7f87c19b17e462abda49bfd1145caf96e2383a1e",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "session_id": "session-1914df7691e64f869426562f012a9f91",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..4589e8f 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,11 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    total_weight = 0\n+    weighted_sum = 0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        weighted_sum += value * weight\n+        total_weight += weight\n+    if total_weight == 0:\n+        raise ValueError(\"total weight must be non-zero\")\n+    return weighted_sum / total_weight",
+          "source": "def weighted_mean(pairs):\n    total_weight = 0\n    weighted_sum = 0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        weighted_sum += value * weight\n        total_weight += weight\n    if total_weight == 0:\n        raise ValueError(\"total weight must be non-zero\")\n    return weighted_sum / total_weight\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.151644,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 7493,
+            "cache_read_input_tokens": 38912,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 875
+          },
+          "request_count": 6,
+          "api_peak_upper_bound_usd": 0.0149715,
+          "timeline": {
+            "started_at_seconds": 0.0023864739999908124,
+            "time_to_first_patch": 6.521105333000008,
+            "time_to_first_test_pass": 6.702676918999998,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 10.712259595000006,
+            "candidate_wall_seconds": 10.709873591000019
+          },
+          "queue_seconds": 0.0023864739999908124,
+          "api_seconds_sum": 6.919555,
+          "non_api_residual_seconds": 3.7903185910000188,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "verification_seconds": 0.620837,
+          "outer_retries": 0,
+          "retries_observed": 0,
+          "bundle_sha256": "7ea9849ee7d2ecf9f531b0d84f1354c65d2b1720ba985b4a314507f19061a1a9",
+          "working_tree": "",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "isolation": {
+            "verdict": "PASS",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "denied_read_write_checks": 36,
+            "effective_capabilities_hex": "0000000000000000"
+          },
+          "api_timing": [
+            {
+              "index": 51,
+              "http_status": 200,
+              "elapsed_seconds": 0.836935,
+              "first_delta_seconds": 0.369094,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 53,
+              "http_status": 200,
+              "elapsed_seconds": 1.261706,
+              "first_delta_seconds": 0.245304,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 61,
+              "http_status": 200,
+              "elapsed_seconds": 1.252303,
+              "first_delta_seconds": 0.270512,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 64,
+              "http_status": 200,
+              "elapsed_seconds": 0.834854,
+              "first_delta_seconds": 0.307608,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 68,
+              "http_status": 200,
+              "elapsed_seconds": 1.258994,
+              "first_delta_seconds": 0.473248,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 74,
+              "http_status": 200,
+              "elapsed_seconds": 1.474763,
+              "first_delta_seconds": 0.271446,
+              "model_id": "deepseek-flash"
+            }
+          ]
+        },
+        {
+          "id": "E",
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "branch": "run/p2/p2-n5-20261010T124001Z/E",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "2387721b00c11af0e939e7d27b9540f830455c74",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "session_id": "session-5a3365663f8a48d4b0966ae3e69dff71",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..b3d6ebb 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,11 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    weighted_sum = 0.0\n+    total_weight = 0.0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        weighted_sum += value * weight\n+        total_weight += weight\n+    if total_weight == 0:\n+        raise ValueError(\"total weight must be non-zero\")\n+    return weighted_sum / total_weight",
+          "source": "def weighted_mean(pairs):\n    weighted_sum = 0.0\n    total_weight = 0.0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        weighted_sum += value * weight\n        total_weight += weight\n    if total_weight == 0:\n        raise ValueError(\"total weight must be non-zero\")\n    return weighted_sum / total_weight\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.151312,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 7636,
+            "cache_read_input_tokens": 38912,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 879
+          },
+          "request_count": 6,
+          "api_peak_upper_bound_usd": 0.0150192,
+          "timeline": {
+            "started_at_seconds": 0.0029274759999964317,
+            "time_to_first_patch": 6.521597533999994,
+            "time_to_first_test_pass": 6.704191331000004,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 10.715889707000002,
+            "candidate_wall_seconds": 10.712962680999993
+          },
+          "queue_seconds": 0.0029274759999964317,
+          "api_seconds_sum": 6.897732,
+          "non_api_residual_seconds": 3.815230680999993,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "verification_seconds": 0.602151,
+          "outer_retries": 0,
+          "retries_observed": 0,
+          "bundle_sha256": "6afd419d80ea988b3ec250dc4639172521229899293c8d8c7a7feb79ac08b90e",
+          "working_tree": "",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "isolation": {
+            "verdict": "PASS",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "denied_read_write_checks": 36,
+            "effective_capabilities_hex": "0000000000000000"
+          },
+          "api_timing": [
+            {
+              "index": 52,
+              "http_status": 200,
+              "elapsed_seconds": 1.030836,
+              "first_delta_seconds": 0.31861,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 56,
+              "http_status": 200,
+              "elapsed_seconds": 0.907708,
+              "first_delta_seconds": 0.367348,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 60,
+              "http_status": 200,
+              "elapsed_seconds": 1.448034,
+              "first_delta_seconds": 0.303676,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 66,
+              "http_status": 200,
+              "elapsed_seconds": 0.982161,
+              "first_delta_seconds": 0.760829,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 70,
+              "http_status": 200,
+              "elapsed_seconds": 1.135478,
+              "first_delta_seconds": 0.291208,
+              "model_id": "deepseek-flash"
+            },
+            {
+              "index": 75,
+              "http_status": 200,
+              "elapsed_seconds": 1.393515,
+              "first_delta_seconds": 0.232211,
+              "model_id": "deepseek-flash"
+            }
+          ]
+        }
+      ],
+      "failure_report": {
+        "status": "PASS",
+        "successful_candidates": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E"
+        ],
+        "all_failed": false,
+        "infrastructure_failures": [],
+        "failures": [],
+        "common_defects": "See frozen test failures; no model diagnosis has been inferred",
+        "next_action": "Review passing candidates",
+        "best_failure_is_success": false
+      }
+    }
+  ],
+  "judge_attempts": [
+    {
+      "run_id": "p2-judge-20261010T124146Z",
+      "verdict": "INFRA_FAIL",
+      "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+      "elapsed_seconds": 59.839584830999996,
+      "judges": [
+        {
+          "judge": "J0",
+          "algorithm": "frozen-tests-stable-id-tie-break",
+          "status": "COMPLETED",
+          "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "026fdf12f763984b67f236261b237a5b430c1a36376ece376f41f0fd86593c5c",
+          "ranking": [
+            "A",
+            "B",
+            "C"
+          ],
+          "scores": {
+            "A": 1,
+            "B": 1,
+            "C": 1
+          },
+          "raw_selected": "A",
+          "eligible_selected": "A",
+          "human_review_required": true,
+          "api_bill_usd": "unavailable",
+          "elapsed_seconds": 4.568000000482186e-06,
+          "tokens": "not_applicable",
+          "api_cash_usd": 0
+        },
+        {
+          "judge": "J2",
+          "status": "BLOCKED_CREDENTIAL",
+          "reason": "No authorized Jev credential or Jev-specific budget; no request sent",
+          "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "026fdf12f763984b67f236261b237a5b430c1a36376ece376f41f0fd86593c5c",
+          "eligible_selected": null,
+          "human_review_required": true,
+          "requests": 0
+        },
+        {
+          "judge": "J3",
+          "status": "INFRA_FAIL",
+          "reason": "HarnessUnrecoverable: Command 'codex app-server' returned non-zero exit status 1. app server stopped mid-turn",
+          "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "026fdf12f763984b67f236261b237a5b430c1a36376ece376f41f0fd86593c5c",
+          "eligible_selected": null,
+          "human_review_required": true,
+          "requests": 0
+        },
+        {
+          "judge": "J1",
+          "status": "BLOCKED_LOGPROBS",
+          "reason": "ValueError: BLOCKED_LOGPROBS: no score-position distribution",
+          "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "026fdf12f763984b67f236261b237a5b430c1a36376ece376f41f0fd86593c5c",
+          "eligible_selected": null,
+          "human_review_required": true,
+          "requests": 0
+        }
+      ]
+    },
+    {
+      "run_id": "p2-judge-20261010T124428Z",
+      "verdict": "PASS",
+      "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+      "elapsed_seconds": 74.567872319,
+      "judges": [
+        {
+          "judge": "J0",
+          "algorithm": "frozen-tests-stable-id-tie-break",
+          "status": "COMPLETED",
+          "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "026fdf12f763984b67f236261b237a5b430c1a36376ece376f41f0fd86593c5c",
+          "ranking": [
+            "A",
+            "B",
+            "C"
+          ],
+          "scores": {
+            "A": 1,
+            "B": 1,
+            "C": 1
+          },
+          "raw_selected": "A",
+          "eligible_selected": "A",
+          "human_review_required": true,
+          "api_bill_usd": "unavailable",
+          "elapsed_seconds": 3.95700000055399e-06,
+          "tokens": "not_applicable",
+          "api_cash_usd": 0
+        },
+        {
+          "judge": "J2",
+          "status": "BLOCKED_CREDENTIAL",
+          "reason": "No authorized Jev credential or Jev-specific budget; no request sent",
+          "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "026fdf12f763984b67f236261b237a5b430c1a36376ece376f41f0fd86593c5c",
+          "eligible_selected": null,
+          "human_review_required": true,
+          "requests": 0
+        },
+        {
+          "judge": "J3",
+          "algorithm": "Sol-independent-structured-rubric-not-logprobs",
+          "status": "COMPLETED",
+          "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "026fdf12f763984b67f236261b237a5b430c1a36376ece376f41f0fd86593c5c",
+          "ranking": [
+            "A",
+            "B",
+            "C"
+          ],
+          "scores": {
+            "A": {
+              "correctness": 4,
+              "robustness": 4,
+              "maintainability": 4
+            },
+            "B": {
+              "correctness": 4,
+              "robustness": 4,
+              "maintainability": 4
+            },
+            "C": {
+              "correctness": 4,
+              "robustness": 3,
+              "maintainability": 4
+            }
+          },
+          "raw_selected": "A",
+          "eligible_selected": "A",
+          "human_review_required": true,
+          "api_bill_usd": "unavailable",
+          "elapsed_seconds": 23.137860579,
+          "model_id": "gpt-6.1-sol",
+          "judgment": {
+            "candidates": [
+              {
+                "id": "A",
+                "correctness": 4,
+                "robustness": 4,
+                "maintainability": 4,
+                "evidence": [
+                  "Frozen test report passes all 7 tests, covering weighting, generators, negative weights, empty input, zero total weight, fractional weights, and individual zero weights.",
+                  "Code computes sum(value * weight) / sum(weight) in one pass and raises ValueError for negative weights and zero total weight.",
+                  "Integer-initialized accumulators avoid unnecessary float coercion; the docstring clearly documents the formula, iterable support, and errors."
+                ]
+              },
+              {
+                "id": "B",
+                "correctness": 4,
+                "robustness": 4,
+                "maintainability": 4,
+                "evidence": [
+                  "Frozen test report passes all 7 tests with the same suite SHA-256 as A and C.",
+                  "Code uses the same single-pass calculation and validation as A, with integer-initialized accumulators.",
+                  "The implementation is concise and clearly named, although it lacks A's explanatory docstring."
+                ]
+              },
+              {
+                "id": "C",
+                "correctness": 4,
+                "robustness": 3,
+                "maintainability": 4,
+                "evidence": [
+                  "Frozen test report passes all 7 tests, satisfying the tested acceptance requirements.",
+                  "Code correctly implements the weighted formula, processes generators once, and rejects negative weights and zero total weight.",
+                  "Initializing both accumulators to 0.0 introduces unnecessary float coercion: Decimal inputs fail during addition, and sufficiently large integer products can overflow when added to a float.",
+                  "The implementation remains concise, readable, and straightforward to maintain."
+                ]
+              }
+            ],
+            "ranking": [
+              "A",
+              "B",
+              "C"
+            ],
+            "rationale": "All candidates pass frozen hard acceptance. A ranks first for its explicit contract documentation; B is functionally equivalent and equally strong on the scored dimensions. C ranks last because float-initialized accumulators reduce numeric robustness. Scores use the supplied frozen tests and code evidence; no code was modified."
+          },
+          "session_id": "01a125d7-e97a-7a70-b452-d9babab7f2c5",
+          "subscription_cost_usd": "unavailable",
+          "subscription_api_cash_usd": 0,
+          "isolation": {
+            "/opt/workbench/state/codex/sessions/p2-judge-isolation-p2-judge-20261010T124428Z": "DENIED",
+            "candidate_write": "DENIED"
+          },
+          "usage": [
+            {
+              "session_id": "01a125d7-e97a-7a70-b452-d9babab7f2c5",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 12704,
+                "cached_input_tokens": 0,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 506,
+                "reasoning_output_tokens": 117,
+                "total_tokens": 13210
+              }
+            }
+          ]
+        },
+        {
+          "judge": "J1",
+          "status": "BLOCKED_LOGPROBS",
+          "reason": "ValueError: BLOCKED_LOGPROBS: no score-position distribution",
+          "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "026fdf12f763984b67f236261b237a5b430c1a36376ece376f41f0fd86593c5c",
+          "eligible_selected": null,
+          "human_review_required": true,
+          "requests": 3,
+          "probability_evidence": [
+            {
+              "response_sha256": "c420c6c050684bc980e17e6227131a9cf5d67f8544757a09c9ff5c4d450fed28",
+              "score_token_probability_mass": {
+                "<score_A>": 0.9999999623915089,
+                "<score_B>": 1.0000000666482536
+              },
+              "output_positions": 162,
+              "request_index": 81
+            },
+            {
+              "response_sha256": "c9ca328bb7045aa8b210dddcbad65337528aad17a14807520dea5fbdd2b7ec07",
+              "score_token_probability_mass": {
+                "<score_A>": 1.0000000286573183,
+                "<score_B>": 0.9999999384882065
+              },
+              "output_positions": 134,
+              "request_index": 83
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "p2-judge-20261010T124720Z",
+      "verdict": "PASS",
+      "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+      "elapsed_seconds": 12.027817456000008,
+      "judges": [
+        {
+          "judge": "J0",
+          "algorithm": "frozen-tests-stable-id-tie-break",
+          "status": "COMPLETED",
+          "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "026fdf12f763984b67f236261b237a5b430c1a36376ece376f41f0fd86593c5c",
+          "ranking": [
+            "A",
+            "B",
+            "C"
+          ],
+          "scores": {
+            "A": 1,
+            "B": 1,
+            "C": 1
+          },
+          "raw_selected": "A",
+          "eligible_selected": "A",
+          "human_review_required": true,
+          "api_bill_usd": "unavailable",
+          "elapsed_seconds": 5.623999982162786e-06,
+          "tokens": "not_applicable",
+          "api_cash_usd": 0
+        },
+        {
+          "judge": "J2",
+          "status": "BLOCKED_CREDENTIAL",
+          "reason": "No authorized Jev credential or Jev-specific budget; no request sent",
+          "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "026fdf12f763984b67f236261b237a5b430c1a36376ece376f41f0fd86593c5c",
+          "eligible_selected": null,
+          "human_review_required": true,
+          "requests": 0
+        },
+        {
+          "judge": "J1",
+          "algorithm": "original-llm-verifier-0.3.0-PPT-logprob-expectation-K1",
+          "status": "COMPLETED",
+          "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "026fdf12f763984b67f236261b237a5b430c1a36376ece376f41f0fd86593c5c",
+          "ranking": [
+            "A",
+            "B",
+            "C"
+          ],
+          "scores": {
+            "A": 0.5099755566669952,
+            "B": 0.49539897675753863,
+            "C": 0.49130028101980106
+          },
+          "raw_selected": "A",
+          "eligible_selected": "A",
+          "human_review_required": true,
+          "api_bill_usd": "unavailable",
+          "source_commit": "90e8fc215606447d6d31e9e24bff7200fb0c0994",
+          "elapsed_seconds": 12.000475847000018,
+          "probability_evidence": [
+            {
+              "response_sha256": "8261a81757d218f0e3ad6d0f891b7829a08bd21334bfcb1dceaf0b109530460f",
+              "score_token_probability_mass": {
+                "<score_A>": 0.9999995508458254,
+                "<score_B>": 0.9999999599361129
+              },
+              "output_positions": 401,
+              "request_index": 84
+            },
+            {
+              "response_sha256": "583ed78aab6ff6d019cded13d7daf68af3d377277a873db0aa6b67937445a61c",
+              "score_token_probability_mass": {
+                "<score_A>": 0.9999557035100687,
+                "<score_B>": 0.9999999863073507
+              },
+              "output_positions": 371,
+              "request_index": 85
+            },
+            {
+              "response_sha256": "a2f83533b38296f3dfce0f1262bf96ddad975e237fe466a37c92cb4824ba06f7",
+              "score_token_probability_mass": {
+                "<score_A>": 0.9998934244609601,
+                "<score_B>": 0.9999995975388567
+              },
+              "output_positions": 401,
+              "request_index": 86
+            },
+            {
+              "response_sha256": "95f1a04ead73b9216b47e4499e84342166a0ee0ee514bcbb1371652281042a3b",
+              "score_token_probability_mass": {
+                "<score_A>": 0.999951547371647,
+                "<score_B>": 0.9999995717032325
+              },
+              "output_positions": 557,
+              "request_index": 87
+            }
+          ],
+          "n_comparisons": 5,
+          "requests": 4,
+          "cache_identity": "strict-v3-lav030-K1-p1-off-4096-a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3-7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a.json",
+          "configuration": {
+            "K": 1,
+            "pivots": 1,
+            "seed": 0,
+            "effort": "off",
+            "max_output": 4096
+          },
+          "note": "K1 smoke and compact evidence; full-trace sensitivity and benchmark accuracy remain P6"
+        }
+      ]
+    }
+  ],
+  "controlled_checks": [
+    {
+      "verdict": "PASS",
+      "kind": "ZERO_MODEL_INDEPENDENT_VERIFICATION",
+      "real_pools_replayed": [
+        {
+          "run_id": "p2-n1-20261010T123639Z",
+          "n": 1,
+          "pool_hash": "e190aa77723e7816581a218d96460d4ed5ea8d960e11e4c2654ce20665f9704f",
+          "peak_concurrent_candidates": 1,
+          "verdict": "PASS",
+          "cache_replay": "validated frozen result; no model regeneration"
+        },
+        {
+          "run_id": "p2-n3-20261010T123808Z",
+          "n": 3,
+          "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+          "peak_concurrent_candidates": 3,
+          "verdict": "PASS",
+          "cache_replay": "validated frozen result; no model regeneration"
+        },
+        {
+          "run_id": "p2-n4-20261010T123838Z",
+          "n": 4,
+          "pool_hash": "fb6538f36b8b7949c63ca2402dec3c82d7d317d2199c5a21f118943076eca8f8",
+          "peak_concurrent_candidates": 2,
+          "verdict": "PASS",
+          "cache_replay": "validated frozen result; no model regeneration"
+        },
+        {
+          "run_id": "p2-n5-20261010T124001Z",
+          "n": 5,
+          "pool_hash": "488bdc4bf6bef558b1e65a4b7ef157c1bbe2cac58428a7963872396f040e9b82",
+          "peak_concurrent_candidates": 5,
+          "verdict": "PASS",
+          "cache_replay": "validated frozen result; no model regeneration"
+        }
+      ],
+      "real_sessions": 13,
+      "controlled_failures": [
+        {
+          "run_id": "p2-control-mixed-20261010T124617Z",
+          "kind": "CONTROLLED_FAULT_INJECTION",
+          "pool_hash": "e86d850cd0b34d56ddcb207bc79bac8e45958bb9344a471b1f966a0b2ce5e3d7",
+          "expected": "PASS",
+          "observed": "PASS",
+          "eligible_selected": "A"
+        },
+        {
+          "run_id": "p2-control-all-failed-20261010T124617Z",
+          "kind": "CONTROLLED_FAULT_INJECTION",
+          "pool_hash": "0d3542bfc0c0c7f2e75c02d088fda4b242a91a672f1d9fdc88bdcd610eba6187",
+          "expected": "FAIL",
+          "observed": "FAIL",
+          "eligible_selected": null
+        },
+        {
+          "run_id": "p2-control-infrastructure-20261010T124617Z",
+          "kind": "CONTROLLED_FAULT_INJECTION",
+          "pool_hash": "603ba59d9ee19fc57675638e6fbf68756a633535071bb670e8305fb1d46082bf",
+          "expected": "INDETERMINATE",
+          "observed": "INDETERMINATE",
+          "eligible_selected": null
+        }
+      ],
+      "watchdog": {
+        "id": "A",
+        "worker": {
+          "status": "TIMEOUT"
+        },
+        "timeline": {
+          "started_at_seconds": 4.382999999563708e-05,
+          "time_to_first_patch": "unavailable",
+          "time_to_first_test_pass": "unavailable",
+          "observation_interval_seconds": 0.5,
+          "completed_at_seconds": 1.0360170109999984,
+          "candidate_wall_seconds": 1.0359743150000043
+        },
+        "queue_seconds": 4.382999999563708e-05
+      },
+      "real_ledger_sha256_before": "c13bafc870969aedb8ad54440ccc0aaac8d95726596a69086970890f9cfaafa1",
+      "real_ledger_sha256_after": "c13bafc870969aedb8ad54440ccc0aaac8d95726596a69086970890f9cfaafa1",
+      "model_requests_added": 0,
+      "elapsed_seconds": 13.722072158000003
+    },
+    {
+      "verdict": "PASS",
+      "kind": "OFFLINE_CONTRACT_AND_CACHE",
+      "custom_task_pool_hash": "5f9899cc020ff992cdb855a12e734952da2ff15615f7ba41b7158752b0c024f8",
+      "custom_task_run_id": "p2-control-custom-20261010T125143Z",
+      "from_empty_project": "PASS_OFFLINE_ONLY",
+      "missing_output_classification": "FAIL",
+      "cache_replay": {
+        "judge": "J1",
+        "algorithm": "original-llm-verifier-0.3.0-PPT-logprob-expectation-K1",
+        "status": "COMPLETED",
+        "pool_hash": "a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3",
+        "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+        "evidence_hash": "026fdf12f763984b67f236261b237a5b430c1a36376ece376f41f0fd86593c5c",
+        "ranking": [
+          "A",
+          "B",
+          "C"
+        ],
+        "scores": {
+          "A": 0.5099755566669952,
+          "B": 0.49539897675753863,
+          "C": 0.49130028101980106
+        },
+        "raw_selected": "A",
+        "eligible_selected": "A",
+        "human_review_required": true,
+        "api_bill_usd": "unavailable",
+        "source_commit": "90e8fc215606447d6d31e9e24bff7200fb0c0994",
+        "elapsed_seconds": 0.0021005590000005014,
+        "probability_evidence": [
+          {
+            "response_sha256": "8261a81757d218f0e3ad6d0f891b7829a08bd21334bfcb1dceaf0b109530460f",
+            "score_token_probability_mass": {
+              "<score_A>": 0.9999995508458254,
+              "<score_B>": 0.9999999599361129
+            },
+            "output_positions": 401,
+            "request_index": 84
+          },
+          {
+            "response_sha256": "583ed78aab6ff6d019cded13d7daf68af3d377277a873db0aa6b67937445a61c",
+            "score_token_probability_mass": {
+              "<score_A>": 0.9999557035100687,
+              "<score_B>": 0.9999999863073507
+            },
+            "output_positions": 371,
+            "request_index": 85
+          },
+          {
+            "response_sha256": "a2f83533b38296f3dfce0f1262bf96ddad975e237fe466a37c92cb4824ba06f7",
+            "score_token_probability_mass": {
+              "<score_A>": 0.9998934244609601,
+              "<score_B>": 0.9999995975388567
+            },
+            "output_positions": 401,
+            "request_index": 86
+          },
+          {
+            "response_sha256": "95f1a04ead73b9216b47e4499e84342166a0ee0ee514bcbb1371652281042a3b",
+            "score_token_probability_mass": {
+              "<score_A>": 0.999951547371647,
+              "<score_B>": 0.9999995717032325
+            },
+            "output_positions": 557,
+            "request_index": 87
+          }
+        ],
+        "n_comparisons": 5,
+        "requests": 0,
+        "cache_identity": "strict-v3-lav030-K1-p1-off-4096-a3da0f6827a7427ecca262073e4631fdb392cb332ea7cb2cb0a7edd0fc0d8fe3-7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a.json",
+        "configuration": {
+          "K": 1,
+          "pivots": 1,
+          "seed": 0,
+          "effort": "off",
+          "max_output": 4096
+        },
+        "note": "K1 smoke and compact evidence; full-trace sensitivity and benchmark accuracy remain P6"
+      },
+      "model_requests_added": 0,
+      "ledger_sha256_before": "760385b37cd6246be664c0d33aae3eb9b351a5badfcdee02650241a111b74dea",
+      "ledger_sha256_after": "760385b37cd6246be664c0d33aae3eb9b351a5badfcdee02650241a111b74dea",
+      "elapsed_seconds": 1.5940943560000003
+    },
+    {
+      "verdict": "PASS",
+      "kind": "ZERO_MODEL_CONTROLLER_EXPERIMENT_CAP",
+      "run_id": "p2-control-experiment-cap-20261010T130342Z",
+      "preserved_candidates": 3,
+      "candidate_statuses": {
+        "A": "TIMEOUT",
+        "B": "TIMEOUT",
+        "C": "TIMEOUT"
+      },
+      "flow_stop": {
+        "error_type": "DurationExceeded",
+        "state": "TIMEOUT"
+      },
+      "model_requests_added": 0,
+      "real_ledger_sha256_before": "760385b37cd6246be664c0d33aae3eb9b351a5badfcdee02650241a111b74dea",
+      "real_ledger_sha256_after": "760385b37cd6246be664c0d33aae3eb9b351a5badfcdee02650241a111b74dea",
+      "elapsed_seconds": 3.8704970999999997
+    }
+  ],
+  "bundles": [
+    {
+      "run_id": "p2-control-all-failed-20261010T124617Z",
+      "candidate_id": "A",
+      "head_commit": "1582f72687fd8770b4df6d803c32f476baf86490",
+      "branch": "run/p2/p2-control-all-failed-20261010T124617Z/A",
+      "kind": "CONTROLLED_FAULT_INJECTION",
+      "file": "/opt/workbench/runs/p2-control-all-failed-20261010T124617Z/A.bundle",
+      "sha256": "d27cacb2604b0ce61938b93716d042baa73d3d7e6587673cf98009b4c123491e",
+      "size_bytes": 1181,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-control-all-failed-20261010T124617Z/A"
+    },
+    {
+      "run_id": "p2-control-all-failed-20261010T124617Z",
+      "candidate_id": "B",
+      "head_commit": "cef606597feece53e969c51488b5ffbaf731d7b0",
+      "branch": "run/p2/p2-control-all-failed-20261010T124617Z/B",
+      "kind": "CONTROLLED_FAULT_INJECTION",
+      "file": "/opt/workbench/runs/p2-control-all-failed-20261010T124617Z/B.bundle",
+      "sha256": "cd9e4c3246949e093658e98ce499e1f473295108c872cd680c50b1ae09a7979b",
+      "size_bytes": 1181,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-control-all-failed-20261010T124617Z/B"
+    },
+    {
+      "run_id": "p2-control-all-failed-20261010T124617Z",
+      "candidate_id": "C",
+      "head_commit": "2d9177c79fae7b27ffda19fc9e718433671d1f9c",
+      "branch": "run/p2/p2-control-all-failed-20261010T124617Z/C",
+      "kind": "CONTROLLED_FAULT_INJECTION",
+      "file": "/opt/workbench/runs/p2-control-all-failed-20261010T124617Z/C.bundle",
+      "sha256": "7664584f86221258c1dc9d98e0180fae3775985adc933b26e7febea554065924",
+      "size_bytes": 1178,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-control-all-failed-20261010T124617Z/C"
+    },
+    {
+      "run_id": "p2-control-custom-20261010T125143Z",
+      "candidate_id": "A",
+      "head_commit": "19678da9483e32abe0748a64636a7c63d1592861",
+      "branch": "run/p2/p2-control-custom-20261010T125143Z/A",
+      "kind": "CONTROLLED_FAULT_INJECTION",
+      "file": "/opt/workbench/runs/p2-control-custom-20261010T125143Z/A.bundle",
+      "sha256": "2103d64d90ce5d33833ba8b6390104a666a7c40a5ac6cfff5765e3cb08fc5389",
+      "size_bytes": 794,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-control-custom-20261010T125143Z/A"
+    },
+    {
+      "run_id": "p2-control-experiment-cap-20261010T130342Z",
+      "candidate_id": "A",
+      "head_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "run/p2/p2-control-experiment-cap-20261010T130342Z/A",
+      "kind": "CONTROLLED_FAULT_INJECTION",
+      "file": "/opt/workbench/runs/p2-control-experiment-cap-20261010T130342Z/A.bundle",
+      "sha256": "251fb9cc42fd24689ec27723badd985f26f7e9441616f328e39e27830914337f",
+      "size_bytes": 880,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-control-experiment-cap-20261010T130342Z/A"
+    },
+    {
+      "run_id": "p2-control-experiment-cap-20261010T130342Z",
+      "candidate_id": "B",
+      "head_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "run/p2/p2-control-experiment-cap-20261010T130342Z/B",
+      "kind": "CONTROLLED_FAULT_INJECTION",
+      "file": "/opt/workbench/runs/p2-control-experiment-cap-20261010T130342Z/B.bundle",
+      "sha256": "f4e742616899387cb7116a59dfdccd78101932f079b432adc81cb979e4277caa",
+      "size_bytes": 880,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-control-experiment-cap-20261010T130342Z/B"
+    },
+    {
+      "run_id": "p2-control-experiment-cap-20261010T130342Z",
+      "candidate_id": "C",
+      "head_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "run/p2/p2-control-experiment-cap-20261010T130342Z/C",
+      "kind": "CONTROLLED_FAULT_INJECTION",
+      "file": "/opt/workbench/runs/p2-control-experiment-cap-20261010T130342Z/C.bundle",
+      "sha256": "29558b3622973ce1fee2324c1a79f13a37e1b9d13f012ca7dce111a3a91d2ded",
+      "size_bytes": 880,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-control-experiment-cap-20261010T130342Z/C"
+    },
+    {
+      "run_id": "p2-control-infrastructure-20261010T124617Z",
+      "candidate_id": "A",
+      "head_commit": "12e0e243190bc46937e106f61a9c3b6914743aed",
+      "branch": "run/p2/p2-control-infrastructure-20261010T124617Z/A",
+      "kind": "CONTROLLED_FAULT_INJECTION",
+      "file": "/opt/workbench/runs/p2-control-infrastructure-20261010T124617Z/A.bundle",
+      "sha256": "baa490c0887bcc6dca1a3f865300016477cabfee79b53d24cd472a19bccd3345",
+      "size_bytes": 1506,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-control-infrastructure-20261010T124617Z/A"
+    },
+    {
+      "run_id": "p2-control-infrastructure-20261010T124617Z",
+      "candidate_id": "B",
+      "head_commit": "b8d305c9e5854e2a5059d1bf7d95827d79236629",
+      "branch": "run/p2/p2-control-infrastructure-20261010T124617Z/B",
+      "kind": "CONTROLLED_FAULT_INJECTION",
+      "file": "/opt/workbench/runs/p2-control-infrastructure-20261010T124617Z/B.bundle",
+      "sha256": "49982bcb3211e254e9e7b7b24f7bf963aa1e4e8102bb51f6824fb23d24269b97",
+      "size_bytes": 1389,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-control-infrastructure-20261010T124617Z/B"
+    },
+    {
+      "run_id": "p2-control-infrastructure-20261010T124617Z",
+      "candidate_id": "C",
+      "head_commit": "4ef2bde7e59fd096a136f512923b4d7143bdb0ba",
+      "branch": "run/p2/p2-control-infrastructure-20261010T124617Z/C",
+      "kind": "CONTROLLED_FAULT_INJECTION",
+      "file": "/opt/workbench/runs/p2-control-infrastructure-20261010T124617Z/C.bundle",
+      "sha256": "edc9c54cb2737f2e33f56810a5b287605551a9acda2b5913bbc2630df6902fcd",
+      "size_bytes": 1383,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-control-infrastructure-20261010T124617Z/C"
+    },
+    {
+      "run_id": "p2-control-mixed-20261010T124617Z",
+      "candidate_id": "A",
+      "head_commit": "3f1301054a0e0ff8fbccc2f63153ed780350f36c",
+      "branch": "run/p2/p2-control-mixed-20261010T124617Z/A",
+      "kind": "CONTROLLED_FAULT_INJECTION",
+      "file": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/A.bundle",
+      "sha256": "6912fe33a32d9ffb4b9a77249064f2c5191fd0bbd8905183f29e601de9524fc7",
+      "size_bytes": 1491,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-control-mixed-20261010T124617Z/A"
+    },
+    {
+      "run_id": "p2-control-mixed-20261010T124617Z",
+      "candidate_id": "B",
+      "head_commit": "e34d21b608e0235df75dc2da6a54fee83e5e4cbb",
+      "branch": "run/p2/p2-control-mixed-20261010T124617Z/B",
+      "kind": "CONTROLLED_FAULT_INJECTION",
+      "file": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/B.bundle",
+      "sha256": "9d8fb7c3d493a91b4511ecc932430f5c776485f4b7883a948524e443b76ec010",
+      "size_bytes": 1174,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-control-mixed-20261010T124617Z/B"
+    },
+    {
+      "run_id": "p2-control-mixed-20261010T124617Z",
+      "candidate_id": "C",
+      "head_commit": "5d55f8b26b69489b9cc21a51823aee6d23b699c5",
+      "branch": "run/p2/p2-control-mixed-20261010T124617Z/C",
+      "kind": "CONTROLLED_FAULT_INJECTION",
+      "file": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/C.bundle",
+      "sha256": "67405d57321028d3a58bd820dcffe792ecbf268f95df0eecdddd79f0f05d9c7f",
+      "size_bytes": 1173,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-control-mixed-20261010T124617Z/C"
+    },
+    {
+      "run_id": "p2-n1-20261010T123639Z",
+      "candidate_id": "A",
+      "head_commit": "5b92710c782fbabe63eebeb49da3795496e19c47",
+      "branch": "run/p2/p2-n1-20261010T123639Z/A",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "file": "/opt/workbench/runs/p2-n1-20261010T123639Z/A.bundle",
+      "sha256": "866a9abc01e9a58d1e86018a314109848ec7b53d4788212e9572a14974ff62bc",
+      "size_bytes": 1272,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-n1-20261010T123639Z/A"
+    },
+    {
+      "run_id": "p2-n3-20261010T123808Z",
+      "candidate_id": "A",
+      "head_commit": "5c8889379264a14d9e463eeca11c75a9a65898c5",
+      "branch": "run/p2/p2-n3-20261010T123808Z/A",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "file": "/opt/workbench/runs/p2-n3-20261010T123808Z/A.bundle",
+      "sha256": "99bf280a04407053cb15a96c3e5f4a88867829e1e2c51e60b78207b9b26dc6e0",
+      "size_bytes": 1376,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-n3-20261010T123808Z/A"
+    },
+    {
+      "run_id": "p2-n3-20261010T123808Z",
+      "candidate_id": "B",
+      "head_commit": "1a3c3e279cacef263a88d64b0c48a3593e7b8c10",
+      "branch": "run/p2/p2-n3-20261010T123808Z/B",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "file": "/opt/workbench/runs/p2-n3-20261010T123808Z/B.bundle",
+      "sha256": "7f0b3e42e20c1fa5d1a67155b2430ce641a1345f69dab0a8ca6b85c8162b788a",
+      "size_bytes": 1271,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-n3-20261010T123808Z/B"
+    },
+    {
+      "run_id": "p2-n3-20261010T123808Z",
+      "candidate_id": "C",
+      "head_commit": "a0606b0aaa0d35af997a99f5a6f74ae430024c2c",
+      "branch": "run/p2/p2-n3-20261010T123808Z/C",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "file": "/opt/workbench/runs/p2-n3-20261010T123808Z/C.bundle",
+      "sha256": "693871227aa7f31674b4809f374c355d4e5765a99403793cee126f076b8e85ab",
+      "size_bytes": 1253,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-n3-20261010T123808Z/C"
+    },
+    {
+      "run_id": "p2-n4-20261010T123838Z",
+      "candidate_id": "A",
+      "head_commit": "ad80e3c6c6ce4fe71610517f006ae2fe2f0106ab",
+      "branch": "run/p2/p2-n4-20261010T123838Z/A",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "file": "/opt/workbench/runs/p2-n4-20261010T123838Z/A.bundle",
+      "sha256": "b94d7d6385422dbcf72b884a4188a6c07a93c2a204e1ab63b72bea55188aa77b",
+      "size_bytes": 1348,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-n4-20261010T123838Z/A"
+    },
+    {
+      "run_id": "p2-n4-20261010T123838Z",
+      "candidate_id": "B",
+      "head_commit": "32803cb8e71431efa8e84c1fd4208dbf1f4f2d71",
+      "branch": "run/p2/p2-n4-20261010T123838Z/B",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "file": "/opt/workbench/runs/p2-n4-20261010T123838Z/B.bundle",
+      "sha256": "8386a9fd99d441453be79da9d9a4f0980a098074d573a0cb47b87047aa33ac89",
+      "size_bytes": 1271,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-n4-20261010T123838Z/B"
+    },
+    {
+      "run_id": "p2-n4-20261010T123838Z",
+      "candidate_id": "C",
+      "head_commit": "1c7c5791ee76863e2c25b137ed245d899030120e",
+      "branch": "run/p2/p2-n4-20261010T123838Z/C",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "file": "/opt/workbench/runs/p2-n4-20261010T123838Z/C.bundle",
+      "sha256": "95cf278ce56b52c888ed764775c0a795898888379a739d36356f2271b0e94a1f",
+      "size_bytes": 1267,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-n4-20261010T123838Z/C"
+    },
+    {
+      "run_id": "p2-n4-20261010T123838Z",
+      "candidate_id": "D",
+      "head_commit": "c88bf754ff5d84ed59fc2a1bbd0f56fb169a1fa6",
+      "branch": "run/p2/p2-n4-20261010T123838Z/D",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "file": "/opt/workbench/runs/p2-n4-20261010T123838Z/D.bundle",
+      "sha256": "f3090f2399406a1c718f15042dbef47f4879b8cfe4716fbc31a474f066e789e7",
+      "size_bytes": 1267,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-n4-20261010T123838Z/D"
+    },
+    {
+      "run_id": "p2-n5-20261010T124001Z",
+      "candidate_id": "A",
+      "head_commit": "0653d7dce9606809ce58804c228d58b63e1cf0b4",
+      "branch": "run/p2/p2-n5-20261010T124001Z/A",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "file": "/opt/workbench/runs/p2-n5-20261010T124001Z/A.bundle",
+      "sha256": "8a36f690ea04d58679390a75e30b2870a479fb10327d2da031d1cd5abc09e57c",
+      "size_bytes": 1261,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-n5-20261010T124001Z/A"
+    },
+    {
+      "run_id": "p2-n5-20261010T124001Z",
+      "candidate_id": "B",
+      "head_commit": "7cbbfa7ea1bfebab8fef4dad093b342f95edd85c",
+      "branch": "run/p2/p2-n5-20261010T124001Z/B",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "file": "/opt/workbench/runs/p2-n5-20261010T124001Z/B.bundle",
+      "sha256": "129c53fc10affd764628b320d953328179a6ce13b8e52f25eee7bc9aafc53713",
+      "size_bytes": 1267,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-n5-20261010T124001Z/B"
+    },
+    {
+      "run_id": "p2-n5-20261010T124001Z",
+      "candidate_id": "C",
+      "head_commit": "24a4c32578d8c52768ea0c9ef2f4a462cadb65ac",
+      "branch": "run/p2/p2-n5-20261010T124001Z/C",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "file": "/opt/workbench/runs/p2-n5-20261010T124001Z/C.bundle",
+      "sha256": "3990933bbd3f3727ab37d43a087d58507d446e486f8d4c9b931863a410fcd59a",
+      "size_bytes": 1265,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-n5-20261010T124001Z/C"
+    },
+    {
+      "run_id": "p2-n5-20261010T124001Z",
+      "candidate_id": "D",
+      "head_commit": "7f87c19b17e462abda49bfd1145caf96e2383a1e",
+      "branch": "run/p2/p2-n5-20261010T124001Z/D",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "file": "/opt/workbench/runs/p2-n5-20261010T124001Z/D.bundle",
+      "sha256": "7ea9849ee7d2ecf9f531b0d84f1354c65d2b1720ba985b4a314507f19061a1a9",
+      "size_bytes": 1262,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-n5-20261010T124001Z/D"
+    },
+    {
+      "run_id": "p2-n5-20261010T124001Z",
+      "candidate_id": "E",
+      "head_commit": "2387721b00c11af0e939e7d27b9540f830455c74",
+      "branch": "run/p2/p2-n5-20261010T124001Z/E",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "file": "/opt/workbench/runs/p2-n5-20261010T124001Z/E.bundle",
+      "sha256": "6afd419d80ea988b3ec250dc4639172521229899293c8d8c7a7feb79ac08b90e",
+      "size_bytes": 1268,
+      "remote_archive_ref": "refs/heads/feature/7-evidence/p2-n5-20261010T124001Z/E"
+    }
+  ],
+  "limitations": [
+    "Synthetic smoke only, no efficacy estimate",
+    "J2 BLOCKED_CREDENTIAL; zero Jev requests",
+    "K1 LAV with thinking off differs from paper/default configurations",
+    "First failed Codex turn has unavailable token usage; subscriptions are not dollar bills",
+    "Provider queue and tool-only times unavailable; first-patch observation interval 0.5 seconds",
+    "Custom task contract verified offline only; no raw/custom research input exported",
+    "P3 synthesis and P6 scientific/ablation benchmark not run"
+  ],
+  "acceptance": {
+    "P2-A01": "PASS_REAL_N1_N3_N4_N5",
+    "P2-A02": "PASS_REAL_AND_OFFLINE_CONTROLS",
+    "P2-A03": "PASS_J0_J1_J3; J2_BLOCKED_CREDENTIAL",
+    "P2-A04": "PASS_CONTROLLED_FAILURES_NOT_MODEL_FAILURES"
+  },
+  "pull_request": "https://github.com/Du-YouLang/Enhanced_Humanizer/pull/8",
+  "remote_archive_verification": {
+    "verdict": "PASS",
+    "count": 26,
+    "verified_at_utc": "2026-10-10T13:14:56.059266+00:00",
+    "private_record": ".local-workbench/audits/p2-remote-archives.json"
+  }
+}
