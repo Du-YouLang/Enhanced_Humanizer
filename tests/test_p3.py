@@ -11,7 +11,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from p1_budget import Ledger,BudgetDenied
 from p2_candidates import digest
 from p2_judges import J0
-from p3_contracts import handoff,validate_handoff,judge_pool,compare,checkpoint,validate_checkpoint
+from p3_contracts import handoff,validate_handoff,judge_pool,with_initial_judgment,compare,checkpoint,validate_checkpoint
 from test_p2 import pool
 
 
@@ -41,6 +41,13 @@ class TestP3(unittest.TestCase):
     def test_judgment_cannot_come_from_another_pool(self):
         p,_=self.package();j=J0().judge(p);j['pool_hash']='another'
         with self.assertRaises(ValueError):handoff(p,{cid:{} for cid in 'ABC'},{cid:{} for cid in 'ABC'},[j])
+
+    def test_reviewer_judgment_is_bound_to_the_exact_public_view(self):
+        _,package=self.package();j=J0().judge(judge_pool(package))
+        forwarded=with_initial_judgment(package,j);validate_handoff(forwarded)
+        self.assertEqual(forwarded['judgments'],[j]);self.assertEqual(package['judgments'],[])
+        for field in ('pool_hash','rubric_hash'):
+            with self.assertRaises(ValueError):with_initial_judgment(package,j|{field:'another'})
 
     def test_m_does_not_win_automatically_and_failed_selection_is_rejected(self):
         p,_=self.package();m={'verdict':'FAIL'}

@@ -53,6 +53,17 @@ def judge_pool(package, extra=None):
     return validate_pool(pool)
 
 
+def with_initial_judgment(package, judgment):
+    """Bind public-view scoring evidence before giving it to the Reviewer."""
+    validate_handoff(package)
+    graded=judge_pool(package)
+    if judgment.get('pool_hash')!=graded['pool_hash'] or judgment.get('rubric_hash')!=graded['rubric_hash']:
+        raise ValueError('Judgment belongs to another public evidence view')
+    body={k:v for k,v in package.items() if k!='handoff_hash'}
+    body['judgments']=[judgment];body['handoff_hash']=digest(body)
+    return validate_handoff(body)
+
+
 def compare(pool, merged, judgment):
     validate_pool(pool)
     original_passed=[c['id'] for c in pool['candidates'] if c['verdict']=='PASS']
