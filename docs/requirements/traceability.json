@@ -1894,6 +1894,17 @@
       "requirement": "项目名 Enhanced_Humanizer 暂定，后续向用户确认命名",
       "status": "OPEN",
       "checkpoint": "P0 结束后、P1 启动前；当前仓库仍沿用暂定名"
+    },
+    {
+      "id": "USR-GIT-01",
+      "requirement": "开发仓库轻量 PR/CI，给予代理自主权并保持本地与 GitHub 代码一致",
+      "status": "ADOPTED_ADR-0004"
+    },
+    {
+      "id": "USR-PR-01",
+      "requirement": "软件产品自身每一次 PR 必须经过人工审核",
+      "status": "REQUIRED_FUTURE_IMPLEMENTATION",
+      "checkpoint": "产品 PR 功能实现与独立验收"
     }
   ]
 }

@@ -40,6 +40,6 @@ python -m unittest discover -s tests -v
 git config --local core.hooksPath .githooks
 ```
 
-模型路由与费用尚未批准，不能直接运行带真实 agent 的 `hmz exec`。新 Codex 实验日志与状态也须留在项目；优先验证 CLI 的 ephemeral/项目本地配置，若隔离身份需要重新登录由用户完成浏览器认证，不擅自复制全局 auth.json。
+P0 费用已获批，限额见 configs/budget-proposal.json；无工具的直接 API 探针为 `node scripts/probe_deepseek_api.mjs`，logprobs 变体加 `--logprobs`。它使用持久 ledger + 独占锁、调用前按峰值价预留整个模型 context 和封顶输出、不重试、不跟随重定向，失败也保留预留；只用于此固定文本探针，不是通用 Coding Agent 预算执行器。真实 agent 的 `hmz exec` 仍因 Windows 外部隔离阻碍不能放行。新 Codex 实验日志与状态也须留在项目；若隔离身份需重新登录由用户完成本机浏览器认证，不擅自复制全局 auth.json。
 
 Conda 保留给 P6 按实例预建固定科学环境，使用项目内 prefix 与 cache；当前没有修改任何已有环境。已能发现 CuPy GPU 不等于全部科学 Benchmark 依赖已安装。

@@ -14,12 +14,12 @@
 
 P0 剩余执行顺序：
 
-1. 用户确认 `Du-YouLang/Enhanced_Humanizer` 私有个人仓库、仓库内权限以及三个公开 Fork 的范围。
-2. 先创建仓库、最小 main base、P0 Issue、feature PR 和无模型 CI；记录真实 URL、SHA、状态。
+1. 已确认主仓库保持公开、三个正确 Fork 与 P0 限额；开发仓库采用 ADR-0004 的轻量 PR/CI 流程。
+2. 已接入用户既有 main、Issue #1 / PR #2 / push / 无模型 CI；追加提交继续验证各自 head。
 3. Fork Humanize / DSH / LAV 并在 `.local-workbench/upstreams/` 检出审核 SHA；检查完整许可证/NOTICE 与已装发布版本的映射。Codex 继续复用已有二进制，不 Fork 整套 Harness。
 4. 在不调用模型的情况下测试 Humanize 实际 OS fence 与路径拒绝。Windows 不成立则形成明确的 WSL2/受限系统方案，由用户批准后实施；不绕过隔离。
 5. 用户批准模型路由与预算后，做最小真实 DS/Sol/Humanize smoke；记录 actual model ID、Token/现金/订阅、超时、日志、工具结果。Jev/LAV 端点不具备时保留真实阻碍和 mock 路径。
-6. CI / 权限 / 回滚 / 真实 demo 均有证据后更新同一个 P0 PR，交用户独立验收；不自动合并 main，也不开始 P1。
+6. CI 通过的开发基线可经 PR 同步 main；P0 的真实 demo 等 Gate 全有证据后再交用户独立验收，不把部分成果合并当作 P0 通过或 P1 启动授权。
 
 正式目录按指南增量形成：`.hmz/flows/`、`src/workbench/{adapters,orchestration,candidates,judging,synthesis,evidence,memory,gitops,api}`、`ui/`、`benchmarks/`。本轮只建立必要 P0 文件，不提前用空实现冒充完整产品。
 

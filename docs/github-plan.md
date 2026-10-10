@@ -10,12 +10,12 @@
 
 1. 重新核对 `gh auth status` / `gh api user` 的身份与同名仓库状态，避免状态变化覆盖既有工作。
 2. 已核对既有公开仓库 owner/permissions，关联 origin。用户远程 main 已有 README 初始化提交 ea7ff653569d752f70490c1ad513ac7524727ed8。
-3. 保留远程 main，在 feature 分支合并本地与远程历史。取消原 72ad614 初次 main 推送提案；所有 main 更新仍需人工审阅批准。
+3. 保留远程 main，在 feature 分支合并本地与远程历史。取消原 72ad614 初次 main 推送提案；最新用户政策改为开发 PR 经实际 CI 成功后同步 main，见 ADR-0004。
 4. 创建 P0 Issue，内容用 `docs/issues/P0.md`，记录真实 URL/编号，再据真实编号规范 feature 分支名。随后推送 P0 feature，创建一个草稿 PR，正文使用 `docs/github/p0-pr-draft.md`。PR 创建成功后附加到当前 Codex 聊天。
 5. CI 执行 `integrity` / `secrets`，必须实际成功并保留 workflow URL、head SHA。CI 不调用任何模型、不读取研究数据、不使用外部模型 secret。
-6. main 保护查询返回 404（未设置）。准备 PR + 必需 CI、禁止 force-push/删除的规则方案，权限变更获批后才设置。未获批时记录人工门禁与服务器缺口；不自动升级账户。
-7. 仅一个账号时，PR 作者不能作为独立批准者；人工查看 PR 后手动合并或在当前聊天批准明确 SHA。不会擅自添加他人来满足 review 规则，也不会自动合并。
-8. 完成真实 smoke 后更新同一个 P0 PR，填写实际验收证据、开销和剩余阻碍。P0 未通过前不推进 P1。
+6. main 保护查询返回 404（未设置）。具体 JSON 提案已备，但用户要求开发 PR 不施加过多限制，因此不应用。保留提交/PR/CI 追踪，不自动升级账户。产品自身每次 PR 人工审核是独立硬要求。
+7. 仅一个账号时，PR 作者不能作为独立批准者；不添加他人来满足 review 规则。开发仓库按用户授权采用轻量流程同步代码；产品执行器不能继承这份自由授权绕过逐次人工审核。
+8. 已有基础成果以 P0 PR 同步，明确保留隔离/真实 demo 阻碍；后续真实 smoke 的补充成果继续关联 Issue #1。P0 未通过前不推进 P1。
 
 可审阅文本准备好后，实际命令采用 `gh repo create Du-YouLang/Enhanced_Humanizer --private`、`gh issue create --body-file ...`、`gh pr create --draft --body-file ...`。执行时固定仓库参数，临时正文文件也放项目内；不通过 shell 拼接密钥或多行正文。
 
