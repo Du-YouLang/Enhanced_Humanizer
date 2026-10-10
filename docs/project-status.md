@@ -1,6 +1,6 @@
 # 项目交接状态
 
-当前：**P0_ACCEPTED / P1_FUNCTIONAL_ACCEPTED**。P1-A01..A04 已有真实模型、独立隔离复验和预算控制证据。P1 开发交付以 Issue #5 关联 PR 的实际 CI 成功及 main 同步为准；不把 merge/CI 单独当作功能验收。当前阶段分支 feature/5-basic-relay。仅完成到 P1，未经新指示不进入 P2。
+当前：**P0_ACCEPTED / P1_FUNCTIONAL_ACCEPTED**。P1-A01..A04 已有真实模型、独立隔离复验和预算控制证据。P1 开发交付以 Issue #5 关联 PR 的实际 CI 成功及 main 同步为准；不把 merge/CI 单独当作功能验收。阶段交付分支 feature/5-basic-relay，[PR #6](https://github.com/Du-YouLang/Enhanced_Humanizer/pull/6)。最终 CI/merge/main 一致性及 bundle 哈希记录在项目私有 `.local-workbench/audits/p1-accepted.json`；该记录不存在或非 PASS 时不得声称 Git 交付完成。仅完成到 P1，未经新指示不进入 P2。
 
 用户已授权专用 WSL2 和 P0 全 Gate 后直接 P1，并批准 P1 独立预算。项目继续使用 Enhanced_Humanizer，首次对外产品发布前复核命名。两份 v0.4 基线哈希未变，80 主需求+6操作 ID、标签/来源/附录完整保留；多阶段需求仅标记本阶段的部分实现。
 

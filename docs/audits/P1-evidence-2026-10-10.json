@@ -491,5 +491,7 @@
     "linux_budget": "8 tests PASS including actual flock race",
     "node_p0_budget": "3 PASS",
     "model_calls": 0
-  }
+  },
+  "pull_request": "https://github.com/Du-YouLang/Enhanced_Humanizer/pull/6",
+  "private_delivery_record": ".local-workbench/audits/p1-accepted.json"
 }
