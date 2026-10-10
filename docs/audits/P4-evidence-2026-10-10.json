@@ -1,0 +1,255 @@
+{
+  "phase": "P4",
+  "functional_gate": "PASS",
+  "kind": "ACTUAL_HISTORY_ZERO_MODEL_RECOVERY",
+  "legal_nodes_recovered": 28,
+  "recovered": [
+    {
+      "node": "p3-all-failed-20261010T140625Z/task",
+      "status": "PASS",
+      "commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "workbench/fork-d786f86a0cdc4583"
+    },
+    {
+      "node": "p3-all-failed-20261010T140625Z/A",
+      "status": "FAIL",
+      "commit": "1582f72687fd8770b4df6d803c32f476baf86490",
+      "branch": "workbench/fork-5b0cfa3cf72c49bd"
+    },
+    {
+      "node": "p3-all-failed-20261010T140625Z/B",
+      "status": "FAIL",
+      "commit": "cef606597feece53e969c51488b5ffbaf731d7b0",
+      "branch": "workbench/fork-cbc9bc2d8beb4cb4"
+    },
+    {
+      "node": "p3-all-failed-20261010T140625Z/C",
+      "status": "FAIL",
+      "commit": "2d9177c79fae7b27ffda19fc9e718433671d1f9c",
+      "branch": "workbench/fork-55ae648acf09462a"
+    },
+    {
+      "node": "p3-all-failed-20261010T140625Z/judge-input",
+      "status": "COMPLETED",
+      "commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "workbench/fork-1f948615407d47c8"
+    },
+    {
+      "node": "p3-impossible-20261010T140625Z/task",
+      "status": "FAIL",
+      "commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "workbench/fork-032e4335a81b4284"
+    },
+    {
+      "node": "p3-impossible-20261010T140625Z/A",
+      "status": "FAIL",
+      "commit": "dd473eabcb7fd2ec0743fd281d5322b245a1e56f",
+      "branch": "workbench/fork-1aab2be53d9e49bf"
+    },
+    {
+      "node": "p3-impossible-20261010T140625Z/B",
+      "status": "FAIL",
+      "commit": "56f314fd47a506db0e3f97ab4957409219b17473",
+      "branch": "workbench/fork-bdfb2a4870e04644"
+    },
+    {
+      "node": "p3-impossible-20261010T140625Z/C",
+      "status": "FAIL",
+      "commit": "e6bae9d90679b3167a1feaf737bb3e9523c86b28",
+      "branch": "workbench/fork-101bbcbaf0524098"
+    },
+    {
+      "node": "p3-impossible-20261010T140625Z/judge-input",
+      "status": "COMPLETED",
+      "commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "workbench/fork-f1ce50a565c84bae"
+    },
+    {
+      "node": "p3-mixed-20261010T140403Z/task",
+      "status": "PASS",
+      "commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "workbench/fork-365982b372be44e7"
+    },
+    {
+      "node": "p3-mixed-20261010T140403Z/A",
+      "status": "PASS",
+      "commit": "3f1301054a0e0ff8fbccc2f63153ed780350f36c",
+      "branch": "workbench/fork-a086bc1e1ca04bd7"
+    },
+    {
+      "node": "p3-mixed-20261010T140403Z/B",
+      "status": "FAIL",
+      "commit": "e34d21b608e0235df75dc2da6a54fee83e5e4cbb",
+      "branch": "workbench/fork-0e1bf43aed6f4ace"
+    },
+    {
+      "node": "p3-mixed-20261010T140403Z/C",
+      "status": "FAIL",
+      "commit": "5d55f8b26b69489b9cc21a51823aee6d23b699c5",
+      "branch": "workbench/fork-68bfa369933f4ec6"
+    },
+    {
+      "node": "p3-mixed-20261010T140403Z/PR",
+      "status": "MERGED",
+      "commit": "8d9b11de9ccbe13f12fb8a9b32a89fb19991404b",
+      "branch": "workbench/fork-8c72704a53b8486f"
+    },
+    {
+      "node": "p3-mixed-20261010T140141Z/startup",
+      "status": "INFRA_FAIL",
+      "commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "workbench/fork-7fe18a46c4ef47be"
+    },
+    {
+      "node": "p3-all-failed-20261010T140625Z/M",
+      "status": "PASS",
+      "commit": "c9a2685b5adea278dd784e5a07f103fd491e6981",
+      "branch": "workbench/fork-7d24bf03b4414e93"
+    },
+    {
+      "node": "p3-all-failed-20261010T140625Z/judge-M",
+      "status": "COMPLETED",
+      "commit": "c9a2685b5adea278dd784e5a07f103fd491e6981",
+      "branch": "workbench/fork-0c7d897ad76342d6"
+    },
+    {
+      "node": "p3-impossible-20261010T140625Z/M",
+      "status": "REFUSED",
+      "commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "workbench/fork-8dd4e3ad59664827"
+    },
+    {
+      "node": "p3-impossible-20261010T140625Z/judge-M",
+      "status": "COMPLETED",
+      "commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "workbench/fork-fd8e3cf645b34363"
+    },
+    {
+      "node": "p3-mixed-20261010T140403Z/M",
+      "status": "PASS",
+      "commit": "941c31652b926f11208f44728df199e8d5fd32ef",
+      "branch": "workbench/fork-1916fd68414447cc"
+    },
+    {
+      "node": "p3-mixed-20261010T140403Z/judge-input",
+      "status": "COMPLETED",
+      "commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "workbench/fork-893d092860fa414a"
+    },
+    {
+      "node": "p3-mixed-20261010T140403Z/judge-M",
+      "status": "COMPLETED",
+      "commit": "941c31652b926f11208f44728df199e8d5fd32ef",
+      "branch": "workbench/fork-180cc397ad814f09"
+    },
+    {
+      "node": "p3-mixed-20261010T140403Z/Sol",
+      "status": "PASS",
+      "commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+      "branch": "workbench/fork-c5fb1b1b7f97451a"
+    },
+    {
+      "node": "p3-ds-return-mixed-20261010T140403Z/A",
+      "status": "PASS",
+      "commit": "7909136b6be64a5344e2a439ae1567380516bd09",
+      "branch": "workbench/fork-ebe75fdb56ee4207"
+    },
+    {
+      "node": "p3-ds-return-mixed-20261010T140403Z/B",
+      "status": "BUDGET_EXHAUSTED",
+      "commit": "233c7ec1de47a6673c1ab4e5623571aa53a03700",
+      "branch": "workbench/fork-d51bdc841a6f484e"
+    },
+    {
+      "node": "p3-ds-return-mixed-20261010T140403Z/C",
+      "status": "PASS",
+      "commit": "233b402349182d4db93b3f470bb7c30771d5f5c7",
+      "branch": "workbench/fork-93f7286ecc394097"
+    },
+    {
+      "node": "p3-mixed-20261010T140403Z/judge-return",
+      "status": "COMPLETED",
+      "commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+      "branch": "workbench/fork-8c9b105c73de4533"
+    }
+  ],
+  "frozen_failure_and_reviewer_replays": [
+    {
+      "node": "p3-all-failed-20261010T140625Z/A",
+      "execution_status": "FAIL",
+      "frozen_verdict": "FAIL"
+    },
+    {
+      "node": "p3-all-failed-20261010T140625Z/B",
+      "execution_status": "FAIL",
+      "frozen_verdict": "FAIL"
+    },
+    {
+      "node": "p3-all-failed-20261010T140625Z/C",
+      "execution_status": "FAIL",
+      "frozen_verdict": "FAIL"
+    },
+    {
+      "node": "p3-impossible-20261010T140625Z/A",
+      "execution_status": "FAIL",
+      "frozen_verdict": "FAIL"
+    },
+    {
+      "node": "p3-impossible-20261010T140625Z/B",
+      "execution_status": "FAIL",
+      "frozen_verdict": "FAIL"
+    },
+    {
+      "node": "p3-impossible-20261010T140625Z/C",
+      "execution_status": "FAIL",
+      "frozen_verdict": "FAIL"
+    },
+    {
+      "node": "p3-mixed-20261010T140403Z/B",
+      "execution_status": "FAIL",
+      "frozen_verdict": "FAIL"
+    },
+    {
+      "node": "p3-mixed-20261010T140403Z/C",
+      "execution_status": "FAIL",
+      "frozen_verdict": "FAIL"
+    },
+    {
+      "node": "p3-all-failed-20261010T140625Z/M",
+      "execution_status": "PASS",
+      "frozen_verdict": "PASS"
+    },
+    {
+      "node": "p3-impossible-20261010T140625Z/M",
+      "execution_status": "REFUSED",
+      "frozen_verdict": "FAIL"
+    },
+    {
+      "node": "p3-mixed-20261010T140403Z/M",
+      "execution_status": "PASS",
+      "frozen_verdict": "PASS"
+    },
+    {
+      "node": "p3-ds-return-mixed-20261010T140403Z/B",
+      "execution_status": "BUDGET_EXHAUSTED",
+      "frozen_verdict": "PASS"
+    }
+  ],
+  "audit": {
+    "verdict": "PASS",
+    "events": 499,
+    "artifacts": 93,
+    "tail_hash": "1e32dbcfd2186855003b5b4fece57a0b7388cc7cfdcc0e0d1d2aa1c6e60acde4"
+  },
+  "main_unchanged": true,
+  "model_requests_added": 0,
+  "api_cash_usd": 0,
+  "subscription_turns_added": 0,
+  "elapsed_seconds": 33.41959189999943,
+  "limitations": [
+    "Backup covers events/artifacts/Git refs, not WSL OS or credentials",
+    "Synthetic history is not scientific efficacy evidence"
+  ],
+  "backup_sha256": "839762fa270bffd8831a9734bc808ce3eba28ba6b2324ad7f08b1e95a039ccd8",
+  "private_details": ".local-workbench/audits/p4-functional.json"
+}
