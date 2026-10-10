@@ -2,7 +2,7 @@
   "schema_version": 1,
   "phase": "P2",
   "functional_verdict": "PASS",
-  "delivery_verdict": "CI_PENDING",
+  "delivery_verdict": "REQUIRES_FINAL_PR_CI_MAIN_ACCEPTANCE_RECORD",
   "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
   "actual_models": {
     "DS": "deepseek-flash (DeepSeek V4.1 Flash)",
@@ -2337,5 +2337,12 @@
     "P2-A02": "PASS_REAL_AND_OFFLINE_CONTROLS",
     "P2-A03": "PASS_J0_J1_J3; J2_BLOCKED_CREDENTIAL",
     "P2-A04": "PASS_CONTROLLED_FAILURES_NOT_MODEL_FAILURES"
+  },
+  "pull_request": "https://github.com/Du-YouLang/Enhanced_Humanizer/pull/8",
+  "remote_archive_verification": {
+    "verdict": "PASS",
+    "count": 26,
+    "verified_at_utc": "2026-10-10T13:14:56.059266+00:00",
+    "private_record": ".local-workbench/audits/p2-remote-archives.json"
   }
 }

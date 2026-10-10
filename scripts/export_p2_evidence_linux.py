@@ -14,7 +14,7 @@ def main():
     usage_fields=('input_tokens','cache_read_input_tokens','cache_creation_input_tokens','output_tokens')
     tokens={k:sum(r['usage'][k] for r in ledger['requests']) for k in usage_fields} if all('usage' in r for r in ledger['requests']) else 'unavailable'
     estimate_peak=(tokens['input_tokens']*.3+tokens['cache_read_input_tokens']*.006+tokens['output_tokens']*1.2)/1e6 if isinstance(tokens,dict) else 'unavailable'
-    public={'schema_version':1,'phase':'P2','functional_verdict':'PASS','delivery_verdict':'CI_PENDING',
+    public={'schema_version':1,'phase':'P2','functional_verdict':'PASS','delivery_verdict':'REQUIRES_FINAL_PR_CI_MAIN_ACCEPTANCE_RECORD',
             'issue':'https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7',
             'actual_models':{'DS':'deepseek-flash (DeepSeek V4.1 Flash)','Sol':'gpt-6.1-sol'},
             'budget':{'requests':len(ledger['requests']),'codex_turns_reserved':len(ledger['codex_turns']),
