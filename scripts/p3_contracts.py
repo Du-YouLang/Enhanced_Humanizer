@@ -64,6 +64,15 @@ def with_initial_judgment(package, judgment):
     return validate_handoff(body)
 
 
+def validate_candidate_coverage(expected, considered):
+    """Every input exactly once; the Reviewer may also mention its output M."""
+    if not isinstance(considered,list) or any(not isinstance(c,str) for c in considered):raise ValueError('Candidate coverage list required')
+    source=set(expected);reported=set(considered)
+    if len(reported)!=len(considered) or not source<=reported or reported-source-{'M'}:
+        raise ValueError('Missing, duplicate or unknown considered candidates')
+    return {'input_candidates':sorted(source),'output_M_also_reported':'M' in reported-source}
+
+
 def compare(pool, merged, judgment):
     validate_pool(pool)
     original_passed=[c['id'] for c in pool['candidates'] if c['verdict']=='PASS']

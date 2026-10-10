@@ -14,7 +14,7 @@ from pathlib import Path
 sys.path.insert(0,'/opt/workbench/source')
 from p1_broker import protect_memory
 from p2_candidates import BASE,digest,safe_git,run_tests,validate_pool
-from p3_contracts import read_json,validate_checkpoint
+from p3_contracts import read_json,validate_checkpoint,validate_candidate_coverage
 from p3_runtime_linux import load_stage,candidate_work
 from p3_worker_linux import completed_session
 from export_codex_usage import collect
@@ -48,7 +48,7 @@ for stage,role in (('verify_m','reviewer'),('builder','builder')):
  assert value['head_commit']!=value['base_commit']
  tests.append({'id':value['id'],'head_sha':value['head_commit'],'verdict':'PASS','suite_sha256':replay['suite_sha256']})
 coverage=load_stage(root,'reviewer')['answer']['decision']['considered_candidates']
-assert sorted(coverage)==sorted(c['id'] for c in pool['candidates'])
+coverage_check=validate_candidate_coverage([c['id'] for c in pool['candidates']],coverage)
 sessions=[];denials=0
 for name in ('verifier_input','reviewer','verifier_m','builder','verifier_builder'):
  path=root/'roles'/name;worker=read_json(path/'worker.json')
@@ -80,7 +80,7 @@ value={'kind':'INDEPENDENT_NATIVE_ZERO_MODEL_LIVE_REPLAY','verdict':'PASS','run_
  'new_subscription_turns':0,'api_cash_usd':0,'replays':tests,'completed_sessions':sessions,
  'actual_runtime_denials':denials,'segments':segments,'checkpoint_sha256':digest(checkpoint),'contract_hash':claimed,
  'frozen_source_sha256':contract['source_sha256'],'ledger_sha256':before,'prior_ledger_sha256':prior,
- 'reviewer_considered_candidates':coverage,'comparison':load_stage(root,'verifier_m')['comparison'],
+ 'reviewer_considered_candidates':coverage,'coverage_check':coverage_check,'comparison':load_stage(root,'verifier_m')['comparison'],
  'all_p5_sessions':list(all_sessions.values()),'subscription_visible_tokens':visible,
  'subscription_unknown_sessions':sum(s['usage']=='unavailable' for s in all_sessions.values()),
  'ds_requests':len(ledger_value['requests']),'codex_turns_reserved':len(ledger_value['codex_turns']),

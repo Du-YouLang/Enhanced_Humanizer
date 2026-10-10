@@ -23,7 +23,7 @@ def main():
         if (work/'.git').exists():
             worker['partial_files']=all_files(work)
             worker['head_commit']=safe_git(work,'rev-parse','HEAD')
-            if terminal in ('CANCELLED','INFRA_FAIL','TIMEOUT') and not (file.parent/'candidate.bundle').exists():
+            if terminal in ('PAUSED','CANCELLED','INFRA_FAIL','TIMEOUT') and not (file.parent/'candidate.bundle').exists():
                 scratch=file.parent/'verify-tmp/partial.bundle'
                 safe_git(work,'bundle','create',str(scratch),'--all')
                 (file.parent/'candidate.bundle').write_bytes(scratch.read_bytes())

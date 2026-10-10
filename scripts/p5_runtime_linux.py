@@ -6,7 +6,7 @@ import time
 from p2_candidates import BASE,digest,exclusive_json
 from p2_experiment_linux import pool_run
 from p2_judges import J0
-from p3_contracts import read_json,judge_pool,with_initial_judgment,validate_handoff,compare
+from p3_contracts import read_json,judge_pool,with_initial_judgment,validate_candidate_coverage,validate_handoff,compare
 import p3_runtime_linux as runtime
 
 STAGES=('candidates','verifier_input','reviewer','verify_m','verifier_m','builder','verifier_builder')
@@ -58,10 +58,11 @@ def stage(root,name):
         if name=='verifier_input':value=judge(root,name,judge_pool(frozen_handoff(root,pool_path)),settings['judge'])
         elif name=='reviewer':
             package=with_initial_judgment(frozen_handoff(root,pool_path),load(root,'verifier_input'));validate_handoff(package)
-            prompt='Fresh independent Reviewer. Read ALL successful and failed candidates and all visible evidence. Freely design and IMPLEMENT candidate M, including rewriting when justified. Preserve frozen protected files/dependencies, test and create a clean real commit. Refuse contradictory requirements with evidence. Never claim failed work passed. No subagents/network/installs/prior chat. Report all considered candidate IDs. Hidden answers withheld.\n'+json.dumps(package,sort_keys=True)
+            prompt='Fresh independent Reviewer. Read ALL successful and failed input candidates and all visible evidence. Freely design and IMPLEMENT candidate M, including rewriting when justified. Preserve frozen protected files/dependencies, test and create a clean real commit. Refuse contradictory requirements with evidence. Never claim failed work passed. No subagents/network/installs/prior chat. Report each input candidate ID exactly once in considered_candidates; M is your output, not an input. Hidden answers withheld.\n'+json.dumps(package,sort_keys=True)
             value=runtime.role_run(root,name,'reviewer',package,prompt,source=task['base_repository'])
-            if value['status']=='COMPLETED' and sorted(value.get('answer',{}).get('decision',{}).get('considered_candidates',[]))!=sorted(c['id'] for c in pool['candidates']):
-                value=dict(value,status='INFRA_FAIL',error_type='IncompleteCandidateCoverage')
+            if value['status']=='COMPLETED':
+                try:value['coverage']=validate_candidate_coverage([c['id'] for c in pool['candidates']],value.get('answer',{}).get('decision',{}).get('considered_candidates'))
+                except ValueError:value=dict(value,status='INFRA_FAIL',error_type='IncompleteCandidateCoverage')
         elif name=='verify_m':value=runtime.verify_role(root,'reviewer','M',pool['base_commit'],pool,load(root,'reviewer'))
         elif name=='verifier_m':
             value=judge(root,name,judge_pool(frozen_handoff(root,pool_path),load(root,'verify_m')),settings['judge'])

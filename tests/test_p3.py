@@ -11,7 +11,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from p1_budget import Ledger,BudgetDenied
 from p2_candidates import digest
 from p2_judges import J0
-from p3_contracts import handoff,validate_handoff,judge_pool,with_initial_judgment,compare,checkpoint,validate_checkpoint
+from p3_contracts import handoff,validate_handoff,judge_pool,with_initial_judgment,validate_candidate_coverage,compare,checkpoint,validate_checkpoint
 from test_p2 import pool
 
 
@@ -61,6 +61,13 @@ class TestP3(unittest.TestCase):
         file=root/'inputs/candidate-handoff.json';altered=json.loads(file.read_text(encoding='utf-8'));altered['candidates'][0]['visible_tests']['elapsed_seconds']=999
         file.write_text(json.dumps(altered),encoding='utf-8')
         with self.assertRaises(ValueError):frozen_handoff(root,pool_file)
+
+    def test_reviewer_covers_every_input_and_m_cannot_mask_omissions(self):
+        expected=list('ABC')
+        self.assertFalse(validate_candidate_coverage(expected,list('CBA'))['output_M_also_reported'])
+        self.assertTrue(validate_candidate_coverage(expected,list('ABCM'))['output_M_also_reported'])
+        for reported in (list('ABM'),list('ABCD'),list('ABCC'),[],None,[1,'B','C']):
+            with self.assertRaises(ValueError):validate_candidate_coverage(expected,reported)
 
     def test_m_does_not_win_automatically_and_failed_selection_is_rejected(self):
         p,_=self.package();m={'verdict':'FAIL'}
