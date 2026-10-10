@@ -79,5 +79,17 @@ class TestP3(unittest.TestCase):
         other.reserve_request('first')
         with self.assertRaises(BudgetDenied):other.reserve_request('second')
 
+    def test_successful_harness_retry_requires_its_exact_session_model_and_tokens(self):
+        from p3_worker_linux import completed_session
+        failed={'session_id':'failed','model_id':'gpt-6.1-sol','usage':'unavailable'}
+        success={'session_id':'completed','model_id':'gpt-6.1-sol','usage':{'input_tokens':12845,'output_tokens':658,'cached_input_tokens':0}}
+        turns=[{'status':'COMPLETED','session_id':'completed','model_requested':'gpt-6.1-sol'}]
+        self.assertEqual(completed_session([failed,success],turns),success)
+        for usage,record in (([failed],turns),([success,success],turns),([success],turns*2),
+                             ([success],[]),([success|{'model_id':'wrong-model'}],turns),
+                             ([success|{'usage':'unavailable'}],turns),
+                             ([success|{'usage':success['usage']|{'cached_input_tokens':12846}}],turns)):
+            with self.assertRaises(RuntimeError):completed_session(usage,record)
+
 
 if __name__=='__main__':unittest.main()

@@ -11,7 +11,6 @@ import time
 
 from p1_broker import protect_memory
 from p1_budget import Ledger
-from p1_drivers import MeteredDriver
 from p2_candidates import exclusive_json
 from export_codex_usage import collect
 
@@ -20,6 +19,22 @@ class RoleLedger:
     def __init__(self,ledger):self.ledger=ledger
     def reserve_codex_turn(self,scope,model):
         return self.ledger.reserve_codex_turn(scope,model,scope_turns=2)
+
+
+def completed_session(usage,turns):
+    """Match the completed Harness turn to its trace, preserving failed retries."""
+    completed=[t for t in turns if t.get('status')=='COMPLETED']
+    if len(completed)!=1:raise RuntimeError('Exactly one completed independent Sol turn required')
+    turn=completed[0];session=turn.get('session_id')
+    matched=[row for row in usage if row.get('session_id')==session]
+    if not session or len(matched)!=1:raise RuntimeError('Completed Sol session trace not uniquely verified')
+    row=matched[0];tokens=row.get('usage')
+    if turn.get('model_requested')!='gpt-6.1-sol' or row.get('model_id')!='gpt-6.1-sol' or not isinstance(tokens,dict):
+        raise RuntimeError('Completed Sol model/usage not verified')
+    if any(type(tokens.get(k)) is not int or tokens[k]<0 for k in ('input_tokens','output_tokens','cached_input_tokens')):
+        raise RuntimeError('Completed Sol token evidence missing or invalid')
+    if tokens['cached_input_tokens']>tokens['input_tokens']:raise RuntimeError('Invalid cached Sol usage')
+    return row
 
 
 def role_fence(job):
@@ -91,6 +106,7 @@ def main():
         return 0
     from hmz.sdk import Hmz
     from hmz.flows import Permission
+    from p1_drivers import MeteredDriver
     role=job['role'];turns=[];tick=time.perf_counter()
     limits=job['limits']
     phase=job.get('phase','P3')
@@ -105,13 +121,12 @@ def main():
     run=Hmz(workspace=job['work']).run('/opt/workbench/source/flows/'+flow,job['prompt'],agents={spec:driver},
                                     budget={'duration':timedelta(seconds=min(600,job['role_seconds'])),'graceful':False})
     value={'kind':'REAL_MODEL_EXPERIMENT','role':role,'scope':job['scope'],'status':'RUNNING','turns':turns,
-           'uid':os.getuid(),'cap_eff':cap,'input_sha256':job['input_sha256'],'parent_namespace':job['parent_namespace']}
+           'uid':os.getuid(),'cap_eff':cap,'input_sha256':job['input_sha256'],'parent_namespace':job['parent_namespace'],'epic':str(run.epic)}
     try:
         answer=run.run();usage=collect(Path(run.epic))
-        if len(usage)!=1 or usage[0]['model_id']!='gpt-6.1-sol' or usage[0]['usage']=='unavailable':
-            raise RuntimeError('Actual independent Sol session/model/usage not verified')
-        value.update(status='COMPLETED',answer=answer,session_id=usage[0]['session_id'],usage=usage,
-                     model_id=usage[0]['model_id'],epic=str(run.epic))
+        completed=completed_session(usage,turns)
+        value.update(status='COMPLETED',answer=answer,session_id=completed['session_id'],usage=usage,
+                     model_id=completed['model_id'],epic=str(run.epic))
     except BaseException as error:
         value.update(status='INFRA_FAIL',error_type=type(error).__name__,error=str(error)[:800],usage=collect(Path(run.epic)))
     value['elapsed_seconds']=time.perf_counter()-tick

@@ -122,6 +122,10 @@ class Execution:
             with self.mutex:
                 if self.running or value['status']!='PAUSED':raise ValueError('Only an inactive durably paused Flow can resume')
                 self.running=run_id;self.memory.record('run',run_id,value|{'status':'RUNNING'})
+                task=self.memory.get('task',value['task_id']);self.memory.record('task',task['id'],task|{'status':'RUNNING'})
+                try:
+                    root=self.memory.get('attempt',run_id+'/task');self.memory.record('attempt',root['id'],root|{'status':'RUNNING'})
+                except KeyError:pass
                 threading.Thread(target=self._execute,args=(run_id,'resume',None),daemon=True).start()
         else:
             if self.running!=run_id or value['status'] not in ('RUNNING','PAUSE_REQUESTED','STOP_REQUESTED'):raise ValueError('Run is not active')

@@ -140,6 +140,19 @@ class TestUI(unittest.TestCase):
             with self.assertRaises(ValueError):execution.retry_pool('p5-fixture-quota',{'n':5 if options['n']!=5 else 1})
             start.assert_not_called()
 
+    def test_resume_updates_saved_task_and_root_before_launch(self):
+        from unittest.mock import patch
+        from workbench.execution import Execution
+        run='p5-fixture-resume'
+        self.memory.record('run',run,{'phase':'P5','task_id':'fixture','status':'PAUSED'})
+        self.memory.record('attempt',run+'/task',{'task_id':'fixture','status':'PAUSED','role':'task','artifacts':{}})
+        execution=Execution(self.memory)
+        with patch('workbench.execution.threading.Thread') as launch:
+            self.assertEqual(execution.request(run,'resume')['status'],'RUNNING')
+            self.assertEqual(self.memory.get('task','fixture')['status'],'RUNNING')
+            self.assertEqual(self.memory.get('attempt',run+'/task')['status'],'RUNNING')
+            launch.return_value.start.assert_called_once()
+
     def test_n1_and_n5_judge_m_comparisons_are_not_real_n2_or_n6_generation(self):
         from p3_contracts import judge_pool,handoff
         from p2_candidates import digest,validate_pool

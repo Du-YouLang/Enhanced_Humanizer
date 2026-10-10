@@ -27,7 +27,8 @@ def main():
                 scratch=file.parent/'verify-tmp/partial.bundle'
                 safe_git(work,'bundle','create',str(scratch),'--all')
                 (file.parent/'candidate.bundle').write_bytes(scratch.read_bytes())
-        folders=[Path(worker['epic'])] if worker.get('epic') else []
+        # Failed workers may predate explicit epic metadata; keep their native traces too.
+        folders=[Path(worker['epic'])] if worker.get('epic') else [file.parent/'humanize']
         logs=list(file.parent.glob('worker.*.private.log'))
         for folder in folders:
             if folder.resolve().is_relative_to(file.parent.resolve()):logs += list(folder.rglob('*.jsonl'))
