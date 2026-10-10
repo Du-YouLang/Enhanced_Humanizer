@@ -105,7 +105,7 @@ class Execution:
         frozen=validate_pool(json.loads(result.stdout))
         contract=json.loads(self.memory.read_artifact(value['contract_artifact']))
         if frozen.get('contract_manifest')!=contract:raise ValueError('Frozen pool contract differs; no task substitution')
-        direction=settings(options or value['settings']);direction['pause_after']=''
+        direction=settings(options or value['settings'])
         if direction['n']!=len(frozen['candidates']):raise ValueError('Reusing a pool keeps its original N; generating a different N requires a new task')
         return self.start(direction,contract,parent=run_id+'/verifier_input',reuse_pool=pool)
 

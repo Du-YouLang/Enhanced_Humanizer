@@ -132,6 +132,8 @@ class TestUI(unittest.TestCase):
         with patch('workbench.execution.wsl',return_value=SimpleNamespace(returncode=0,stdout=json.dumps(p).encode())),patch.object(execution,'start',return_value={'kind':'TEST_ONLY_ZERO_MODELS'}) as start:
             result=execution.retry_pool('p5-fixture-quota');self.assertEqual(result['kind'],'TEST_ONLY_ZERO_MODELS')
             self.assertEqual(start.call_args.kwargs['reuse_pool'],'/opt/workbench/runs/p5-fixture-quota-pool/frozen-pool.json')
+            execution.retry_pool('p5-fixture-quota',options|{'pause_after':'candidates'})
+            self.assertEqual(start.call_args.args[0]['pause_after'],'candidates')
             start.reset_mock()
             with self.assertRaises(ValueError):execution.retry_pool('p5-fixture-quota',{'n':5 if options['n']!=5 else 1})
             start.assert_not_called()
