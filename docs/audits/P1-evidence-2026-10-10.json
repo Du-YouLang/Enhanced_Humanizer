@@ -1,0 +1,497 @@
+{
+  "schema_version": 1,
+  "phase": "P1",
+  "date": "2026-10-10",
+  "functional_verdict": "PASS",
+  "delivery_verdict": "REQUIRES_SUCCESSFUL_ASSOCIATED_PR_CHECKS",
+  "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
+  "baseline_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+  "experiments": [
+    {
+      "run_id": "p1-flame-20261010T094454Z",
+      "mode": "flame",
+      "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "head_commit": "de38df889fb453c22fc91e67b5dcf4dbffd8d5da",
+      "verdict": "PASS",
+      "model_and_tools_seconds": 70.785793,
+      "elapsed_seconds": 70.875528,
+      "child_resources": {
+        "user_cpu_seconds": 4.6864609999999995,
+        "system_cpu_seconds": 3.608832,
+        "max_rss_kib": 336656
+      },
+      "runtime_lock_sha256": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+      "prompt_sha256": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+      "record_sha256": "6d628e70f7d86a1312c6915d7f28c5f2740c2e7c3b5d341ef6d9a5bce042fe36",
+      "independent_checks": {
+        "base_commit": true,
+        "head_commit": true,
+        "clean_worktree": true,
+        "frozen_test_unchanged": true,
+        "sandboxed_public_tests": true,
+        "sandboxed_redesign_tests": true,
+        "observed_codex_model": true
+      },
+      "commits": [
+        "de38df889fb453c22fc91e67b5dcf4dbffd8d5da Add streaming WeightedMean accumulator",
+        "a5abf4eb07abd55eb83e7f2bcad48df9d91b2840 Fix weighted_mean to use weighted average"
+      ],
+      "turns": [
+        {
+          "role": "first_chaser",
+          "harness": "dsh",
+          "model_requested": "deepseek-flash",
+          "session_id": "session-e7e96c0cccfc4896940f24b9766afd3f",
+          "elapsed_seconds": 14.331693,
+          "status": "COMPLETED",
+          "prompt_sha256": "077bd4b668885fb3b9707ef858fcfe1bb2a5b3c7307bc3d0d5218129012cdd12"
+        },
+        {
+          "role": "second_chaser",
+          "harness": "codex",
+          "model_requested": "gpt-6.1-sol",
+          "session_id": "01a12533-cdfa-7393-8dbf-df9f07e9f01d",
+          "elapsed_seconds": 50.459274,
+          "status": "COMPLETED",
+          "prompt_sha256": "077bd4b668885fb3b9707ef858fcfe1bb2a5b3c7307bc3d0d5218129012cdd12"
+        }
+      ],
+      "deepseek_requests": 6,
+      "deepseek_usage": {
+        "input_tokens": 7894,
+        "cache_read_input_tokens": 39552,
+        "cache_creation_input_tokens": 0,
+        "output_tokens": 1405
+      },
+      "deepseek_request_elapsed_seconds": 10.518526,
+      "api_peak_upper_bound_usd": 0.0159198,
+      "codex_usage": [
+        {
+          "session_id": "01a12533-cdfa-7393-8dbf-df9f07e9f01d",
+          "model_id": "gpt-6.1-sol",
+          "usage": {
+            "input_tokens": 46437,
+            "cached_input_tokens": 30592,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1631,
+            "reasoning_output_tokens": 34,
+            "total_tokens": 48068
+          }
+        }
+      ],
+      "tests_passed": "12"
+    },
+    {
+      "run_id": "p1-humanize-20261010T094156Z",
+      "mode": "humanize",
+      "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "head_commit": "da86b8d178d22ea9386c3c29c1f38f00dec66463",
+      "verdict": "PASS",
+      "model_and_tools_seconds": 12.357073,
+      "elapsed_seconds": 12.43702,
+      "child_resources": {
+        "user_cpu_seconds": 2.480251,
+        "system_cpu_seconds": 1.564122,
+        "max_rss_kib": 334884
+      },
+      "runtime_lock_sha256": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+      "prompt_sha256": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+      "record_sha256": "a8a2af83d6e6dad054565fd1e0565cb0b58e601ebcfd074069ee0a71c5b8569e",
+      "independent_checks": {
+        "base_commit": true,
+        "head_commit": true,
+        "clean_worktree": true,
+        "frozen_test_unchanged": true,
+        "sandboxed_public_tests": true
+      },
+      "commits": [
+        "da86b8d178d22ea9386c3c29c1f38f00dec66463 Fix weighted_mean to use weighted average with validation"
+      ],
+      "turns": [
+        {
+          "role": "builder",
+          "harness": "dsh",
+          "model_requested": "deepseek-flash",
+          "session_id": "session-cd854c8e4e38449ea89b1bb46ff77aba",
+          "elapsed_seconds": 11.469353,
+          "status": "COMPLETED",
+          "prompt_sha256": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8"
+        }
+      ],
+      "deepseek_requests": 6,
+      "deepseek_usage": {
+        "input_tokens": 8357,
+        "cache_read_input_tokens": 38272,
+        "cache_creation_input_tokens": 0,
+        "output_tokens": 1012
+      },
+      "deepseek_request_elapsed_seconds": 7.973419,
+      "api_peak_upper_bound_usd": 0.0152031,
+      "codex_usage": [],
+      "tests_passed": "5"
+    },
+    {
+      "run_id": "p1-native-20261010T094046Z",
+      "mode": "native",
+      "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "head_commit": "7ec7cb256e5452b9e6ef5be77545357c2040b90f",
+      "verdict": "PASS",
+      "model_and_tools_seconds": 13.15693,
+      "elapsed_seconds": 13.239106,
+      "child_resources": {
+        "user_cpu_seconds": 2.781119,
+        "system_cpu_seconds": 1.701906,
+        "max_rss_kib": 339308
+      },
+      "runtime_lock_sha256": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+      "prompt_sha256": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+      "record_sha256": "f127e5d03f5b95af459ff80c08153ac5bd601cc912522b18c53a44398bd62d0d",
+      "independent_checks": {
+        "base_commit": true,
+        "head_commit": true,
+        "clean_worktree": true,
+        "frozen_test_unchanged": true,
+        "sandboxed_public_tests": true
+      },
+      "commits": [
+        "7ec7cb256e5452b9e6ef5be77545357c2040b90f Fix weighted_mean to compute weighted average"
+      ],
+      "turns": [],
+      "deepseek_requests": 6,
+      "deepseek_usage": {
+        "input_tokens": 8972,
+        "cache_read_input_tokens": 39936,
+        "cache_creation_input_tokens": 0,
+        "output_tokens": 966
+      },
+      "deepseek_request_elapsed_seconds": 8.681856,
+      "api_peak_upper_bound_usd": 0.0158316,
+      "codex_usage": [],
+      "tests_passed": "5"
+    },
+    {
+      "run_id": "p1-relay-20261010T094628Z",
+      "mode": "relay",
+      "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "head_commit": "8c6ba5aefe96ac37d5e186a7c4869ba3f3adcd9c",
+      "verdict": "PASS",
+      "model_and_tools_seconds": 63.51036,
+      "elapsed_seconds": 63.578798,
+      "child_resources": {
+        "user_cpu_seconds": 4.381158,
+        "system_cpu_seconds": 3.126069,
+        "max_rss_kib": 335660
+      },
+      "runtime_lock_sha256": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+      "prompt_sha256": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+      "record_sha256": "260d23b57d6db73982328daa07767dc3ccf26b85af212b2c9e08f01490fe3184",
+      "independent_checks": {
+        "base_commit": true,
+        "head_commit": true,
+        "clean_worktree": true,
+        "frozen_test_unchanged": true,
+        "sandboxed_public_tests": true,
+        "sandboxed_redesign_tests": true,
+        "observed_codex_model": true,
+        "pause_resume": true,
+        "distinct_sessions": true,
+        "commit_handoff_chain": true
+      },
+      "commits": [
+        "8c6ba5aefe96ac37d5e186a7c4869ba3f3adcd9c Introduce streaming WeightedMean accumulator",
+        "8cc8f1ecb39a4c0cf82e66a6081bdb1771d3cd00 Fix weighted_mean to use weighted average"
+      ],
+      "turns": [
+        {
+          "role": "ds_builder",
+          "harness": "dsh",
+          "model_requested": "deepseek-flash",
+          "session_id": "session-c143b7417146465ba85cc6eb305e7db7",
+          "elapsed_seconds": 12.099764,
+          "status": "COMPLETED",
+          "prompt_sha256": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8"
+        },
+        {
+          "role": "sol_builder",
+          "harness": "codex",
+          "model_requested": "gpt-6.1-sol",
+          "session_id": "01a12535-208c-7500-ba73-9ac16cad7327",
+          "elapsed_seconds": 50.522133,
+          "status": "COMPLETED",
+          "prompt_sha256": "8c47cab13cd52b62f551b96bae54b8f40963002dcb3209269b5d738aaf40f7e6"
+        }
+      ],
+      "deepseek_requests": 6,
+      "deepseek_usage": {
+        "input_tokens": 7957,
+        "cache_read_input_tokens": 38784,
+        "cache_creation_input_tokens": 0,
+        "output_tokens": 955
+      },
+      "deepseek_request_elapsed_seconds": 8.780679,
+      "api_peak_upper_bound_usd": 0.0151683,
+      "codex_usage": [
+        {
+          "session_id": "01a12535-208c-7500-ba73-9ac16cad7327",
+          "model_id": "gpt-6.1-sol",
+          "usage": {
+            "input_tokens": 58837,
+            "cached_input_tokens": 54016,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 1505,
+            "reasoning_output_tokens": 14,
+            "total_tokens": 60342
+          }
+        }
+      ],
+      "tests_passed": "11",
+      "paused": true,
+      "checkpoint_commit": "8cc8f1ecb39a4c0cf82e66a6081bdb1771d3cd00",
+      "handoffs": [
+        {
+          "schema_version": 1,
+          "role": "ds_builder",
+          "model_requested": "deepseek-flash",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "head_commit": "8cc8f1ecb39a4c0cf82e66a6081bdb1771d3cd00",
+          "test_command": "python -m unittest -v",
+          "test_exit_code": 0,
+          "changed_files": [
+            "weighted_stats.py"
+          ],
+          "known_failures": [],
+          "context_transfer": "program evidence and repository only; no prior chat transcript"
+        },
+        {
+          "schema_version": 1,
+          "role": "sol_builder",
+          "model_requested": "gpt-6.1-sol",
+          "base_commit": "8cc8f1ecb39a4c0cf82e66a6081bdb1771d3cd00",
+          "head_commit": "8c6ba5aefe96ac37d5e186a7c4869ba3f3adcd9c",
+          "test_command": "python -m unittest -v",
+          "test_exit_code": 0,
+          "changed_files": [
+            "test_accumulator.py",
+            "weighted_stats.py"
+          ],
+          "known_failures": [],
+          "context_transfer": "program evidence and repository only; no prior chat transcript"
+        }
+      ],
+      "resumed": true,
+      "completed_steps": 2
+    },
+    {
+      "run_id": "p1-rlar-20261010T094327Z",
+      "mode": "rlar",
+      "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "head_commit": "c8d117a7df7a9640fe16c42be770b7805b1efd29",
+      "verdict": "PASS",
+      "model_and_tools_seconds": 33.134702,
+      "elapsed_seconds": 33.234227,
+      "child_resources": {
+        "user_cpu_seconds": 3.8794750000000002,
+        "system_cpu_seconds": 3.197895,
+        "max_rss_kib": 334536
+      },
+      "runtime_lock_sha256": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+      "prompt_sha256": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+      "record_sha256": "89f62dd708c7ff8aed3f6914e684f562dcfca3d01d0ff289c09c3df51380bd53",
+      "independent_checks": {
+        "base_commit": true,
+        "head_commit": true,
+        "clean_worktree": true,
+        "frozen_test_unchanged": true,
+        "sandboxed_public_tests": true,
+        "observed_codex_model": true
+      },
+      "commits": [
+        "c8d117a7df7a9640fe16c42be770b7805b1efd29 Fix weighted_mean to use weighted average"
+      ],
+      "turns": [
+        {
+          "role": "actor",
+          "harness": "dsh",
+          "model_requested": "deepseek-flash",
+          "session_id": "session-f0eca7c70c0343788098686c852acd56",
+          "elapsed_seconds": 12.523948,
+          "status": "COMPLETED",
+          "prompt_sha256": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8"
+        },
+        {
+          "role": "reviewer",
+          "harness": "codex",
+          "model_requested": "gpt-6.1-sol",
+          "session_id": "01a12532-5f5b-7cc3-a40e-72758311f953",
+          "elapsed_seconds": 19.490704,
+          "status": "COMPLETED",
+          "prompt_sha256": "8323ed70e734f5ba028ff41ac438040efc539b04df6205b1d05eb5c374d94f33"
+        }
+      ],
+      "deepseek_requests": 6,
+      "deepseek_usage": {
+        "input_tokens": 7748,
+        "cache_read_input_tokens": 38144,
+        "cache_creation_input_tokens": 0,
+        "output_tokens": 982
+      },
+      "deepseek_request_elapsed_seconds": 8.756342,
+      "api_peak_upper_bound_usd": 0.014946,
+      "codex_usage": [
+        {
+          "session_id": "01a12532-5f5b-7cc3-a40e-72758311f953",
+          "model_id": "gpt-6.1-sol",
+          "usage": {
+            "input_tokens": 35694,
+            "cached_input_tokens": 22656,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 286,
+            "reasoning_output_tokens": 0,
+            "total_tokens": 35980
+          }
+        }
+      ],
+      "tests_passed": "5"
+    }
+  ],
+  "failed_attempts": [
+    {
+      "run_id": "p1-humanize-20261010T094121Z",
+      "mode": "humanize",
+      "verdict": "INFRA_FAIL",
+      "elapsed_seconds": 0.577416,
+      "record_sha256": "43f5629f8a19a981f505ef2fd7fae0e5799702656974aa0df77ea4c9c1e07975",
+      "paid_requests": 0,
+      "diagnosis": "Adapter subclass lost backend metadata; fixed before any model turn"
+    },
+    {
+      "run_id": "p1-native-20261010T092353Z",
+      "mode": "native",
+      "verdict": "INFRA_FAIL",
+      "elapsed_seconds": 2.103429,
+      "record_sha256": "a27f81de9e69c737061323ff14e272952316737ebdc4c4a3335e220d854fa4c4",
+      "paid_requests": 0,
+      "diagnosis": "Unsupported --dsh-home flag; fixed in launch args"
+    },
+    {
+      "run_id": "p1-native-20261010T092426Z",
+      "mode": "native",
+      "verdict": "FAIL",
+      "elapsed_seconds": 17.753449,
+      "record_sha256": "a17673b0bf8bf150331712302cd41a8a059441e06f2cf946f385588d1f4b981b",
+      "paid_requests": 0,
+      "diagnosis": "DSH bypassed loopback proxy; transport failure before upstream request"
+    }
+  ],
+  "controls": {
+    "transport": {
+      "kind": "MOCK_TRANSPORT_ONLY",
+      "verdict": "PASS",
+      "paid_requests": 0,
+      "sha256": "6531b1eef18fc08283a499f5ab6743004629d927caf51a24ddb29c346c87c4f7"
+    },
+    "controls": {
+      "kind": "OFFLINE_CONTROL_TEST",
+      "verdict": "PASS",
+      "paid_requests": 0,
+      "checks": {
+        "unauthorized_client_denied": true,
+        "alternate_route_denied": true,
+        "other_model_denied": true,
+        "billed_server_tools_denied": true,
+        "no_reservation_for_policy_rejections": true,
+        "request_reserved_before_transport": true,
+        "next_request_denied_before_transport": true,
+        "expired_experiment_denied_before_transport": true,
+        "credential_file_denied": true,
+        "controller_environ_denied": true,
+        "controller_mem_denied": true,
+        "controller_fd_denied": true
+      },
+      "sha256": "dc414d0c0c6ca73b1c5446fd4599952ff4ae275b0058198a83b495a0b4d52b77"
+    },
+    "independent_revalidation": {
+      "verdict": "PASS",
+      "elapsed_seconds": 1.564552,
+      "paid_requests": 0,
+      "sha256": "b56ab178a6e0b414abc2833df4fc267f95bfc147cb24737609e1472b13d30471"
+    }
+  },
+  "budget": {
+    "deepseek_requests": 30,
+    "codex_subscription_turns": 3,
+    "api_peak_upper_bound_usd": 0.0770688,
+    "api_cache_aware_estimate_range_usd": [
+      0.009915264,
+      0.019830528
+    ],
+    "api_bill_usd": "unavailable",
+    "deepseek_usage_disjoint": {
+      "input_tokens": 40928,
+      "cache_read_input_tokens": 194688,
+      "cache_creation_input_tokens": 0,
+      "output_tokens": 5320
+    },
+    "cache_creation_accounting": "not_applicable_in_chat_completions",
+    "codex_usage": {
+      "input_tokens": 140968,
+      "cached_input_tokens": 107264,
+      "output_tokens": 3422,
+      "reasoning_output_tokens": 48,
+      "total_tokens": 144390
+    },
+    "codex_subscription_cost_usd": "unavailable",
+    "codex_api_cash_usd": 0,
+    "ledger_sha256": "6f4d808ba13b259de0afb67e0d3f80c4c328125947c044801a7dcedcb0ed3643"
+  },
+  "private_bundles": [
+    {
+      "run_id": "p1-flame-20261010T094454Z",
+      "sha256": "4b522ed5da88a3a9e39f18b12d1fb474e32401e5037d83f421336bbf5ffc75de",
+      "size_bytes": 2453
+    },
+    {
+      "run_id": "p1-humanize-20261010T094121Z",
+      "sha256": "986dfc5dfa16b0af64f17129c028f9c3e98a84ba047e8a94cc7eb5050c062c12",
+      "size_bytes": 861
+    },
+    {
+      "run_id": "p1-humanize-20261010T094156Z",
+      "sha256": "fae88f42d6621e14163a440b4bbe22da5d214c474187657030863aac46597851",
+      "size_bytes": 1253
+    },
+    {
+      "run_id": "p1-native-20261010T092353Z",
+      "sha256": "0ec79626d821146d727c8b02d512fd9ec3623ccaa7ebfaf63330721c0500005d",
+      "size_bytes": 859
+    },
+    {
+      "run_id": "p1-native-20261010T092426Z",
+      "sha256": "4e5305088ecd131b3db002af30f25d8423b179e60a67ed4cfb7fda9fc32ac248",
+      "size_bytes": 859
+    },
+    {
+      "run_id": "p1-native-20261010T094046Z",
+      "sha256": "111cc7cc794da6c36516f2acd7a5611445440698a7eef9ce0ec8024bee8ba7a3",
+      "size_bytes": 1457
+    },
+    {
+      "run_id": "p1-relay-20261010T094628Z",
+      "sha256": "875d6eb701a6a930911a6677980b3fa43b324e2a6b577cd2d5fa165661fead4d",
+      "size_bytes": 2295
+    },
+    {
+      "run_id": "p1-rlar-20261010T094327Z",
+      "sha256": "9da30ee69353f6a5ba3d51e3cdfc995dcaf0a3866a28505e2cc266b89e542f6f",
+      "size_bytes": 1378
+    }
+  ],
+  "local_regression": {
+    "windows_governance_budget": "15 tests; Linux flock case skipped on Windows",
+    "linux_budget": "8 tests PASS including actual flock race",
+    "node_p0_budget": "3 PASS",
+    "model_calls": 0
+  },
+  "pull_request": "https://github.com/Du-YouLang/Enhanced_Humanizer/pull/6",
+  "private_delivery_record": ".local-workbench/audits/p1-accepted.json"
+}

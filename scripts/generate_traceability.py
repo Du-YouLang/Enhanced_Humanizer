@@ -69,12 +69,13 @@ def main():
     (destination / "traceability.json").write_text(json.dumps(ledger, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     lines = ["# PRD v0.4 需求追踪", "", f"完整保留 {len(rows)} 个稳定 ID：80 项主需求和 6 项操作待决项。原始来源 S0–S4 及附录 A–C 保存在原文；[C]/[E]/[P]/[F]/[O] 不相互替代。", "",
              "机器可筛选数据见 [traceability.json](traceability.json)，phase_evidence 保存已执行证据。测试计划不能视为已通过；阶段验收不等于整个需求已经实现。", "",
-             "| ID | 标签 | 来源 | Phase | Issue 草案 | Tests（计划） | 实施状态 | ADR |", "|---|---|---|---|---|---|---|---|"]
+             "| ID | 标签 | 来源 | Phase | Issue | Tests / 证据状态 | 实施状态 | ADR |", "|---|---|---|---|---|---|---|---|"]
     for row in rows:
         issue = row["phases"][0]
-        issue_link = "[P0 #1](https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1)" if "P0" in row["phases"] else (f"[{issue}](../issues/{issue}.md) 待建远程" if issue != "FUTURE" else "后续立项")
+        issue_link = (f"[#{row['issue'].rsplit('/',1)[-1]}]({row['issue']})" if row['issue'].startswith('https://github.com/')
+                      else (f"[{issue}](../issues/{issue}.md) 待建远程" if issue != "FUTURE" else "后续立项"))
         adrs = ", ".join(f"[{adr}](../decisions/{adr}.md)" for adr in row["relevant_adrs"])
-        lines.append(f"| {row['id']} | {'/'.join(row['tags'])} | {row['sources']} | {'/'.join(row['phases'])} | {issue_link} | {'; '.join(TESTS[p] for p in row['phases'])} | {row['implementation_status']} | {adrs} |")
+        lines.append(f"| {row['id']} | {'/'.join(row['tags'])} | {row['sources']} | {'/'.join(row['phases'])} | {issue_link} | {'; '.join(row['tests'])} | {row['implementation_status']} | {adrs} |")
     lines.extend(["", "USR-NAME-01：已记录用户最新命名要求，见 [项目状态](../project-status.md)。此项是新增用户指示，未擅自改写 PRD 的稳定 ID。", ""])
     (destination / "traceability.md").write_text("\n".join(lines), encoding="utf-8")
     manifest = {"schema_version": 1, "sources": [{"path": str(p.relative_to(ROOT)).replace("\\", "/"), "sha256": hashlib.sha256(p.read_bytes()).hexdigest()} for p in [GUIDE, PRD]]}
