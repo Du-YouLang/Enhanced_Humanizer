@@ -271,6 +271,7 @@ print('prepared')
                     refs[name]=old['id'] if old and old['access']=='human' else self.memory.artifact(content,name,'agent')
             head=value.get('head_commit',full['base_commit'])
             node={'task_id':task,'run_id':run_id,'label':label,'role':role,'parents':edges,
+                  'kind':value.get('kind','stage-evidence'),'usage_provenance':value.get('usage_provenance','This attempt; unavailable remains unknown'),
                   'base_sha':value.get('base_commit',full['base_commit']),'head_sha':head,'status':value.get('verdict',value.get('status','unavailable')),
                   'artifacts':refs,'contract':basic,'linux_worktree':linux,'model_id':value.get('model_id','not_applicable' if role=='task' else 'unavailable'),
                   'session_id':value.get('session_id','unavailable'),'usage':value.get('usage',value.get('tokens','unavailable')),

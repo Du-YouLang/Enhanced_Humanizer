@@ -253,5 +253,15 @@
   "ui_screenshots_sha256": {
     "p5-ui-desktop.jpg": "68a7d74eeb0e61593ac69debe7e2bc32072aeeece440e90d7e265ede3af3ad62",
     "p5-ui-default.jpg": "b74aad61eb6cf808a441315fe077b09481cab7349814d319ef459ebd6e963454"
+  },
+  "reused_pool_checkpoint": {
+    "run_id": "p5-20261010163930-c18242dc",
+    "status": "PAUSED",
+    "stage": "candidates",
+    "n": 3,
+    "new_model_requests": 0,
+    "active_elapsed_seconds": 0.27934819599999905,
+    "contract_hash": "3fd116fb7b375c1224b0a3cdc9d09b136f922b8469e83be9cc4fee10ec15b59c",
+    "ledger_hash_unchanged": true
   }
 }

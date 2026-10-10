@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-11 恢复入口：UI已重用原三个真实候选，原生`p5-20261010163930-c18242dc`在candidates后PAUSED、新增模型请求0、P5 ledger SHA不变。额度恢复后可明确resume补J3/Reviewer/M/Builder；此检查点不等于新的评分或阶段PASS。导出已支持恢复精确源码branch/HEAD；最新本地阶段提交与备份receipt见`.local-workbench/audits/p5-delivery-local.json`。
+
 2026-10-11 当前有效状态：P0–P3 已功能与远程交付验收；main仍为`8d9b11de9ccbe13f12fb8a9b32a89fb19991404b`。P4本地功能PASS，提交`8de702adf9d13d343fada7b85b317c938bf8401f`、Issue #11已于连接断开前创建；远程P4交付暂缓。P5分支`feature/p5-exploration-workbench`已实现本地交互图/后台人审/原生Flow控制，Windows49（1 Linux skip）/native Linux42/Node3以及三个真实DS候选隔离重测通过。P5新链暂停恢复后J3触发Codex订阅usageLimitExceeded，尚未完整真实Reviewer/Builder验收：状态LOCAL_PARTIAL / BLOCKED_EXTERNAL_CODEX_QUOTA，不能宣称P5全部PASS，也不能进入P6。
 
 用户最新要求：暂时断开Du-YouLang Git连接，本地代码/提交继续，PR等恢复后处理；不得推送、建/改远程Issue/PR或使用其他账户。恢复后先核对身份，P4→P5依次交付并跑实际CI；功能与远程交付分开。已备本地报告/PR草稿/bundle，不安排自动上传或未来付费任务。
