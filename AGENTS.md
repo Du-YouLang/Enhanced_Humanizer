@@ -3,8 +3,9 @@
 Read `docs/project-status.md` before continuing. The user's latest instructions take precedence over document suggestions.
 
 - Treat both original v0.4 files in `GPT_guides/` as preserved baseline inputs. Do not overwrite them; changes require an ADR and traceability updates.
-- The user authorized installing project WSL2 and proceeding directly to P1 after all P0 gates pass. Windows currently requires a manual restart; Linux isolation and the real Humanize demo remain unvalidated. Do not treat installation, CI or a PR merge as P0 acceptance.
+- The user authorized project WSL2 and proceeding directly to P1 after all P0 gates pass. The manual reboot, Linux Codex login, OS denial tests and real Humanize/Codex demo passed on 2026-10-10; see docs/audits/P0-Linux-2026-10-10.md. Do not treat installation, CI or a PR merge alone as phase acceptance.
 - Reuse Humanize Flow, official DSH and Codex Harness. Do not build a replacement Coding Harness.
+- Linux distro EnhancedHumanizer-P0 uses /opt/workbench/.venv-linux (native Ubuntu Python 3.12.3 with pidfd). Preserve the incompatible portable 3.13.14 environment. Windows drives/interop are disabled. See ADR-0006 and scripts/wsl_project.py; never run agents as root.
 - New environments, Python runtimes, worktrees, caches, logs and model run state must stay under `D:\Desktop\Enhanced_Humanizer`.
 - Approved WSL exception: Microsoft system components may use C:; Ubuntu VHD/downloads/state stay under `.local-workbench/wsl/`. Reserve D: 20 GiB and C: 4 GiB. No automatic restart, unregister, VHD deletion, global auth-directory copy or unrelated environment changes. See ADR-0005.
 - GitHub account verified: `Du-YouLang`. The user approved public P0 uploads/Issues/PR/CI, the public humanfia/humanize Fork, and the P0 model budget. DSH/LAV Forks were created by the user and verified. Latest policy: lightweight development PRs may merge after actual CI success to keep local/GitHub synchronized; do not add strict main protection. The software product's own PR feature must require human review for every PR. See ADR-0004; recheck identity before remote changes.

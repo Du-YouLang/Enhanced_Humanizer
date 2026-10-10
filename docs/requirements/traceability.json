@@ -105,12 +105,16 @@
         "P0-A01..A08 (计划；不能视为已通过)",
         "P1-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0006"
       ],
-      "source_line": 43
+      "source_line": 43,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "WF-01",
@@ -128,12 +132,16 @@
         "P0-A01..A08 (计划；不能视为已通过)",
         "P1-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0006"
       ],
-      "source_line": 47
+      "source_line": 47,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "WF-02",
@@ -529,12 +537,16 @@
         "P2-A01..A04 (计划；不能视为已通过)",
         "P6-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0006"
       ],
-      "source_line": 87
+      "source_line": 87,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "JR-02",
@@ -554,12 +566,16 @@
         "P2-A01..A04 (计划；不能视为已通过)",
         "P6-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0006"
       ],
-      "source_line": 89
+      "source_line": 89,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "JR-03",
@@ -577,12 +593,16 @@
         "P0-A01..A08 (计划；不能视为已通过)",
         "P2-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0006"
       ],
-      "source_line": 91
+      "source_line": 91,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "JR-04",
@@ -729,12 +749,16 @@
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_ACCEPTANCE_READY_PENDING_CURRENT_CI",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 107
+      "source_line": 107,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "HR-02",
@@ -750,12 +774,16 @@
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_ACCEPTANCE_READY_PENDING_CURRENT_CI",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 109
+      "source_line": 109,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "HR-03",
@@ -771,12 +799,16 @@
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_ACCEPTANCE_READY_PENDING_CURRENT_CI",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 111
+      "source_line": 111,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "HR-04",
@@ -858,12 +890,16 @@
         "P0-A01..A08 (计划；不能视为已通过)",
         "P2-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 119
+      "source_line": 119,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "CX-01",
@@ -1011,12 +1047,16 @@
         "P0-A01..A08 (计划；不能视为已通过)",
         "P4-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 137
+      "source_line": 137,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "GC-02",
@@ -1034,12 +1074,16 @@
         "P0-A01..A08 (计划；不能视为已通过)",
         "P4-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 139
+      "source_line": 139,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "GC-03",
@@ -1080,12 +1124,16 @@
         "P0-A01..A08 (计划；不能视为已通过)",
         "P4-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 143
+      "source_line": 143,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "GC-05",
@@ -1103,12 +1151,16 @@
         "P0-A01..A08 (计划；不能视为已通过)",
         "P4-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 145
+      "source_line": 145,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "GC-06",
@@ -1126,12 +1178,16 @@
         "P0-A01..A08 (计划；不能视为已通过)",
         "P4-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 147
+      "source_line": 147,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "GC-07",
@@ -1150,12 +1206,16 @@
         "P0-A01..A08 (计划；不能视为已通过)",
         "P4-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 149
+      "source_line": 149,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "UI-01",
@@ -1666,12 +1726,16 @@
         "P0-A01..A08 (计划；不能视为已通过)",
         "P2-A01..A04 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 205
+      "source_line": 205,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "SG-02",
@@ -1687,12 +1751,16 @@
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_ACCEPTANCE_READY_PENDING_CURRENT_CI",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 207
+      "source_line": 207,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "SG-03",
@@ -1708,12 +1776,16 @@
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)"
       ],
-      "implementation_status": "AUDITED_PARTIAL_NOT_ACCEPTED",
+      "implementation_status": "P0_ACCEPTANCE_READY_PENDING_CURRENT_CI",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 209
+      "source_line": 209,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "SG-04",
@@ -1773,12 +1845,16 @@
       "tests": [
         "P0-A01..A08 (计划)"
       ],
-      "implementation_status": "PENDING_USER_DECISION",
+      "implementation_status": "USER_DECISION_RECORDED_P0",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 239
+      "source_line": 239,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "O-02",
@@ -1794,12 +1870,16 @@
       "tests": [
         "P0-A01..A08 (计划)"
       ],
-      "implementation_status": "AUDITED_PATH_CONFIRMED",
+      "implementation_status": "USER_DECISION_RECORDED_P0",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 240
+      "source_line": 240,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "O-03",
@@ -1815,12 +1895,16 @@
       "tests": [
         "P0-A01..A08 (计划)"
       ],
-      "implementation_status": "PENDING_USER_DECISION",
+      "implementation_status": "USER_DECISION_RECORDED_P0",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 241
+      "source_line": 241,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "O-04",
@@ -1836,12 +1920,16 @@
       "tests": [
         "P0-A01..A08 (计划)"
       ],
-      "implementation_status": "PENDING_USER_DECISION",
+      "implementation_status": "USER_DECISION_RECORDED_P0",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0006"
       ],
-      "source_line": 242
+      "source_line": 242,
+      "phase_evidence": {
+        "P0": "docs/audits/P0-Linux-2026-10-10.md (environment/API/OS/demo audit; later phase features pending)"
+      }
     },
     {
       "id": "O-05",

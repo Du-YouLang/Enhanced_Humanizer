@@ -24,6 +24,14 @@ DEFAULT = {"WF": ["P1"], "DS": ["P2"], "JR": ["P3"], "HR": ["P0"], "CX": ["P4"],
 TESTS = {"P0": "P0-A01..A08", "P1": "P1-A01..A04", "P2": "P2-A01..A04", "P3": "P3-A01..A04", "P4": "P4-A01..A04", "P5": "P5-A01..A03", "P6": "P6-A01..A04", "FUTURE": "后续立项"}
 
 
+def restore_progress(rows, previous):
+    for row in rows:
+        old = previous.get(row['id'], {})
+        for key in ('issue', 'tests', 'implementation_status', 'relevant_adrs', 'phase_evidence'):
+            if key in old:
+                row[key] = old[key]
+
+
 def main():
     content = PRD.read_text(encoding="utf-8-sig")
     rows = []
@@ -50,12 +58,17 @@ def main():
                      "relevant_adrs": ["ADR-0001", "ADR-0003"], "source_line": content[:match.start()].count("\n") + 1})
     destination = ROOT / "docs/requirements"
     destination.mkdir(parents=True, exist_ok=True)
+    # Regeneration must not erase already recorded acceptance and user decisions.
+    existing_path = destination / 'traceability.json'
+    if existing_path.exists():
+        previous = {r['id']: r for r in json.loads(existing_path.read_text(encoding='utf-8'))['requirements']}
+        restore_progress(rows, previous)
     ledger = {"schema_version": 1, "baseline": str(PRD.relative_to(ROOT)).replace("\\", "/"),
               "baseline_sha256": hashlib.sha256(PRD.read_bytes()).hexdigest(), "requirements": rows,
               "additional_user_requirements": [{"id": "USR-NAME-01", "requirement": "项目名 Enhanced_Humanizer 暂定，后续向用户确认命名", "status": "CONFIRMED_CURRENT_NAME_2026-10-10", "checkpoint": "用户确认 P1 继续使用 Enhanced_Humanizer；首次对外产品发布前再复核"}, {"id": "USR-GIT-01", "requirement": "开发仓库轻量 PR/CI，给予代理自主权并保持本地与 GitHub 代码一致", "status": "ADOPTED_ADR-0004"}, {"id": "USR-PR-01", "requirement": "软件产品自身每一次 PR 必须经过人工审核", "status": "REQUIRED_FUTURE_IMPLEMENTATION", "checkpoint": "产品 PR 功能实现与独立验收"}]}
     (destination / "traceability.json").write_text(json.dumps(ledger, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     lines = ["# PRD v0.4 需求追踪", "", f"完整保留 {len(rows)} 个稳定 ID：80 项主需求和 6 项操作待决项。原始来源 S0–S4 及附录 A–C 保存在原文；[C]/[E]/[P]/[F]/[O] 不相互替代。", "",
-             "机器可筛选数据见 [traceability.json](traceability.json)。以下 tests 均是验收计划，已执行证据另见 P0 报告，不能把规划当作通过。远程 Issue/PR 号须真实创建后回填。", "",
+             "机器可筛选数据见 [traceability.json](traceability.json)，phase_evidence 保存已执行证据。测试计划不能视为已通过；阶段验收不等于整个需求已经实现。", "",
              "| ID | 标签 | 来源 | Phase | Issue 草案 | Tests（计划） | 实施状态 | ADR |", "|---|---|---|---|---|---|---|---|"]
     for row in rows:
         issue = row["phases"][0]

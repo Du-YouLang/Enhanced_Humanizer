@@ -51,3 +51,11 @@ pwsh -NoProfile -File scripts/install_wsl_distribution.ps1
 脚本在 Windows 尚未重启时返回 exit 75 / `BLOCKED_RESTART`，不启动安装；目标严格限制为 `.local-workbench/wsl/EnhancedHumanizer-P0`，不覆盖已有不明目录。注册成功后仍须 Linux 工具链、隔离与真实 demo 验收。微软系统组件使用 C 盘是已批准例外；不自动重启、删除 VHD 或复制 Windows 全局认证目录。
 
 Conda 保留给 P6 按实例预建固定科学环境，使用项目内 prefix 与 cache；当前没有修改任何已有环境。已能发现 CuPy GPU 不等于全部科学 Benchmark 依赖已安装。
+# 重启后 Linux 入口（2026-10-10）
+
+项目发行版 EnhancedHumanizer-P0 的 VHD 位于 `.local-workbench/wsl/EnhancedHumanizer-P0`。Windows 入口使用 `scripts/wsl_project.py`，无 Windows 认证变量转发；Linux 环境为 `/opt/workbench/.venv-linux`，固定 native Ubuntu Python 3.12.3。不要直接使用缺 pidfd 的旧 `/opt/workbench/.venv`。
+
+`scripts/install_linux_tools.py` 校验官方 uv/Codex 归档和 Python 二进制，安装 Linux 哈希依赖；`audit_linux_fence.py` 在 Linux 环境执行实际合成拒绝测试。`run_p0_coding_demo.py` 是真实收费额度相关入口，会在持久 P0 ledger 中预占一个订阅回合并用 Linux timeout 控制进程组，不能在 CI 中运行。登录为 CODEX_HOME 下单独完成的 ChatGPT 登录，禁止复制宿主 auth 目录。
+
+完整已执行结果和边界：[P0 Linux 验收](audits/P0-Linux-2026-10-10.md)。后面的 Windows 安装记录保留供审计。
+

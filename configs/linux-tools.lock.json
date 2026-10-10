@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "observed_date": "2026-10-10",
+  "python_version": "3.12.3",
+  "python_source": "Pinned Ubuntu 24.04.5 image, /usr/bin/python3; native pidfd support required by Humanize",
+  "python_sha256": "a92f0f95e883390c7256b2e441484aac06b1002dbe1d924141a77c8d82f96223",
+  "venv_path": "/opt/workbench/.venv-linux",
+  "compatibility_note": "The first portable CPython 3.13.14 environment lacks os.pidfd_open; preserved at /opt/workbench/.venv as failed setup evidence",
+  "uv_version": "0.11.21",
+  "codex_version": "0.162.0-alpha.2",
+  "codex_note": "Same version as the audited Windows desktop CLI; Linux package includes its app server and bubblewrap",
+  "assets": [
+    {
+      "name": "uv-x86_64-unknown-linux-gnu.tar.gz",
+      "url": "https://github.com/astral-sh/uv/releases/download/0.11.21/uv-x86_64-unknown-linux-gnu.tar.gz",
+      "sha256": "8c88519b0ef0af9801fcdee419bbb12116bd9e6b18e162ae093c932d8b264050",
+      "expected_bytes": 24437894
+    },
+    {
+      "name": "codex-package-x86_64-unknown-linux-musl.tar.gz",
+      "url": "https://github.com/openai/codex/releases/download/rust-v0.162.0-alpha.2/codex-package-x86_64-unknown-linux-musl.tar.gz",
+      "sha256": "679caa80315c126a8b2118fb76b3795268dc2592f501dd4ecc44f6861c44477f",
+      "expected_bytes": 162031898
+    }
+  ]
+}
