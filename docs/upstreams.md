@@ -21,3 +21,5 @@ Codex 上游 HEAD 不是已安装 CLI 的源码映射。实际固定 CLI 0.162.0
 后续参考目录继续保留在 PRD §14：Beads/Gas Town、MetaGPT/AutoGen/CrewAI/LangGraph、Aider/Agentless、OpenEvolve/NVIDIA KDA、上下文工程、BugsInPy/SWE-bench。它们不是当前核心依赖。P6 确定实际 Benchmark 仓库/任务后，再请求确切的增量 Fork 范围。
 
 集成时逐项保留 LICENSE/NOTICE/作者与来源；本项目自己的许可证尚未由用户决定，未擅自选择开源许可证。
+
+P0 实际已装的 32 项包版本、许可证元数据与分发内 license 文件索引见 [installed-packages-p0.json](../configs/installed-packages-p0.json)。原有上游 notice 保留在发布包中；缺元数据项明确记为 unavailable，不将此清单冒充完整许可兼容性结论。
