@@ -42,4 +42,12 @@ git config --local core.hooksPath .githooks
 
 P0 费用已获批，限额见 configs/budget-proposal.json；无工具的直接 API 探针为 `node scripts/probe_deepseek_api.mjs`，logprobs 变体加 `--logprobs`。它使用持久 ledger + 独占锁、调用前按峰值价预留整个模型 context 和封顶输出、不重试、不跟随重定向，失败也保留预留；只用于此固定文本探针，不是通用 Coding Agent 预算执行器。真实 agent 的 `hmz exec` 仍因 Windows 外部隔离阻碍不能放行。新 Codex 实验日志与状态也须留在项目；若隔离身份需重新登录由用户完成本机浏览器认证，不擅自复制全局 auth.json。
 
+WSL2 已获批准：系统组件安装成功，当前等待手动重启；固定 Ubuntu 镜像已下载。重启后由代理先复查状态，再运行：
+
+```powershell
+pwsh -NoProfile -File scripts/install_wsl_distribution.ps1
+```
+
+脚本在 Windows 尚未重启时返回 exit 75 / `BLOCKED_RESTART`，不启动安装；目标严格限制为 `.local-workbench/wsl/EnhancedHumanizer-P0`，不覆盖已有不明目录。注册成功后仍须 Linux 工具链、隔离与真实 demo 验收。微软系统组件使用 C 盘是已批准例外；不自动重启、删除 VHD 或复制 Windows 全局认证目录。
+
 Conda 保留给 P6 按实例预建固定科学环境，使用项目内 prefix 与 cache；当前没有修改任何已有环境。已能发现 CuPy GPU 不等于全部科学 Benchmark 依赖已安装。

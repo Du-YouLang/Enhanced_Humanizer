@@ -25,6 +25,15 @@ jobs:
       - run: node --test tests/test_p0_api_budget.mjs
       - run: node --check scripts/probe_deepseek_api.mjs
       - run: python -m compileall -q scripts tests
+      - name: Parse PowerShell setup scripts without executing them
+        shell: pwsh
+        run: |
+          Get-ChildItem -LiteralPath scripts -Filter '*.ps1' | ForEach-Object {
+            $scriptTokens = $null
+            $scriptErrors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$scriptTokens, [ref]$scriptErrors) | Out-Null
+            if ($scriptErrors.Count) { throw ($scriptErrors.Message -join [Environment]::NewLine) }
+          }
   secrets:
     runs-on: ubuntu-latest
     timeout-minutes: 10

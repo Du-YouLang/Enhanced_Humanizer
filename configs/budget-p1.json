@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "status": "AUTHORIZED_P1_AFTER_P0_GATE",
+  "authorization_reference": "2026-10-10 explicit user reply approving the displayed separate P1 limits",
+  "inference_enabled": false,
+  "disabled_reason": "P0 Linux isolation and real Humanize demo have not passed; P1 execution controller is not installed",
+  "authorized_p1_limits": {
+    "api_cash_usd": 1,
+    "deepseek_inference_requests": 40,
+    "codex_subscription_turns": 6,
+    "per_model_request_timeout_seconds": 120,
+    "per_experiment_timeout_seconds": 900,
+    "automatic_top_up": false
+  },
+  "notes": [
+    "This is a separate phase allowance. Never reset or erase the P0 usage ledger.",
+    "This file records authorization; it is not an execution controller.",
+    "Reserve a conservative cost bound before every paid request and stop when any authorized limit is reached.",
+    "Record subscription usage separately; unavailable usage is not zero cash or zero Tokens."
+  ]
+}
