@@ -14,4 +14,4 @@ Windows WSL 目前未安装，Docker 不在 PATH；没有自动执行系统安�
 
 Git 本地 pre-commit：私密路径、原始基线哈希、全量稳定 ID、Gitleaks；pre-push 额外要求明确用户授权、准确仓库、获批 refs/主干 SHA、非删除且可验证 fast-forward。它们保护日常失误，可被同一用户绕过，不是对敌意 agent 的安全边界。main 合并仍由人类决定。
 
-初始额外 API 推理额度为 0。预算提案未生效；当前会话的订阅使用记 unavailable。正式运行将分别记录 prompt/output/cache/reasoning tokens、来源、实际模型 ID、usage 可见性、币种/价目快照/请求ID、工具/排队/测试/判断/融合/CI 耗时。费用估算与账单实测分别记录，不能将订阅次数折成 API 美元。
+2026-10-10 用户批准 P0 额外 API 推理额度最多 1 美元/DeepSeek 4 次请求，Codex 现有订阅最多 2 回合，单次最长 120 秒，不充值。批准记录不是预算执行器；Humanize 轮次间计费不能单独保证硬上限。当前开发聊天的订阅使用记 unavailable。正式运行分别记录 prompt/output/cache/reasoning tokens、来源、实际模型 ID、usage 可见性、币种/价目快照/请求 ID、工具/排队/测试/判断/融合/CI 耗时。费用估算与账单实测分别记录，不能将订阅次数折成 API 美元。

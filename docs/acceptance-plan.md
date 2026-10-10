@@ -5,7 +5,7 @@
 | 验收 ID | 验收内容 | P0 当前证据 / 未来要求 |
 |---|---|---|
 | P0-A01 | 完整读基线，硬件/SSD/路径/工具/环境审计，原始哈希不变 | 本地环境报告、两份 SHA256、无研究数据外传 |
-| P0-A02 | 用户确认 GitHub 身份/可见性/归属；创建私有仓库、Issue/PR、push、CI、main 规则 | 真实 GitHub URL、head SHA、CI logs；不可用保护明确替代门禁 |
+| P0-A02 | 用户确认 GitHub 身份/可见性/归属；接入已获批的公开仓库、Issue/PR、push、CI、main 规则或人工门禁 | 用户 2026-10-10 确认保持公开；真实 URL、head SHA、CI logs；权限规则单独授权 |
 | P0-A03 | 固定版本可重装、CLI/SDK 探针、上游许可证/commit | 32 项哈希 lock、版本与导入、DSH initialize；源码 Fork 待批准 |
 | P0-A04 | 本地自定义 Humanize Flow 可加载；官方 fake 测预算；真实 hmz demo 成功 | mock 与真实结果分开，真实 Coding demo 仍待隔离与预算 |
 | P0-A05 | DS/Sol 的真实模型访问、工具/日志/恢复/Token 能力，Jev/LAV 能力界限 | /models 与登录不能代替真正 turn；缺 Jev key、缺 logprobs 明确 BLOCKED |

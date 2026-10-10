@@ -16,7 +16,7 @@ Codex 上游 HEAD 不是已安装 CLI 的源码映射。实际固定 CLI 0.162.0
 
 拟一次性授权 Fork：以上前三个仓库到 `Du-YouLang` 个人账号。它们都是公开上游；Fork 预期仍公开，而自己的 Enhanced_Humanizer 推荐私有。Fork 中不得添加本项目研究材料、API 密钥或私有运行记录。不自动 Star。授权后先核查是否已有同源 Fork，复用合适 Fork，并将 origin/upstream/固定 commit 写入清单。
 
-当前没有任何源码 checkout、Fork、Star。发布包安装用于接口审计，与 Fork 源码修改路径分别记录；后续实际源码复现与修改须按用户要求先 Fork。
+本轮更新：用户已有 DSH 和 LAV Fork 来源正确，LAV 名为 `Du-YouLang/llm-as-a-verifier-ds4p1`；经明确授权补建 `Du-YouLang/humanize`。前三个源码已从用户 Fork 在项目内固定上述 SHA 检出，origin/upstream 与时长见 lock 和 [补充核验](audits/P0-GitHub-followup-2026-10-10.md)。未 Star、未修改上游源码。`oh-my-humanize` / `humanize-plugin` 是已归档旧项目，不作为当前编排层。
 
 后续参考目录继续保留在 PRD §14：Beads/Gas Town、MetaGPT/AutoGen/CrewAI/LangGraph、Aider/Agentless、OpenEvolve/NVIDIA KDA、上下文工程、BugsInPy/SWE-bench。它们不是当前核心依赖。P6 确定实际 Benchmark 仓库/任务后，再请求确切的增量 Fork 范围。
 

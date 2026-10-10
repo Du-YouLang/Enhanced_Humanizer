@@ -37,7 +37,7 @@ def main():
         group = identifier.split("-")[0]
         adr = "ADR-0003" if group in {"GC", "SG", "HR", "OP"} else "ADR-0002"
         rows.append({"id": identifier, "tags": tags, "sources": sources, "requirement": text,
-                     "phases": phases, "issue": "PENDING_AUTHORIZATION:" + (phases[0] if phases[0] != "FUTURE" else "FUTURE"),
+                     "phases": phases, "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1" if "P0" in phases else "PLANNED:" + phases[0],
                      "tests": [TESTS[p] + " (计划；不能视为已通过)" for p in phases], "implementation_status": status,
                      "relevant_adrs": ["ADR-0001", adr], "source_line": content[:match.start()].count("\n") + 1})
     for match in re.finditer(r"^- \*\*(O-\d{2})\*\* (.+)$", content, re.M):
@@ -45,7 +45,7 @@ def main():
         phases = SPECIAL[identifier]
         status = "AUDITED_PATH_CONFIRMED" if identifier == "O-02" else "PENDING_USER_DECISION"
         rows.append({"id": identifier, "tags": ["O"], "sources": "PRD §13", "requirement": text,
-                     "phases": phases, "issue": "PENDING_AUTHORIZATION:" + phases[0],
+                     "phases": phases, "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1" if "P0" in phases else "PLANNED:" + phases[0],
                      "tests": [TESTS[p] + " (计划)" for p in phases], "implementation_status": status,
                      "relevant_adrs": ["ADR-0001", "ADR-0003"], "source_line": content[:match.start()].count("\n") + 1})
     destination = ROOT / "docs/requirements"
@@ -59,7 +59,7 @@ def main():
              "| ID | 标签 | 来源 | Phase | Issue 草案 | Tests（计划） | 实施状态 | ADR |", "|---|---|---|---|---|---|---|---|"]
     for row in rows:
         issue = row["phases"][0]
-        issue_link = f"[{issue}](../issues/{issue}.md) 待建远程" if issue != "FUTURE" else "后续立项"
+        issue_link = "[P0 #1](https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1)" if "P0" in row["phases"] else (f"[{issue}](../issues/{issue}.md) 待建远程" if issue != "FUTURE" else "后续立项")
         adrs = ", ".join(f"[{adr}](../decisions/{adr}.md)" for adr in row["relevant_adrs"])
         lines.append(f"| {row['id']} | {'/'.join(row['tags'])} | {row['sources']} | {'/'.join(row['phases'])} | {issue_link} | {'; '.join(TESTS[p] for p in row['phases'])} | {row['implementation_status']} | {adrs} |")
     lines.extend(["", "USR-NAME-01：已记录用户最新命名要求，见 [项目状态](../project-status.md)。此项是新增用户指示，未擅自改写 PRD 的稳定 ID。", ""])

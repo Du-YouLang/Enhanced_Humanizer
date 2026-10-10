@@ -6,7 +6,7 @@ Read `docs/project-status.md` before continuing. The user's latest instructions 
 - Current scope is P0 only. Do not enter P1 without P0 acceptance and the user's direction.
 - Reuse Humanize Flow, official DSH and Codex Harness. Do not build a replacement Coding Harness.
 - New environments, Python runtimes, worktrees, caches, logs and model run state must stay under `D:\Desktop\Enhanced_Humanizer`.
-- GitHub account observed: `Du-YouLang`. Repository visibility, Forks, permissions, paid smoke tests, and main merge are pending explicit user decisions; recheck the account before remote changes.
+- GitHub account verified: `Du-YouLang`. On 2026-10-10 the user approved keeping Enhanced_Humanizer public, P0 uploads/Issues/PR/CI, the public humanfia/humanize Fork, and the P0 budget in configs/budget-proposal.json. DSH/LAV Forks were created by the user and verified. Branch protection permission changes and main merges still require explicit approval; recheck identity before remote changes.
 - Never expose credential values, copy raw research data into tracked paths, silently change model identity, or equate mock results with model results.
 - Record real elapsed time and input/output/cache Tokens when visible. Use `unavailable` for unavailable usage or cost. Separate API cash from subscription usage.
 - Run `python scripts/check_repository.py`, the governance tests and Gitleaks before commits/pushes. Local hooks supplement policy; they are bypassable and are not a security sandbox.
