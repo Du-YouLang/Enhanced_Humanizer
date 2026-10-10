@@ -1,3 +1,11 @@
 def weighted_mean(pairs):
-    values = list(pairs)
-    return sum(value for value, weight in values) / len(values)
+    total = 0
+    total_weight = 0
+    for value, weight in pairs:
+        if weight < 0:
+            raise ValueError("weights must be non-negative")
+        total += value * weight
+        total_weight += weight
+    if total_weight == 0:
+        raise ValueError("total weight must be non-zero")
+    return total / total_weight
