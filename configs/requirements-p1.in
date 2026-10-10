@@ -1,0 +1,3 @@
+# P1 controller transport only; the upstream Coding Harnesses remain unchanged.
+-r requirements-p0.in
+httpx==0.28.1
