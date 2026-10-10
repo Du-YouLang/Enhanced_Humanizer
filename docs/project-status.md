@@ -1,14 +1,16 @@
 # 项目交接状态
 
-2026-10-11 恢复入口：UI已重用原三个真实候选，原生`p5-20261010163930-c18242dc`在candidates后PAUSED、新增模型请求0、P5 ledger SHA不变。额度恢复后可明确resume补J3/Reviewer/M/Builder；此检查点不等于新的评分或阶段PASS。导出已支持恢复精确源码branch/HEAD；最新本地阶段提交与备份receipt见`.local-workbench/audits/p5-delivery-local.json`。
+2026-10-11 当前：P0–P3已功能与远程交付验收，main仍为8d9b11de9ccbe13f12fb8a9b32a89fb19991404b。P4本地功能PASS，独立阶段提交8de702adf9d13d343fada7b85b317c938bf8401f、Issue #11此前已创建；远程P4交付暂缓。P5分支feature/p5-exploration-workbench的P5-A01..A03本地原型功能PASS；54 Windows（1 Linux skip）、47 native Linux、Node3、原生Flow/独立会话/硬测试/备份已验证。P6未开始。
 
-2026-10-11 当前有效状态：P0–P3 已功能与远程交付验收；main仍为`8d9b11de9ccbe13f12fb8a9b32a89fb19991404b`。P4本地功能PASS，提交`8de702adf9d13d343fada7b85b317c938bf8401f`、Issue #11已于连接断开前创建；远程P4交付暂缓。P5分支`feature/p5-exploration-workbench`已实现本地交互图/后台人审/原生Flow控制，Windows49（1 Linux skip）/native Linux42/Node3以及三个真实DS候选隔离重测通过。P5新链暂停恢复后J3触发Codex订阅usageLimitExceeded，尚未完整真实Reviewer/Builder验收：状态LOCAL_PARTIAL / BLOCKED_EXTERNAL_CODEX_QUOTA，不能宣称P5全部PASS，也不能进入P6。
+真实完成run p5-20261010170912-de864bc2，复用原N3池、新候选生成0；Reviewer后真暂停/新worktree/恢复→M硬测试→独立J3比较→Sol Builder→最终J3完成。M 3a828fcf1e91dc987faab993564cf733d2aa20f1，Builder 57fa264299c45719fffc670e3cdfb5fe53ed3ac0；五个角色session独立。活动150.649352399秒、Windows控制172.8471566秒。5个隐藏复验、M的5项及Builder的12项可见测试PASS；不据此宣称科学质量或增强收益。
 
-用户最新要求：暂时断开Du-YouLang Git连接，本地代码/提交继续，PR等恢复后处理；不得推送、建/改远程Issue/PR或使用其他账户。恢复后先核对身份，P4→P5依次交付并跑实际CI；功能与远程交付分开。已备本地报告/PR草稿/bundle，不安排自动上传或未来付费任务。
+用户最新要求：暂时断开Du-YouLang Git连接，本地代码/提交继续，PR等恢复后处理；不得推送、建/改远程Issue/PR、运行远程CI或使用其他账户。恢复后先核对身份，按P4→P5依次交付并实际跑CI。产品生成的每一次PR仍需新的真实人工审批；本地提案AWAITING_HUMAN_REVIEW，不是用户批准。
 
-P5预算来自用户本轮“预算按需”明确授权，采用有限门禁$5/160 DS请求/16 Codex预留回合；单请求120秒、候选/角色600秒、累计活动实验1200秒、单候选12请求/$0.5，不充值不结转。已用30 DS请求、2 Codex预留；API保守上界$0.1014468、账单/失败Sol usage unavailable，3个失败/中断原生Sol trace保存。P5 ledger SHA`3f50d507a56ec0dccf3ad1005a2b177409ee1edfd39d826a7657288b7bb6114c`；P0–P3原账本不改。CLI提示10月11日00:50本地时间后重试，不保证该时刻可用；不要反复探测、重置额度或换模型。恢复后优先UI“重用候选池重试”保留原N3冻结池，独立新会话补剩余Gate，候选生成不重放。
+P5预算按用户“按需”授权采用有限门禁$5/160 DS请求/16 Codex预留回合；请求120秒、候选/角色600秒、累计活动1200秒、单候选12请求/$0.5，不充值/不结转。已用30 DS/12 Codex，API上界$0.1014468、账单/订阅美元成本unavailable；14原生session有10项可见usage、4未知，不能视为0。账本文件SHA16c4f6960bce0838b61f003f58a56bd66131c0e26b1daab9e6b7c5bb88114b49，canonical SHA另见机器证据；P0–P3账本不变。
 
-入口`.\scripts\start_workbench.ps1`→`http://127.0.0.1:8765`，仅Windows loopback。私有状态`.local-workbench/workbench`、P5本地证据`.local-workbench/audits/p5-local.json`；公开精简报告[audits/P5-2026-10-11.md](audits/P5-2026-10-11.md)。下文为历次状态记录，由以上当前状态取代。
+原订阅限额及恢复后的协议失败均保留：自动Harness重试会话匹配、公开评分池hash、可见测试elapsed导致hash变化、Reviewer附带M名单误拒绝已分别修复并有回归/实际重试。源码变动后明确新run，不篡改旧冻结检查点。无需继续探测额度或重复付费调用，不自动恢复/上传/改模型。
+
+入口 .\scripts\start_workbench.ps1 → http://127.0.0.1:8765，仅Windows loopback。当前P5源码/账本/备份及干净工作区在私有 .local-workbench/audits/p5-delivery-local.json；公开结果见audits/P5-2026-10-11.md。产品远程发布硬禁用，目标/基线祖先/隐私/CI预检仍待恢复连接后处理。下文为历次记录，由以上当前状态取代。
 
 2026-10-10 最新用户授权：执行 P4→P5，本轮预算按需但保留有限执行门禁。P3 私有 p3-accepted.json 已 PASS，main 8d9b11de9ccbe13f12fb8a9b32a89fb19991404b。P4 本地 P4-A01..A04 独立 PASS（28历史节点逐一分叉、失败复验、备份新目录恢复）；见 audits/P4-2026-10-10.md。用户随后断开 Du-YouLang Git连接，允许继续本地代码修改，要求PR等明天恢复连接；不得用其他账号推送或更改远程，不把本地验收称为远程交付。P5 实现中；P6 未授权开始。下文旧的阶段状态为历史记录，由本段取代。
 

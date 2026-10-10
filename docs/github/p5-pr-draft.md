@@ -4,8 +4,8 @@
 
 工程事件现在可以在本机探索图中查看真实提交、Diff、冻结测试和完整Harness日志。用户可设N/阶段累计预算、启动原生Humanize Flow、暂停/恢复/停止、从历史快照新分叉，并记录路线和本地PR审核提案。继续复用官方DSH/Codex；后台强制owner session/Origin/CSRF、硬测试和每个精确head的新人工审核，远程发布按用户要求禁用。
 
-验证：Windows49 Python（1 Linux-only skip）、原生Linux42、Node预算3、三个真实DS候选独立复验、原生零模型checkpoint/权限/取消控制、8节点恢复及私有备份新目录恢复。具体SHA/测量见docs/audits/P5-2026-10-11.md、P5-evidence-2026-10-11.json。
+验证：Windows54 Python（53PASS、1 Linux-only skip）、原生Linux47、Node预算3；实际UI启动/手动暂停/Reviewer后暂停分叉/恢复/历史继续/停止，原生独立J3→Reviewer/M→比较→Sol Builder→最终J3完整通过。五个冻结隐藏复验及M的5项/Builder的12项可见测试在隔离环境重跑PASS。39个合法节点恢复、记忆备份新目录恢复通过；最终干净源码备份见私有delivery receipt。具体SHA/测量见docs/audits/P5-2026-10-11.md、P5-evidence-2026-10-11.json。
 
-验收边界：P5原型和控制可审阅；新的独立Sol评审/Reviewer/Builder真实链因订阅配额中断，功能阶段PARTIAL，不能以本PR/CI/merge宣称P5完成。DeepSeek30请求、API保守上界$0.1014468；Codex2预留回合，失败usage unavailable。P6未开始。目标仓库/基线/隐私/CI和真实产品人审仍需发布前预检。
+验收边界：P5本地原型功能PASS，远程交付暂缓。开发PR/CI/merge与功能验收分开。所有配额/协议失败和恢复快照保留；真实产品提案仅AWAITING_HUMAN_REVIEW，未代用户批准。DeepSeek30请求、API保守上界$0.1014468；Codex12预留回合，14原生会话中4项usage unavailable。P6未开始，不宣称增强收益。目标仓库/基线/隐私/CI和每次真实产品人审仍需发布前预检。
 
 回滚：保留P4/P5阶段提交与失败refs/bundles，用新分支/revert恢复；不reset或删除模型失败现场、记忆journal、私有备份。恢复实例必须使用新目录。

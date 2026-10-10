@@ -9,11 +9,12 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
 from wsl_project import run
 
 CODE=r'''
-import json,os,sys,time
+import json,os,sys,time,subprocess
 from pathlib import Path
 sys.path.insert(0,'/opt/workbench/source')
 from p1_broker import protect_memory
-from p2_candidates import BASE,digest,safe_git,run_tests,validate_pool
+from p2_candidates import BASE,digest,safe_git,run_tests,validate_pool,namespace_command
+from p1_acceptance import verification_command
 from p3_contracts import read_json,validate_checkpoint,validate_candidate_coverage
 from p3_runtime_linux import load_stage,candidate_work
 from p3_worker_linux import completed_session
@@ -46,7 +47,11 @@ for stage,role in (('verify_m','reviewer'),('builder','builder')):
  assert value['frozen_test_unchanged'] and value['independent_object_store']
  assert safe_git(work,'rev-parse','HEAD')==value['head_commit'] and not safe_git(work,'status','--porcelain')
  assert value['head_commit']!=value['base_commit']
- tests.append({'id':value['id'],'head_sha':value['head_commit'],'verdict':'PASS','suite_sha256':replay['suite_sha256']})
+ visible=subprocess.run(namespace_command(verification_command(str(work),[sys.executable,'-B','-m','unittest','-v'],str(work.parent/'verify-final-visible'))),
+                        cwd=work,capture_output=True,text=True,timeout=20)
+ assert visible.returncode==0
+ tests.append({'id':value['id'],'head_sha':value['head_commit'],'verdict':'PASS','suite_sha256':replay['suite_sha256'],
+               'visible_project_tests':{'exit_code':visible.returncode,'log':visible.stdout+visible.stderr}})
 coverage=load_stage(root,'reviewer')['answer']['decision']['considered_candidates']
 coverage_check=validate_candidate_coverage([c['id'] for c in pool['candidates']],coverage)
 sessions=[];denials=0
