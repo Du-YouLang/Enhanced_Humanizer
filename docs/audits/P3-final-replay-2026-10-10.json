@@ -161,7 +161,7 @@
     "scripts/p3_runtime_linux.py": "30666aa89a99d84628677842ca3ba3fe544215ca0f7068cdf8ecd93c90c13a07",
     "scripts/p3_experiment_linux.py": "973dee606bec2d2422789de576713f062fb4aed03ee7c9173da74c3d47620b40",
     "scripts/audit_p3_controls_linux.py": "c67bcdd4c58d96cb98140fc38cace2c17400778febeea6038b83a250f053732b",
-    "scripts/export_p3_evidence_linux.py": "d687a32437c0405a4efc3e98982535e72c778e9e29e062bb5b991c1db181a302",
+    "scripts/export_p3_evidence_linux.py": "e8f4fe5ed2974a1e427cf868a717d69cfe37e4004faa1fce7cc7e1b172af44ee",
     "scripts/archive_p3_partial_linux.py": "951f95be3bc945ba2416c670caae3b30091f4783a5a7671d179b1039797138bf",
     "scripts/verify_p3_final_linux.py": "52386d9c80077499008cab2f8dc34e616678339c8cb7488d74913e5dd7ae6182",
     ".hmz/flows/p0_coding_demo/__init__.py": "68475065d9163e3b879e6c342c32e78b630c18f5eb4ef2afb93d00b123c1e766",
@@ -170,5 +170,5 @@
     ".hmz/flows/sol_synthesis/__init__.py": "4bb151dfc23fd178ff09c0217baa049c20c5092c4b795895999997338f7f0c2d",
     ".hmz/flows/synthesis_loop/__init__.py": "9f362aa293eee2e00fc6310fc07491dcfb5268b553e9496f342c3c3c444bceb7"
   },
-  "elapsed_seconds": 10.136946799
+  "elapsed_seconds": 9.856351671999999
 }

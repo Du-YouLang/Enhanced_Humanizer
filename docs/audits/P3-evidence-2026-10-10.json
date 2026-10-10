@@ -3320,6 +3320,11 @@
         "codex_turns": 2,
         "cash_bound_nano": 0,
         "ledger_sha256": "c1edf966c23ad5879a34e7f02333796824c727db8a47d87124d4dce85be08da6"
+      },
+      "final_disposition": {
+        "status": "ABANDONED_SOURCE_CHANGED",
+        "reason": "Actual fence denied startup before inference; both reservations retained; replaced by explicit new run",
+        "replacement": "p3-mixed-20261010T140403Z"
       }
     },
     {
@@ -3608,7 +3613,18 @@
       "cache_read_input_tokens": 166784,
       "cache_creation_input_tokens": 0,
       "output_tokens": 5593
-    }
+    },
+    "subscription_visible_role_count": 9,
+    "subscription_visible_tokens": {
+      "input_tokens": 334791,
+      "cached_input_tokens": 201216,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 6792,
+      "reasoning_output_tokens": 426,
+      "total_tokens": 341583
+    },
+    "failed_startup_reservations": 2,
+    "failed_startup_usage": "unavailable; visible totals do not cover every reserved turn"
   },
   "acceptance": {
     "P3-A01": "PASS_REAL_REVIEWER_ALL_CANDIDATES",

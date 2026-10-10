@@ -73,13 +73,24 @@ def main():
     estimate=(tokens['input_tokens']*.3+tokens['cache_read_input_tokens']*.006+tokens['output_tokens']*1.2)/1e6 if isinstance(tokens,dict) else None
     controls=[clean(read_json(p)) for p in sorted((BASE/'evidence').glob('p3-controls-*.json'))]
     if not controls or any(c['verdict']!='PASS' for c in controls):raise RuntimeError('Offline control gate missing')
-    attempts=[clean(read_json(p)) for p in sorted((BASE/'evidence').glob('p3-*-segment-*.json')) if read_json(p)['status']!='COMPLETED' or read_json(p)['functional_gate']!='PASS']
+    attempts=[]
+    for path in sorted((BASE/'evidence').glob('p3-*-segment-*.json')):
+        value=read_json(path)
+        if value['status']=='COMPLETED' and value['functional_gate']=='PASS':continue
+        abandoned=BASE/'runs'/value['run_id']/'control/abandoned.json'
+        if abandoned.exists():value['final_disposition']=read_json(abandoned)
+        attempts.append(clean(value))
+    visible_usage=[u['usage'] for r in runs for role in r['roles'] for u in role['usage']]
+    subscription_tokens={k:sum(u[k] for u in visible_usage) for k in visible_usage[0]} if visible_usage else 'unavailable'
     public={'schema_version':1,'phase':'P3','functional_verdict':'PASS','delivery_verdict':'REQUIRES_FINAL_PR_CI_MAIN_ACCEPTANCE_RECORD',
             'issue':'https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9','runs':runs,'DS_return_pools':returned,'partial_archives':partial_archives,
             'roles_with_unique_real_sessions':len(sessions),'bundles':bundles,'retained_attempts_and_pauses':attempts,'offline_controls':controls,
             'budget':{'requests':len(ledger['requests']),'codex_turns_reserved':len(ledger['codex_turns']),'ledger_sha256':digest(ledger_path.read_bytes()),
                       'api_peak_upper_bound_usd':ledger['cash_bound_nano']/1e9,'api_cache_aware_estimate_usd_range':[estimate/2,estimate] if estimate is not None else 'unavailable',
-                      'api_bill_usd':'unavailable','subscription_api_cash_usd':0,'subscription_cost_usd':'unavailable','DS_disjoint_tokens':tokens},
+                      'api_bill_usd':'unavailable','subscription_api_cash_usd':0,'subscription_cost_usd':'unavailable','DS_disjoint_tokens':tokens,
+                      'subscription_visible_role_count':len(visible_usage),'subscription_visible_tokens':subscription_tokens,
+                      'failed_startup_reservations':len(ledger['codex_turns'])-len(visible_usage),
+                      'failed_startup_usage':'unavailable; visible totals do not cover every reserved turn'},
             'acceptance':{'P3-A01':'PASS_REAL_REVIEWER_ALL_CANDIDATES','P3-A02':'PASS_SAME_FROZEN_TESTS_NO_AUTOMATIC_M_WIN',
                           'P3-A03':'PASS_CONTROLLED_FAILURES_AND_NATIVE_PAUSE_RESUME','P3-A04':'PASS_REAL_SOL_BUILDER_AND_FRESH_DS_N3'},
             'limitations':['Synthetic controlled pools; no benchmark efficacy claim','Jev blocked by user-reported region; no Jev/OpenRouter requests',
