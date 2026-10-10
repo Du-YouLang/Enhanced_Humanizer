@@ -1,5 +1,7 @@
 # 按阶段独立验收计划
 
+2026-10-10 P3 更新：用户授权后已完成三组真实合成/拒绝实验、Sol→DS 回接及暂停恢复。P3-A01..A04 功能结果与16个冻结复验见 audits/P3-2026-10-10.md，Git 交付另须私有 p3-accepted.json 为 PASS。下文“P3–P6 未执行”是历史状态；P4–P6 仍未执行。
+
 P0-A01..A08 已按 P0 Linux 报告及 PR #4 证据独立验收。P1-A01..A04 已按 [P1 报告](audits/P1-2026-10-10.md) 真实实验/隔离复验通过；开发交付另须 PR CI 通过。下表 P0 部分“待验证”文字是早期验收设计，最新结果以报告为准。P2-A01..A04 已按 P2 报告独立通过，J2 真实能力明确 BLOCKED_CREDENTIAL；Git 交付另须实际 PR/CI/main 同步。P3–P6 未执行。对应稳定 ID 可从 requirements/traceability.json 筛选。
 
 | 验收 ID | 验收内容 | P0 当前证据 / 未来要求 |

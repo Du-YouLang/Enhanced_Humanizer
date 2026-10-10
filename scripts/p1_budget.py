@@ -21,12 +21,12 @@ class BudgetDenied(RuntimeError):
 
 class Ledger:
     def __init__(self, path, *, requests=40, codex_turns=6, cash_nano=1_000_000_000, phase='P1'):
-        caps={'P1':(40,1_000_000_000),'P2':(100,2_000_000_000)}
+        caps={'P1':(40,1_000_000_000,6),'P2':(100,2_000_000_000,6),'P3':(40,1_000_000_000,12)}
         if phase not in caps:raise BudgetDenied('Unauthorized phase')
         self.path=Path(path)
         self.phase=phase
         self.requests=min(requests,caps[phase][0])
-        self.codex_turns=min(codex_turns,6)
+        self.codex_turns=min(codex_turns,caps[phase][2])
         self.cash_nano=min(cash_nano,caps[phase][1])
         self.lock=threading.Lock()
 
@@ -59,7 +59,7 @@ class Ledger:
             if scope_cash_nano is not None and sum(r['charge_bound_nano'] for r in scoped)+REQUEST_RESERVE>scope_cash_nano:
                 raise BudgetDenied('Candidate cash cap exhausted')
             if len(value['requests'])>=self.requests or value['cash_bound_nano']+REQUEST_RESERVE>self.cash_nano:
-                raise BudgetDenied('P1 request/cash cap exhausted')
+                raise BudgetDenied(self.phase+' request/cash cap exhausted')
             index=len(value['requests'])+1
             value['requests'].append({'index':index,'experiment':experiment,'observed_at':datetime.now(timezone.utc).isoformat(),
                                       'status':'RESERVED_UNKNOWN_USAGE','charge_bound_nano':REQUEST_RESERVE})
@@ -81,12 +81,14 @@ class Ledger:
             value['cash_bound_nano']-=request['charge_bound_nano']-charge
             request.update(status='SETTLED_USAGE_UPPER_BOUND',charge_bound_nano=charge,usage=usage,**metadata)
 
-    def reserve_codex_turn(self,experiment,model):
+    def reserve_codex_turn(self,experiment,model,*,scope_turns=None):
         if model!='gpt-6.1-sol':
             raise BudgetDenied('Unauthorized Codex model identity')
         with self.transaction() as value:
+            if scope_turns is not None and sum(r['experiment']==experiment for r in value['codex_turns'])>=scope_turns:
+                raise BudgetDenied('Role Codex subscription turn cap exhausted')
             if len(value['codex_turns'])>=self.codex_turns:
-                raise BudgetDenied('P1 Codex subscription turn cap exhausted')
+                raise BudgetDenied(self.phase+' Codex subscription turn cap exhausted')
             value['codex_turns'].append({'experiment':experiment,'model':model,'observed_at':datetime.now(timezone.utc).isoformat()})
 
 

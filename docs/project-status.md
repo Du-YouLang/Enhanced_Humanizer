@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-10 最新：P2 私有最终交付验收 PASS，main 基线 ee6eb07921f93ab3373acbe5f3d2c1c1c8741f36。用户授权进入 P3，并批准独立预算 USD 1 / 40 DeepSeek 请求 / 12 Codex 订阅实验回合，单请求120秒、候选/角色600秒、实验1200秒，不充值。P3-A01..A04 真实功能和16个冻结独立复验通过；feature/9-synthesis-loop、Issue #9 / [PR #10](https://github.com/Du-YouLang/Enhanced_Humanizer/pull/10) 的 Git 交付仍须实际 PR CI/main/12归档 refs 同步，私有 p3-accepted.json 为 PASS 才可声称交付完成；评分使用明确的 Sol/J3。Jev 因用户所在地区不被 TypeSafe 支持而阻塞，不新增 OpenRouter 支出。此前文中的“不进入 P3”为历史状态，由本段取代。
+
 当前：**P0_ACCEPTED / P1_ACCEPTED / P2_FUNCTIONAL_ACCEPTED**。P1-A01..A04 已有真实模型、独立隔离复验和预算控制证据。P1 开发交付以 Issue #5 关联 PR 的实际 CI 成功及 main 同步为准；不把 merge/CI 单独当作功能验收。阶段交付分支 feature/5-basic-relay，[PR #6](https://github.com/Du-YouLang/Enhanced_Humanizer/pull/6)。最终 CI/merge/main 一致性及 bundle 哈希记录在项目私有 `.local-workbench/audits/p1-accepted.json`；该记录不存在或非 PASS 时不得声称 Git 交付完成。用户已明确授权开始 P2，独立预算已批准；P2 功能独立验收通过，Git 交付以 PR #8 实际 CI/main 同步及私有 p2-accepted.json 为 PASS 为准（公开文档不预写合并结果）；不进入 P3。
 
 用户已授权专用 WSL2 和 P0 全 Gate 后直接 P1，并批准 P1 独立预算。项目继续使用 Enhanced_Humanizer，首次对外产品发布前复核命名。两份 v0.4 基线哈希未变，80 主需求+6操作 ID、标签/来源/附录完整保留；多阶段需求仅标记本阶段的部分实现。
@@ -15,3 +17,5 @@ Linux EnhancedHumanizer-P0、/opt/workbench/.venv-linux、native Python 3.12.3�
 GitHub Du-YouLang、公有仓库及三个正确 Fork 已确认。ADR-0004：开发 PR 实际 CI 成功后可自主合并同步 main，不加严格 main 保护；产品自身每一次 PR 必须人工审核。提交前跑 integrity、治理/预算测试与 Gitleaks。失败历史、refs、bundle 和验收记录保留。当前详细证据见 audits/P1-2026-10-10.md 和 audits/P1-evidence-2026-10-10.json。
 
 P2：Issue #7，[PR #8](https://github.com/Du-YouLang/Enhanced_Humanizer/pull/8)，feature/7-ds-candidates。2026-10-10 用户批准 USD 2 / 100 DeepSeek 请求 / 6 Codex 评分回合；每请求120秒、候选600秒、实验1200秒，不充值，独立账本。ADR-0008 说明任务级候选和命名空间隔离；真实 N=1/3/4/5 共13候选通过，独立隔离/硬测试复验、失败分类/超时/通用任务契约/缓存均通过。J0/J1 原版概率/J3 Sol 已完成同池评分，J2 BLOCKED_CREDENTIAL。使用87请求/2订阅预留回合，API保守上界USD 0.2236917，缓存感知估算USD 0.037955418–0.075910836，账单unavailable。P2详细证据见 audits/P2-2026-10-10.md；最终Git交付须私有 p2-accepted.json 为PASS，26个候选/受控故障归档refs和bundle须实际验证。
+
+P3：详见 audits/P3-2026-10-10.md、ADR-0009。三组真实实验：混合池 M PASS（原A也通过）、全失败池 M恢复PASS、矛盾池REFUSED且最终FAIL；独立Sol Builder真实流式重设计→新DS N3批处理，A/C成功、B并发最坏现金预留门禁停止。预算21/40 DS请求、11/12订阅预留（含2次启动失败），API保守上界USD0.065025、账单unavailable。不重置账本，不结转；P4–P6未执行。完整失败工作区用明确程序快照归档，不冒充模型提交。

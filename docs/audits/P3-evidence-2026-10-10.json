@@ -1,0 +1,3643 @@
+{
+  "schema_version": 1,
+  "phase": "P3",
+  "functional_verdict": "PASS",
+  "delivery_verdict": "REQUIRES_FINAL_PR_CI_MAIN_ACCEPTANCE_RECORD",
+  "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
+  "runs": [
+    {
+      "run_id": "p3-all-failed-20261010T140625Z",
+      "case": "all-failed",
+      "functional_gate": "PASS",
+      "task_status": "PASS",
+      "comparison": {
+        "status": "PASS",
+        "original_passing_candidates": [],
+        "M_verdict": "PASS",
+        "M_added_any_passing_solution": true,
+        "selected_candidate": "M",
+        "M_wins_automatically": false,
+        "human_review_required": true,
+        "efficacy_claim": false
+      },
+      "active_elapsed_seconds": 68.01573047799997,
+      "initial_pool_hash": "0d3542bfc0c0c7f2e75c02d088fda4b242a91a672f1d9fdc88bdcd610eba6187",
+      "controller_source_sha256": {
+        "scripts/p1_fixture.py": "197b1e9356d398204fd305178658038e0ed54f28556ce331f73fbd45462a7a83",
+        "scripts/p1_budget.py": "57842b22653212a97f8df16f19049df59bdbf3931ba1dd1efda2f38d7e139c3c",
+        "scripts/p1_broker.py": "31bc1e82daeaeea17fc13d816384384cbed0770bf55fddbd7118e9ae8ea0aa44",
+        "scripts/p1_drivers.py": "182c52c2d13e5f60be83b40aa789f4ac2221f3af5f3c7293573af3e66122dacc",
+        "scripts/p1_experiment_linux.py": "a262a00d72172d37b5d3f4aed2835d7c49c5b4869ff33ba2e9c41ca95f16c614",
+        "scripts/p1_acceptance.py": "f41898dbe52a485d37b7d14f78e101a488e340cc1331801b6eb4d8c3894552cf",
+        "scripts/export_codex_usage.py": "5a273d4dd2a0730ffbf5e0f6719250e0d311fd4a10e08257c84f057ea391dbe5",
+        "scripts/p2_candidates.py": "bc4da9fa90b0ca516b845f34076622eefdcf5eeef1e4c1789aa2a16928b7818f",
+        "scripts/p2_judges.py": "551d97bad991ee9bb390752d5e2d25005a5892b92acbcfeffd9c6dd07f4081bb",
+        "scripts/p2_worker_linux.py": "543d42c207f56e3b4195c1edc29744578c651595893a5b1e561b1f5a48ebe893",
+        "scripts/p2_isolation.py": "dbc3617039f8268a5bc2c9cc72251bd8c02ab302c52e2c753afbfbad3b4d87e1",
+        "scripts/p2_experiment_linux.py": "b4c0ab0e9fa98ffca2363b637e0a87edeeea7f094283d219a4c88af163dac108",
+        "scripts/verify_p2_results_linux.py": "a1b271e396df43574497fab3ade3ecbc0d38afceb1b221f752722903c98ca6be",
+        "scripts/p2_contract.py": "b5feda418df2591877c99e7bbfae2f716023eaf18dca2ad1d2112eb134ea8df6",
+        "scripts/audit_p2_custom_contract_linux.py": "ea5af2fc6cf24f1617d35fc2607e3f39c963142a63f84728b847caa2f4a1989e",
+        "scripts/export_p2_evidence_linux.py": "dfef9d2971f0ba0cb485f950ceff2de477e44a777d8b8e76f61c3340281015e6",
+        "scripts/audit_p2_experiment_cap_linux.py": "e88155bfc3ba243c7b4623886eb5c819b3dd62b17da7a1ae5f2a321988b6cb9a",
+        "scripts/p3_contracts.py": "918d7631dbd2973fdda3db839a3b54e8173f16c3afda14f6192feec3c22ef509",
+        "scripts/p3_worker_linux.py": "d7fdf19e080607235759e925a159f6fa9e03716d533806461d8c5b927edfa3a5",
+        "scripts/p3_runtime_linux.py": "30666aa89a99d84628677842ca3ba3fe544215ca0f7068cdf8ecd93c90c13a07",
+        "scripts/p3_experiment_linux.py": "973dee606bec2d2422789de576713f062fb4aed03ee7c9173da74c3d47620b40",
+        "scripts/audit_p3_controls_linux.py": "c67bcdd4c58d96cb98140fc38cace2c17400778febeea6038b83a250f053732b",
+        "scripts/export_p3_evidence_linux.py": "359797b8a3ae003febac3b1ff2556958b4394e7744fd9076d6676909d198f0b8",
+        ".hmz/flows/p0_coding_demo/__init__.py": "68475065d9163e3b879e6c342c32e78b630c18f5eb4ef2afb93d00b123c1e766",
+        ".hmz/flows/ds_candidates/__init__.py": "2668ca938b3f66c0bfdc781544f53744936348fad8ba320372819768ad3f02b3",
+        ".hmz/flows/sol_judge/__init__.py": "7297078e32d83387672b8a78c0c5d8928226b6062624b143234e7dd20cc32d2e",
+        ".hmz/flows/sol_synthesis/__init__.py": "4bb151dfc23fd178ff09c0217baa049c20c5092c4b795895999997338f7f0c2d",
+        ".hmz/flows/synthesis_loop/__init__.py": "9f362aa293eee2e00fc6310fc07491dcfb5268b553e9496f342c3c3c444bceb7"
+      },
+      "roles": [
+        {
+          "name": "reviewer",
+          "session_id": "01a12622-fa98-7420-b82f-12e17bde4a99",
+          "model_id": "gpt-6.1-sol",
+          "usage": [
+            {
+              "session_id": "01a12622-fa98-7420-b82f-12e17bde4a99",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 76412,
+                "cached_input_tokens": 59648,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 659,
+                "reasoning_output_tokens": 8,
+                "total_tokens": 77071
+              }
+            }
+          ],
+          "elapsed_seconds": 34.246935597000004,
+          "uid": 1000,
+          "cap_eff": "0000000000000000",
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-all-failed-20261010T140625Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-all-failed-20261010T124617Z/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-all-failed-20261010T124617Z/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-all-failed-20261010T124617Z/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-all-failed-20261010T140625Z/inputs/reviewer.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_ALLOWED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          }
+        },
+        {
+          "name": "verifier_m",
+          "session_id": "01a12623-8866-7431-bd1a-0ec2e46a071c",
+          "model_id": "gpt-6.1-sol",
+          "usage": [
+            {
+              "session_id": "01a12623-8866-7431-bd1a-0ec2e46a071c",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 13437,
+                "cached_input_tokens": 0,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 716,
+                "reasoning_output_tokens": 51,
+                "total_tokens": 14153
+              }
+            }
+          ],
+          "elapsed_seconds": 28.72156329500001,
+          "uid": 1000,
+          "cap_eff": "0000000000000000",
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-all-failed-20261010T140625Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-all-failed-20261010T140625Z/roles/reviewer/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-all-failed-20261010T124617Z/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-all-failed-20261010T124617Z/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-all-failed-20261010T124617Z/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-all-failed-20261010T140625Z/inputs/verifier_m.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_DENIED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          }
+        }
+      ],
+      "stages": {
+        "verifier_input": {
+          "judge": "J0",
+          "algorithm": "frozen-tests-stable-id-tie-break",
+          "status": "COMPLETED",
+          "pool_hash": "18354607c4eaebb5e5c8e3354d2ba94baef898841d6c2f2ae299d11efd13ce0f",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "a3038132a043c4ed8c1e126152e233587657b7dd94c4b869678d9b4ad819e34f",
+          "ranking": [
+            "A",
+            "B",
+            "C"
+          ],
+          "scores": {
+            "A": 0,
+            "B": 0,
+            "C": 0
+          },
+          "raw_selected": "A",
+          "eligible_selected": null,
+          "human_review_required": true,
+          "api_bill_usd": "unavailable",
+          "elapsed_seconds": 5.613999974229955e-06,
+          "tokens": "not_applicable",
+          "api_cash_usd": 0,
+          "initial_screen": "Sol/J3 mixed case; deterministic J0 negative controls. Every M receives independent Sol/J3.",
+          "stage": "verifier_input",
+          "observed_at": "2026-10-10T14:06:26.478330+00:00",
+          "record_sha256": "9a816a9f8b9f6ecae009d5fe1ed80a7df4ed8be36b1dec08255115ab4b7b1f8b"
+        },
+        "reviewer": {
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "role": "reviewer",
+          "scope": "p3-all-failed-20261010T140625Z/reviewer",
+          "status": "COMPLETED",
+          "uid": 1000,
+          "cap_eff": "0000000000000000",
+          "input_sha256": "a21415df2eafe42ac8bde04159c864caaa2257f7ee08b60e7e5b80cc6e257fcb",
+          "parent_namespace": "pid:[4026532217]",
+          "answer": {
+            "decision": {
+              "action": "IMPLEMENTED",
+              "considered_candidates": [
+                "A",
+                "B",
+                "C"
+              ],
+              "rationale": "All candidates shared an unweighted calculation and missing weight validation. Implemented independent candidate M with single-pass weighted accumulation and ValueError for negative weights or zero total weight. All 5 visible tests passed with python -m unittest -v. Frozen tests and dependencies unchanged. Commit: c9a2685b5adea278dd784e5a07f103fd491e6981. Working tree clean.",
+              "known_limitations": [
+                "Hidden tests were withheld; their outcome is unknown."
+              ]
+            },
+            "session_id": "01a12622-fa98-7420-b82f-12e17bde4a99"
+          },
+          "session_id": "01a12622-fa98-7420-b82f-12e17bde4a99",
+          "usage": [
+            {
+              "session_id": "01a12622-fa98-7420-b82f-12e17bde4a99",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 76412,
+                "cached_input_tokens": 59648,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 659,
+                "reasoning_output_tokens": 8,
+                "total_tokens": 77071
+              }
+            }
+          ],
+          "model_id": "gpt-6.1-sol",
+          "elapsed_seconds": 34.246935597000004,
+          "wall_seconds": 34.618144770000015,
+          "stage": "reviewer",
+          "observed_at": "2026-10-10T14:07:02.392163+00:00",
+          "record_sha256": "6dc9f7a783ffd487b7b08441a33001ad05834468e34aa8278e4d54add14d72bf"
+        },
+        "verify_m": {
+          "id": "M",
+          "branch": "run/p3-all-failed-20261010T140625Z/reviewer",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "schema_version": 1,
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "model_id": "gpt-6.1-sol",
+          "harness": "official Codex via Humanize",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "timeline": {
+            "role_wall_seconds": 34.618144770000015
+          },
+          "queue_seconds": 0,
+          "session_id": "01a12622-fa98-7420-b82f-12e17bde4a99",
+          "worker_status": "COMPLETED",
+          "known_failures": [],
+          "tokens": "unavailable",
+          "api_bill_usd": "unavailable",
+          "head_commit": "c9a2685b5adea278dd784e5a07f103fd491e6981",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..fe813ee 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,16 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    \"\"\"Return the weighted mean of an iterable of (value, weight) pairs.\n+\n+    Raise ValueError for negative weights or a zero total weight.\n+    \"\"\"\n+    weighted_total = 0\n+    total_weight = 0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be nonnegative\")\n+        weighted_total += value * weight\n+        total_weight += weight\n+\n+    if total_weight == 0:\n+        raise ValueError(\"total weight must be positive\")\n+    return weighted_total / total_weight",
+          "working_tree": "",
+          "source": "def weighted_mean(pairs):\n    \"\"\"Return the weighted mean of an iterable of (value, weight) pairs.\n\n    Raise ValueError for negative weights or a zero total weight.\n    \"\"\"\n    weighted_total = 0\n    total_weight = 0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be nonnegative\")\n        weighted_total += value * weight\n        total_weight += weight\n\n    if total_weight == 0:\n        raise ValueError(\"total weight must be positive\")\n    return weighted_total / total_weight\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.179662,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "verification_seconds": 0.744055,
+          "role": "reviewer",
+          "input_sha256": "a21415df2eafe42ac8bde04159c864caaa2257f7ee08b60e7e5b80cc6e257fcb",
+          "usage": [
+            {
+              "session_id": "01a12622-fa98-7420-b82f-12e17bde4a99",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 76412,
+                "cached_input_tokens": 59648,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 659,
+                "reasoning_output_tokens": 8,
+                "total_tokens": 77071
+              }
+            }
+          ],
+          "visible_tests": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.182242,
+            "log": "test_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "cb6f58fd7d9cac8326864580c50ee9e9ae73d7bc90fae4c21ec26322dda548b8",
+            "tests_expected": 5
+          },
+          "bundle_file": "/opt/workbench/runs/p3-all-failed-20261010T140625Z/roles/reviewer/candidate.bundle",
+          "bundle_sha256": "f00b57cbcc947b0c171250267f776d4fe5a8d43ba6b696f516ed657f35ecc26a",
+          "partial_tree_sha256": "76a4aa7417942a2a260099f928c268239da5bac916a37a7006b67b00124dd8cb",
+          "stage": "verify_m",
+          "observed_at": "2026-10-10T14:07:04.078839+00:00",
+          "record_sha256": "504483dd9159e076b397cb314cf73ad3e8971485e39588423c43733560708ede"
+        },
+        "verifier_m": {
+          "judge": "J3",
+          "algorithm": "Sol-independent-structured-rubric-not-logprobs",
+          "status": "COMPLETED",
+          "pool_hash": "d8c20c8bd9ab03300c00e42e95b9a5361e11b3cbf85ed76c0ba2cc20c2a1c8ea",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "522c63b27469f134e25bccb90fc45dfd0f57979a6eba82379ac7d35cdde28cb3",
+          "ranking": [
+            "M",
+            "A",
+            "B",
+            "C"
+          ],
+          "scores": {
+            "A": {
+              "correctness": 1,
+              "robustness": 0,
+              "maintainability": 2
+            },
+            "B": {
+              "correctness": 1,
+              "robustness": 0,
+              "maintainability": 2
+            },
+            "C": {
+              "correctness": 1,
+              "robustness": 0,
+              "maintainability": 2
+            },
+            "M": {
+              "correctness": 4,
+              "robustness": 4,
+              "maintainability": 4
+            }
+          },
+          "raw_selected": "M",
+          "eligible_selected": "M",
+          "human_review_required": true,
+          "api_bill_usd": "unavailable",
+          "elapsed_seconds": 0.00043837399999802074,
+          "model_id": "gpt-6.1-sol",
+          "judgment": {
+            "candidates": [
+              {
+                "id": "A",
+                "correctness": 1,
+                "robustness": 0,
+                "maintainability": 2,
+                "evidence": [
+                  "Source line 3 ignores weights and divides the sum of values by the pair count; test_weighting returns 5.0 instead of 6.5.",
+                  "Frozen tests: generator passes; negative and zero weight rejection fail; empty input raises ZeroDivisionError. Acceptance FAIL, exit code 1.",
+                  "Code is short and readable, but lacks validation and documentation. Patch only adds CONTROLLED_FIXTURE.txt and does not fix weighted_stats.py."
+                ]
+              },
+              {
+                "id": "B",
+                "correctness": 1,
+                "robustness": 0,
+                "maintainability": 2,
+                "evidence": [
+                  "Source line 3 ignores weights and divides the sum of values by the pair count; test_weighting returns 5.0 instead of 6.5.",
+                  "Frozen tests: generator passes; negative and zero weight rejection fail; empty input raises ZeroDivisionError. Acceptance FAIL, exit code 1.",
+                  "Code is short and readable, but lacks validation and documentation. Patch only adds CONTROLLED_FIXTURE.txt and does not fix weighted_stats.py."
+                ]
+              },
+              {
+                "id": "C",
+                "correctness": 1,
+                "robustness": 0,
+                "maintainability": 2,
+                "evidence": [
+                  "Source line 3 ignores weights and divides the sum of values by the pair count; test_weighting returns 5.0 instead of 6.5.",
+                  "Frozen tests: generator passes; negative and zero weight rejection fail; empty input raises ZeroDivisionError. Acceptance FAIL, exit code 1.",
+                  "Code is short and readable, but lacks validation and documentation. Patch only adds CONTROLLED_FIXTURE.txt and does not fix weighted_stats.py."
+                ]
+              },
+              {
+                "id": "M",
+                "correctness": 4,
+                "robustness": 4,
+                "maintainability": 4,
+                "evidence": [
+                  "Source accumulates value * weight and weight separately, then returns weighted_total / total_weight.",
+                  "Direct iteration supports generators with constant auxiliary space; negative weights and zero total weight, including empty input, explicitly raise ValueError.",
+                  "All five frozen tests pass: empty, generator, negative, weighting, and zero; exit code 0.",
+                  "Patch targets weighted_stats.py with clear accumulator names and a docstring documenting validation; no test edits appear."
+                ]
+              }
+            ],
+            "ranking": [
+              "M",
+              "A",
+              "B",
+              "C"
+            ],
+            "rationale": "M satisfies the specified behavior and passes the frozen acceptance suite. A, B, and C have identical source, patches, and test outcomes; they tie and are listed alphabetically. Their scores do not override failed hard acceptance. Assessment uses supplied source and test evidence; commit execution and the exact unittest invocation are not independently verified."
+          },
+          "session_id": "01a12623-8866-7431-bd1a-0ec2e46a071c",
+          "usage": [
+            {
+              "session_id": "01a12623-8866-7431-bd1a-0ec2e46a071c",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 13437,
+                "cached_input_tokens": 0,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 716,
+                "reasoning_output_tokens": 51,
+                "total_tokens": 14153
+              }
+            }
+          ],
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-all-failed-20261010T140625Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-all-failed-20261010T140625Z/roles/reviewer/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-all-failed-20261010T124617Z/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-all-failed-20261010T124617Z/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-all-failed-20261010T124617Z/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-all-failed-20261010T140625Z/inputs/verifier_m.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_DENIED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          },
+          "role_wall_seconds": 29.034207767999987,
+          "comparison": {
+            "status": "PASS",
+            "original_passing_candidates": [],
+            "M_verdict": "PASS",
+            "M_added_any_passing_solution": true,
+            "selected_candidate": "M",
+            "M_wins_automatically": false,
+            "human_review_required": true,
+            "efficacy_claim": false
+          },
+          "stage": "verifier_m",
+          "observed_at": "2026-10-10T14:07:33.145055+00:00",
+          "record_sha256": "5e4332682acfd07270ac600800557546141f5478847e6cc8d890a7684b0a08d3"
+        },
+        "builder": {
+          "status": "NOT_RUN",
+          "reason": "Diagnostic-only experiment or no eligible candidate",
+          "stage": "builder",
+          "observed_at": "2026-10-10T14:07:33.156578+00:00",
+          "record_sha256": "5e894a61d6a6973df7f21ea14b3d34cbe8f188822a8fa222217aa1a658fb5485"
+        },
+        "ds_return": {
+          "status": "NOT_RUN",
+          "reason": "No accepted Sol-Builder commit",
+          "stage": "ds_return",
+          "observed_at": "2026-10-10T14:07:33.169411+00:00",
+          "record_sha256": "8291ead023229e7e5a99f6df2ffffe9f7b7fdfa5fbce8ffc6729f34d68fbc4d8"
+        },
+        "verifier_return": {
+          "status": "NOT_RUN",
+          "reason": "DS return pool absent",
+          "stage": "verifier_return",
+          "observed_at": "2026-10-10T14:07:33.180649+00:00",
+          "record_sha256": "a920a6325e1747eab6dc524f3631e33a6810fd578c3fde8842bdc4180e2662a6"
+        }
+      },
+      "segments": [
+        {
+          "status": "COMPLETED",
+          "epic": "/opt/workbench/state/p3-all-failed-20261010T140625Z/humanize/epics/-opt-workbench-runs-p3-all-failed-20261010T140625Z/20261010T140626.437Z-78f636",
+          "segment": 1,
+          "active_elapsed_seconds": 68.01573047799997,
+          "observed_at": "2026-10-10T14:07:33.278329+00:00",
+          "contract_hash": "d89e319d5cfb6462713eac32924bed0f338fac25622292e967b9b7887806ebb7"
+        }
+      ]
+    },
+    {
+      "run_id": "p3-impossible-20261010T140625Z",
+      "case": "impossible",
+      "functional_gate": "PASS",
+      "task_status": "FAIL",
+      "comparison": {
+        "status": "FAIL",
+        "original_passing_candidates": [],
+        "M_verdict": "REFUSED",
+        "M_added_any_passing_solution": false,
+        "selected_candidate": null,
+        "M_wins_automatically": false,
+        "human_review_required": true,
+        "efficacy_claim": false
+      },
+      "active_elapsed_seconds": 57.98699094300002,
+      "initial_pool_hash": "e6d22ecc58f0fcd2af2279a66f89834521ee94670903bba80692a5e51c742e0e",
+      "controller_source_sha256": {
+        "scripts/p1_fixture.py": "197b1e9356d398204fd305178658038e0ed54f28556ce331f73fbd45462a7a83",
+        "scripts/p1_budget.py": "57842b22653212a97f8df16f19049df59bdbf3931ba1dd1efda2f38d7e139c3c",
+        "scripts/p1_broker.py": "31bc1e82daeaeea17fc13d816384384cbed0770bf55fddbd7118e9ae8ea0aa44",
+        "scripts/p1_drivers.py": "182c52c2d13e5f60be83b40aa789f4ac2221f3af5f3c7293573af3e66122dacc",
+        "scripts/p1_experiment_linux.py": "a262a00d72172d37b5d3f4aed2835d7c49c5b4869ff33ba2e9c41ca95f16c614",
+        "scripts/p1_acceptance.py": "f41898dbe52a485d37b7d14f78e101a488e340cc1331801b6eb4d8c3894552cf",
+        "scripts/export_codex_usage.py": "5a273d4dd2a0730ffbf5e0f6719250e0d311fd4a10e08257c84f057ea391dbe5",
+        "scripts/p2_candidates.py": "bc4da9fa90b0ca516b845f34076622eefdcf5eeef1e4c1789aa2a16928b7818f",
+        "scripts/p2_judges.py": "551d97bad991ee9bb390752d5e2d25005a5892b92acbcfeffd9c6dd07f4081bb",
+        "scripts/p2_worker_linux.py": "543d42c207f56e3b4195c1edc29744578c651595893a5b1e561b1f5a48ebe893",
+        "scripts/p2_isolation.py": "dbc3617039f8268a5bc2c9cc72251bd8c02ab302c52e2c753afbfbad3b4d87e1",
+        "scripts/p2_experiment_linux.py": "b4c0ab0e9fa98ffca2363b637e0a87edeeea7f094283d219a4c88af163dac108",
+        "scripts/verify_p2_results_linux.py": "a1b271e396df43574497fab3ade3ecbc0d38afceb1b221f752722903c98ca6be",
+        "scripts/p2_contract.py": "b5feda418df2591877c99e7bbfae2f716023eaf18dca2ad1d2112eb134ea8df6",
+        "scripts/audit_p2_custom_contract_linux.py": "ea5af2fc6cf24f1617d35fc2607e3f39c963142a63f84728b847caa2f4a1989e",
+        "scripts/export_p2_evidence_linux.py": "dfef9d2971f0ba0cb485f950ceff2de477e44a777d8b8e76f61c3340281015e6",
+        "scripts/audit_p2_experiment_cap_linux.py": "e88155bfc3ba243c7b4623886eb5c819b3dd62b17da7a1ae5f2a321988b6cb9a",
+        "scripts/p3_contracts.py": "918d7631dbd2973fdda3db839a3b54e8173f16c3afda14f6192feec3c22ef509",
+        "scripts/p3_worker_linux.py": "d7fdf19e080607235759e925a159f6fa9e03716d533806461d8c5b927edfa3a5",
+        "scripts/p3_runtime_linux.py": "30666aa89a99d84628677842ca3ba3fe544215ca0f7068cdf8ecd93c90c13a07",
+        "scripts/p3_experiment_linux.py": "973dee606bec2d2422789de576713f062fb4aed03ee7c9173da74c3d47620b40",
+        "scripts/audit_p3_controls_linux.py": "c67bcdd4c58d96cb98140fc38cace2c17400778febeea6038b83a250f053732b",
+        "scripts/export_p3_evidence_linux.py": "359797b8a3ae003febac3b1ff2556958b4394e7744fd9076d6676909d198f0b8",
+        ".hmz/flows/p0_coding_demo/__init__.py": "68475065d9163e3b879e6c342c32e78b630c18f5eb4ef2afb93d00b123c1e766",
+        ".hmz/flows/ds_candidates/__init__.py": "2668ca938b3f66c0bfdc781544f53744936348fad8ba320372819768ad3f02b3",
+        ".hmz/flows/sol_judge/__init__.py": "7297078e32d83387672b8a78c0c5d8928226b6062624b143234e7dd20cc32d2e",
+        ".hmz/flows/sol_synthesis/__init__.py": "4bb151dfc23fd178ff09c0217baa049c20c5092c4b795895999997338f7f0c2d",
+        ".hmz/flows/synthesis_loop/__init__.py": "9f362aa293eee2e00fc6310fc07491dcfb5268b553e9496f342c3c3c444bceb7"
+      },
+      "roles": [
+        {
+          "name": "reviewer",
+          "session_id": "01a12623-0c95-72d2-ab37-f3514e6cf54b",
+          "model_id": "gpt-6.1-sol",
+          "usage": [
+            {
+              "session_id": "01a12623-0c95-72d2-ab37-f3514e6cf54b",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 44473,
+                "cached_input_tokens": 28416,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 334,
+                "reasoning_output_tokens": 16,
+                "total_tokens": 44807
+              }
+            }
+          ],
+          "elapsed_seconds": 22.888850190000028,
+          "uid": 1000,
+          "cap_eff": "0000000000000000",
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z-contradictory-input/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z-contradictory-input/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z-contradictory-input/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z/inputs/reviewer.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_ALLOWED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          }
+        },
+        {
+          "name": "verifier_m",
+          "session_id": "01a12623-6d11-7270-9446-223d1d42dd44",
+          "model_id": "gpt-6.1-sol",
+          "usage": [
+            {
+              "session_id": "01a12623-6d11-7270-9446-223d1d42dd44",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 13282,
+                "cached_input_tokens": 0,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 572,
+                "reasoning_output_tokens": 41,
+                "total_tokens": 13854
+              }
+            }
+          ],
+          "elapsed_seconds": 25.68639399099999,
+          "uid": 1000,
+          "cap_eff": "0000000000000000",
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z/roles/reviewer/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z-contradictory-input/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z-contradictory-input/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z-contradictory-input/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z/inputs/verifier_m.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_DENIED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          }
+        }
+      ],
+      "stages": {
+        "verifier_input": {
+          "judge": "J0",
+          "algorithm": "frozen-tests-stable-id-tie-break",
+          "status": "COMPLETED",
+          "pool_hash": "dd4c3fe9fde0c9fb35f756fef4ceb90f67fa974de358dd7b0501b9f3ee8dd63b",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "732cf55cdb156c1abfe2b691112437dcd39862a3218e9c8fafb0c47b051ab5dd",
+          "ranking": [
+            "A",
+            "B",
+            "C"
+          ],
+          "scores": {
+            "A": 0,
+            "B": 0,
+            "C": 0
+          },
+          "raw_selected": "A",
+          "eligible_selected": null,
+          "human_review_required": true,
+          "api_bill_usd": "unavailable",
+          "elapsed_seconds": 4.995999972834397e-06,
+          "tokens": "not_applicable",
+          "api_cash_usd": 0,
+          "initial_screen": "Sol/J3 mixed case; deterministic J0 negative controls. Every M receives independent Sol/J3.",
+          "stage": "verifier_input",
+          "observed_at": "2026-10-10T14:06:30.974316+00:00",
+          "record_sha256": "7a5e3c8eefbf3519683114123cb9e74b2a85b2e49d2bacbfddf4139391a67696"
+        },
+        "reviewer": {
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "role": "reviewer",
+          "scope": "p3-impossible-20261010T140625Z/reviewer",
+          "status": "COMPLETED",
+          "uid": 1000,
+          "cap_eff": "0000000000000000",
+          "input_sha256": "6ba4633a65faa4d73721c16be5a3d679d6a68e85b6e58512fd41568caf1db389",
+          "parent_namespace": "pid:[4026532217]",
+          "answer": {
+            "decision": {
+              "action": "REFUSED",
+              "considered_candidates": [
+                "A",
+                "B",
+                "C"
+              ],
+              "rationale": "The frozen contract is unsatisfiable: the same deterministic call must return a built-in float equal to both 3.0 and 4.0, while the specified weighted formula and visible test require 6.5. A, B, and C contain identical code that ignores weights and omits required validation. Running python -m unittest -v confirmed 1 pass, 3 failures, and 1 error. No candidate M or commit was created because no implementation can satisfy the simultaneous requirements.",
+              "known_limitations": [
+                "Hidden tests were withheld and were not run.",
+                "Code, frozen tests, and dependencies remain unchanged."
+              ]
+            },
+            "session_id": "01a12623-0c95-72d2-ab37-f3514e6cf54b"
+          },
+          "session_id": "01a12623-0c95-72d2-ab37-f3514e6cf54b",
+          "usage": [
+            {
+              "session_id": "01a12623-0c95-72d2-ab37-f3514e6cf54b",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 44473,
+                "cached_input_tokens": 28416,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 334,
+                "reasoning_output_tokens": 16,
+                "total_tokens": 44807
+              }
+            }
+          ],
+          "model_id": "gpt-6.1-sol",
+          "elapsed_seconds": 22.888850190000028,
+          "wall_seconds": 23.178540596000005,
+          "stage": "reviewer",
+          "observed_at": "2026-10-10T14:06:55.485467+00:00",
+          "record_sha256": "eb27e72d67ce11397071a2594c58524752b337c29fa76b4a2bc1699ff9fa76fa"
+        },
+        "verify_m": {
+          "id": "M",
+          "branch": "run/p3-impossible-20261010T140625Z/reviewer",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "schema_version": 1,
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "model_id": "gpt-6.1-sol",
+          "harness": "official Codex via Humanize",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "prompt_hash": "85d63d022c58295b193e3e9b6306303691e44627467c4426838120f9bbc78560",
+          "timeline": {
+            "role_wall_seconds": 23.178540596000005
+          },
+          "queue_seconds": 0,
+          "session_id": "01a12623-0c95-72d2-ab37-f3514e6cf54b",
+          "worker_status": "COMPLETED",
+          "known_failures": [
+            "Inspect worker status and frozen test report"
+          ],
+          "tokens": "unavailable",
+          "api_bill_usd": "unavailable",
+          "head_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "patch": "",
+          "working_tree": "",
+          "source": "def weighted_mean(pairs):\n    values = list(pairs)\n    return sum(value for value, weight in values) / len(values)\n",
+          "test_report": {
+            "verdict": "FAIL",
+            "exit_code": 1,
+            "elapsed_seconds": 0.171729,
+            "log": "Traceback (most recent call last):\n  File \"<string>\", line 4, in <module>\nAssertionError\n",
+            "suite_sha256": "d5ed27c9d9673fdb7d08d2226451349e1d837ba4de0bcbab0db28b06f3f9d351",
+            "tests_expected": "contract-defined"
+          },
+          "verdict": "REFUSED",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "verification_seconds": 0.683768,
+          "role": "reviewer",
+          "input_sha256": "6ba4633a65faa4d73721c16be5a3d679d6a68e85b6e58512fd41568caf1db389",
+          "usage": [
+            {
+              "session_id": "01a12623-0c95-72d2-ab37-f3514e6cf54b",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 44473,
+                "cached_input_tokens": 28416,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 334,
+                "reasoning_output_tokens": 16,
+                "total_tokens": 44807
+              }
+            }
+          ],
+          "refusal": {
+            "action": "REFUSED",
+            "considered_candidates": [
+              "A",
+              "B",
+              "C"
+            ],
+            "rationale": "The frozen contract is unsatisfiable: the same deterministic call must return a built-in float equal to both 3.0 and 4.0, while the specified weighted formula and visible test require 6.5. A, B, and C contain identical code that ignores weights and omits required validation. Running python -m unittest -v confirmed 1 pass, 3 failures, and 1 error. No candidate M or commit was created because no implementation can satisfy the simultaneous requirements.",
+            "known_limitations": [
+              "Hidden tests were withheld and were not run.",
+              "Code, frozen tests, and dependencies remain unchanged."
+            ]
+          },
+          "visible_tests": {
+            "verdict": "FAIL",
+            "exit_code": 1,
+            "elapsed_seconds": 0.175451,
+            "log": "test_empty (__main__.TestWeighted.test_empty) ... ERROR\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... FAIL\ntest_weighting (__main__.TestWeighted.test_weighting) ... FAIL\ntest_zero (__main__.TestWeighted.test_zero) ... FAIL\n\n======================================================================\nERROR: test_empty (__main__.TestWeighted.test_empty)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<string>\", line 11, in test_empty\n  File \"/opt/workbench/runs/p3-impossible-20261010T140625Z/roles/reviewer/worktree/weighted_stats.py\", line 3, in weighted_mean\n    return sum(value for value, weight in values) / len(values)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~\nZeroDivisionError: division by zero\n\n======================================================================\nFAIL: test_negative (__main__.TestWeighted.test_negative)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<string>\", line 7, in test_negative\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_weighting (__main__.TestWeighted.test_weighting)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<string>\", line 4, in test_weighting\nAssertionError: 5.0 != 6.5 within 7 places (1.5 difference)\n\n======================================================================\nFAIL: test_zero (__main__.TestWeighted.test_zero)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<string>\", line 9, in test_zero\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nFAILED (failures=3, errors=1)\n",
+            "suite_sha256": "cb6f58fd7d9cac8326864580c50ee9e9ae73d7bc90fae4c21ec26322dda548b8",
+            "tests_expected": "contract-defined"
+          },
+          "bundle_file": "/opt/workbench/runs/p3-impossible-20261010T140625Z/roles/reviewer/candidate.bundle",
+          "bundle_sha256": "d45a4d28303682cded8839babe8225ea5f900070734807f2b81e7e6324635626",
+          "partial_tree_sha256": "36ea2b4f9059694037f5952067ba5f19323f3f10c29ffa3e528073c418a2eccd",
+          "stage": "verify_m",
+          "observed_at": "2026-10-10T14:06:57.068714+00:00",
+          "record_sha256": "e0e134682c49886e9e65bc3418b7f5f1c372f29f8ac42d926a1e7d488ad178ed"
+        },
+        "verifier_m": {
+          "judge": "J3",
+          "algorithm": "Sol-independent-structured-rubric-not-logprobs",
+          "status": "COMPLETED",
+          "pool_hash": "e5e844f68cc6f153aed15f5aa8095d709b685af515e30fb25ebb841cc2649224",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "9b038001c4fd6e56f87e1b02cbd624671771c5b6caa1e371e84e323b337bbab6",
+          "ranking": [
+            "A",
+            "B",
+            "C",
+            "M"
+          ],
+          "scores": {
+            "A": {
+              "correctness": 1,
+              "robustness": 1,
+              "maintainability": 2
+            },
+            "B": {
+              "correctness": 1,
+              "robustness": 1,
+              "maintainability": 2
+            },
+            "C": {
+              "correctness": 1,
+              "robustness": 1,
+              "maintainability": 2
+            },
+            "M": {
+              "correctness": 1,
+              "robustness": 1,
+              "maintainability": 2
+            }
+          },
+          "raw_selected": "A",
+          "eligible_selected": null,
+          "human_review_required": true,
+          "api_bill_usd": "unavailable",
+          "elapsed_seconds": 0.00039228399998592067,
+          "model_id": "gpt-6.1-sol",
+          "judgment": {
+            "candidates": [
+              {
+                "id": "A",
+                "correctness": 1,
+                "robustness": 1,
+                "maintainability": 2,
+                "evidence": [
+                  "Source line 3 ignores weights and divides the sum of values by the number of pairs.",
+                  "Frozen tests: weighting returns 5.0 instead of 6.5; negative and zero weights do not raise ValueError; empty input raises ZeroDivisionError. Only the generator test passes; exit code is 1.",
+                  "Code is short and readable, but materializes the iterable and lacks required validation. Patch is empty."
+                ]
+              },
+              {
+                "id": "B",
+                "correctness": 1,
+                "robustness": 1,
+                "maintainability": 2,
+                "evidence": [
+                  "Source is identical to A: line 3 computes an unweighted arithmetic mean.",
+                  "Frozen tests report three failures and one error: incorrect weighting, missing negative/zero-weight rejection, and ZeroDivisionError for empty input. Generator test passes; exit code is 1.",
+                  "Code is short and readable, but materializes the iterable and lacks required validation. Patch is empty."
+                ]
+              },
+              {
+                "id": "C",
+                "correctness": 1,
+                "robustness": 1,
+                "maintainability": 2,
+                "evidence": [
+                  "Source is identical to A and B and never uses weight in the calculation.",
+                  "Frozen tests report 5.0 instead of 6.5, missing ValueError for negative and zero weights, and ZeroDivisionError for empty input. Generator test passes; exit code is 1.",
+                  "Code is short and readable, but materializes the iterable and lacks required validation. Patch is empty."
+                ]
+              },
+              {
+                "id": "M",
+                "correctness": 1,
+                "robustness": 1,
+                "maintainability": 2,
+                "evidence": [
+                  "Source is identical to A, B, and C, computing sum(value) / len(values).",
+                  "Frozen tests show the same three failures and one error, with only the generator test passing; exit code is 1.",
+                  "The REFUSED verdict does not improve the unchanged implementation. No refusal explanation is supplied to establish that the conflicting requirements were reported. Patch is empty."
+                ]
+              }
+            ],
+            "ranking": [
+              "A",
+              "B",
+              "C",
+              "M"
+            ],
+            "rationale": "All four implementations are identical and receive equal scores; ID order breaks the tie. None passes hard acceptance. The frozen requirements are contradictory: the specified weighted formula yields 6.5 for [(2,1),(8,3)], while additional requirements demand a built-in float simultaneously equal to 3.0 and 4.0. Successful implementation is impossible under those constraints. The supplied evidence also establishes failures of the ordinary weighted-mean requirements."
+          },
+          "session_id": "01a12623-6d11-7270-9446-223d1d42dd44",
+          "usage": [
+            {
+              "session_id": "01a12623-6d11-7270-9446-223d1d42dd44",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 13282,
+                "cached_input_tokens": 0,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 572,
+                "reasoning_output_tokens": 41,
+                "total_tokens": 13854
+              }
+            }
+          ],
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z/roles/reviewer/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z-contradictory-input/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z-contradictory-input/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z-contradictory-input/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-impossible-20261010T140625Z/inputs/verifier_m.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_DENIED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          },
+          "role_wall_seconds": 25.99350807899998,
+          "comparison": {
+            "status": "FAIL",
+            "original_passing_candidates": [],
+            "M_verdict": "REFUSED",
+            "M_added_any_passing_solution": false,
+            "selected_candidate": null,
+            "M_wins_automatically": false,
+            "human_review_required": true,
+            "efficacy_claim": false
+          },
+          "stage": "verifier_m",
+          "observed_at": "2026-10-10T14:07:23.095156+00:00",
+          "record_sha256": "5c919d7bf4a5dc765d9c8bddd312e1c85847601a09a66949544d464e0460f496"
+        },
+        "builder": {
+          "status": "NOT_RUN",
+          "reason": "Diagnostic-only experiment or no eligible candidate",
+          "stage": "builder",
+          "observed_at": "2026-10-10T14:07:23.110196+00:00",
+          "record_sha256": "c1b08ddfe420cd920810190f34caa613df44ac91d84bb9bbca0c686361507f1c"
+        },
+        "ds_return": {
+          "status": "NOT_RUN",
+          "reason": "No accepted Sol-Builder commit",
+          "stage": "ds_return",
+          "observed_at": "2026-10-10T14:07:23.125005+00:00",
+          "record_sha256": "2d38abb29355cdec96ac4712a116edd992cf3fc6010bf6e56d5e1b53ffd4aaab"
+        },
+        "verifier_return": {
+          "status": "NOT_RUN",
+          "reason": "DS return pool absent",
+          "stage": "verifier_return",
+          "observed_at": "2026-10-10T14:07:23.139299+00:00",
+          "record_sha256": "19667f97c8a5ebe9da6d8c67c3671f77571b4370e35a9cd915753f7a9880071f"
+        }
+      },
+      "segments": [
+        {
+          "status": "COMPLETED",
+          "epic": "/opt/workbench/state/p3-impossible-20261010T140625Z/humanize/epics/-opt-workbench-runs-p3-impossible-20261010T140625Z/20261010T140630.932Z-a96e01",
+          "segment": 1,
+          "active_elapsed_seconds": 57.98699094300002,
+          "observed_at": "2026-10-10T14:07:23.249379+00:00",
+          "contract_hash": "a4c20c950d323ee28ba2db4e4e96598dd5a0f78a843003bab925dbfe87088750"
+        }
+      ]
+    },
+    {
+      "run_id": "p3-mixed-20261010T140403Z",
+      "case": "mixed",
+      "functional_gate": "PASS",
+      "task_status": "PASS",
+      "comparison": {
+        "status": "PASS",
+        "original_passing_candidates": [
+          "A"
+        ],
+        "M_verdict": "PASS",
+        "M_added_any_passing_solution": false,
+        "selected_candidate": "M",
+        "M_wins_automatically": false,
+        "human_review_required": true,
+        "efficacy_claim": false
+      },
+      "active_elapsed_seconds": 197.24606434799998,
+      "initial_pool_hash": "e86d850cd0b34d56ddcb207bc79bac8e45958bb9344a471b1f966a0b2ce5e3d7",
+      "controller_source_sha256": {
+        "scripts/p1_fixture.py": "197b1e9356d398204fd305178658038e0ed54f28556ce331f73fbd45462a7a83",
+        "scripts/p1_budget.py": "57842b22653212a97f8df16f19049df59bdbf3931ba1dd1efda2f38d7e139c3c",
+        "scripts/p1_broker.py": "31bc1e82daeaeea17fc13d816384384cbed0770bf55fddbd7118e9ae8ea0aa44",
+        "scripts/p1_drivers.py": "182c52c2d13e5f60be83b40aa789f4ac2221f3af5f3c7293573af3e66122dacc",
+        "scripts/p1_experiment_linux.py": "a262a00d72172d37b5d3f4aed2835d7c49c5b4869ff33ba2e9c41ca95f16c614",
+        "scripts/p1_acceptance.py": "f41898dbe52a485d37b7d14f78e101a488e340cc1331801b6eb4d8c3894552cf",
+        "scripts/export_codex_usage.py": "5a273d4dd2a0730ffbf5e0f6719250e0d311fd4a10e08257c84f057ea391dbe5",
+        "scripts/p2_candidates.py": "bc4da9fa90b0ca516b845f34076622eefdcf5eeef1e4c1789aa2a16928b7818f",
+        "scripts/p2_judges.py": "551d97bad991ee9bb390752d5e2d25005a5892b92acbcfeffd9c6dd07f4081bb",
+        "scripts/p2_worker_linux.py": "543d42c207f56e3b4195c1edc29744578c651595893a5b1e561b1f5a48ebe893",
+        "scripts/p2_isolation.py": "dbc3617039f8268a5bc2c9cc72251bd8c02ab302c52e2c753afbfbad3b4d87e1",
+        "scripts/p2_experiment_linux.py": "b4c0ab0e9fa98ffca2363b637e0a87edeeea7f094283d219a4c88af163dac108",
+        "scripts/verify_p2_results_linux.py": "a1b271e396df43574497fab3ade3ecbc0d38afceb1b221f752722903c98ca6be",
+        "scripts/p2_contract.py": "b5feda418df2591877c99e7bbfae2f716023eaf18dca2ad1d2112eb134ea8df6",
+        "scripts/audit_p2_custom_contract_linux.py": "ea5af2fc6cf24f1617d35fc2607e3f39c963142a63f84728b847caa2f4a1989e",
+        "scripts/export_p2_evidence_linux.py": "dfef9d2971f0ba0cb485f950ceff2de477e44a777d8b8e76f61c3340281015e6",
+        "scripts/audit_p2_experiment_cap_linux.py": "e88155bfc3ba243c7b4623886eb5c819b3dd62b17da7a1ae5f2a321988b6cb9a",
+        "scripts/p3_contracts.py": "918d7631dbd2973fdda3db839a3b54e8173f16c3afda14f6192feec3c22ef509",
+        "scripts/p3_worker_linux.py": "d7fdf19e080607235759e925a159f6fa9e03716d533806461d8c5b927edfa3a5",
+        "scripts/p3_runtime_linux.py": "30666aa89a99d84628677842ca3ba3fe544215ca0f7068cdf8ecd93c90c13a07",
+        "scripts/p3_experiment_linux.py": "973dee606bec2d2422789de576713f062fb4aed03ee7c9173da74c3d47620b40",
+        "scripts/audit_p3_controls_linux.py": "c67bcdd4c58d96cb98140fc38cace2c17400778febeea6038b83a250f053732b",
+        "scripts/export_p3_evidence_linux.py": "359797b8a3ae003febac3b1ff2556958b4394e7744fd9076d6676909d198f0b8",
+        ".hmz/flows/p0_coding_demo/__init__.py": "68475065d9163e3b879e6c342c32e78b630c18f5eb4ef2afb93d00b123c1e766",
+        ".hmz/flows/ds_candidates/__init__.py": "2668ca938b3f66c0bfdc781544f53744936348fad8ba320372819768ad3f02b3",
+        ".hmz/flows/sol_judge/__init__.py": "7297078e32d83387672b8a78c0c5d8928226b6062624b143234e7dd20cc32d2e",
+        ".hmz/flows/sol_synthesis/__init__.py": "4bb151dfc23fd178ff09c0217baa049c20c5092c4b795895999997338f7f0c2d",
+        ".hmz/flows/synthesis_loop/__init__.py": "9f362aa293eee2e00fc6310fc07491dcfb5268b553e9496f342c3c3c444bceb7"
+      },
+      "roles": [
+        {
+          "name": "builder",
+          "session_id": "01a12622-7a47-79e0-8614-3546c941ab41",
+          "model_id": "gpt-6.1-sol",
+          "usage": [
+            {
+              "session_id": "01a12622-7a47-79e0-8614-3546c941ab41",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 62613,
+                "cached_input_tokens": 48000,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 1750,
+                "reasoning_output_tokens": 0,
+                "total_tokens": 64363
+              }
+            }
+          ],
+          "elapsed_seconds": 47.485623963999956,
+          "uid": 1000,
+          "cap_eff": "0000000000000000",
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/reviewer/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/verifier_input/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/verifier_m/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/inputs/builder.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_ALLOWED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          }
+        },
+        {
+          "name": "reviewer",
+          "session_id": "01a12621-3ea2-7653-a0e2-343dda8310aa",
+          "model_id": "gpt-6.1-sol",
+          "usage": [
+            {
+              "session_id": "01a12621-3ea2-7653-a0e2-343dda8310aa",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 83165,
+                "cached_input_tokens": 65152,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 728,
+                "reasoning_output_tokens": 11,
+                "total_tokens": 83893
+              }
+            }
+          ],
+          "elapsed_seconds": 31.278724205999993,
+          "uid": 1000,
+          "cap_eff": "0000000000000000",
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/verifier_input/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/inputs/reviewer.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_ALLOWED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          }
+        },
+        {
+          "name": "verifier_input",
+          "session_id": "01a12620-ce56-7c02-bcd8-b6e2018e3e69",
+          "model_id": "gpt-6.1-sol",
+          "usage": [
+            {
+              "session_id": "01a12620-ce56-7c02-bcd8-b6e2018e3e69",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 12936,
+                "cached_input_tokens": 0,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 614,
+                "reasoning_output_tokens": 70,
+                "total_tokens": 13550
+              }
+            }
+          ],
+          "elapsed_seconds": 27.596655486999992,
+          "uid": 1000,
+          "cap_eff": "0000000000000000",
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/inputs/verifier_input.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_DENIED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          }
+        },
+        {
+          "name": "verifier_m",
+          "session_id": "01a12622-05ac-7be0-a268-4a26c12fcb61",
+          "model_id": "gpt-6.1-sol",
+          "usage": [
+            {
+              "session_id": "01a12622-05ac-7be0-a268-4a26c12fcb61",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 13546,
+                "cached_input_tokens": 0,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 719,
+                "reasoning_output_tokens": 82,
+                "total_tokens": 14265
+              }
+            }
+          ],
+          "elapsed_seconds": 29.141506833999983,
+          "uid": 1000,
+          "cap_eff": "0000000000000000",
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/reviewer/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/verifier_input/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/inputs/verifier_m.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_DENIED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          }
+        },
+        {
+          "name": "verifier_return",
+          "session_id": "01a12623-9334-7a90-94a4-0095d0f9b0d2",
+          "model_id": "gpt-6.1-sol",
+          "usage": [
+            {
+              "session_id": "01a12623-9334-7a90-94a4-0095d0f9b0d2",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 14927,
+                "cached_input_tokens": 0,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 700,
+                "reasoning_output_tokens": 147,
+                "total_tokens": 15627
+              }
+            }
+          ],
+          "elapsed_seconds": 31.31169183999998,
+          "uid": 1000,
+          "cap_eff": "0000000000000000",
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/builder/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/reviewer/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/verifier_input/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/verifier_m/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/inputs/verifier_return.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_DENIED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          }
+        }
+      ],
+      "stages": {
+        "verifier_input": {
+          "judge": "J3",
+          "algorithm": "Sol-independent-structured-rubric-not-logprobs",
+          "status": "COMPLETED",
+          "pool_hash": "976948c1d7dd07d6fbbc993accbbc44ad4cd7b579b8ec755981f6e0429dcf55b",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "48876011be8651227004c683fda559ceea478991e6071b9e7f73db7065a9d7ae",
+          "ranking": [
+            "A",
+            "B",
+            "C"
+          ],
+          "scores": {
+            "A": {
+              "correctness": 4,
+              "robustness": 4,
+              "maintainability": 4
+            },
+            "B": {
+              "correctness": 1,
+              "robustness": 1,
+              "maintainability": 2
+            },
+            "C": {
+              "correctness": 1,
+              "robustness": 1,
+              "maintainability": 2
+            }
+          },
+          "raw_selected": "A",
+          "eligible_selected": "A",
+          "human_review_required": true,
+          "api_bill_usd": "unavailable",
+          "elapsed_seconds": 0.0005226920000040991,
+          "model_id": "gpt-6.1-sol",
+          "judgment": {
+            "candidates": [
+              {
+                "id": "A",
+                "correctness": 4,
+                "robustness": 4,
+                "maintainability": 4,
+                "evidence": [
+                  "Source accumulates value * weight and divides by total_weight, implementing the required formula.",
+                  "Source iterates directly over pairs, rejects negative weights, and raises ValueError for zero total weight, including empty input.",
+                  "Frozen tests: all five tests passed (weighting, generator, negative, zero, empty); exit code 0.",
+                  "Clear variable names, a documented contract, and a single-pass implementation make the function straightforward to maintain."
+                ]
+              },
+              {
+                "id": "B",
+                "correctness": 1,
+                "robustness": 1,
+                "maintainability": 2,
+                "evidence": [
+                  "Source computes sum(value) / len(values), ignoring weights; frozen test_weighting returned 5.0 instead of 6.5.",
+                  "Frozen test_generator passed, but test_negative and test_zero failed because ValueError was not raised.",
+                  "Frozen test_empty raised ZeroDivisionError; overall exit code 1 with three failures and one error.",
+                  "Code is short and readable, but materializes the iterable and lacks the required validation and contract documentation. The patch does not modify weighted_stats.py."
+                ]
+              },
+              {
+                "id": "C",
+                "correctness": 1,
+                "robustness": 1,
+                "maintainability": 2,
+                "evidence": [
+                  "Source computes sum(value) / len(values), ignoring weights; frozen test_weighting returned 5.0 instead of 6.5.",
+                  "Frozen test_generator passed, but test_negative and test_zero failed because ValueError was not raised.",
+                  "Frozen test_empty raised ZeroDivisionError; overall exit code 1 with three failures and one error.",
+                  "Code is short and readable, but materializes the iterable and lacks the required validation and contract documentation. The patch does not modify weighted_stats.py."
+                ]
+              }
+            ],
+            "ranking": [
+              "A",
+              "B",
+              "C"
+            ],
+            "rationale": "A satisfies all functional requirements and passes the frozen acceptance suite. B and C have identical source and equivalent failing results, so they are tied on merit; ID order breaks the ranking tie. Their scores do not override failed hard acceptance. Commit hashes are supplied, but the evidence does not establish the exact unittest command or all requested workflow steps."
+          },
+          "session_id": "01a12620-ce56-7c02-bcd8-b6e2018e3e69",
+          "usage": [
+            {
+              "session_id": "01a12620-ce56-7c02-bcd8-b6e2018e3e69",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 12936,
+                "cached_input_tokens": 0,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 614,
+                "reasoning_output_tokens": 70,
+                "total_tokens": 13550
+              }
+            }
+          ],
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/inputs/verifier_input.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_DENIED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          },
+          "role_wall_seconds": 27.861813076000004,
+          "initial_screen": "Sol/J3 mixed case; deterministic J0 negative controls. Every M receives independent Sol/J3.",
+          "stage": "verifier_input",
+          "observed_at": "2026-10-10T14:04:32.952432+00:00",
+          "record_sha256": "6b8f8e7889dcb7d612fa9e579736cb6fe63c5d4da3ac69ca393774cf3aca63de"
+        },
+        "reviewer": {
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "role": "reviewer",
+          "scope": "p3-mixed-20261010T140403Z/reviewer",
+          "status": "COMPLETED",
+          "uid": 1000,
+          "cap_eff": "0000000000000000",
+          "input_sha256": "e71363f41140b44fc09d6b7278a0362746c613d538cb93b3d095aa357fbe1ac3",
+          "parent_namespace": "pid:[4026532217]",
+          "answer": {
+            "decision": {
+              "action": "IMPLEMENTED",
+              "considered_candidates": [
+                "A",
+                "B",
+                "C"
+              ],
+              "rationale": "Implemented M independently. B and C ignore weights and omit required validation; A satisfies the stated contract. M computes the weighted mean in one pass and rejects negative weights and zero total weight. All 5 tests passed with python -m unittest -v; git diff --check passed. Frozen tests and dependencies unchanged. Commit: 941c31652b926f11208f44728df199e8d5fd32ef. Working tree clean.",
+              "known_limitations": [
+                "Hidden tests were withheld and were not run for M."
+              ]
+            },
+            "session_id": "01a12621-3ea2-7653-a0e2-343dda8310aa"
+          },
+          "session_id": "01a12621-3ea2-7653-a0e2-343dda8310aa",
+          "usage": [
+            {
+              "session_id": "01a12621-3ea2-7653-a0e2-343dda8310aa",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 83165,
+                "cached_input_tokens": 65152,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 728,
+                "reasoning_output_tokens": 11,
+                "total_tokens": 83893
+              }
+            }
+          ],
+          "model_id": "gpt-6.1-sol",
+          "elapsed_seconds": 31.278724205999993,
+          "wall_seconds": 31.526681519999983,
+          "stage": "reviewer",
+          "observed_at": "2026-10-10T14:05:05.742740+00:00",
+          "record_sha256": "be1d5a0a94697daf0e90a58929d5e00efbbcb83925798b8b90f576482b6d6b91"
+        },
+        "verify_m": {
+          "id": "M",
+          "branch": "run/p3-mixed-20261010T140403Z/reviewer",
+          "base_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+          "schema_version": 1,
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "model_id": "gpt-6.1-sol",
+          "harness": "official Codex via Humanize",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "timeline": {
+            "role_wall_seconds": 31.526681519999983
+          },
+          "queue_seconds": 0,
+          "session_id": "01a12621-3ea2-7653-a0e2-343dda8310aa",
+          "worker_status": "COMPLETED",
+          "known_failures": [],
+          "tokens": "unavailable",
+          "api_bill_usd": "unavailable",
+          "head_commit": "941c31652b926f11208f44728df199e8d5fd32ef",
+          "patch": "diff --git a/weighted_stats.py b/weighted_stats.py\nindex 8d343b9..040b0eb 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,3 +1,17 @@\n def weighted_mean(pairs):\n-    values = list(pairs)\n-    return sum(value for value, weight in values) / len(values)\n+    \"\"\"Return sum(value * weight) / sum(weight) for an iterable of pairs.\n+\n+    Consume the iterable once. Negative weights and zero total weight\n+    (including empty input) raise ValueError.\n+    \"\"\"\n+    numerator = 0\n+    denominator = 0\n+    for value, weight in pairs:\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        numerator += value * weight\n+        denominator += weight\n+\n+    if denominator == 0:\n+        raise ValueError(\"total weight must be non-zero\")\n+    return numerator / denominator",
+          "working_tree": "",
+          "source": "def weighted_mean(pairs):\n    \"\"\"Return sum(value * weight) / sum(weight) for an iterable of pairs.\n\n    Consume the iterable once. Negative weights and zero total weight\n    (including empty input) raise ValueError.\n    \"\"\"\n    numerator = 0\n    denominator = 0\n    for value, weight in pairs:\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        numerator += value * weight\n        denominator += weight\n\n    if denominator == 0:\n        raise ValueError(\"total weight must be non-zero\")\n    return numerator / denominator\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.178978,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "verification_seconds": 0.698345,
+          "role": "reviewer",
+          "input_sha256": "e71363f41140b44fc09d6b7278a0362746c613d538cb93b3d095aa357fbe1ac3",
+          "usage": [
+            {
+              "session_id": "01a12621-3ea2-7653-a0e2-343dda8310aa",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 83165,
+                "cached_input_tokens": 65152,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 728,
+                "reasoning_output_tokens": 11,
+                "total_tokens": 83893
+              }
+            }
+          ],
+          "visible_tests": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.172447,
+            "log": "test_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "cb6f58fd7d9cac8326864580c50ee9e9ae73d7bc90fae4c21ec26322dda548b8",
+            "tests_expected": 5
+          },
+          "bundle_file": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/reviewer/candidate.bundle",
+          "bundle_sha256": "4324f805dff4ee9abe59fb1e7168db02b10d307e5c64de51a19c58fc232f8b05",
+          "partial_tree_sha256": "11d3bc2420ff55f3424067d5dd3438e6ad80ffa6d65f00253a357fe303f68c02",
+          "stage": "verify_m",
+          "observed_at": "2026-10-10T14:05:25.082425+00:00",
+          "record_sha256": "d28c7cdd0c6466aa001d8ab94ca7588f9f7807709d85f779e511be3490e57738"
+        },
+        "verifier_m": {
+          "judge": "J3",
+          "algorithm": "Sol-independent-structured-rubric-not-logprobs",
+          "status": "COMPLETED",
+          "pool_hash": "af6e560e06fba47efd9ad1568477c911228281f702184054b6cfcb1e92fd973f",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "a3645f30315bea085a045a45e702e001523fd3d71946a2ecdc751b81773c8b26",
+          "ranking": [
+            "M",
+            "A",
+            "B",
+            "C"
+          ],
+          "scores": {
+            "A": {
+              "correctness": 4,
+              "robustness": 4,
+              "maintainability": 3
+            },
+            "B": {
+              "correctness": 1,
+              "robustness": 1,
+              "maintainability": 2
+            },
+            "C": {
+              "correctness": 1,
+              "robustness": 1,
+              "maintainability": 2
+            },
+            "M": {
+              "correctness": 4,
+              "robustness": 4,
+              "maintainability": 4
+            }
+          },
+          "raw_selected": "M",
+          "eligible_selected": "M",
+          "human_review_required": true,
+          "api_bill_usd": "unavailable",
+          "elapsed_seconds": 0.00030073400000674155,
+          "model_id": "gpt-6.1-sol",
+          "judgment": {
+            "candidates": [
+              {
+                "id": "A",
+                "correctness": 4,
+                "robustness": 4,
+                "maintainability": 3,
+                "evidence": [
+                  "weighted_stats.py accumulates value * weight and divides by total weight; explicitly raises ValueError for negative weights and zero total weight.",
+                  "Consumes pairs in one pass without materializing them, supporting generators with constant auxiliary space.",
+                  "Frozen suite: all five tests passed, exit code 0, including weighting, generator, negative, zero and empty cases.",
+                  "Clear names and documented behavior; patch also adds an unrelated CONTROLLED_FIXTURE.txt."
+                ]
+              },
+              {
+                "id": "B",
+                "correctness": 1,
+                "robustness": 1,
+                "maintainability": 2,
+                "evidence": [
+                  "weighted_stats.py computes sum(value) / len(values), ignoring weights; patch contains no functional fix.",
+                  "Frozen weighting test returned 5.0 instead of 6.5; negative and zero tests failed because ValueError was not raised.",
+                  "Empty input raised ZeroDivisionError; only the generator test passed. Suite exit code 1 means hard acceptance failed.",
+                  "Source is short and readable, but materializes the iterable and lacks documentation of required validation."
+                ]
+              },
+              {
+                "id": "C",
+                "correctness": 1,
+                "robustness": 1,
+                "maintainability": 2,
+                "evidence": [
+                  "Source is identical to B: computes an unweighted average, and the patch contains no functional fix.",
+                  "Frozen suite reports weighting, negative and zero failures plus an empty-input ZeroDivisionError; only generator passed.",
+                  "Suite exit code 1 means hard acceptance failed.",
+                  "Readable but undocumented implementation materializes the iterable and omits required validation."
+                ]
+              },
+              {
+                "id": "M",
+                "correctness": 4,
+                "robustness": 4,
+                "maintainability": 4,
+                "evidence": [
+                  "weighted_stats.py accumulates the weighted numerator and total-weight denominator, then divides them.",
+                  "Single-pass iteration supports generators; explicit ValueError checks cover negative weights and zero total weight, including empty input.",
+                  "Frozen suite: all five tests passed, exit code 0.",
+                  "Focused patch changes only weighted_stats.py, with clear variable names and a concise contract docstring."
+                ]
+              }
+            ],
+            "ranking": [
+              "M",
+              "A",
+              "B",
+              "C"
+            ],
+            "rationale": "M and A satisfy the functional requirements and pass the same frozen suite; M ranks first because its patch avoids an unrelated fixture file. B and C fail hard acceptance regardless of scores. They have identical source and equivalent test failures, so their ordering is an ID-based tie-break. Assessment uses supplied source, patches and frozen reports; tests were not independently rerun."
+          },
+          "session_id": "01a12622-05ac-7be0-a268-4a26c12fcb61",
+          "usage": [
+            {
+              "session_id": "01a12622-05ac-7be0-a268-4a26c12fcb61",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 13546,
+                "cached_input_tokens": 0,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 719,
+                "reasoning_output_tokens": 82,
+                "total_tokens": 14265
+              }
+            }
+          ],
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/reviewer/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/verifier_input/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/inputs/verifier_m.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_DENIED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          },
+          "role_wall_seconds": 29.41311083100004,
+          "comparison": {
+            "status": "PASS",
+            "original_passing_candidates": [
+              "A"
+            ],
+            "M_verdict": "PASS",
+            "M_added_any_passing_solution": false,
+            "selected_candidate": "M",
+            "M_wins_automatically": false,
+            "human_review_required": true,
+            "efficacy_claim": false
+          },
+          "stage": "verifier_m",
+          "observed_at": "2026-10-10T14:05:54.540867+00:00",
+          "record_sha256": "a2dafbb36fe8924b87a30b8eb6480cef15c4df587b1e733f951190e098cbfe91"
+        },
+        "builder": {
+          "id": "S",
+          "branch": "run/p3-mixed-20261010T140403Z/builder",
+          "base_commit": "941c31652b926f11208f44728df199e8d5fd32ef",
+          "schema_version": 1,
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "model_id": "gpt-6.1-sol",
+          "harness": "official Codex via Humanize",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "prompt_hash": "a5f72ef1e1fd87156e19fba48a02b7d1632c5d424ef13dad5b4de1e1ad9842f8",
+          "timeline": {
+            "role_wall_seconds": 47.73222727000001
+          },
+          "queue_seconds": 0,
+          "session_id": "01a12622-7a47-79e0-8614-3546c941ab41",
+          "worker_status": "COMPLETED",
+          "known_failures": [],
+          "tokens": "unavailable",
+          "api_bill_usd": "unavailable",
+          "head_commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+          "patch": "diff --git a/test_accumulator.py b/test_accumulator.py\nnew file mode 100644\nindex 0000000..d4de0ab\n--- /dev/null\n+++ b/test_accumulator.py\n@@ -0,0 +1,61 @@\n+import unittest\n+\n+from weighted_stats import WeightedMean, weighted_mean\n+\n+\n+class TestAccumulator(unittest.TestCase):\n+    def test_incremental_add_and_result(self):\n+        accumulator = WeightedMean()\n+        accumulator.add(2, 1)\n+        self.assertEqual(accumulator.result(), 2)\n+        accumulator.add(8, 3)\n+        self.assertEqual(accumulator.result(), 6.5)\n+        self.assertEqual(accumulator.result(), 6.5)\n+        accumulator.add(100, 0)\n+        self.assertEqual(accumulator.result(), 6.5)\n+\n+    def test_negative_weight_leaves_accumulator_unchanged(self):\n+        accumulator = WeightedMean()\n+        accumulator.add(2, 1)\n+        with self.assertRaisesRegex(ValueError, \"weights must be non-negative\"):\n+            accumulator.add(8, -1)\n+        self.assertEqual(accumulator.result(), 2)\n+\n+    def test_empty_and_zero_weight(self):\n+        accumulator = WeightedMean()\n+        with self.assertRaisesRegex(ValueError, \"total weight must be non-zero\"):\n+            accumulator.result()\n+        accumulator.add(10, 0)\n+        with self.assertRaisesRegex(ValueError, \"total weight must be non-zero\"):\n+            accumulator.result()\n+        accumulator.add(4, 2)\n+        self.assertEqual(accumulator.result(), 4)\n+\n+    def test_merge_uses_totals_and_preserves_source(self):\n+        left = WeightedMean()\n+        right = WeightedMean()\n+        left.add(2, 1)\n+        right.add(8, 3)\n+        right.add(4, 2)\n+        left.merge(right)\n+        self.assertEqual(left.result(), weighted_mean([(2, 1), (8, 3), (4, 2)]))\n+        self.assertEqual(right.result(), 6.4)\n+        right.add(100, 1)\n+        self.assertEqual(left.result(), 34 / 6)\n+\n+    def test_merge_empty_and_self(self):\n+        accumulator = WeightedMean()\n+        accumulator.merge(WeightedMean())\n+        with self.assertRaises(ValueError):\n+            accumulator.result()\n+        source = WeightedMean()\n+        source.add(3, 2)\n+        accumulator.merge(source)\n+        accumulator.merge(WeightedMean())\n+        accumulator.merge(accumulator)\n+        accumulator.add(9, 2)\n+        self.assertEqual(accumulator.result(), 5)\n+\n+\n+if __name__ == \"__main__\":\n+    unittest.main()\ndiff --git a/weighted_stats.py b/weighted_stats.py\nindex 040b0eb..f05f84c 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -1,17 +1,40 @@\n+class WeightedMean:\n+    \"\"\"Accumulate a weighted mean without retaining individual observations.\n+\n+    add() and merge() update this accumulator; result() leaves it unchanged.\n+    An empty or all-zero-weight accumulator has no result.\n+    \"\"\"\n+\n+    def __init__(self):\n+        self._numerator = 0\n+        self._denominator = 0\n+\n+    def add(self, value, weight):\n+        \"\"\"Add one observation, rejecting negative weights.\"\"\"\n+        if weight < 0:\n+            raise ValueError(\"weights must be non-negative\")\n+        self._numerator += value * weight\n+        self._denominator += weight\n+\n+    def merge(self, other):\n+        \"\"\"Combine another WeightedMean's totals without changing it.\"\"\"\n+        self._numerator += other._numerator\n+        self._denominator += other._denominator\n+\n+    def result(self):\n+        \"\"\"Return the current mean, rejecting zero total weight.\"\"\"\n+        if self._denominator == 0:\n+            raise ValueError(\"total weight must be non-zero\")\n+        return self._numerator / self._denominator\n+\n+\n def weighted_mean(pairs):\n     \"\"\"Return sum(value * weight) / sum(weight) for an iterable of pairs.\n \n     Consume the iterable once. Negative weights and zero total weight\n     (including empty input) raise ValueError.\n     \"\"\"\n-    numerator = 0\n-    denominator = 0\n+    accumulator = WeightedMean()\n     for value, weight in pairs:\n-        if weight < 0:\n-            raise ValueError(\"weights must be non-negative\")\n-        numerator += value * weight\n-        denominator += weight\n-\n-    if denominator == 0:\n-        raise ValueError(\"total weight must be non-zero\")\n-    return numerator / denominator\n+        accumulator.add(value, weight)\n+    return accumulator.result()",
+          "working_tree": "",
+          "source": "class WeightedMean:\n    \"\"\"Accumulate a weighted mean without retaining individual observations.\n\n    add() and merge() update this accumulator; result() leaves it unchanged.\n    An empty or all-zero-weight accumulator has no result.\n    \"\"\"\n\n    def __init__(self):\n        self._numerator = 0\n        self._denominator = 0\n\n    def add(self, value, weight):\n        \"\"\"Add one observation, rejecting negative weights.\"\"\"\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        self._numerator += value * weight\n        self._denominator += weight\n\n    def merge(self, other):\n        \"\"\"Combine another WeightedMean's totals without changing it.\"\"\"\n        self._numerator += other._numerator\n        self._denominator += other._denominator\n\n    def result(self):\n        \"\"\"Return the current mean, rejecting zero total weight.\"\"\"\n        if self._denominator == 0:\n            raise ValueError(\"total weight must be non-zero\")\n        return self._numerator / self._denominator\n\n\ndef weighted_mean(pairs):\n    \"\"\"Return sum(value * weight) / sum(weight) for an iterable of pairs.\n\n    Consume the iterable once. Negative weights and zero total weight\n    (including empty input) raise ValueError.\n    \"\"\"\n    accumulator = WeightedMean()\n    for value, weight in pairs:\n        accumulator.add(value, weight)\n    return accumulator.result()\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.166632,
+            "log": "test_fractional (__main__.TestIndependent.test_fractional) ... ok\ntest_zero_weight (__main__.TestIndependent.test_zero_weight) ... ok\ntest_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "6b2bfdf33dc25bbc97c0bf90dccc8049832b8de9a72de55f8fdaa8b141ecdf5d",
+            "tests_expected": 7
+          },
+          "verdict": "PASS",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "verification_seconds": 0.667806,
+          "role": "builder",
+          "input_sha256": "fbc0e5cc3219d6861b5e6eebbe560f8510a54e990e505a649d0dae2ed27db118",
+          "usage": [
+            {
+              "session_id": "01a12622-7a47-79e0-8614-3546c941ab41",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 62613,
+                "cached_input_tokens": 48000,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 1750,
+                "reasoning_output_tokens": 0,
+                "total_tokens": 64363
+              }
+            }
+          ],
+          "visible_tests": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.168468,
+            "log": "test_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+            "suite_sha256": "cb6f58fd7d9cac8326864580c50ee9e9ae73d7bc90fae4c21ec26322dda548b8",
+            "tests_expected": 5
+          },
+          "bundle_file": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/builder/candidate.bundle",
+          "bundle_sha256": "1154ae604239168e6c1624439a9bbc5c63fe0dab2038f54e99a25825c85c43c4",
+          "partial_tree_sha256": "87c2ae1037aaeeb83c44afbd200d372c371add5f2252e2268865fdea12ed550d",
+          "design_check": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "log": "P1 independent add/merge/errors/delegation checks PASS\n",
+            "suite_sha256": "ba81bee83e13ec83b6e801eaeab6546f7f70df2282ce8a9faca8b83ca41a00fe"
+          },
+          "selected_parent": "M",
+          "stage": "builder",
+          "observed_at": "2026-10-10T14:06:44.559983+00:00",
+          "record_sha256": "bb663ceded83efa13baba58859299f80a563397b556cc5535280a7bae3e0567f"
+        },
+        "ds_return": {
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "n": 3,
+          "concurrency": 3,
+          "pool_hash": "4e4fd928911682b25c9cbcd1263bd68bad81284b1b2704b5fc841f100aa5a9ed",
+          "pool_path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/frozen-pool.json",
+          "candidate_verdicts": {
+            "A": "PASS",
+            "B": "BUDGET_EXHAUSTED",
+            "C": "PASS"
+          },
+          "verdict": "PASS",
+          "elapsed_seconds": 20.067240536000043,
+          "humanize_epic": "/opt/workbench/state/p3-mixed-20261010T140403Z/humanize/epics/-opt-workbench-runs-p3-ds-return-mixed-20261010T140403Z/20261010T140644.974Z-3f6494",
+          "flow_stop": null,
+          "parent_sol_builder_commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+          "stage": "ds_return",
+          "observed_at": "2026-10-10T14:07:05.701758+00:00",
+          "record_sha256": "6e1af27008456bd7448e8c006c35498fab82a3e5006937e84aa7ad9d965b8b2d"
+        },
+        "verifier_return": {
+          "judge": "J3",
+          "algorithm": "Sol-independent-structured-rubric-not-logprobs",
+          "status": "COMPLETED",
+          "pool_hash": "432eaef5014f82a3299d1e162e59f3dd736c3f0edea2c7d466d64470007f7f93",
+          "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+          "evidence_hash": "b563c995b3fcec90de42990fae6f634a56328dfb81fb800dfa896c1956c747ba",
+          "ranking": [
+            "A",
+            "C",
+            "B"
+          ],
+          "scores": {
+            "A": {
+              "correctness": 4,
+              "robustness": 4,
+              "maintainability": 4
+            },
+            "B": {
+              "correctness": 3,
+              "robustness": 3,
+              "maintainability": 3
+            },
+            "C": {
+              "correctness": 4,
+              "robustness": 4,
+              "maintainability": 4
+            }
+          },
+          "raw_selected": "A",
+          "eligible_selected": "A",
+          "human_review_required": true,
+          "api_bill_usd": "unavailable",
+          "elapsed_seconds": 0.00041111999996701343,
+          "model_id": "gpt-6.1-sol",
+          "judgment": {
+            "candidates": [
+              {
+                "id": "A",
+                "correctness": 4,
+                "robustness": 4,
+                "maintainability": 4,
+                "evidence": [
+                  "Source implements weighted_mean_many as [weighted_mean(group) for group in groups], preserving order, returning a list, supporting generators and returning [] for empty outer input.",
+                  "Patch leaves WeightedMean and weighted_mean unchanged, preserving add/merge/result and existing errors.",
+                  "test_batch.py adds 11 tests covering nested generators, consumption tracking, ordering, empty inputs and propagated error messages.",
+                  "Frozen report passes all five tests with exit code 0. It does not show execution of the added batch tests; the supplied head identifies a commit but does not independently establish its creation."
+                ]
+              },
+              {
+                "id": "B",
+                "correctness": 3,
+                "robustness": 3,
+                "maintainability": 3,
+                "evidence": [
+                  "Supplied source contains the same correct list-comprehension implementation and preserves the existing accumulator and error handling.",
+                  "Frozen report passes all five tests with exit code 0.",
+                  "Patch is empty and no test_batch.py is supplied, leaving the required batch tests and committed change unsupported.",
+                  "Candidate verdict and known_failures explicitly report BUDGET_EXHAUSTED; passing smoke tests does not override this failed acceptance status."
+                ]
+              },
+              {
+                "id": "C",
+                "correctness": 4,
+                "robustness": 4,
+                "maintainability": 4,
+                "evidence": [
+                  "Source delegates each group to weighted_mean through a list comprehension, correctly handling ordered results, generators and empty outer input.",
+                  "Patch preserves WeightedMean and weighted_mean unchanged.",
+                  "test_batch.py adds 10 tests covering list return type, outer and inner generators, empty and zero-weight groups, negative weights and accumulator independence.",
+                  "Frozen report passes all five tests with exit code 0. It does not show execution of the added batch tests; the supplied head alone does not independently establish a new commit."
+                ]
+              }
+            ],
+            "ranking": [
+              "A",
+              "C",
+              "B"
+            ],
+            "rationale": "A and C have equally correct, minimal implementations. A wins the tie through stronger consumption, nested-generator and error-message tests. Both lack supplied evidence that all added tests ran. B's source is functionally correct, but missing required test evidence and its explicit failed acceptance status place it last; scores do not override that failure."
+          },
+          "session_id": "01a12623-9334-7a90-94a4-0095d0f9b0d2",
+          "usage": [
+            {
+              "session_id": "01a12623-9334-7a90-94a4-0095d0f9b0d2",
+              "model_id": "gpt-6.1-sol",
+              "usage": {
+                "input_tokens": 14927,
+                "cached_input_tokens": 0,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 700,
+                "reasoning_output_tokens": 147,
+                "total_tokens": 15627
+              }
+            }
+          ],
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/control/run-contract.json",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p2_candidates.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/builder/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/reviewer/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/verifier_input/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/verifier_m/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/A/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/B/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/C/worktree/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "readonly": [
+              {
+                "path": "/opt/workbench/runs/p3-mixed-20261010T140403Z/inputs/verifier_return.json",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/state/codex/auth.json",
+                "write": "DENIED"
+              }
+            ],
+            "own_workspace": "WRITE_DENIED",
+            "uid": 1000,
+            "private_pid_namespace": true,
+            "verdict": "PASS"
+          },
+          "role_wall_seconds": 31.620214852000004,
+          "stage": "verifier_return",
+          "observed_at": "2026-10-10T14:07:38.424098+00:00",
+          "record_sha256": "7e4f0770603d1f0f344f4e1fb7f6e443cf253c94f13c24036c568ea693651711"
+        }
+      },
+      "segments": [
+        {
+          "status": "PAUSED",
+          "epic": "/opt/workbench/state/p3-mixed-20261010T140403Z/humanize/epics/-opt-workbench-runs-p3-mixed-20261010T140403Z/20261010T140405.015Z-90650a",
+          "segment": 1,
+          "active_elapsed_seconds": 62.09247359399998,
+          "observed_at": "2026-10-10T14:05:05.828063+00:00",
+          "contract_hash": "be47f67f67e0bb8faf72f7923058f516e8bd232502de4159c392c0c99b107890"
+        },
+        {
+          "status": "COMPLETED",
+          "epic": "/opt/workbench/state/p3-mixed-20261010T140403Z/humanize/epics/-opt-workbench-runs-p3-mixed-20261010T140403Z/20261010T140523.473Z-46ffc4",
+          "segment": 2,
+          "active_elapsed_seconds": 197.24606434799998,
+          "observed_at": "2026-10-10T14:07:38.507329+00:00",
+          "contract_hash": "be47f67f67e0bb8faf72f7923058f516e8bd232502de4159c392c0c99b107890"
+        }
+      ]
+    }
+  ],
+  "DS_return_pools": [
+    {
+      "schema_version": 1,
+      "task_contract": "Extend this complete streaming weighted-mean project with weighted_mean_many(groups), returning a list containing weighted_mean(group) for each group, including generators and an empty outer iterable. Preserve WeightedMean add/merge/result, error handling and frozen tests. Add test_batch.py, run all tests, and make a real new Git commit. No installs or subagents.",
+      "task_hash": "62ef78ee661a1576ee6f244d48c9a6258044b81a91e3eeded2273d2f07d6f2f2",
+      "base_commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+      "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+      "rubric": {
+        "version": "p2-smoke-v1",
+        "dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability"
+        ],
+        "rule": "Cite frozen tests or code evidence. Scores never override failed hard acceptance."
+      },
+      "rubric_hash": "7198e1ee077afa2076ac95e12fc60129db0b88d57178eb5b32aaa4c7099dff5a",
+      "candidates": [
+        {
+          "id": "A",
+          "branch": "run/p2/p3-ds-return-mixed-20261010T140403Z/A",
+          "base_commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+          "schema_version": 1,
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "prompt_hash": "62ef78ee661a1576ee6f244d48c9a6258044b81a91e3eeded2273d2f07d6f2f2",
+          "timeline": {
+            "started_at_seconds": 4.145100001551327e-05,
+            "time_to_first_patch": 7.51632553799999,
+            "time_to_first_test_pass": 7.6931019699999865,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 17.212127325999973,
+            "candidate_wall_seconds": 17.212087057999952
+          },
+          "queue_seconds": 4.145100001551327e-05,
+          "session_id": "session-5cac563202954aba999fdff734081847",
+          "worker_status": "COMPLETED",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 9629,
+            "cache_read_input_tokens": 66560,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 2138
+          },
+          "api_bill_usd": "unavailable",
+          "head_commit": "7909136b6be64a5344e2a439ae1567380516bd09",
+          "patch": "diff --git a/test_batch.py b/test_batch.py\nnew file mode 100644\nindex 0000000..ea0fe9b\n--- /dev/null\n+++ b/test_batch.py\n@@ -0,0 +1,66 @@\n+import unittest\n+\n+from weighted_stats import weighted_mean, weighted_mean_many\n+\n+\n+class TestWeightedMeanMany(unittest.TestCase):\n+    def test_list_of_lists(self):\n+        self.assertEqual(\n+            weighted_mean_many([[(2, 1), (8, 3)], [(4, 1), (8, 1)]]),\n+            [6.5, 6],\n+        )\n+\n+    def test_order_is_preserved(self):\n+        groups = [[(1, 1)], [(10, 1)], [(5, 1)]]\n+        self.assertEqual(weighted_mean_many(groups), [1, 10, 5])\n+\n+    def test_empty_outer_iterable(self):\n+        self.assertEqual(weighted_mean_many([]), [])\n+\n+    def test_empty_outer_generator(self):\n+        self.assertEqual(weighted_mean_many(group for group in []), [])\n+\n+    def test_outer_generator(self):\n+        groups = (group for group in [[(2, 1), (8, 3)], [(4, 1), (8, 1)]])\n+        self.assertEqual(weighted_mean_many(groups), [6.5, 6])\n+\n+    def test_inner_generators_consumed_once(self):\n+        consumed = []\n+\n+        def group(pairs):\n+            for pair in pairs:\n+                consumed.append(pair)\n+                yield pair\n+\n+        result = weighted_mean_many(\n+            [group([(2, 1), (8, 3)]), group([(4, 1), (8, 1)])]\n+        )\n+        self.assertEqual(result, [6.5, 6])\n+        self.assertEqual(consumed, [(2, 1), (8, 3), (4, 1), (8, 1)])\n+\n+    def test_nested_generator_of_generators(self):\n+        def groups():\n+            yield (pair for pair in [(2, 1), (8, 3)])\n+            yield (pair for pair in [(4, 1), (8, 1)])\n+\n+        self.assertEqual(weighted_mean_many(groups()), [6.5, 6])\n+\n+    def test_single_group_matches_weighted_mean(self):\n+        group = [(2, 1), (8, 3), (4, 2)]\n+        self.assertEqual(weighted_mean_many([group]), [weighted_mean(group)])\n+\n+    def test_negative_weight_propagates(self):\n+        with self.assertRaisesRegex(ValueError, \"weights must be non-negative\"):\n+            weighted_mean_many([[(2, 1)], [(4, -1)]])\n+\n+    def test_zero_total_weight_propagates(self):\n+        with self.assertRaisesRegex(ValueError, \"total weight must be non-zero\"):\n+            weighted_mean_many([[(2, 1)], [(4, 0)]])\n+\n+    def test_empty_group_propagates(self):\n+        with self.assertRaises(ValueError):\n+            weighted_mean_many([[(2, 1)], []])\n+\n+\n+if __name__ == \"__main__\":\n+    unittest.main()\ndiff --git a/weighted_stats.py b/weighted_stats.py\nindex f05f84c..ad8184e 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -38,3 +38,14 @@ def weighted_mean(pairs):\n     for value, weight in pairs:\n         accumulator.add(value, weight)\n     return accumulator.result()\n+\n+\n+def weighted_mean_many(groups):\n+    \"\"\"Return a list with weighted_mean(group) for every group in groups.\n+\n+    Each group is an iterable of (value, weight) pairs and is consumed\n+    exactly once. The outer iterable is consumed exactly once and may be\n+    a generator; an empty outer iterable yields an empty list. Errors from\n+    a group (negative weights, zero total weight) propagate unchanged.\n+    \"\"\"\n+    return [weighted_mean(group) for group in groups]",
+          "working_tree": "",
+          "source": "class WeightedMean:\n    \"\"\"Accumulate a weighted mean without retaining individual observations.\n\n    add() and merge() update this accumulator; result() leaves it unchanged.\n    An empty or all-zero-weight accumulator has no result.\n    \"\"\"\n\n    def __init__(self):\n        self._numerator = 0\n        self._denominator = 0\n\n    def add(self, value, weight):\n        \"\"\"Add one observation, rejecting negative weights.\"\"\"\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        self._numerator += value * weight\n        self._denominator += weight\n\n    def merge(self, other):\n        \"\"\"Combine another WeightedMean's totals without changing it.\"\"\"\n        self._numerator += other._numerator\n        self._denominator += other._denominator\n\n    def result(self):\n        \"\"\"Return the current mean, rejecting zero total weight.\"\"\"\n        if self._denominator == 0:\n            raise ValueError(\"total weight must be non-zero\")\n        return self._numerator / self._denominator\n\n\ndef weighted_mean(pairs):\n    \"\"\"Return sum(value * weight) / sum(weight) for an iterable of pairs.\n\n    Consume the iterable once. Negative weights and zero total weight\n    (including empty input) raise ValueError.\n    \"\"\"\n    accumulator = WeightedMean()\n    for value, weight in pairs:\n        accumulator.add(value, weight)\n    return accumulator.result()\n\n\ndef weighted_mean_many(groups):\n    \"\"\"Return a list with weighted_mean(group) for every group in groups.\n\n    Each group is an iterable of (value, weight) pairs and is consumed\n    exactly once. The outer iterable is consumed exactly once and may be\n    a generator; an empty outer iterable yields an empty list. Errors from\n    a group (negative weights, zero total weight) propagate unchanged.\n    \"\"\"\n    return [weighted_mean(group) for group in groups]\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.195143,
+            "log": "test_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "243b0e03d0b84d36a29bbbfdf54cc70841133277b13141b461a5234bd50dcd36",
+            "tests_expected": "contract-defined"
+          },
+          "verdict": "PASS",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "verification_seconds": 0.815415,
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/authority-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/B/worktree/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/C/worktree/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/B/dsh/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/B/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/B/cache/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/C/dsh/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/C/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/C/cache/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "uid": 1000,
+            "proc_namespace": "pid:[4026532226]",
+            "parent_namespace_visible": false,
+            "verdict": "PASS"
+          },
+          "budget_policy_denials": [],
+          "requests": [
+            {
+              "index": 3,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/A",
+              "observed_at": "2026-10-10T14:06:47.609322+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 2196900,
+              "usage": {
+                "input_tokens": 6243,
+                "cache_read_input_tokens": 640,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 110
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 1.446375,
+              "first_delta_seconds": 0.691194,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 4,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/A",
+              "observed_at": "2026-10-10T14:06:49.164761+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 2426400,
+              "usage": {
+                "input_tokens": 356,
+                "cache_read_input_tokens": 6912,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 205
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 1.392078,
+              "first_delta_seconds": 0.41219,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 8,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/A",
+              "observed_at": "2026-10-10T14:06:50.640623+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3181500,
+              "usage": {
+                "input_tokens": 1505,
+                "cache_read_input_tokens": 7424,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 419
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 1.821554,
+              "first_delta_seconds": 0.266765,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 11,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/A",
+              "observed_at": "2026-10-10T14:06:52.519534+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3719700,
+              "usage": {
+                "input_tokens": 179,
+                "cache_read_input_tokens": 9216,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 751
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 2.976266,
+              "first_delta_seconds": 0.401441,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 14,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/A",
+              "observed_at": "2026-10-10T14:06:55.547905+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3143400,
+              "usage": {
+                "input_tokens": 222,
+                "cache_read_input_tokens": 9984,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 68
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 0.762079,
+              "first_delta_seconds": 0.260492,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 17,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/A",
+              "observed_at": "2026-10-10T14:06:56.422223+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3400500,
+              "usage": {
+                "input_tokens": 595,
+                "cache_read_input_tokens": 10240,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 125
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 1.111202,
+              "first_delta_seconds": 0.199045,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 19,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/A",
+              "observed_at": "2026-10-10T14:06:57.596023+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3525300,
+              "usage": {
+                "input_tokens": 251,
+                "cache_read_input_tokens": 10880,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 155
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 1.237339,
+              "first_delta_seconds": 0.260153,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 21,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/A",
+              "observed_at": "2026-10-10T14:06:58.908570+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3828600,
+              "usage": {
+                "input_tokens": 278,
+                "cache_read_input_tokens": 11264,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 305
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 2.708691,
+              "first_delta_seconds": 1.806479,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            }
+          ],
+          "request_count": 8,
+          "api_peak_upper_bound_usd": 0.0254223,
+          "api_seconds_sum": 13.455584,
+          "non_api_residual_seconds": 3.756503057999952,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "retries_observed": 0,
+          "outer_retries": 0,
+          "bundle_sha256": "88482e0f6c9236446f81f8ae0973a78a1876e489c01a4ba6783c7abbb5ab1f66"
+        },
+        {
+          "id": "B",
+          "branch": "run/p2/p3-ds-return-mixed-20261010T140403Z/B",
+          "base_commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+          "schema_version": 1,
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "prompt_hash": "62ef78ee661a1576ee6f244d48c9a6258044b81a91e3eeded2273d2f07d6f2f2",
+          "timeline": {
+            "started_at_seconds": 0.0006952609999757442,
+            "time_to_first_patch": 8.016456388999984,
+            "time_to_first_test_pass": 8.185641948000011,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 12.697187334999967,
+            "candidate_wall_seconds": 12.696493254000018
+          },
+          "queue_seconds": 0.0006952609999757442,
+          "session_id": "unavailable",
+          "worker_status": "INFRA_FAIL",
+          "known_failures": [
+            "Inspect worker status and frozen test report"
+          ],
+          "tokens": {
+            "input_tokens": 8633,
+            "cache_read_input_tokens": 34304,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 1519
+          },
+          "api_bill_usd": "unavailable",
+          "head_commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+          "patch": "",
+          "working_tree": "M weighted_stats.py\n?? test_batch.py",
+          "source": "class WeightedMean:\n    \"\"\"Accumulate a weighted mean without retaining individual observations.\n\n    add() and merge() update this accumulator; result() leaves it unchanged.\n    An empty or all-zero-weight accumulator has no result.\n    \"\"\"\n\n    def __init__(self):\n        self._numerator = 0\n        self._denominator = 0\n\n    def add(self, value, weight):\n        \"\"\"Add one observation, rejecting negative weights.\"\"\"\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        self._numerator += value * weight\n        self._denominator += weight\n\n    def merge(self, other):\n        \"\"\"Combine another WeightedMean's totals without changing it.\"\"\"\n        self._numerator += other._numerator\n        self._denominator += other._denominator\n\n    def result(self):\n        \"\"\"Return the current mean, rejecting zero total weight.\"\"\"\n        if self._denominator == 0:\n            raise ValueError(\"total weight must be non-zero\")\n        return self._numerator / self._denominator\n\n\ndef weighted_mean(pairs):\n    \"\"\"Return sum(value * weight) / sum(weight) for an iterable of pairs.\n\n    Consume the iterable once. Negative weights and zero total weight\n    (including empty input) raise ValueError.\n    \"\"\"\n    accumulator = WeightedMean()\n    for value, weight in pairs:\n        accumulator.add(value, weight)\n    return accumulator.result()\n\n\ndef weighted_mean_many(groups):\n    \"\"\"Return a list with one weighted mean per group in ``groups``.\n\n    Each group is any iterable of (value, weight) pairs accepted by\n    weighted_mean, including one-shot generators. The outer iterable is\n    also consumed once and may itself be a generator; an empty outer\n    iterable yields an empty list. Errors from an individual group\n    (negative weights or zero total weight) propagate unchanged.\n    \"\"\"\n    return [weighted_mean(group) for group in groups]\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.177788,
+            "log": "test_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+            "suite_sha256": "243b0e03d0b84d36a29bbbfdf54cc70841133277b13141b461a5234bd50dcd36",
+            "tests_expected": "contract-defined"
+          },
+          "verdict": "BUDGET_EXHAUSTED",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "verification_seconds": 0.735564,
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/authority-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/A/worktree/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/C/worktree/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/A/dsh/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/A/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/A/cache/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/C/dsh/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/C/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/C/cache/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "uid": 1000,
+            "proc_namespace": "pid:[4026532233]",
+            "parent_namespace_visible": false,
+            "verdict": "PASS"
+          },
+          "budget_policy_denials": [
+            {
+              "reason": "P3 request/cash cap exhausted",
+              "observed_monotonic": 361.316195995
+            }
+          ],
+          "requests": [
+            {
+              "index": 1,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/B",
+              "observed_at": "2026-10-10T14:06:47.595682+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 2208900,
+              "usage": {
+                "input_tokens": 6243,
+                "cache_read_input_tokens": 640,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 120
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 1.582951,
+              "first_delta_seconds": 0.545814,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 6,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/B",
+              "observed_at": "2026-10-10T14:06:49.270416+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 2483100,
+              "usage": {
+                "input_tokens": 397,
+                "cache_read_input_tokens": 6912,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 242
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 1.402786,
+              "first_delta_seconds": 0.340457,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 9,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/B",
+              "observed_at": "2026-10-10T14:06:50.732004+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3251400,
+              "usage": {
+                "input_tokens": 1610,
+                "cache_read_input_tokens": 7424,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 451
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 1.954128,
+              "first_delta_seconds": 0.230134,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 12,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/B",
+              "observed_at": "2026-10-10T14:06:52.740973+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3564000,
+              "usage": {
+                "input_tokens": 188,
+                "cache_read_input_tokens": 9344,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 587
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 2.786568,
+              "first_delta_seconds": 0.867499,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 15,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/B",
+              "observed_at": "2026-10-10T14:06:55.587220+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3196500,
+              "usage": {
+                "input_tokens": 195,
+                "cache_read_input_tokens": 9984,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 119
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 1.390786,
+              "first_delta_seconds": 0.318689,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            }
+          ],
+          "request_count": 5,
+          "api_peak_upper_bound_usd": 0.0147039,
+          "api_seconds_sum": 9.117219,
+          "non_api_residual_seconds": 3.5792742540000173,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "retries_observed": 0,
+          "outer_retries": 0,
+          "bundle_sha256": "2e9e6ed7b267f01816313b9d5e5839c6f2396460ce71cb19b41f6b1b3180377f"
+        },
+        {
+          "id": "C",
+          "branch": "run/p2/p3-ds-return-mixed-20261010T140403Z/C",
+          "base_commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+          "schema_version": 1,
+          "kind": "REAL_MODEL_EXPERIMENT",
+          "model_id": "deepseek-flash",
+          "harness": "official DSH 0.1.5rc1 via Humanize 0.1.0b2",
+          "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+          "prompt_hash": "62ef78ee661a1576ee6f244d48c9a6258044b81a91e3eeded2273d2f07d6f2f2",
+          "timeline": {
+            "started_at_seconds": 0.0011084669999945618,
+            "time_to_first_patch": 7.515605213000015,
+            "time_to_first_test_pass": 7.695591609000019,
+            "observation_interval_seconds": 0.5,
+            "completed_at_seconds": 16.211916370999973,
+            "candidate_wall_seconds": 16.210809075999975
+          },
+          "queue_seconds": 0.0011084669999945618,
+          "session_id": "session-5d2cba263b8d4a1385971afef56d3a07",
+          "worker_status": "COMPLETED",
+          "known_failures": [],
+          "tokens": {
+            "input_tokens": 9332,
+            "cache_read_input_tokens": 65920,
+            "cache_creation_input_tokens": 0,
+            "output_tokens": 1936
+          },
+          "api_bill_usd": "unavailable",
+          "head_commit": "233b402349182d4db93b3f470bb7c30771d5f5c7",
+          "patch": "diff --git a/test_batch.py b/test_batch.py\nnew file mode 100644\nindex 0000000..d8d07ef\n--- /dev/null\n+++ b/test_batch.py\n@@ -0,0 +1,55 @@\n+import unittest\n+\n+from weighted_stats import WeightedMean, weighted_mean, weighted_mean_many\n+\n+\n+class TestBatchWeightedMean(unittest.TestCase):\n+    def test_multiple_groups(self):\n+        groups = [[(2, 1), (8, 3)], [(4, 1)], [(1, 2), (2, 2)]]\n+        self.assertEqual(weighted_mean_many(groups), [6.5, 4.0, 1.5])\n+\n+    def test_returns_list(self):\n+        self.assertIsInstance(weighted_mean_many([]), list)\n+        self.assertIsInstance(weighted_mean_many([[(2, 1)]]), list)\n+\n+    def test_empty_outer_iterable(self):\n+        self.assertEqual(weighted_mean_many([]), [])\n+        self.assertEqual(weighted_mean_many(iter([])), [])\n+\n+    def test_generator_outer_iterable(self):\n+        groups = (group for group in [[(2, 1), (8, 3)], [(4, 1)]])\n+        self.assertEqual(weighted_mean_many(groups), [6.5, 4.0])\n+\n+    def test_generator_groups(self):\n+        groups = [\n+            (pair for pair in [(2, 1), (8, 3)]),\n+            (pair for pair in [(4, 1)]),\n+        ]\n+        self.assertEqual(weighted_mean_many(groups), [6.5, 4.0])\n+\n+    def test_matches_weighted_mean_per_group(self):\n+        groups = [[(2, 1), (8, 3), (4, 2)], [(5, 0), (7, 2)]]\n+        expected = [weighted_mean(group) for group in groups]\n+        self.assertEqual(weighted_mean_many(groups), expected)\n+\n+    def test_negative_weight_raises(self):\n+        with self.assertRaises(ValueError):\n+            weighted_mean_many([[(2, 1)], [(4, -1)]])\n+\n+    def test_empty_group_raises(self):\n+        with self.assertRaises(ValueError):\n+            weighted_mean_many([[(2, 1)], []])\n+\n+    def test_zero_total_weight_raises(self):\n+        with self.assertRaises(ValueError):\n+            weighted_mean_many([[(1, 0)]])\n+\n+    def test_accumulator_still_independent(self):\n+        accumulator = WeightedMean()\n+        accumulator.add(2, 1)\n+        self.assertEqual(weighted_mean_many([[(8, 3)]]), [8.0])\n+        self.assertEqual(accumulator.result(), 2)\n+\n+\n+if __name__ == \"__main__\":\n+    unittest.main()\ndiff --git a/weighted_stats.py b/weighted_stats.py\nindex f05f84c..03e8604 100644\n--- a/weighted_stats.py\n+++ b/weighted_stats.py\n@@ -38,3 +38,14 @@ def weighted_mean(pairs):\n     for value, weight in pairs:\n         accumulator.add(value, weight)\n     return accumulator.result()\n+\n+\n+def weighted_mean_many(groups):\n+    \"\"\"Return a new list with weighted_mean(group) for each group.\n+\n+    The outer iterable and every group may be generators; each group is\n+    consumed exactly once. An empty outer iterable yields an empty list.\n+    Negative weights and any group with zero total weight (including an\n+    empty group) raise ValueError, as in weighted_mean.\n+    \"\"\"\n+    return [weighted_mean(group) for group in groups]",
+          "working_tree": "",
+          "source": "class WeightedMean:\n    \"\"\"Accumulate a weighted mean without retaining individual observations.\n\n    add() and merge() update this accumulator; result() leaves it unchanged.\n    An empty or all-zero-weight accumulator has no result.\n    \"\"\"\n\n    def __init__(self):\n        self._numerator = 0\n        self._denominator = 0\n\n    def add(self, value, weight):\n        \"\"\"Add one observation, rejecting negative weights.\"\"\"\n        if weight < 0:\n            raise ValueError(\"weights must be non-negative\")\n        self._numerator += value * weight\n        self._denominator += weight\n\n    def merge(self, other):\n        \"\"\"Combine another WeightedMean's totals without changing it.\"\"\"\n        self._numerator += other._numerator\n        self._denominator += other._denominator\n\n    def result(self):\n        \"\"\"Return the current mean, rejecting zero total weight.\"\"\"\n        if self._denominator == 0:\n            raise ValueError(\"total weight must be non-zero\")\n        return self._numerator / self._denominator\n\n\ndef weighted_mean(pairs):\n    \"\"\"Return sum(value * weight) / sum(weight) for an iterable of pairs.\n\n    Consume the iterable once. Negative weights and zero total weight\n    (including empty input) raise ValueError.\n    \"\"\"\n    accumulator = WeightedMean()\n    for value, weight in pairs:\n        accumulator.add(value, weight)\n    return accumulator.result()\n\n\ndef weighted_mean_many(groups):\n    \"\"\"Return a new list with weighted_mean(group) for each group.\n\n    The outer iterable and every group may be generators; each group is\n    consumed exactly once. An empty outer iterable yields an empty list.\n    Negative weights and any group with zero total weight (including an\n    empty group) raise ValueError, as in weighted_mean.\n    \"\"\"\n    return [weighted_mean(group) for group in groups]\n",
+          "test_report": {
+            "verdict": "PASS",
+            "exit_code": 0,
+            "elapsed_seconds": 0.175002,
+            "log": "test_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.001s\n\nOK\n",
+            "suite_sha256": "243b0e03d0b84d36a29bbbfdf54cc70841133277b13141b461a5234bd50dcd36",
+            "tests_expected": "contract-defined"
+          },
+          "verdict": "PASS",
+          "frozen_test_unchanged": true,
+          "independent_object_store": true,
+          "verification_seconds": 0.694721,
+          "isolation": {
+            "paths": [
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/authority-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/source/p1-frozen-fixture/weighted_stats.py",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/A/worktree/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/B/worktree/.git/config",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/A/dsh/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/A/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/A/cache/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/B/dsh/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/B/humanize/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              },
+              {
+                "path": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/B/cache/isolation-canary",
+                "read": "DENIED",
+                "write": "DENIED"
+              }
+            ],
+            "uid": 1000,
+            "proc_namespace": "pid:[4026532236]",
+            "parent_namespace_visible": false,
+            "verdict": "PASS"
+          },
+          "budget_policy_denials": [],
+          "requests": [
+            {
+              "index": 2,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/C",
+              "observed_at": "2026-10-10T14:06:47.603002+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 2158500,
+              "usage": {
+                "input_tokens": 6243,
+                "cache_read_input_tokens": 640,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 78
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 1.489982,
+              "first_delta_seconds": 0.565937,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 5,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/C",
+              "observed_at": "2026-10-10T14:06:49.173403+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 2455800,
+              "usage": {
+                "input_tokens": 306,
+                "cache_read_input_tokens": 6912,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 242
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 1.200622,
+              "first_delta_seconds": 0.36184,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 7,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/C",
+              "observed_at": "2026-10-10T14:06:50.448050+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3161700,
+              "usage": {
+                "input_tokens": 1519,
+                "cache_read_input_tokens": 7424,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 399
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 1.688117,
+              "first_delta_seconds": 0.218899,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 10,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/C",
+              "observed_at": "2026-10-10T14:06:52.188603+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3641100,
+              "usage": {
+                "input_tokens": 173,
+                "cache_read_input_tokens": 9216,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 687
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 2.616509,
+              "first_delta_seconds": 0.266849,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 13,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/C",
+              "observed_at": "2026-10-10T14:06:54.862252+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3128400,
+              "usage": {
+                "input_tokens": 152,
+                "cache_read_input_tokens": 9984,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 73
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 1.319912,
+              "first_delta_seconds": 0.315591,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 16,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/C",
+              "observed_at": "2026-10-10T14:06:56.281863+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3334800,
+              "usage": {
+                "input_tokens": 624,
+                "cache_read_input_tokens": 10112,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 95
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 0.975079,
+              "first_delta_seconds": 0.295268,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 18,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/C",
+              "observed_at": "2026-10-10T14:06:57.324339+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3366000,
+              "usage": {
+                "input_tokens": 140,
+                "cache_read_input_tokens": 10752,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 82
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 0.804798,
+              "first_delta_seconds": 0.265232,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            },
+            {
+              "index": 20,
+              "experiment": "p3-ds-return-mixed-20261010T140403Z/C",
+              "observed_at": "2026-10-10T14:06:58.192671+00:00",
+              "status": "SETTLED_USAGE_UPPER_BOUND",
+              "charge_bound_nano": 3652500,
+              "usage": {
+                "input_tokens": 175,
+                "cache_read_input_tokens": 10880,
+                "cache_creation_input_tokens": 0,
+                "output_tokens": 280
+              },
+              "model_id": "deepseek-flash",
+              "http_status": 200,
+              "request_id": "unavailable",
+              "elapsed_seconds": 2.513879,
+              "first_delta_seconds": 0.301511,
+              "protocol": "chat-completions",
+              "cache_creation_accounting": "not_applicable_in_protocol",
+              "bill_cash_usd": "unavailable"
+            }
+          ],
+          "request_count": 8,
+          "api_peak_upper_bound_usd": 0.0248988,
+          "api_seconds_sum": 12.608898,
+          "non_api_residual_seconds": 3.6019110759999755,
+          "api_queue_seconds": "unavailable",
+          "tool_seconds": "unavailable",
+          "retries_observed": 0,
+          "outer_retries": 0,
+          "bundle_sha256": "dfdb2edbee7afafe15b4009126b15060631b6c93313eac77e05b04fb900742a5"
+        }
+      ],
+      "failure_report": {
+        "status": "PASS",
+        "successful_candidates": [
+          "A",
+          "C"
+        ],
+        "all_failed": false,
+        "infrastructure_failures": [
+          "B"
+        ],
+        "failures": [
+          {
+            "id": "B",
+            "verdict": "BUDGET_EXHAUSTED",
+            "known_failures": [
+              "Inspect worker status and frozen test report"
+            ],
+            "head_commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+            "reproduce": "Replay the frozen suite at the archived commit in the same locked environment",
+            "partial_results": {
+              "patch_available": false,
+              "test_report": {
+                "verdict": "PASS",
+                "exit_code": 0,
+                "elapsed_seconds": 0.177788,
+                "log": "test_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+                "suite_sha256": "243b0e03d0b84d36a29bbbfdf54cc70841133277b13141b461a5234bd50dcd36",
+                "tests_expected": "contract-defined"
+              }
+            }
+          }
+        ],
+        "failure_categories": {
+          "BUDGET_EXHAUSTED": 1
+        },
+        "common_test_failures": {},
+        "common_defects": "Program-observed frozen-test signatures only; no model diagnosis inferred",
+        "next_action": "Review passing candidates",
+        "best_failure_is_success": false
+      },
+      "contract_manifest": {
+        "task_id": "p3-ds-return-streaming-batches",
+        "prompt": "Extend this complete streaming weighted-mean project with weighted_mean_many(groups), returning a list containing weighted_mean(group) for each group, including generators and an empty outer iterable. Preserve WeightedMean add/merge/result, error handling and frozen tests. Add test_batch.py, run all tests, and make a real new Git commit. No installs or subagents.",
+        "base_repository": "/opt/workbench/source/p3-ds-return-base-p3-mixed-20261010T140403Z",
+        "base_commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+        "env_hash": "62f4f4164e13e2699c785573cd62f9e418021360d3fb3376c8b42d59c76e9b39",
+        "source_file": "weighted_stats.py",
+        "visible_test_program": "import unittest\nfrom weighted_stats import weighted_mean\nclass TestWeighted(unittest.TestCase):\n    def test_weighting(self): self.assertAlmostEqual(weighted_mean([(2,1),(8,3)]),6.5)\n    def test_generator(self): self.assertEqual(weighted_mean((p for p in [(2,1),(4,1)])),3)\n    def test_negative(self):\n        with self.assertRaises(ValueError): weighted_mean([(2,-1),(4,2)])\n    def test_zero(self):\n        with self.assertRaises(ValueError): weighted_mean([(1,0)])\n    def test_empty(self):\n        with self.assertRaises(ValueError): weighted_mean([])\n\nassert weighted_mean([(2,1),(8,3)])==6.5\n\nunittest.main(verbosity=2)\n",
+        "acceptance_test_program": "import unittest\nfrom weighted_stats import weighted_mean\nclass TestWeighted(unittest.TestCase):\n    def test_weighting(self): self.assertAlmostEqual(weighted_mean([(2,1),(8,3)]),6.5)\n    def test_generator(self): self.assertEqual(weighted_mean((p for p in [(2,1),(4,1)])),3)\n    def test_negative(self):\n        with self.assertRaises(ValueError): weighted_mean([(2,-1),(4,2)])\n    def test_zero(self):\n        with self.assertRaises(ValueError): weighted_mean([(1,0)])\n    def test_empty(self):\n        with self.assertRaises(ValueError): weighted_mean([])\n\nfrom weighted_stats import weighted_mean_many\nassert weighted_mean_many(iter([iter([(2,1),(8,3)]),[(7,2)]]))==[6.5,7.0]\nassert weighted_mean_many(iter([]))==[]\n\nunittest.main(verbosity=2)\n",
+        "protected_files": {
+          "test_weighted_stats.py": "2abbec43f148827dbeac895e74d1c29a592024722357bd98efbf3924ce942241",
+          "test_accumulator.py": "2262cb09f92e082487354f38b955a8e7046d05dccd8a29439fab449be6f48171"
+        }
+      },
+      "pool_hash": "4e4fd928911682b25c9cbcd1263bd68bad81284b1b2704b5fc841f100aa5a9ed"
+    }
+  ],
+  "partial_archives": [
+    {
+      "id": "B-partial",
+      "kind": "PROGRAM_PARTIAL_SNAPSHOT_NOT_MODEL_SUCCESS",
+      "verdict": "BUDGET_EXHAUSTED",
+      "original_pool_hash": "4e4fd928911682b25c9cbcd1263bd68bad81284b1b2704b5fc841f100aa5a9ed",
+      "original_head_commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+      "original_working_tree": "M weighted_stats.py\n?? test_batch.py",
+      "branch": "archive/p3-ds-return-mixed-20261010T140403Z/B-partial",
+      "head_commit": "233c7ec1de47a6673c1ab4e5623571aa53a03700",
+      "test_report": {
+        "verdict": "PASS",
+        "exit_code": 0,
+        "elapsed_seconds": 0.17247,
+        "log": "test_empty (__main__.TestWeighted.test_empty) ... ok\ntest_generator (__main__.TestWeighted.test_generator) ... ok\ntest_negative (__main__.TestWeighted.test_negative) ... ok\ntest_weighting (__main__.TestWeighted.test_weighting) ... ok\ntest_zero (__main__.TestWeighted.test_zero) ... ok\n\n----------------------------------------------------------------------\nRan 5 tests in 0.000s\n\nOK\n",
+        "suite_sha256": "243b0e03d0b84d36a29bbbfdf54cc70841133277b13141b461a5234bd50dcd36",
+        "tests_expected": "contract-defined"
+      },
+      "model_requests_added": 0,
+      "files_sha256": "7a3df601792c95921a2f19668d27170265e42d960f54ad78023ac70227493bb1",
+      "bundle_file": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/B/partial-archive/candidate.bundle",
+      "bundle_sha256": "91ce460448d7b434f1b02540597cc234fc999c73963423ae4e044d5090cb3f78",
+      "partial_tree_sha256": "b92df9c12e2ac70b1abccac91839159983963837f98fc48d9bc6b96d9e4c6fa9"
+    }
+  ],
+  "roles_with_unique_real_sessions": 9,
+  "bundles": [
+    {
+      "file": "/opt/workbench/runs/p3-all-failed-20261010T140625Z/roles/reviewer/candidate.bundle",
+      "sha256": "f00b57cbcc947b0c171250267f776d4fe5a8d43ba6b696f516ed657f35ecc26a",
+      "head_commit": "c9a2685b5adea278dd784e5a07f103fd491e6981",
+      "branch": "run/p3-all-failed-20261010T140625Z/reviewer",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "remote_archive_ref": "refs/heads/feature/9-evidence/p3-all-failed-20261010T140625Z/reviewer"
+    },
+    {
+      "file": "/opt/workbench/runs/p3-impossible-20261010T140625Z/roles/reviewer/candidate.bundle",
+      "sha256": "d45a4d28303682cded8839babe8225ea5f900070734807f2b81e7e6324635626",
+      "head_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "run/p3-impossible-20261010T140625Z/reviewer",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "remote_archive_ref": "refs/heads/feature/9-evidence/p3-impossible-20261010T140625Z/reviewer"
+    },
+    {
+      "file": "/opt/workbench/runs/p3-mixed-20261010T140141Z/roles/reviewer/candidate.bundle",
+      "sha256": "634b09559b11b619f322747e3329be8de85e99a01207198ee8657f0b88bb67b3",
+      "head_commit": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "branch": "run/p3-mixed-20261010T140141Z/reviewer",
+      "kind": "INFRASTRUCTURE_ATTEMPT",
+      "remote_archive_ref": "refs/heads/feature/9-evidence/p3-mixed-20261010T140141Z/reviewer"
+    },
+    {
+      "file": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/builder/candidate.bundle",
+      "sha256": "1154ae604239168e6c1624439a9bbc5c63fe0dab2038f54e99a25825c85c43c4",
+      "head_commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+      "branch": "run/p3-mixed-20261010T140403Z/builder",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "remote_archive_ref": "refs/heads/feature/9-evidence/p3-mixed-20261010T140403Z/builder"
+    },
+    {
+      "file": "/opt/workbench/runs/p3-mixed-20261010T140403Z/roles/reviewer/candidate.bundle",
+      "sha256": "4324f805dff4ee9abe59fb1e7168db02b10d307e5c64de51a19c58fc232f8b05",
+      "head_commit": "941c31652b926f11208f44728df199e8d5fd32ef",
+      "branch": "run/p3-mixed-20261010T140403Z/reviewer",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "remote_archive_ref": "refs/heads/feature/9-evidence/p3-mixed-20261010T140403Z/reviewer"
+    },
+    {
+      "file": "/opt/workbench/runs/p3-impossible-20261010T140625Z-contradictory-input/C/candidate.bundle",
+      "sha256": "d07069cf4c1e72855865f5fadc97bb14100a51ae0a2055b8e521144d86c1a027",
+      "head_commit": "e6bae9d90679b3167a1feaf737bb3e9523c86b28",
+      "branch": "run/p2/p3-impossible-20261010T140625Z-contradictory-input/C",
+      "kind": "CONTROLLED_UNSATISFIABLE_CONTRACT",
+      "remote_archive_ref": "refs/heads/feature/9-evidence/p3-impossible-20261010T140625Z-contradictory-input/C"
+    },
+    {
+      "file": "/opt/workbench/runs/p3-impossible-20261010T140625Z-contradictory-input/B/candidate.bundle",
+      "sha256": "4914f681f57cf85bb3228fd941e0095b5c219ca4aa07c49db4e9d608ec7a1d9b",
+      "head_commit": "56f314fd47a506db0e3f97ab4957409219b17473",
+      "branch": "run/p2/p3-impossible-20261010T140625Z-contradictory-input/B",
+      "kind": "CONTROLLED_UNSATISFIABLE_CONTRACT",
+      "remote_archive_ref": "refs/heads/feature/9-evidence/p3-impossible-20261010T140625Z-contradictory-input/B"
+    },
+    {
+      "file": "/opt/workbench/runs/p3-impossible-20261010T140625Z-contradictory-input/A/candidate.bundle",
+      "sha256": "63c7f11c2dd43b1fb14c429e1f871f788e802597bc3e24545cd7e8861c1196ab",
+      "head_commit": "dd473eabcb7fd2ec0743fd281d5322b245a1e56f",
+      "branch": "run/p2/p3-impossible-20261010T140625Z-contradictory-input/A",
+      "kind": "CONTROLLED_UNSATISFIABLE_CONTRACT",
+      "remote_archive_ref": "refs/heads/feature/9-evidence/p3-impossible-20261010T140625Z-contradictory-input/A"
+    },
+    {
+      "file": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/B/partial-archive/candidate.bundle",
+      "sha256": "91ce460448d7b434f1b02540597cc234fc999c73963423ae4e044d5090cb3f78",
+      "head_commit": "233c7ec1de47a6673c1ab4e5623571aa53a03700",
+      "branch": "archive/p3-ds-return-mixed-20261010T140403Z/B-partial",
+      "kind": "PROGRAM_PARTIAL_SNAPSHOT_NOT_MODEL_SUCCESS",
+      "remote_archive_ref": "refs/heads/feature/9-evidence/p3-ds-return-mixed-20261010T140403Z/B-partial"
+    },
+    {
+      "file": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/A.bundle",
+      "sha256": "88482e0f6c9236446f81f8ae0973a78a1876e489c01a4ba6783c7abbb5ab1f66",
+      "head_commit": "7909136b6be64a5344e2a439ae1567380516bd09",
+      "branch": "run/p2/p3-ds-return-mixed-20261010T140403Z/A",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "remote_archive_ref": "refs/heads/feature/9-evidence/p3-ds-return-mixed-20261010T140403Z/A"
+    },
+    {
+      "file": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/B.bundle",
+      "sha256": "2e9e6ed7b267f01816313b9d5e5839c6f2396460ce71cb19b41f6b1b3180377f",
+      "head_commit": "1012d99bf66316b09371cd56a3d7aa14436284e4",
+      "branch": "run/p2/p3-ds-return-mixed-20261010T140403Z/B",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "remote_archive_ref": "refs/heads/feature/9-evidence/p3-ds-return-mixed-20261010T140403Z/B"
+    },
+    {
+      "file": "/opt/workbench/runs/p3-ds-return-mixed-20261010T140403Z/C.bundle",
+      "sha256": "dfdb2edbee7afafe15b4009126b15060631b6c93313eac77e05b04fb900742a5",
+      "head_commit": "233b402349182d4db93b3f470bb7c30771d5f5c7",
+      "branch": "run/p2/p3-ds-return-mixed-20261010T140403Z/C",
+      "kind": "REAL_MODEL_EXPERIMENT",
+      "remote_archive_ref": "refs/heads/feature/9-evidence/p3-ds-return-mixed-20261010T140403Z/C"
+    }
+  ],
+  "retained_attempts_and_pauses": [
+    {
+      "functional_gate": "PENDING",
+      "error_type": "CancelledError",
+      "status": "PAUSED",
+      "segment": 1,
+      "active_elapsed_seconds": 4.520995717999995,
+      "observed_at": "2026-10-10T14:01:45.982662+00:00",
+      "contract_hash": "60212a301523ac77fb6c7fc7bb6d0faa18b9cd180bbcea8deda65b3840fa075f",
+      "run_id": "p3-mixed-20261010T140141Z",
+      "kind": "REAL_MODEL_P3_EXPERIMENT",
+      "pool_hash": "e86d850cd0b34d56ddcb207bc79bac8e45958bb9344a471b1f966a0b2ce5e3d7",
+      "segment_elapsed_seconds": 4.520995717999995,
+      "api_bill_usd": "unavailable",
+      "phase_budget": {
+        "requests": 0,
+        "codex_turns": 2,
+        "cash_bound_nano": 0,
+        "ledger_sha256": "c1edf966c23ad5879a34e7f02333796824c727db8a47d87124d4dce85be08da6"
+      },
+      "final_disposition": {
+        "status": "ABANDONED_SOURCE_CHANGED",
+        "reason": "Actual fence denied startup before inference; both reservations retained; replaced by explicit new run",
+        "replacement": "p3-mixed-20261010T140403Z"
+      }
+    },
+    {
+      "functional_gate": "PENDING",
+      "error_type": "CancelledError",
+      "status": "PAUSED",
+      "segment": 1,
+      "active_elapsed_seconds": 62.09247359399998,
+      "observed_at": "2026-10-10T14:05:05.828063+00:00",
+      "contract_hash": "be47f67f67e0bb8faf72f7923058f516e8bd232502de4159c392c0c99b107890",
+      "run_id": "p3-mixed-20261010T140403Z",
+      "kind": "REAL_MODEL_P3_EXPERIMENT",
+      "pool_hash": "e86d850cd0b34d56ddcb207bc79bac8e45958bb9344a471b1f966a0b2ce5e3d7",
+      "segment_elapsed_seconds": 62.09247359399998,
+      "api_bill_usd": "unavailable",
+      "phase_budget": {
+        "requests": 0,
+        "codex_turns": 4,
+        "cash_bound_nano": 0,
+        "ledger_sha256": "d20fc828728779ec7248574f0e510028ecffb35a8ac5f7baf7799f53a7fa29c2"
+      }
+    }
+  ],
+  "offline_controls": [
+    {
+      "verdict": "PASS",
+      "kind": "ZERO_MODEL_P3_CONTROLS",
+      "model_requests_added": 0,
+      "watchdog": {
+        "status": "TIMEOUT",
+        "role": "reviewer",
+        "scope": "p3-control-watchdog-20261010T140106Z/sleep",
+        "input_sha256": "47b1e320aa37cc6b866ef5585c3d85d34b92f6c868335c4302d85ab52475e093",
+        "usage": "unavailable",
+        "wall_seconds": 4.007446852000001
+      },
+      "native_humanize_pause_resume": {
+        "pause_epic": "/opt/workbench/state/p3-control-resume-20261010T140106Z/humanize/epics/-opt-workbench-runs-p3-control-resume-20261010T140106Z/20261010T140110.261Z-6b1e51",
+        "resume_epic": "/opt/workbench/state/p3-control-resume-20261010T140106Z/humanize/epics/-opt-workbench-runs-p3-control-resume-20261010T140106Z/20261010T140110.363Z-8c65f7",
+        "before_resume": [
+          "verifier_input",
+          "reviewer"
+        ],
+        "all_mock_stage_calls": [
+          "verifier_input",
+          "reviewer",
+          "verify_m",
+          "verifier_m",
+          "builder",
+          "ds_return",
+          "verifier_return"
+        ],
+        "completed_stages_replayed": 0,
+        "kind": "MOCK_STAGE_TRANSPORT_ONLY"
+      },
+      "real_ledger_before": "ABSENT",
+      "real_ledger_after": "ABSENT",
+      "elapsed_seconds": 4.343606153
+    },
+    {
+      "verdict": "PASS",
+      "kind": "ZERO_MODEL_P3_CONTROLS",
+      "model_requests_added": 0,
+      "watchdog": {
+        "status": "TIMEOUT",
+        "role": "reviewer",
+        "scope": "p3-control-watchdog-20261010T140313Z/sleep",
+        "input_sha256": "47b1e320aa37cc6b866ef5585c3d85d34b92f6c868335c4302d85ab52475e093",
+        "usage": "unavailable",
+        "wall_seconds": 4.015180751999992
+      },
+      "native_humanize_pause_resume": {
+        "pause_epic": "/opt/workbench/state/p3-control-resume-20261010T140313Z/humanize/epics/-opt-workbench-runs-p3-control-resume-20261010T140313Z/20261010T140319.074Z-917406",
+        "resume_epic": "/opt/workbench/state/p3-control-resume-20261010T140313Z/humanize/epics/-opt-workbench-runs-p3-control-resume-20261010T140313Z/20261010T140319.183Z-a0584f",
+        "before_resume": [
+          "verifier_input",
+          "reviewer"
+        ],
+        "all_mock_stage_calls": [
+          "verifier_input",
+          "reviewer",
+          "verify_m",
+          "verifier_m",
+          "builder",
+          "ds_return",
+          "verifier_return"
+        ],
+        "completed_stages_replayed": 0,
+        "kind": "MOCK_STAGE_TRANSPORT_ONLY"
+      },
+      "fence_regression": [
+        {
+          "paths": [
+            {
+              "path": "/opt/workbench/runs/p3-control-watchdog-20261010T140313Z/control/run-contract.json",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/source/p2_candidates.py",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p3-control-watchdog-20261010T140313Z/roles/sleep/humanize/isolation-canary",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/A/worktree/weighted_stats.py",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/B/worktree/weighted_stats.py",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/C/worktree/weighted_stats.py",
+              "read": "DENIED",
+              "write": "DENIED"
+            }
+          ],
+          "readonly": [
+            {
+              "path": "/opt/workbench/runs/p3-control-watchdog-20261010T140313Z/inputs/fence-verifier.json",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/state/codex/auth.json",
+              "write": "DENIED"
+            }
+          ],
+          "own_workspace": "WRITE_DENIED",
+          "uid": 1000,
+          "private_pid_namespace": true,
+          "verdict": "PASS"
+        },
+        {
+          "paths": [
+            {
+              "path": "/opt/workbench/runs/p3-control-watchdog-20261010T140313Z/control/run-contract.json",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/source/p2_candidates.py",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p3-control-watchdog-20261010T140313Z/roles/fence-verifier/humanize/isolation-canary",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p3-control-watchdog-20261010T140313Z/roles/sleep/humanize/isolation-canary",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/A/worktree/weighted_stats.py",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/B/worktree/weighted_stats.py",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/C/worktree/weighted_stats.py",
+              "read": "DENIED",
+              "write": "DENIED"
+            }
+          ],
+          "readonly": [
+            {
+              "path": "/opt/workbench/runs/p3-control-watchdog-20261010T140313Z/inputs/fence-reviewer.json",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/state/codex/auth.json",
+              "write": "DENIED"
+            }
+          ],
+          "own_workspace": "WRITE_ALLOWED",
+          "uid": 1000,
+          "private_pid_namespace": true,
+          "verdict": "PASS"
+        },
+        {
+          "paths": [
+            {
+              "path": "/opt/workbench/runs/p3-control-watchdog-20261010T140313Z/control/run-contract.json",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/source/p2_candidates.py",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/source/p1-frozen-fixture/.git/config",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p3-control-watchdog-20261010T140313Z/roles/fence-verifier/humanize/isolation-canary",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p3-control-watchdog-20261010T140313Z/roles/fence-reviewer/humanize/isolation-canary",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p3-control-watchdog-20261010T140313Z/roles/sleep/humanize/isolation-canary",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/A/worktree/weighted_stats.py",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/B/worktree/weighted_stats.py",
+              "read": "DENIED",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/runs/p2-control-mixed-20261010T124617Z/C/worktree/weighted_stats.py",
+              "read": "DENIED",
+              "write": "DENIED"
+            }
+          ],
+          "readonly": [
+            {
+              "path": "/opt/workbench/runs/p3-control-watchdog-20261010T140313Z/inputs/fence-builder.json",
+              "write": "DENIED"
+            },
+            {
+              "path": "/opt/workbench/state/codex/auth.json",
+              "write": "DENIED"
+            }
+          ],
+          "own_workspace": "WRITE_ALLOWED",
+          "uid": 1000,
+          "private_pid_namespace": true,
+          "verdict": "PASS"
+        }
+      ],
+      "real_ledger_before": "c1edf966c23ad5879a34e7f02333796824c727db8a47d87124d4dce85be08da6",
+      "real_ledger_after": "c1edf966c23ad5879a34e7f02333796824c727db8a47d87124d4dce85be08da6",
+      "elapsed_seconds": 5.736970576999994
+    }
+  ],
+  "budget": {
+    "requests": 21,
+    "codex_turns_reserved": 11,
+    "ledger_sha256": "212e47dde838c7805f664d54f1ab25cf6d132e65bc81b8fb329a2ec310cdd586",
+    "api_peak_upper_bound_usd": 0.065025,
+    "api_cache_aware_estimate_usd_range": [
+      0.007995251999999998,
+      0.015990503999999996
+    ],
+    "api_bill_usd": "unavailable",
+    "subscription_api_cash_usd": 0,
+    "subscription_cost_usd": "unavailable",
+    "DS_disjoint_tokens": {
+      "input_tokens": 27594,
+      "cache_read_input_tokens": 166784,
+      "cache_creation_input_tokens": 0,
+      "output_tokens": 5593
+    },
+    "subscription_visible_role_count": 9,
+    "subscription_visible_tokens": {
+      "input_tokens": 334791,
+      "cached_input_tokens": 201216,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 6792,
+      "reasoning_output_tokens": 426,
+      "total_tokens": 341583
+    },
+    "failed_startup_reservations": 2,
+    "failed_startup_usage": "unavailable; visible totals do not cover every reserved turn"
+  },
+  "acceptance": {
+    "P3-A01": "PASS_REAL_REVIEWER_ALL_CANDIDATES",
+    "P3-A02": "PASS_SAME_FROZEN_TESTS_NO_AUTOMATIC_M_WIN",
+    "P3-A03": "PASS_CONTROLLED_FAILURES_AND_NATIVE_PAUSE_RESUME",
+    "P3-A04": "PASS_REAL_SOL_BUILDER_AND_FRESH_DS_N3"
+  },
+  "limitations": [
+    "Synthetic controlled pools; no benchmark efficacy claim",
+    "Jev blocked by user-reported region; no Jev/OpenRouter requests",
+    "Current role-boundary pause is bounded, not instantaneous tool interruption",
+    "No hidden test answers or prior role chats passed to agents",
+    "Model self-assessments are not calibrated probabilities; hard tests and human review remain required",
+    "P4/P5/P6 not implemented"
+  ]
+}

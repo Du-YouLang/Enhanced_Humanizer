@@ -35,20 +35,22 @@
         "P1",
         "P3"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
-        "P3-A01..A04 (计划；不能视为已通过)",
-        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
       ],
-      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
+      "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0007"
+        "ADR-0007",
+        "ADR-0009"
       ],
       "source_line": 37,
       "phase_evidence": {
-        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
       }
     },
     {
@@ -161,19 +163,22 @@
       "phases": [
         "P1"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
-        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
       ],
-      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
+      "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0007"
+        "ADR-0007",
+        "ADR-0009"
       ],
       "source_line": 49,
       "phase_evidence": {
-        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
       }
     },
     {
@@ -187,20 +192,22 @@
         "P1",
         "P3"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
-        "P3-A01..A04 (计划；不能视为已通过)",
-        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
       ],
-      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
+      "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0007"
+        "ADR-0007",
+        "ADR-0009"
       ],
       "source_line": 51,
       "phase_evidence": {
-        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
       }
     },
     {
@@ -239,16 +246,20 @@
       "phases": [
         "P3"
       ],
-      "issue": "PLANNED:P3",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
-        "P3-A01..A04 (计划；不能视为已通过)"
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0009"
       ],
-      "source_line": 55
+      "source_line": 55,
+      "phase_evidence": {
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
+      }
     },
     {
       "id": "WF-06",
@@ -492,20 +503,22 @@
         "P2",
         "P3"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
-        "P3-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
       ],
-      "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
+      "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0009"
       ],
       "source_line": 77,
       "phase_evidence": {
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
       }
     },
     {
@@ -519,20 +532,22 @@
         "P2",
         "P3"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
-        "P3-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
       ],
-      "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
+      "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0009"
       ],
       "source_line": 79,
       "phase_evidence": {
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
       }
     },
     {
@@ -687,16 +702,20 @@
       "phases": [
         "P3"
       ],
-      "issue": "PLANNED:P3",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
-        "P3-A01..A04 (计划；不能视为已通过)"
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0009"
       ],
-      "source_line": 93
+      "source_line": 93,
+      "phase_evidence": {
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
+      }
     },
     {
       "id": "JR-05",
@@ -708,16 +727,20 @@
       "phases": [
         "P3"
       ],
-      "issue": "PLANNED:P3",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
-        "P3-A01..A04 (计划；不能视为已通过)"
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0009"
       ],
-      "source_line": 95
+      "source_line": 95,
+      "phase_evidence": {
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
+      }
     },
     {
       "id": "JR-06",
@@ -729,16 +752,20 @@
       "phases": [
         "P3"
       ],
-      "issue": "PLANNED:P3",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
-        "P3-A01..A04 (计划；不能视为已通过)"
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0009"
       ],
-      "source_line": 97
+      "source_line": 97,
+      "phase_evidence": {
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
+      }
     },
     {
       "id": "JR-07",
@@ -751,17 +778,21 @@
         "P3",
         "P6"
       ],
-      "issue": "PLANNED:P3",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
-        "P3-A01..A04 (计划；不能视为已通过)",
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01..A04 (计划；不能视为已通过)",
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
       ],
-      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0009"
       ],
-      "source_line": 99
+      "source_line": 99,
+      "phase_evidence": {
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
+      }
     },
     {
       "id": "JR-08",
@@ -774,20 +805,22 @@
         "P2",
         "P3"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
-        "P3-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
       ],
-      "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
+      "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0009"
       ],
       "source_line": 101,
       "phase_evidence": {
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
       }
     },
     {
@@ -1021,22 +1054,25 @@
       "phases": [
         "P4"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
         "P4-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
       ],
-      "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
+      "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0007",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0009"
       ],
       "source_line": 125,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
       }
     },
     {
