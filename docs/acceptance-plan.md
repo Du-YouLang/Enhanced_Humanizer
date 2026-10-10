@@ -1,6 +1,6 @@
 # 按阶段独立验收计划
 
-P0-A01..A08 已按 P0 Linux 报告及 PR #4 证据独立验收。P1-A01..A04 已按 [P1 报告](audits/P1-2026-10-10.md) 真实实验/隔离复验通过；开发交付另须 PR CI 通过。下表 P0 部分“待验证”文字是早期验收设计，最新结果以报告为准。P2–P6 均未执行。对应稳定 ID 可从 requirements/traceability.json 筛选。
+P0-A01..A08 已按 P0 Linux 报告及 PR #4 证据独立验收。P1-A01..A04 已按 [P1 报告](audits/P1-2026-10-10.md) 真实实验/隔离复验通过；开发交付另须 PR CI 通过。下表 P0 部分“待验证”文字是早期验收设计，最新结果以报告为准。P2-A01..A04 已按 P2 报告独立通过，J2 真实能力明确 BLOCKED_CREDENTIAL；Git 交付另须实际 PR/CI/main 同步。P3–P6 未执行。对应稳定 ID 可从 requirements/traceability.json 筛选。
 
 | 验收 ID | 验收内容 | P0 当前证据 / 未来要求 |
 |---|---|---|

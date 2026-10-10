@@ -75,3 +75,16 @@ P1 已完成五个真实实验，结果见 [P1 验收](audits/P1-2026-10-10.md)�
 
 在 Windows 项目 Python 导入 `scripts/wsl_project.py` 后，`run(['python','/opt/workbench/source/verify_p1_results_linux.py'])` 复验保存的五个独立仓库；模型调用 0。`audit_p1_controls_linux.py` 与 `audit_p1_transport_linux.py` 分别是无付费控制/模拟传输检查，不能作为真实模型结果。外部测试同样执行候选代码，P1 已用 Humanize 只读/禁网 fence 收紧并追加复验。
 
+
+## P2入口与无模型复验
+
+P2使用现有36包P1 Linux lock，没有新增依赖或重建认证。真实入口（会消耗剩余独立P2额度）：
+
+```powershell
+.venv/Scripts/python.exe scripts/run_p2_experiment.py pool --n 3 --concurrency 3
+.venv/Scripts/python.exe scripts/run_p2_experiment.py judge --pool-path /opt/workbench/runs/<实际P2运行>/frozen-pool.json
+```
+
+当前已用87/100 DS请求、2/6 Codex评分预留回合；不为重复演示清零或退款。J2无凭据，不能借用DS预算购买Jev。自定义任务见 examples/p2-task-contract/README.md，科研材料默认私有。`deploy`只复制固定公共源码，无模型调用。
+
+无模型复验：在项目Python导入wsl_project.run后调用 `/opt/workbench/source/verify_p2_results_linux.py`，独立重测13个真实commit并追加受控故障/超时证据；`audit_p2_custom_contract_linux.py`验证空项目契约和已证明LAV缓存重放，均不请求模型、不改变真实ledger。重跑会生成新的私有故障fixtures，不删除旧记录；正常验收无需重复产生。Linux单测部署为平铺source时设置PYTHONPATH=/opt/workbench/source，CI仓库目录不需要该适配。

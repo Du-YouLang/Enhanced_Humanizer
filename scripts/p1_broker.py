@@ -25,6 +25,7 @@ class Broker:
         self.deadline=deadline
         self.capability=secrets.token_urlsafe(32)
         self.serial=threading.Lock()
+        self.denials=[]
         broker=self
         class Handler(BaseHTTPRequestHandler):
             def log_message(self,*args):
@@ -56,7 +57,8 @@ class Broker:
                         raise BudgetDenied('Billed server tools are not authorized')
                     index=broker.ledger.reserve_request(broker.experiment)
                     asyncio.run(broker.forward(self,body,index))
-                except BudgetDenied:
+                except BudgetDenied as error:
+                    broker.denials.append({'reason':str(error),'observed_monotonic':time.monotonic()})
                     if not getattr(self,'response_started',False):self.send_error(402,'P1 budget/policy denied')
                 except Exception:
                     # Failed/aborted requests retain the entire reservation. Do not print request/error bodies.

@@ -16,3 +16,5 @@ P0 Issue #1 已按真实 Gate 验收关闭；PR #2/#3 为准备交付，PR #4 �
 6. 生成项目私有 bundle，保留失败实验/refs/历史。回滚用新分支+revert+PR/CI，禁止自动 reset --hard/clean/强推。
 
 产品 PR 后端的逐次人工审批留待其功能阶段实现与独立验收。P1 的 merge 不表示 P2–P6 或完整需求通过。暂名确认见 USR-NAME-01，首次外部产品发布前复核。
+
+P2：Issue #7 / feature/7-ds-candidates。26个仅含合成代码的真实候选/程序故障fixture保留独立 Git bundle，并推送到已授权 feature/7-evidence/<run>/<candidate> 命名空间；没有每路另开PR。实际refs及本地/main/CI一致性进入私有最终验收。用户自定义科研任务不进入该公开导出流程。
