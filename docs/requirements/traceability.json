@@ -65,14 +65,18 @@
       ],
       "issue": "PLANNED:P5",
       "tests": [
-        "P5-A01..A03 (计划；不能视为已通过)"
+        "P5-A01 historical path PASS / A02 PARTIAL quota / A03 local PASS; remote pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P5_LOCAL_PARTIAL_LIVE_CHAIN_BLOCKED_REMOTE_DEFERRED",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0011"
       ],
-      "source_line": 39
+      "source_line": 39,
+      "phase_evidence": {
+        "P5": "Local prototype/control/history evidence; new full live chain blocked Codex quota; remote deferred. docs/audits/P5-2026-10-11.md; no full phase acceptance"
+      }
     },
     {
       "id": "V-04",
@@ -1420,14 +1424,18 @@
       ],
       "issue": "PLANNED:P5",
       "tests": [
-        "P5-A01..A03 (计划；不能视为已通过)"
+        "P5-A01 historical path PASS / A02 PARTIAL quota / A03 local PASS; remote pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P5_LOCAL_PARTIAL_LIVE_CHAIN_BLOCKED_REMOTE_DEFERRED",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0011"
       ],
-      "source_line": 153
+      "source_line": 153,
+      "phase_evidence": {
+        "P5": "Local prototype/control/history evidence; new full live chain blocked Codex quota; remote deferred. docs/audits/P5-2026-10-11.md; no full phase acceptance"
+      }
     },
     {
       "id": "UI-02",
@@ -1441,14 +1449,18 @@
       ],
       "issue": "PLANNED:P5",
       "tests": [
-        "P5-A01..A03 (计划；不能视为已通过)"
+        "P5-A01 historical path PASS / A02 PARTIAL quota / A03 local PASS; remote pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P5_LOCAL_PARTIAL_LIVE_CHAIN_BLOCKED_REMOTE_DEFERRED",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0011"
       ],
-      "source_line": 155
+      "source_line": 155,
+      "phase_evidence": {
+        "P5": "Local prototype/control/history evidence; new full live chain blocked Codex quota; remote deferred. docs/audits/P5-2026-10-11.md; no full phase acceptance"
+      }
     },
     {
       "id": "UI-03",
@@ -1462,14 +1474,18 @@
       ],
       "issue": "PLANNED:P5",
       "tests": [
-        "P5-A01..A03 (计划；不能视为已通过)"
+        "P5-A01 historical path PASS / A02 PARTIAL quota / A03 local PASS; remote pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P5_LOCAL_PARTIAL_LIVE_CHAIN_BLOCKED_REMOTE_DEFERRED",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0011"
       ],
-      "source_line": 157
+      "source_line": 157,
+      "phase_evidence": {
+        "P5": "Local prototype/control/history evidence; new full live chain blocked Codex quota; remote deferred. docs/audits/P5-2026-10-11.md; no full phase acceptance"
+      }
     },
     {
       "id": "UI-04",
@@ -1483,14 +1499,18 @@
       ],
       "issue": "PLANNED:P5",
       "tests": [
-        "P5-A01..A03 (计划；不能视为已通过)"
+        "P5-A01 historical path PASS / A02 PARTIAL quota / A03 local PASS; remote pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P5_LOCAL_PARTIAL_LIVE_CHAIN_BLOCKED_REMOTE_DEFERRED",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0011"
       ],
-      "source_line": 159
+      "source_line": 159,
+      "phase_evidence": {
+        "P5": "Local prototype/control/history evidence; new full live chain blocked Codex quota; remote deferred. docs/audits/P5-2026-10-11.md; no full phase acceptance"
+      }
     },
     {
       "id": "UI-05",
@@ -1504,14 +1524,18 @@
       ],
       "issue": "PLANNED:P5",
       "tests": [
-        "P5-A01..A03 (计划；不能视为已通过)"
+        "P5-A01 historical path PASS / A02 PARTIAL quota / A03 local PASS; remote pending"
       ],
-      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "implementation_status": "P5_LOCAL_PARTIAL_LIVE_CHAIN_BLOCKED_REMOTE_DEFERRED",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0011"
       ],
-      "source_line": 161
+      "source_line": 161,
+      "phase_evidence": {
+        "P5": "Local prototype/control/history evidence; new full live chain blocked Codex quota; remote deferred. docs/audits/P5-2026-10-11.md; no full phase acceptance"
+      }
     },
     {
       "id": "UI-06",
@@ -1526,14 +1550,18 @@
       ],
       "issue": "PLANNED:P5",
       "tests": [
-        "P5-A01..A03 (计划；不能视为已通过)"
+        "P5-A01 historical path PASS / A02 PARTIAL quota / A03 local PASS; remote pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P5_LOCAL_PARTIAL_LIVE_CHAIN_BLOCKED_REMOTE_DEFERRED",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0011"
       ],
-      "source_line": 163
+      "source_line": 163,
+      "phase_evidence": {
+        "P5": "Local prototype/control/history evidence; new full live chain blocked Codex quota; remote deferred. docs/audits/P5-2026-10-11.md; no full phase acceptance"
+      }
     },
     {
       "id": "BM-01",
@@ -2170,18 +2198,20 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
-        "P5-A01..A03 (计划)",
-        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
+        "P5-A01 historical path PASS / A02 PARTIAL quota / A03 local PASS; remote pending"
       ],
-      "implementation_status": "DEFERRED_UI_DECISION_P5",
+      "implementation_status": "P5_LOCAL_PARTIAL_LIVE_CHAIN_BLOCKED_REMOTE_DEFERRED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
-        "ADR-0007"
+        "ADR-0007",
+        "ADR-0011"
       ],
       "source_line": 244,
       "phase_evidence": {
-        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
+        "P5": "Local prototype/control/history evidence; new full live chain blocked Codex quota; remote deferred. docs/audits/P5-2026-10-11.md; no full phase acceptance"
       }
     }
   ],
@@ -2195,13 +2225,14 @@
     {
       "id": "USR-GIT-01",
       "requirement": "开发仓库轻量 PR/CI，给予代理自主权并保持本地与 GitHub 代码一致",
-      "status": "ADOPTED_ADR-0004"
+      "status": "ADOPTED_ADR-0004",
+      "checkpoint": "Latest user temporarily disconnected Du-YouLang; local commits allowed, remote push/Issue/PR/CI deferred until identity restored"
     },
     {
       "id": "USR-PR-01",
       "requirement": "软件产品自身每一次 PR 必须经过人工审核",
-      "status": "REQUIRED_FUTURE_IMPLEMENTATION",
-      "checkpoint": "产品 PR 功能实现与独立验收"
+      "status": "LOCAL_BACKEND_GATE_VERIFIED_PUBLISHING_DEFERRED",
+      "checkpoint": "Fixture/adversarial exact-head/test/evidence/single-use human review verified; real product PR approval and remote preflight still pending"
     }
   ]
 }

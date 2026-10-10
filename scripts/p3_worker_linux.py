@@ -93,7 +93,9 @@ def main():
     from hmz.flows import Permission
     role=job['role'];turns=[];tick=time.perf_counter()
     limits=job['limits']
-    ledger=Ledger('/opt/workbench/state/p3-budget/ledger.json',phase='P3',requests=limits['deepseek_inference_requests'],
+    phase=job.get('phase','P3')
+    if phase not in ('P3','P5'):raise RuntimeError('Unauthorized role phase')
+    ledger=Ledger('/opt/workbench/state/'+phase.lower()+'-budget/ledger.json',phase=phase,requests=limits['deepseek_inference_requests'],
                   codex_turns=limits['codex_subscription_turns'],cash_nano=int(limits['api_cash_usd']*1e9))
     spec='verifier' if role=='verifier' else ('reviewer' if role=='reviewer' else 'builder')
     permission=Permission(local='read' if role=='verifier' else 'all',user='none',system='none',online='none')

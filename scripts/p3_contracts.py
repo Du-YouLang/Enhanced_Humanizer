@@ -47,7 +47,9 @@ def judge_pool(package, extra=None):
         rows[-1].update(env_hash=package['env_hash'],prompt_hash=package['task_hash'],
                         test_report=c.get('visible_tests',{}),known_failures=[c['verdict']] if c['verdict']!='PASS' else [])
     pool={k:package[k] for k in ('task_contract','task_hash','base_commit','env_hash','rubric','rubric_hash')}
-    pool.update(candidates=rows,failure_report=failure_report(rows));pool['pool_hash']=digest(pool)
+    pool.update(candidates=rows,failure_report=failure_report(rows))
+    if len(rows) in (2,6):pool['purpose']='JUDGE_COMPARISON'
+    pool['pool_hash']=digest(pool)
     return validate_pool(pool)
 
 

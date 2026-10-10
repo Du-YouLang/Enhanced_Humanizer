@@ -24,6 +24,7 @@ jobs:
       - run: python -m unittest discover -s tests -v
       - run: node --test tests/test_p0_api_budget.mjs
       - run: node --check scripts/probe_deepseek_api.mjs
+      - run: node --check src/workbench/web/app.js
       - run: python -m compileall -q scripts tests src
       - name: Parse PowerShell setup scripts without executing them
         shell: pwsh
@@ -65,3 +66,4 @@ jobs:
       - run: git config --global user.name 'Workbench CI'
       - run: git config --global user.email 'ci@example.invalid'
       - run: python -m unittest discover -s tests -p 'test_memory.py' -v
+      - run: python -m unittest discover -s tests -p 'test_ui.py' -v

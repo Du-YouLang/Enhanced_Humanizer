@@ -154,9 +154,9 @@ def finalize(job,worker,timeline,queued_seconds,lock_hash):
 def failure_report(candidates):
     from collections import Counter
     passed=[c['id'] for c in candidates if c['verdict']=='PASS']
-    infra=[c['id'] for c in candidates if c['verdict'] in ('INFRA_FAIL','BUDGET_EXHAUSTED')]
+    infra=[c['id'] for c in candidates if c['verdict'] in ('INFRA_FAIL','BUDGET_EXHAUSTED','CANCELLED')]
     verdicts={c['verdict'] for c in candidates}
-    status='PASS' if passed else ('TIMEOUT' if verdicts=={'TIMEOUT'} else
+    status='PASS' if passed else ('CANCELLED' if verdicts=={'CANCELLED'} else 'TIMEOUT' if verdicts=={'TIMEOUT'} else
            ('BUDGET_EXHAUSTED' if verdicts=={'BUDGET_EXHAUSTED'} else ('INDETERMINATE' if infra else 'FAIL')))
     return {'status':status,'successful_candidates':passed,'all_failed':not passed,
             'infrastructure_failures':infra,
@@ -189,7 +189,8 @@ def validate_pool(pool):
     if digest(value)!=claimed or digest(pool['rubric'])!=pool['rubric_hash']:
         raise ValueError('Frozen pool or rubric changed')
     ids=[c['id'] for c in pool['candidates']]
-    if len(set(ids))!=len(ids) or len(ids) not in (1,3,4,5):raise ValueError('Invalid candidate pool')
+    sizes=(1,2,3,4,5,6) if pool.get('purpose')=='JUDGE_COMPARISON' else (1,3,4,5)
+    if len(set(ids))!=len(ids) or len(ids) not in sizes:raise ValueError('Invalid candidate pool')
     for c in pool['candidates']:
         if c['base_commit']!=pool['base_commit'] or c['env_hash']!=pool['env_hash'] or c['prompt_hash']!=pool['task_hash']:
             raise ValueError('Candidate contract/base/environment mismatch')

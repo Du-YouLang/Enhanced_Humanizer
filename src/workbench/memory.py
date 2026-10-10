@@ -170,6 +170,8 @@ class Memory:
     def handoff(self,node_id,to_role,next_action):
         node=self.get('attempt',node_id);task_id=node['task_id']
         knowledge=self.list('knowledge',task_id)
+        human_routes=[{k:a[k] for k in ('id','kind','reason','head_sha','attempt_id') if k in a}
+                      for a in self.list('action',task_id) if a.get('kind') in ('annotate','reject','route')]
         package={'schema_version':1,'task_id':task_id,'from_attempt':node_id,'from_role':node['role'],'to_role':to_role,
                  'current_commit':node.get('recovery_sha',node.get('head_sha','unavailable')),'task_contract':node.get('contract',self.get('task',task_id)['contract']),
                  'verified_facts':[v for v in knowledge if v['state']=='fact'],
@@ -177,10 +179,19 @@ class Memory:
                  'rejected_routes':[v for v in knowledge if v['state'] in ('rejected','superseded')],
                  'unresolved':[v for v in knowledge if v['state']=='unresolved'],
                  'failures':[{'id':a['id'],'status':a['status'],'head_sha':a.get('head_sha'),'evidence':a.get('artifacts',{})}
-                             for a in self.list('attempt',task_id) if a['status'] not in ('PASS','COMPLETED')],
+                             for a in self.list('attempt',task_id) if a['status'] in ('FAIL','INFRA_FAIL','TIMEOUT','CANCELLED','BUDGET_EXHAUSTED','REFUSED','INTERRUPTED')],
                  'tests':self.list('test_result',task_id),'next_action':next_action,
                  'remaining_budget':node.get('remaining_budget','unavailable'),
+                 'human_routes':human_routes,
                  'raw_chats_included':False,'human_review_required':True}
+        try:
+            run=self.get('run',node['run_id']);limits=run['limits'];ledger=self.get('project_contract','p5-ledger')
+            if run.get('phase')=='P5':package['remaining_budget']={
+                'api_cash_remaining_usd_upper_bound':max(0,limits['api_cash_usd']-ledger['cash_upper_bound_usd']),
+                'deepseek_requests_remaining':max(0,limits['deepseek_inference_requests']-ledger['requests']),
+                'codex_reserved_turns_remaining':max(0,limits['codex_subscription_turns']-ledger['codex_turns']),
+                'ledger_hash':ledger['ledger_hash'],'usage_cost_availability':'see phase ledger; subscription monetary cost unavailable'}
+        except KeyError:pass
         # Only explicitly agent-visible evidence can enter another agent's handoff.
         for row in package['tests']:
             row.pop('hidden_test_artifact',None)

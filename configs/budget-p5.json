@@ -1,0 +1,16 @@
+{
+  "phase": "P5",
+  "authorization": "human_user: P4+P5 spending as needed; finite operating cap chosen by implementation",
+  "api_cash_usd": 5,
+  "deepseek_inference_requests": 160,
+  "codex_subscription_turns": 16,
+  "per_request_timeout_seconds": 120,
+  "per_candidate_timeout_seconds": 600,
+  "per_role_timeout_seconds": 600,
+  "per_experiment_timeout_seconds": 1200,
+  "candidate_request_cap": 12,
+  "candidate_cash_cap_usd": 0.5,
+  "top_up_allowed": false,
+  "models": ["deepseek-flash", "gpt-6.1-sol"],
+  "Jev": "BLOCKED_REGION_REPORTED_BY_USER"
+}

@@ -92,12 +92,12 @@ def role_run(root,name,role,view,prompt,source=None,offline_control=None,role_se
     denied=[run_root/'control/run-contract.json',BASE/'source/p2_candidates.py',BASE/'source/p1-frozen-fixture/.git/config']
     denied += [p for p in (run_root/'roles').glob('*/humanize/isolation-canary') if p.parent.parent!=attempt]
     pool=read_json(CONTEXT['pool_path'])
-    denied += [candidate_work(CONTEXT['pool_path'],c['id'])/'weighted_stats.py' for c in pool['candidates']]
+    denied += [candidate_work(CONTEXT['pool_path'],c['id'])/pool.get('contract_manifest',{}).get('source_file','weighted_stats.py') for c in pool['candidates']]
     job={'root':str(attempt),'work':str(work),'role':role,'scope':run_root.name+'/'+name,'input_file':str(view_file),
          'input_sha256':digest(view),'parent_namespace':os.readlink('/proc/self/ns/pid'),
          'denied_paths':[str(p) for p in denied],'prompt':prompt,'role_seconds':min(role_seconds,CONTEXT.get('limits',{}).get('per_role_timeout_seconds',600)),
          'limits':CONTEXT.get('limits',{'deepseek_inference_requests':40,'codex_subscription_turns':12,'api_cash_usd':1,'per_request_timeout_seconds':120}),
-         'offline_control':offline_control}
+         'offline_control':offline_control,'phase':CONTEXT.get('phase','P3')}
     tick=time.perf_counter()
     with subprocess.Popen(namespace_command([sys.executable,'/opt/workbench/source/p3_worker_linux.py']),
             stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,cwd=work,env=env,start_new_session=True) as process:
@@ -111,7 +111,7 @@ def role_run(root,name,role,view,prompt,source=None,offline_control=None,role_se
         stop=None
         while process.poll() is None:
             if STOP.is_set() or time.monotonic()>=CONTEXT['deadline'] or time.perf_counter()-tick>min(600,job['role_seconds']):
-                stop='TIMEOUT';os.killpg(process.pid,signal.SIGTERM)
+                stop='CANCELLED' if STOP.is_set() else 'TIMEOUT';os.killpg(process.pid,signal.SIGTERM)
                 try:process.wait(3)
                 except subprocess.TimeoutExpired:os.killpg(process.pid,signal.SIGKILL);process.wait()
                 break

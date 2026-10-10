@@ -25,6 +25,7 @@ class TestMemory(unittest.TestCase):
         self.m.record('task','task',{'contract':{'prompt':'original task'}})
         self.m.record('attempt','node',{'task_id':'task','role':'builder','status':'PASS','head_sha':head,'base_sha':head,
                        'contract':{'prompt':'current task'},'artifacts':{}})
+        self.m.record('test_result','fixture-test',{'task_id':'task','attempt_id':'node','verdict':'PASS','kind':'TEST_FIXTURE'})
 
     def test_journal_replays_after_projection_loss_and_retains_epistemic_history(self):
         for state in ('hypothesis','fact','rejected','superseded','unresolved'):
@@ -86,6 +87,7 @@ class TestMemory(unittest.TestCase):
         (repo/'source.txt').write_text('base');git(repo,'add','.');git(repo,'commit','-m','base')
         base=git(repo,'rev-parse','HEAD');self.node(base);ops=GitOps(self.m,repo)
         fork=ops.fork('node','historical fork');work=Path(fork['worktree'])
+        self.assertEqual(self.m.handoff(fork['id'],'builder','continue')['task_contract']['prompt'],'current task')
         (work/'source.txt').write_text('committed');git(work,'add','.');git(work,'commit','-m','change')
         changed=git(work,'rev-parse','HEAD');(work/'source.txt').write_text('dirty partial')
         snap=ops.snapshot(fork['id'],'preserve partial')
@@ -106,6 +108,24 @@ class TestMemory(unittest.TestCase):
         with zipfile.ZipFile(bad,'w') as output:
             output.writestr('manifest.json',json.dumps({'files':{'../escape':sha(b'bad')}}));output.writestr('../escape','bad')
         with self.assertRaises(ValueError):restore(bad,self.root/'bad-restore')
+
+    def test_partial_linux_files_are_preserved_without_changing_failure_or_executing(self):
+        repo=self.root/'repository';repo.mkdir();git(repo,'init','-b','main')
+        git(repo,'config','user.name','Memory Test');git(repo,'config','user.email','fixture@example.invalid')
+        (repo/'code.py').write_text('raise RuntimeError("MUST NOT RUN")\n');git(repo,'add','.');git(repo,'commit','-m','base')
+        base=git(repo,'rev-parse','HEAD');self.node(base)
+        node=self.m.get('attempt','node');self.m.record('attempt','node',node|{'status':'CANCELLED'})
+        ops=GitOps(self.m,repo);before=len(self.m.events())
+        for name in ('../escape','.git/config','C:/outside','.'):
+            with self.assertRaises(ValueError):ops.preserve_partial('node',{name:'bad'})
+        self.assertEqual(len(self.m.events()),before)
+        saved=ops.preserve_partial('node',{'code.py':'raise RuntimeError("PARTIAL NOT RUN")\n','new.txt':'partial'})
+        self.assertEqual(saved['status'],'CANCELLED');self.assertNotEqual(saved['recovery_sha'],base)
+        fork=ops.fork('node','recover failed partial')
+        self.assertIn('PARTIAL NOT RUN',(Path(fork['worktree'])/'code.py').read_text())
+        self.assertEqual((Path(fork['worktree'])/'new.txt').read_text(),'partial')
+        self.assertEqual(git(repo,'rev-parse','HEAD'),base)
+        self.assertEqual(ops.preserve_partial('node',{'code.py':'raise RuntimeError("PARTIAL NOT RUN")\n','new.txt':'partial'})['recovery_sha'],saved['recovery_sha'])
 
 
 if __name__=='__main__':unittest.main()

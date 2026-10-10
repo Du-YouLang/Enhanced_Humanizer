@@ -13,8 +13,8 @@ from p2_candidates import prepare,freeze,finalize,exclusive_json,candidate_env,d
 
 
 class ScopedLedger:
-    def __init__(self,ledger,scope):self.ledger,self.scope=ledger,scope
-    def reserve_request(self,_):return self.ledger.reserve_request(self.scope,scope_requests=12,scope_cash_nano=500_000_000)
+    def __init__(self,ledger,scope,request_cap=12,cash_cap=500_000_000):self.ledger,self.scope,self.request_cap,self.cash_cap=ledger,scope,request_cap,cash_cap
+    def reserve_request(self,_):return self.ledger.reserve_request(self.scope,scope_requests=self.request_cap,scope_cash_nano=self.cash_cap)
     def settle(self,*args):return self.ledger.settle(*args)
 
 
@@ -36,7 +36,7 @@ def pool_run(payload,key,ledger,deadline):
         for name in ('dsh','humanize','cache'):(Path(job['root'])/name/'isolation-canary').write_text('Peer-state harmless canary')
     brokers=[]
     for job in jobs:
-        scope=experiment+'/'+job['id'];broker=Broker(key,ScopedLedger(ledger,scope),scope,deadline);broker.start();brokers.append(broker)
+        scope=experiment+'/'+job['id'];broker=Broker(key,ScopedLedger(ledger,scope,payload.get('candidate_request_cap',12),int(payload.get('candidate_cash_cap_usd',.5)*1e9)),scope,deadline);broker.start();brokers.append(broker)
         job.update(scope=scope,capability=broker.capability,broker_url=broker.url,parent_namespace=os.readlink('/proc/self/ns/pid'),
                    denied_paths=[str(authority),str(BASE/'source/p1-frozen-fixture/weighted_stats.py')]+[
                        str(Path(peer['work'])/'.git/config') for peer in jobs if peer['id']!=job['id']]+[
@@ -45,12 +45,23 @@ def pool_run(payload,key,ledger,deadline):
     tick=time.perf_counter()
     try:
         run=Hmz(workspace=root).run('/opt/workbench/source/flows/ds_candidates','Execute the frozen P2 task-level pool',agents={},
-            params={'descriptor_path':str(descriptor),'concurrency':payload['concurrency'],'candidate_seconds':600},
+            params={'descriptor_path':str(descriptor),'concurrency':payload['concurrency'],'candidate_seconds':payload.get('candidate_seconds',600)},
             budget={'duration':timedelta(seconds=max(1,deadline-time.monotonic())),'graceful':False})
         flow_stop=None
-        try:outcome=run.run()
+        try:
+            cancel=payload.get('cancel_event')
+            if cancel is None:outcome=run.run()
+            else:
+                run.start()
+                while run.running:
+                    if cancel.is_set():run.stop();break
+                    time.sleep(.1)
+                if not run.wait(35):raise RuntimeError('Candidate Flow did not stop')
+                if run.raised:raise run.raised
+                outcome=run.result
         except BaseException as error:
-            flow_stop={'error_type':type(error).__name__,'state':'TIMEOUT' if time.monotonic()>=deadline else 'INFRA_FAIL'}
+            cancelled=payload.get('cancel_event') is not None and payload['cancel_event'].is_set()
+            flow_stop={'error_type':type(error).__name__,'state':'CANCELLED' if cancelled else 'TIMEOUT' if time.monotonic()>=deadline else 'INFRA_FAIL'}
             outcome={'candidates':[]}
             for job in jobs:
                 saved=Path(job['root'])/'scheduler-outcome.json'
@@ -90,7 +101,7 @@ def pool_run(payload,key,ledger,deadline):
             manifest['bundle_sha256']=digest(bundle.read_bytes())
             rows.append(manifest)
         pool=freeze(root,rows,base,payload['runtime_lock_sha256'],contract)
-        return {'kind':'REAL_MODEL_EXPERIMENT','n':payload['n'],'concurrency':payload['concurrency'],
+        return {'kind':'CONTROLLED_FAULT_INJECTION' if payload.get('offline_control') else 'REAL_MODEL_EXPERIMENT','n':payload['n'],'concurrency':payload['concurrency'],
                 'pool_hash':pool['pool_hash'],'pool_path':str(root/'frozen-pool.json'),
                 'candidate_verdicts':{c['id']:c['verdict'] for c in rows},'verdict':pool['failure_report']['status'],
                 'elapsed_seconds':time.perf_counter()-tick,'humanize_epic':str(run.epic),'flow_stop':flow_stop}

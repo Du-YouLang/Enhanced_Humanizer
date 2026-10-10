@@ -1,0 +1,257 @@
+{
+  "phase": "P5",
+  "date": "2026-10-11",
+  "functional_gate": "PARTIAL_BLOCKED_EXTERNAL_CODEX_QUOTA",
+  "remote_delivery": "DEFERRED_BY_USER",
+  "p6_started": false,
+  "branch": "feature/p5-exploration-workbench",
+  "p4_base": "8de702adf9d13d343fada7b85b317c938bf8401f",
+  "live_run_ids": [
+    "p5-20261010155100-13a14339",
+    "p5-20261010160925-23304348"
+  ],
+  "gates": {
+    "P5-A01": "PASS_HISTORICAL_REAL_PATH_RECONSTRUCTION",
+    "P5-A02": "PARTIAL_NEW_LIVE_CHAIN_BLOCKED_CODEX_QUOTA",
+    "P5-A03": "PASS_LOCAL_CONTROLS_MEASUREMENTS"
+  },
+  "model_accounting": {
+    "requests": 30,
+    "request_statuses": {
+      "SETTLED_USAGE_UPPER_BOUND": 30
+    },
+    "tokens_non_overlapping": {
+      "input_tokens": 34968,
+      "cache_read_input_tokens": 261888,
+      "cache_creation_input_tokens": 0,
+      "output_tokens": 10325
+    },
+    "codex_turns_reserved": 2,
+    "cash_upper_bound_usd": 0.1014468,
+    "ledger_sha256": "3f50d507a56ec0dccf3ad1005a2b177409ee1edfd39d826a7657288b7bb6114c",
+    "api_seconds_sum": 54.357051
+  },
+  "codex_session_ids": {
+    "p5-20261010155100-13a14339": [
+      {
+        "session_id": "01a12683-ae4c-7e32-89e1-dc1ff3f9e6f2",
+        "model_id": "gpt-6.1-sol",
+        "usage": "unavailable"
+      },
+      {
+        "session_id": "01a12684-383c-72b2-8c0d-5b24d99266d9",
+        "model_id": "gpt-6.1-sol",
+        "usage": "unavailable"
+      }
+    ],
+    "p5-20261010160925-23304348": [
+      {
+        "session_id": "01a12694-4a6b-72e0-9d2c-807d129a3d32",
+        "model_id": "gpt-6.1-sol",
+        "usage": "unavailable"
+      }
+    ]
+  },
+  "live_nodes": [
+    {
+      "id": "p5-20261010155100-13a14339/A",
+      "role": "candidate",
+      "status": "PASS",
+      "base_sha": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "head_sha": "bdc5d57d17392b5c668d001ce36ee9072f41296d",
+      "recovery_sha": null,
+      "model_id": "deepseek-flash",
+      "session_id": "session-d4dda72d879145eebda3c7021d7183d6",
+      "elapsed_seconds": 9.195356136000001
+    },
+    {
+      "id": "p5-20261010155100-13a14339/B",
+      "role": "candidate",
+      "status": "PASS",
+      "base_sha": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "head_sha": "c05fd768642d8091570ad12b50e7e9b0e38cc656",
+      "recovery_sha": null,
+      "model_id": "deepseek-flash",
+      "session_id": "session-755348a4f0f348059c348c5d24145258",
+      "elapsed_seconds": 9.195891774999998
+    },
+    {
+      "id": "p5-20261010155100-13a14339/C",
+      "role": "candidate",
+      "status": "PASS",
+      "base_sha": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "head_sha": "023c5fcc89492e930d15a1a5e592853edfdf25bd",
+      "recovery_sha": null,
+      "model_id": "deepseek-flash",
+      "session_id": "session-4849131125164eb3b7ab5e6421fefe1b",
+      "elapsed_seconds": 9.188310443000002
+    },
+    {
+      "id": "p5-20261010155100-13a14339/verifier_input",
+      "role": "verifier",
+      "status": "INFRA_FAIL",
+      "base_sha": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "head_sha": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "recovery_sha": null,
+      "model_id": "unavailable",
+      "session_id": "unavailable",
+      "elapsed_seconds": 41.18938575599999
+    },
+    {
+      "id": "p5-20261010160925-23304348/verifier_input",
+      "role": "verifier",
+      "status": "TIMEOUT",
+      "base_sha": "233c7ec1de47a6673c1ab4e5623571aa53a03700",
+      "head_sha": "233c7ec1de47a6673c1ab4e5623571aa53a03700",
+      "recovery_sha": null,
+      "model_id": "unavailable",
+      "session_id": "unavailable",
+      "elapsed_seconds": 16.601513006000005
+    },
+    {
+      "id": "p5-20261010160925-23304348/task",
+      "role": "task",
+      "status": "CANCELLED",
+      "base_sha": "233c7ec1de47a6673c1ab4e5623571aa53a03700",
+      "head_sha": "233c7ec1de47a6673c1ab4e5623571aa53a03700",
+      "recovery_sha": null,
+      "model_id": "not_applicable",
+      "session_id": null,
+      "elapsed_seconds": null
+    },
+    {
+      "id": "p5-20261010160925-23304348/A",
+      "role": "candidate",
+      "status": "BUDGET_EXHAUSTED",
+      "base_sha": "233c7ec1de47a6673c1ab4e5623571aa53a03700",
+      "head_sha": "233c7ec1de47a6673c1ab4e5623571aa53a03700",
+      "recovery_sha": "e07bae636c7a6995785621a3fdebcd7125becb5d",
+      "model_id": "deepseek-flash",
+      "session_id": "unavailable",
+      "elapsed_seconds": 39.728849921
+    },
+    {
+      "id": "p5-20261010155100-13a14339/task",
+      "role": "task",
+      "status": "INFRA_FAIL",
+      "base_sha": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "head_sha": "561bd401a218246f5a823e8e3e0f0eea374163aa",
+      "recovery_sha": null,
+      "model_id": "not_applicable",
+      "session_id": null,
+      "elapsed_seconds": null
+    }
+  ],
+  "offline_replay": {
+    "verdict": "PASS",
+    "native_tests_exit": 0,
+    "native_tests_summary": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 42 tests in 12.748s",
+      "",
+      "OK"
+    ],
+    "pool_hash": "45228877fdc99339b1ad01d3c4fbb182d19b77b43d377d7b55e7d88357c693b5",
+    "candidate_verdicts": {
+      "A": "PASS",
+      "B": "PASS",
+      "C": "PASS"
+    },
+    "previous_phase_ledger_sha256": {
+      "p1": "6f4d808ba13b259de0afb67e0d3f80c4c328125947c044801a7dcedcb0ed3643",
+      "p2": "760385b37cd6246be664c0d33aae3eb9b351a5badfcdee02650241a111b74dea",
+      "p3": "212e47dde838c7805f664d54f1ab25cf6d132e65bc81b8fb329a2ec310cdd586"
+    },
+    "ledger_unchanged": true,
+    "new_model_requests": 0,
+    "audit_wall_seconds": 13.636299300000246
+  },
+  "native_control": {
+    "verdict": "PASS",
+    "kind": "ZERO_MODEL_NATIVE_CONTROLS_NOT_MODEL_RESULTS",
+    "elapsed_seconds": 4.168956546999999,
+    "stage_cases": [
+      {
+        "case": "auto_resume",
+        "stage_calls": [
+          "candidates",
+          "verifier_input",
+          "reviewer",
+          "verify_m",
+          "verifier_m",
+          "builder",
+          "verifier_builder"
+        ],
+        "completed_stages_replayed": 0,
+        "tamper_denied": false,
+        "kind": "MOCK_STAGE_TRANSPORT_ONLY"
+      },
+      {
+        "case": "human_boundary",
+        "stage_calls": [
+          "candidates",
+          "verifier_input",
+          "reviewer",
+          "verify_m",
+          "verifier_m",
+          "builder",
+          "verifier_builder"
+        ],
+        "completed_stages_replayed": 0,
+        "tamper_denied": false,
+        "kind": "MOCK_STAGE_TRANSPORT_ONLY"
+      },
+      {
+        "case": "tamper",
+        "stage_calls": [
+          "candidates"
+        ],
+        "completed_stages_replayed": 0,
+        "tamper_denied": true,
+        "kind": "MOCK_STAGE_TRANSPORT_ONLY"
+      }
+    ],
+    "fence_verdicts": [
+      "PASS",
+      "PASS",
+      "PASS"
+    ],
+    "cancelled_status": "CANCELLED",
+    "new_model_requests": 0,
+    "ledger_unchanged": true,
+    "candidate_cancelled_status": "CANCELLED",
+    "candidate_kind": "CONTROLLED_FAULT_INJECTION"
+  },
+  "recovery_backup": {
+    "verdict": "PASS",
+    "saved_nodes_forked": 8,
+    "original_head_unchanged": true,
+    "backup_sha256": "adb3920dc8900fef34f7daef0641a0fb6a2d846c3337183db24be42936efca90",
+    "backup_files": 125,
+    "elapsed_seconds": 9.478648299998895
+  },
+  "limitations": [
+    "No new full live P5 Reviewer/Builder acceptance",
+    "No real human product PR approval performed",
+    "Product GitHub publishing deferred/disabled",
+    "No P6 efficacy benchmark results"
+  ],
+  "private_record_sha256": {
+    "p5-local.json": "2177584cb91286dd23d2792a73883b46853414b96914fd7bc33b3e0098dcde60",
+    "p5-measurements.json": "c710f7854ce27b94baee9f2893d2544d4f2ab741664c7b070acd3b5bba69f218",
+    "p5-offline.json": "a1e267106db1663315c1838ad809ebabbb469c3c36fa71c2e54018a28c1b6f55",
+    "p5-controls.json": "993a870d3b1650a0a8496bdf5baf030ba02482632a78ddd0703c5e8028b981d4"
+  },
+  "checks": {
+    "windows_python_total": 49,
+    "windows_linux_only_skipped": 1,
+    "native_linux_python_total": 42,
+    "node_budget_total": 3,
+    "frontend_console_error_warn": 0
+  },
+  "ui_screenshots_sha256": {
+    "p5-ui-desktop.jpg": "68a7d74eeb0e61593ac69debe7e2bc32072aeeece440e90d7e265ede3af3ad62",
+    "p5-ui-default.jpg": "b74aad61eb6cf808a441315fe077b09481cab7349814d319ef459ebd6e963454"
+  }
+}
