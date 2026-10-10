@@ -136,18 +136,23 @@ print(json.dumps({'verdict':'PASS' if p.returncode==0 else 'FAIL','exit_code':p.
     def export(self):
         folder=self.memory.root/'exports';folder.mkdir(exist_ok=True)
         stamp=uid('backup');bundle=folder/(stamp+'.bundle');archive=folder/(stamp+'.zip')
-        git(self.repository,'bundle','create',str(bundle),'--all')
+        exported_head=git(self.repository,'rev-parse','HEAD')
+        branch=git(self.repository,'rev-parse','--abbrev-ref','HEAD')
+        dirty=bool(git(self.repository,'status','--porcelain'))
+        git(self.repository,'bundle','create',str(bundle),'--all','HEAD')
         git(self.repository,'bundle','verify',str(bundle))
         with self.memory.lock():
             audit=self.memory.verify()
             files={'events.ndjson':self.memory.journal.read_bytes(),'history.bundle':bundle.read_bytes()}
             files.update({'artifacts/'+a['id']:self.memory.read_artifact(a['id']) for a in self.memory.list('artifact')})
             manifest={'schema_version':1,'created_at':now(),'private_local_backup':True,'audit':audit,
+                      'repository_head':exported_head,'repository_branch':branch,'uncommitted_files_included':False,'working_tree_dirty':dirty,
                       'files':{name:sha(data) for name,data in files.items()}}
             with zipfile.ZipFile(archive,'x',compression=zipfile.ZIP_DEFLATED) as output:
                 output.writestr('manifest.json',canonical(manifest))
                 for name,data in files.items():output.writestr(name,data)
-        return {'path':str(archive),'sha256':sha(archive.read_bytes()),'files':len(files),'private_local_backup':True}
+        return {'path':str(archive),'sha256':sha(archive.read_bytes()),'files':len(files),'private_local_backup':True,
+                'repository_head':exported_head,'working_tree_dirty':dirty,'uncommitted_files_included':False}
 
 
 def restore(archive,destination,boundary=ROOT):
@@ -157,6 +162,8 @@ def restore(archive,destination,boundary=ROOT):
         names=source.namelist()
         if len(names)!=len(set(names)) or sum(i.file_size for i in source.infolist())>250_000_000:raise ValueError('Unsafe archive size/duplicates')
         manifest=json.loads(source.read('manifest.json'))
+        if 'repository_head' in manifest and (not isinstance(manifest['repository_head'],str) or not re.fullmatch('[0-9a-f]{40}',manifest['repository_head'])):
+            raise ValueError('Backup requires an exact source commit')
         if set(names)!=set(manifest['files'])|{'manifest.json'}:raise ValueError('Backup manifest/file coverage differs')
         files={}
         for name,digest in manifest['files'].items():
@@ -173,5 +180,11 @@ def restore(archive,destination,boundary=ROOT):
     git(repo,'fetch',str(destination/'history.bundle'),'refs/heads/*:refs/heads/*')
     git(repo,'bundle','verify',str(destination/'history.bundle'))
     branches=git(repo,'for-each-ref','--format=%(refname:short)','refs/heads/').splitlines()
-    git(repo,'checkout','main' if 'main' in branches else branches[0])
+    branch=manifest.get('repository_branch')
+    if branch in branches:
+        git(repo,'checkout',branch)
+        if git(repo,'rev-parse','HEAD')!=manifest['repository_head']:raise ValueError('Exported branch/head differ')
+    elif manifest.get('repository_head'):
+        git(repo,'fetch',str(destination/'history.bundle'),'HEAD');git(repo,'checkout','--detach',manifest['repository_head'])
+    else:git(repo,'checkout','main' if 'main' in branches else branches[0])  # compatible with original P4 backups
     return memory,repo

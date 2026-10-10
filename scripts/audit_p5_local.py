@@ -22,6 +22,7 @@ def main():
     backup=ops.export();target=memory.root/'restores'/('p5-'+str(time.time_ns()));target.parent.mkdir(exist_ok=True)
     recovered,repository=restore(backup['path'],target)
     assert recovered.verify()['tail_hash']==memory.verify()['tail_hash']
+    assert git(repository,'rev-parse','HEAD')==before
     for node in nodes:
         head=node.get('recovery_sha',node.get('head_sha'))
         if head:assert git(repository,'rev-parse',head)==head

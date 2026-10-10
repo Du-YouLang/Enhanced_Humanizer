@@ -38,3 +38,5 @@ python -B scripts/workbench.py restore --archive <本地ZIP> --destination <项�
 备份是工程记忆和 Git 数据备份，不含登录凭据或 WSL OS。恢复不覆盖现有目录，不删除失败 worktree。原始 baseline/运行依赖仍由 lock 和 WSL 文档管理。事件损坏时保留原件，恢复经过校验的备份；禁止用“清空数据库”掩盖坏事件。
 
 节点类型和实际执行状态分别保存：测试通过的预算停止候选仍是 `BUDGET_EXHAUSTED`；程序保存的部分工作不冒充模型提交。开发 PR #10 是开发交付记录，不能用作产品 PR 的人工批准。
+
+新备份会记下导出时的精确仓库分支/HEAD，并在恢复后检出该版本（包括尚未合并的本地阶段分支）；旧P4备份仍可读。Git备份不包含未提交文件，manifest明确记录working_tree_dirty与uncommitted_files_included；模型部分工作须先保存程序快照，开发源码须先提交或另行本地保存。不要把“导出成功”当作所有脏文件均已备份。
