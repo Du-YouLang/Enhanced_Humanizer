@@ -16,6 +16,16 @@ CONTEXT={}
 def load(root,name):return runtime.load_stage(root,name)
 
 
+def frozen_handoff(root,pool_path):
+    """Freeze visible reports once; re-running timed tests changes their digest."""
+    path=Path(root)/'inputs/candidate-handoff.json'
+    if path.exists():package=validate_handoff(read_json(path))
+    else:
+        package=runtime.build_handoff(pool_path);validate_handoff(package);exclusive_json(path,package)
+    if package['pool_hash']!=read_json(pool_path)['pool_hash']:raise ValueError('Frozen handoff pool changed')
+    return package
+
+
 def judge(root,name,pool,mode):
     if mode=='J0':return J0().judge(pool)
     if mode=='J3':return runtime.judge(root,name,pool)
@@ -45,16 +55,16 @@ def stage(root,name):
     else:
         pool_path=load(root,'candidates')['pool_path'];pool=read_json(pool_path)
         runtime.CONTEXT.update(pool_path=pool_path)
-        if name=='verifier_input':value=judge(root,name,judge_pool(runtime.build_handoff(pool_path)),settings['judge'])
+        if name=='verifier_input':value=judge(root,name,judge_pool(frozen_handoff(root,pool_path)),settings['judge'])
         elif name=='reviewer':
-            package=with_initial_judgment(runtime.build_handoff(pool_path),load(root,'verifier_input'));validate_handoff(package)
+            package=with_initial_judgment(frozen_handoff(root,pool_path),load(root,'verifier_input'));validate_handoff(package)
             prompt='Fresh independent Reviewer. Read ALL successful and failed candidates and all visible evidence. Freely design and IMPLEMENT candidate M, including rewriting when justified. Preserve frozen protected files/dependencies, test and create a clean real commit. Refuse contradictory requirements with evidence. Never claim failed work passed. No subagents/network/installs/prior chat. Report all considered candidate IDs. Hidden answers withheld.\n'+json.dumps(package,sort_keys=True)
             value=runtime.role_run(root,name,'reviewer',package,prompt,source=task['base_repository'])
             if value['status']=='COMPLETED' and sorted(value.get('answer',{}).get('decision',{}).get('considered_candidates',[]))!=sorted(c['id'] for c in pool['candidates']):
                 value=dict(value,status='INFRA_FAIL',error_type='IncompleteCandidateCoverage')
         elif name=='verify_m':value=runtime.verify_role(root,'reviewer','M',pool['base_commit'],pool,load(root,'reviewer'))
         elif name=='verifier_m':
-            value=judge(root,name,judge_pool(runtime.build_handoff(pool_path),load(root,'verify_m')),settings['judge'])
+            value=judge(root,name,judge_pool(frozen_handoff(root,pool_path),load(root,'verify_m')),settings['judge'])
             value['comparison']=compare(pool,load(root,'verify_m'),value)
         elif name=='builder':
             selected=load(root,'verifier_m')['comparison']['selected_candidate']

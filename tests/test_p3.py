@@ -49,6 +49,19 @@ class TestP3(unittest.TestCase):
         for field in ('pool_hash','rubric_hash'):
             with self.assertRaises(ValueError):with_initial_judgment(package,j|{field:'another'})
 
+    def test_public_view_survives_resume_without_rerunning_timed_tests(self):
+        from unittest.mock import patch
+        from p5_runtime_linux import frozen_handoff
+        p,package=self.package();root=Path(self.temp.name);(root/'inputs').mkdir()
+        pool_file=root/'pool.json';pool_file.write_text(json.dumps(p),encoding='utf-8')
+        with patch('p5_runtime_linux.runtime.build_handoff',return_value=package) as build:
+            initial=frozen_handoff(root,pool_file);j=J0().judge(judge_pool(initial))
+            resumed=frozen_handoff(root,pool_file)
+            self.assertEqual(with_initial_judgment(resumed,j)['judgments'],[j]);build.assert_called_once()
+        file=root/'inputs/candidate-handoff.json';altered=json.loads(file.read_text(encoding='utf-8'));altered['candidates'][0]['visible_tests']['elapsed_seconds']=999
+        file.write_text(json.dumps(altered),encoding='utf-8')
+        with self.assertRaises(ValueError):frozen_handoff(root,pool_file)
+
     def test_m_does_not_win_automatically_and_failed_selection_is_rejected(self):
         p,_=self.package();m={'verdict':'FAIL'}
         value=compare(p,m,{'eligible_selected':'A'})
