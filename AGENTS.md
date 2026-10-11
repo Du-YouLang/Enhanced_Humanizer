@@ -1,5 +1,8 @@
 # Project instructions
 
+- Latest 2026-10-11: P4 local functional gate PASS, commit 8de702adf9d13d343fada7b85b317c938bf8401f. P5 local prototype functional gates and its new live independent Sol chain PASS; remote GitHub delivery remains deferred by the user; see docs/audits/P5-2026-10-11.md. No P6 work. Do not treat historical P3 graph replay or mocked transport controls as new P5 model acceptance.
+- Git connection remains disconnected by the user: continue local changes/commits/backups only; no remote push/Issue/PR/CI or alternate GitHub identity until the user restores Du-YouLang. No automatic future inference/upload task.
+
 Read `docs/project-status.md` before continuing. The user's latest instructions take precedence over document suggestions.
 
 - Latest user authorization (2026-10-10): implement P4 then P5, with spending as needed. Still use finite visible operational budgets and separate phase ledgers; do not alter P0-P3 ledgers or start P6. Product PRs continue to require individual human review. P4 memory/recovery makes zero new model requests. See ADR-0010.

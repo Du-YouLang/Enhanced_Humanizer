@@ -68,7 +68,7 @@ async def ds_candidates(task: str, *, agents: Agents, envs: Envs, params: Params
                     os.killpg(p.pid,signal.SIGKILL);await p.wait()
                 timeline['completed_at_seconds']=time.perf_counter()-queued
                 timeline['candidate_wall_seconds']=time.perf_counter()-tick
-                row={'id':job['id'],'worker':record or {'status':'TIMEOUT' if isinstance(sys.exc_info()[1],asyncio.CancelledError) else 'INFRA_FAIL'},
+                row={'id':job['id'],'worker':record or {'status':'CANCELLED' if isinstance(sys.exc_info()[1],asyncio.CancelledError) else 'INFRA_FAIL'},
                      'timeline':timeline,'queue_seconds':tick-queued}
                 (Path(job['root'])/'scheduler-outcome.json').write_text(json.dumps(row,indent=2)+'\n')
             return row

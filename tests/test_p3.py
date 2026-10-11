@@ -11,7 +11,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from p1_budget import Ledger,BudgetDenied
 from p2_candidates import digest
 from p2_judges import J0
-from p3_contracts import handoff,validate_handoff,judge_pool,compare,checkpoint,validate_checkpoint
+from p3_contracts import handoff,validate_handoff,judge_pool,with_initial_judgment,validate_candidate_coverage,compare,checkpoint,validate_checkpoint
 from test_p2 import pool
 
 
@@ -41,6 +41,33 @@ class TestP3(unittest.TestCase):
     def test_judgment_cannot_come_from_another_pool(self):
         p,_=self.package();j=J0().judge(p);j['pool_hash']='another'
         with self.assertRaises(ValueError):handoff(p,{cid:{} for cid in 'ABC'},{cid:{} for cid in 'ABC'},[j])
+
+    def test_reviewer_judgment_is_bound_to_the_exact_public_view(self):
+        _,package=self.package();j=J0().judge(judge_pool(package))
+        forwarded=with_initial_judgment(package,j);validate_handoff(forwarded)
+        self.assertEqual(forwarded['judgments'],[j]);self.assertEqual(package['judgments'],[])
+        for field in ('pool_hash','rubric_hash'):
+            with self.assertRaises(ValueError):with_initial_judgment(package,j|{field:'another'})
+
+    def test_public_view_survives_resume_without_rerunning_timed_tests(self):
+        from unittest.mock import patch
+        from p5_runtime_linux import frozen_handoff
+        p,package=self.package();root=Path(self.temp.name);(root/'inputs').mkdir()
+        pool_file=root/'pool.json';pool_file.write_text(json.dumps(p),encoding='utf-8')
+        with patch('p5_runtime_linux.runtime.build_handoff',return_value=package) as build:
+            initial=frozen_handoff(root,pool_file);j=J0().judge(judge_pool(initial))
+            resumed=frozen_handoff(root,pool_file)
+            self.assertEqual(with_initial_judgment(resumed,j)['judgments'],[j]);build.assert_called_once()
+        file=root/'inputs/candidate-handoff.json';altered=json.loads(file.read_text(encoding='utf-8'));altered['candidates'][0]['visible_tests']['elapsed_seconds']=999
+        file.write_text(json.dumps(altered),encoding='utf-8')
+        with self.assertRaises(ValueError):frozen_handoff(root,pool_file)
+
+    def test_reviewer_covers_every_input_and_m_cannot_mask_omissions(self):
+        expected=list('ABC')
+        self.assertFalse(validate_candidate_coverage(expected,list('CBA'))['output_M_also_reported'])
+        self.assertTrue(validate_candidate_coverage(expected,list('ABCM'))['output_M_also_reported'])
+        for reported in (list('ABM'),list('ABCD'),list('ABCC'),[],None,[1,'B','C']):
+            with self.assertRaises(ValueError):validate_candidate_coverage(expected,reported)
 
     def test_m_does_not_win_automatically_and_failed_selection_is_rejected(self):
         p,_=self.package();m={'verdict':'FAIL'}
@@ -78,6 +105,18 @@ class TestP3(unittest.TestCase):
         other=Ledger(Path(self.temp.name)/'other.json',phase='P3',requests=1)
         other.reserve_request('first')
         with self.assertRaises(BudgetDenied):other.reserve_request('second')
+
+    def test_successful_harness_retry_requires_its_exact_session_model_and_tokens(self):
+        from p3_worker_linux import completed_session
+        failed={'session_id':'failed','model_id':'gpt-6.1-sol','usage':'unavailable'}
+        success={'session_id':'completed','model_id':'gpt-6.1-sol','usage':{'input_tokens':12845,'output_tokens':658,'cached_input_tokens':0}}
+        turns=[{'status':'COMPLETED','session_id':'completed','model_requested':'gpt-6.1-sol'}]
+        self.assertEqual(completed_session([failed,success],turns),success)
+        for usage,record in (([failed],turns),([success,success],turns),([success],turns*2),
+                             ([success],[]),([success|{'model_id':'wrong-model'}],turns),
+                             ([success|{'usage':'unavailable'}],turns),
+                             ([success|{'usage':success['usage']|{'cached_input_tokens':12846}}],turns)):
+            with self.assertRaises(RuntimeError):completed_session(usage,record)
 
 
 if __name__=='__main__':unittest.main()

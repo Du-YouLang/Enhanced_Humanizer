@@ -47,8 +47,30 @@ def judge_pool(package, extra=None):
         rows[-1].update(env_hash=package['env_hash'],prompt_hash=package['task_hash'],
                         test_report=c.get('visible_tests',{}),known_failures=[c['verdict']] if c['verdict']!='PASS' else [])
     pool={k:package[k] for k in ('task_contract','task_hash','base_commit','env_hash','rubric','rubric_hash')}
-    pool.update(candidates=rows,failure_report=failure_report(rows));pool['pool_hash']=digest(pool)
+    pool.update(candidates=rows,failure_report=failure_report(rows))
+    if len(rows) in (2,6):pool['purpose']='JUDGE_COMPARISON'
+    pool['pool_hash']=digest(pool)
     return validate_pool(pool)
+
+
+def with_initial_judgment(package, judgment):
+    """Bind public-view scoring evidence before giving it to the Reviewer."""
+    validate_handoff(package)
+    graded=judge_pool(package)
+    if judgment.get('pool_hash')!=graded['pool_hash'] or judgment.get('rubric_hash')!=graded['rubric_hash']:
+        raise ValueError('Judgment belongs to another public evidence view')
+    body={k:v for k,v in package.items() if k!='handoff_hash'}
+    body['judgments']=[judgment];body['handoff_hash']=digest(body)
+    return validate_handoff(body)
+
+
+def validate_candidate_coverage(expected, considered):
+    """Every input exactly once; the Reviewer may also mention its output M."""
+    if not isinstance(considered,list) or any(not isinstance(c,str) for c in considered):raise ValueError('Candidate coverage list required')
+    source=set(expected);reported=set(considered)
+    if len(reported)!=len(considered) or not source<=reported or reported-source-{'M'}:
+        raise ValueError('Missing, duplicate or unknown considered candidates')
+    return {'input_candidates':sorted(source),'output_M_also_reported':'M' in reported-source}
 
 
 def compare(pool, merged, judgment):

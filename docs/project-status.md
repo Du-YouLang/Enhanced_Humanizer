@@ -1,5 +1,17 @@
 # 项目交接状态
 
+2026-10-11 当前：P0–P3已功能与远程交付验收，main仍为8d9b11de9ccbe13f12fb8a9b32a89fb19991404b。P4本地功能PASS，独立阶段提交8de702adf9d13d343fada7b85b317c938bf8401f、Issue #11此前已创建；远程P4交付暂缓。P5分支feature/p5-exploration-workbench的P5-A01..A03本地原型功能PASS；54 Windows（1 Linux skip）、47 native Linux、Node3、原生Flow/独立会话/硬测试/备份已验证。P6未开始。
+
+真实完成run p5-20261010170912-de864bc2，复用原N3池、新候选生成0；Reviewer后真暂停/新worktree/恢复→M硬测试→独立J3比较→Sol Builder→最终J3完成。M 3a828fcf1e91dc987faab993564cf733d2aa20f1，Builder 57fa264299c45719fffc670e3cdfb5fe53ed3ac0；五个角色session独立。活动150.649352399秒、Windows控制172.8471566秒。5个隐藏复验、M的5项及Builder的12项可见测试PASS；不据此宣称科学质量或增强收益。
+
+用户最新要求：暂时断开Du-YouLang Git连接，本地代码/提交继续，PR等恢复后处理；不得推送、建/改远程Issue/PR、运行远程CI或使用其他账户。恢复后先核对身份，按P4→P5依次交付并实际跑CI。产品生成的每一次PR仍需新的真实人工审批；本地提案AWAITING_HUMAN_REVIEW，不是用户批准。
+
+P5预算按用户“按需”授权采用有限门禁$5/160 DS请求/16 Codex预留回合；请求120秒、候选/角色600秒、累计活动1200秒、单候选12请求/$0.5，不充值/不结转。已用30 DS/12 Codex，API上界$0.1014468、账单/订阅美元成本unavailable；14原生session有10项可见usage、4未知，不能视为0。账本文件SHA16c4f6960bce0838b61f003f58a56bd66131c0e26b1daab9e6b7c5bb88114b49，canonical SHA另见机器证据；P0–P3账本不变。
+
+原订阅限额及恢复后的协议失败均保留：自动Harness重试会话匹配、公开评分池hash、可见测试elapsed导致hash变化、Reviewer附带M名单误拒绝已分别修复并有回归/实际重试。源码变动后明确新run，不篡改旧冻结检查点。无需继续探测额度或重复付费调用，不自动恢复/上传/改模型。
+
+入口 .\scripts\start_workbench.ps1 → http://127.0.0.1:8765，仅Windows loopback。当前P5源码/账本/备份及干净工作区在私有 .local-workbench/audits/p5-delivery-local.json；公开结果见audits/P5-2026-10-11.md。产品远程发布硬禁用，目标/基线祖先/隐私/CI预检仍待恢复连接后处理。下文为历次记录，由以上当前状态取代。
+
 2026-10-10 最新用户授权：执行 P4→P5，本轮预算按需但保留有限执行门禁。P3 私有 p3-accepted.json 已 PASS，main 8d9b11de9ccbe13f12fb8a9b32a89fb19991404b。P4 本地 P4-A01..A04 独立 PASS（28历史节点逐一分叉、失败复验、备份新目录恢复）；见 audits/P4-2026-10-10.md。用户随后断开 Du-YouLang Git连接，允许继续本地代码修改，要求PR等明天恢复连接；不得用其他账号推送或更改远程，不把本地验收称为远程交付。P5 实现中；P6 未授权开始。下文旧的阶段状态为历史记录，由本段取代。
 
 2026-10-10 最新：P2 私有最终交付验收 PASS，main 基线 ee6eb07921f93ab3373acbe5f3d2c1c1c8741f36。用户授权进入 P3，并批准独立预算 USD 1 / 40 DeepSeek 请求 / 12 Codex 订阅实验回合，单请求120秒、候选/角色600秒、实验1200秒，不充值。P3-A01..A04 真实功能和16个冻结独立复验通过；feature/9-synthesis-loop、Issue #9 / [PR #10](https://github.com/Du-YouLang/Enhanced_Humanizer/pull/10) 的 Git 交付仍须实际 PR CI/main/12归档 refs 同步，私有 p3-accepted.json 为 PASS 才可声称交付完成；评分使用明确的 Sol/J3。Jev 因用户所在地区不被 TypeSafe 支持而阻塞，不新增 OpenRouter 支出。此前文中的“不进入 P3”为历史状态，由本段取代。

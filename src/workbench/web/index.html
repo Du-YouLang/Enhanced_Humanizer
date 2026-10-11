@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Enhanced Humanizer · 探索工作台</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body>
+<header><div class="brand"><span class="mark">EH</span><div><strong>Enhanced Humanizer</strong><small>科研工程 · 探索工作台</small></div></div><div id="headline">正在连接本地事件库…</div><span class="pill">本地 · P5</span></header>
+<main>
+<aside class="sidebar"><div class="section-label">项目探索</div><h1>每条路线，<br>都有证据。</h1><p class="muted">候选、合并和接力保留完整历史。失败也属于探索的一部分。</p><label for="task-search">筛选任务</label><input id="task-search" placeholder="任务名称 / 状态"><div id="tasks"></div><div class="sidebar-foot">Humanize · DSH · Codex<br><span id="remote-status">Git 交付暂缓</span></div></aside>
+<section class="workspace">
+<div class="workspace-head"><div><div class="section-label">EXPLORATION MAP</div><h2 id="task-name">选择任务</h2><p id="task-status" class="muted"></p></div><div class="tools"><button id="fit">适应画布</button><button id="focus">聚焦节点</button><button id="zoom-out" aria-label="缩小">−</button><button id="zoom-in" aria-label="放大">+</button><button id="export">备份导出</button></div></div>
+<div id="metrics" class="metrics"></div>
+<div id="viewport" tabindex="0" aria-label="探索图，拖动平移、滚轮缩放"><div id="canvas"><svg id="edges" aria-hidden="true"></svg><div id="nodes"></div></div><div class="canvas-hint">拖动画布 · 滚轮缩放 · 点击节点查看证据</div></div>
+<div class="legend"><span class="dot pass"></span>硬验收通过 <span class="dot fail"></span>失败 / 拒绝 <span class="dot waiting"></span>预算停止 / 待审核 <span class="dot role"></span>独立评审</div>
+<section class="control"><div class="control-title"><strong>下一轮探索</strong><span id="execution-status" class="muted">新运行将使用独立会话</span></div><div class="control-grid">
+<label>候选数 N<select id="n"><option>1</option><option selected>3</option><option>4</option><option>5</option></select></label>
+<label>评分方式<select id="judge"><option value="J3">J3 · Sol 独立评分</option><option value="J0">J0 · 硬测试规则</option><option value="J1">J1 · 原版 LAV</option><option disabled>J2 · Jev 地区阻塞</option></select></label>
+<label>单候选最长 / 秒<input id="candidate-seconds" type="number" min="1" max="600" value="600"></label>
+<label>总运行最长 / 秒<input id="experiment-seconds" type="number" min="1" max="1200" value="1200"></label>
+</div><label>Sol 构建方向<textarea id="direction" rows="2">Review the architecture independently; improve iterator safety and error clarity, with visible tests.</textarea></label>
+<details><summary>任务合同与预算边界</summary><p id="budget-detail" class="muted"></p><div class="control-grid"><label>P5 API 总上限 / USD<input id="cash-cap" type="number" min="0.32" max="5" step="0.01" value="5"></label><label>P5 请求总上限<input id="request-cap" type="number" min="1" max="160" value="160"></label><label>P5 订阅回合总上限<input id="codex-cap" type="number" min="1" max="16" value="16"></label></div><p class="muted">上限按整个 P5 账本累计，不会因新任务或恢复重置。默认任务为加权均值的合成演示。自定义任务需要固定的 Linux 基线、可见测试、独立验收和保护文件哈希。隐藏测试只进入受保护的控制器。</p><textarea id="contract" rows="8" placeholder="可选：完整任务合同 JSON；留空使用已冻结演示任务或历史节点合同"></textarea><label>自动暂停点<select id="pause-after"><option value="">不设置</option><option value="candidates">候选完成后</option><option value="reviewer">Reviewer 完成后</option><option value="builder">Builder 完成后</option></select></label></details>
+<div class="control-buttons"><button id="start" class="primary">启动新任务</button><button id="continue">从所选节点继续</button><button id="retry">重用候选池重试</button><button id="pause">暂停</button><button id="resume">恢复</button><button id="stop" class="danger">停止</button></div></section>
+</section>
+<aside class="detail"><div class="detail-head"><span class="section-label">节点证据</span><span id="node-kind" class="muted"></span></div><div id="node-title"><h2>选择一个节点</h2><p class="muted">查看提交、测试、耗时与完整日志。</p></div><div class="tabs"><button data-tab="overview" class="active">详情</button><button data-tab="diff">Diff</button><button data-tab="evidence">证据</button><button data-tab="history">历史</button></div><div id="detail-body"></div><div class="decision"><label>人工注释 / 下一步方向<textarea id="reason" rows="3" placeholder="留下决定和理由"></textarea></label><div class="decision-buttons"><button id="annotate">注释</button><button id="reject">拒绝路线</button><button id="route">更新路线</button><button id="fork">新工作区</button><button id="handoff">交接包</button><button id="pr-intent">准备 PR 审核</button></div><p class="muted">每次产品 PR 都绑定精确提交，并需人工审核。当前远程操作按你的要求暂缓。</p><div id="review-intents"></div></div></aside>
+</main><footer><span id="notice" role="status">本地数据不上传 · P6 尚未开始</span><span>事件库 → 探索图 · 失败历史可恢复</span></footer>
+</body></html>

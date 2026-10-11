@@ -12,8 +12,6 @@ import sys
 import threading
 import time
 
-import httpx
-
 from p1_budget import BudgetDenied, Ledger, MAX_OUTPUT, ChatUsage
 
 
@@ -86,6 +84,9 @@ class Broker:
         threading.Thread(target=self.server.serve_forever,daemon=True).start()
 
     async def forward(self,handler,body,index):
+        # Offline governance imports must not require the live transport package.
+        # Actual requests still fail before any network access if it is absent.
+        import httpx
         tick=time.perf_counter()
         tracker=ChatUsage()
         first=None
