@@ -1,0 +1,32 @@
+{
+  "phase": "P6_MAIN_LOCAL_20261011",
+  "authorization_status": "APPROVED_BY_USER_2026-10-11",
+  "authorization_reference": "User explicitly authorized benchmark experiments, necessary local code reuse/modification, GitHub delivery and no aggregate API spending ceiling; confirmed CPU protocols may remain and all compute must be local.",
+  "model_execution_enabled": true,
+  "scope": "Frozen 12 public tasks and four scientific directions after per-task positive/negative controls; A-F, independent J0/J1/J3 and trace sensitivity; product PR feature with individual human review",
+  "api_cash_usd": null,
+  "deepseek_inference_requests": null,
+  "codex_subscription_turns": null,
+  "aggregate_limit_policy": "NO_USER_CEILING",
+  "per_request_timeout_seconds": 120,
+  "common_generation_timeout_seconds": 115,
+  "per_role_inference_requests": 20,
+  "per_role_codex_turns": 1,
+  "per_candidate_timeout_seconds": 600,
+  "per_experiment_active_timeout_seconds": 1200,
+  "scientific_evaluation_timeout_seconds": {
+    "SCI-PC-ALM": 7200,
+    "SCI-STROKE": 600,
+    "SCI-EGL": 1800,
+    "SCI-GRANGER-GPU": 180
+  },
+  "compute_policy": "LOCAL_ONLY_CPU_PROTOCOLS_PRESERVED_GPU_TASKS_SINGLE_LOCAL_GPU",
+  "gpu_evaluation_concurrency": 1,
+  "top_up_allowed": false,
+  "carry_over_allowed": false,
+  "automatic_retry_after_infrastructure_failure": false,
+  "legacy_ledgers_immutable": true,
+  "external_product_release_authorized": false,
+  "product_pr_requires_individual_human_review": true,
+  "requires_frozen_task_controls_before_models": true
+}

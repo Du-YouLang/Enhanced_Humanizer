@@ -1,6 +1,9 @@
 {
   "phase": "P6_PUBLIC_MAIN",
   "authorization_status": "PROPOSED_NOT_APPROVED",
+  "decision_status": "DEFERRED_BY_USER_PENDING_DECISION",
+  "latest_human_reply": "等我自行决定",
+  "automatic_continuation_allowed": false,
   "model_execution_enabled": false,
   "scope": "12 frozen public tasks A-F, compact and full-trace J0/J1/J3, Merge ablation; four science slots remain deferred",
   "api_cash_usd": 12,

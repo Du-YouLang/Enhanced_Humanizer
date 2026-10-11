@@ -68,3 +68,6 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_memory.py' -v
       - run: python -m unittest discover -s tests -p 'test_ui.py' -v
       - run: python -m unittest discover -s tests -p 'test_benchmark.py' -v
+      - run: python -m unittest discover -s tests -p 'test_p6_main_budget.py' -v
+      - run: python -m unittest discover -s tests -p 'test_science.py' -v
+      - run: python -m unittest discover -s tests -p 'test_publish.py' -v

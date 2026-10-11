@@ -17,11 +17,12 @@ STATIC=Path(__file__).parent/'web'
 
 class WorkbenchServer(ThreadingHTTPServer):
     daemon_threads=True
-    def __init__(self,memory,port,execution=None,repository=ROOT):
+    def __init__(self,memory,port,execution=None,repository=ROOT,publisher=None):
         super().__init__(('127.0.0.1',port),Handler)
         self.memory=memory;self.ops=GitOps(memory,repository);self.execution=execution or Execution(memory)
         self.sessions={};self.sessions_lock=threading.Lock();self.review_key=secrets.token_urlsafe(32)
         self.reviews=Reviews(memory,self.review_key)
+        self.publisher=publisher
         self.origin='http://127.0.0.1:'+str(self.server_port)
 
 
@@ -77,7 +78,9 @@ class Handler(BaseHTTPRequestHandler):
                        'judgments':memory.list('judgment'),'knowledge':memory.list('knowledge'),'actions':memory.list('action'),
                        'tests':memory.list('test_result'),'csrf':self.session()['csrf'],'active_run':self.server.execution.running,
                        'phase_budget':self.server.execution.limits,'current_ledger':None,'defaults':settings({}),
-                       'git_delivery':'DEFERRED_BY_USER','product_pr_policy':'fresh human review for each exact head',
+                       'git_delivery':'READY_FOR_PER_PR_HUMAN_REVIEW' if self.server.publisher else 'LOCAL_ONLY',
+                       'product_pr_target':self.server.publisher.target() if self.server.publisher else None,
+                       'product_pr_policy':'fresh human review for each exact head',
                        'delivery_preview':(ROOT/'.local-workbench/delivery/install-receipt.json').is_file(),
                        'judges':[{'id':'J0','status':'available','identity':'frozen tests and deterministic rules'},
                                  {'id':'J1','status':'available','identity':'original LAV logprob scoring'},
@@ -124,10 +127,14 @@ class Handler(BaseHTTPRequestHandler):
             if not reason.strip():raise ValueError('Fork direction required')
             return self.server.ops.fork(node_id,reason,'human_owner')
         if path=='/api/handoff':return memory.handoff(node_id,'builder',reason or 'Continue from explicit saved evidence')
-        if path=='/api/pr-intent':return self.server.reviews.intent(node_id,{'mode':'LOCAL_REVIEW_ONLY','repository':'unassigned','base':'unassigned'},reason or 'Prepare a reviewable proposal')|{'publication':'DEFERRED_BY_USER; target, ancestry, privacy and CI need preflight before a GitHub PR'}
+        if path=='/api/pr-intent':
+            if self.server.publisher:return self.server.publisher.prepare(node_id,reason,value.get('target'))
+            return self.server.reviews.intent(node_id,{'mode':'LOCAL_REVIEW_ONLY','repository':'unassigned','base':'unassigned'},reason or 'Prepare a reviewable proposal')|{'publication':'LOCAL_ONLY; configure authorized target and preflight before a GitHub PR'}
         if path=='/api/approve':return self.server.reviews.approve(value['intent'],self.server.review_key,value['reviewed_head'],reason)
         if path=='/api/reject-pr':return self.server.reviews.reject(value['intent'],self.server.review_key,reason)
-        if path=='/api/publish-pr':raise PermissionError('Git remote actions are deferred by the user; approval alone does not authorize another account or upload')
+        if path=='/api/publish-pr':
+            if not self.server.publisher:raise PermissionError('Product GitHub delivery is not configured for this workspace')
+            return self.server.publisher.publish(value['intent'])
         if path=='/api/start':return self.server.execution.start(value.get('settings',{}),value.get('contract'))
         if path=='/api/retry':return self.server.execution.retry_pool(value['run'],value.get('settings'))
         if path in ('/api/pause','/api/stop','/api/resume'):return self.server.execution.request(value['run'],path.rsplit('/',1)[-1])
@@ -138,6 +145,10 @@ class Handler(BaseHTTPRequestHandler):
 
 def serve(memory,port=8765):
     server=WorkbenchServer(memory,port)
+    approval=ROOT/'.local-workbench/approvals/github.json'
+    if approval.is_file() and not (ROOT/'.local-workbench/delivery/install-receipt.json').is_file():
+        from .publish import Publisher
+        server.publisher=Publisher(memory,server.ops,server.reviews,approval)
     private=memory.root/'server.json';private.write_bytes(canonical({'url':server.origin,'pid':__import__('os').getpid(),'bind':'127.0.0.1','started_at':now()}))
     print('Workbench ready: '+server.origin,flush=True)
     try:server.serve_forever()
