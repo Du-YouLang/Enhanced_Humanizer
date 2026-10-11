@@ -1,4 +1,9 @@
-# 首轮 Benchmark 冻结约定（P6 计划，尚未执行）
+# 首轮 Benchmark 冻结约定
+
+2026-10-11最新：两项公共真实smoke已收束，完整P6仍未验收；A–F/同池评分/完整working-tree证据修正及限制见audits/P6-smoke-2026-10-11.md。新增主集统一协议与独立预算见p6-public-main-plan.md，目前未授权；四项科研由用户暂缓。下文旧准备/未运行状态为历史。
+
+2026-10-11：P6准备中；configs/benchmark-p6-v2.json固定12公共身份、4科研缺料槽位和96个A–F计划单元。第一项Black环境/正负对照已验证，模型基准尚未运行。详细限制和下一步见audits/P6-preparation-2026-10-11.md及ADR-0012。下文尚未冻结的描述为早期计划，仅科学材料/其余环境仍待冻结。
+
 
 保持 16 项：BugsInPy×6、SWE-bench Lite×6、科学任务×4（PC_ALM、论文卒中诊断表/图、Exponential Gradient Learning 表/图、Granger CPU→CuPy GPU）。实例 ID、base SHA、论文/数据/金标准尚未冻结，不编造。
 

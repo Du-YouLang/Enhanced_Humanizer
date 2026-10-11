@@ -1,0 +1,18 @@
+{
+  "phase": "P6",
+  "authorization_status": "APPROVED_BY_USER_2026-10-11",
+  "scope": "two frozen public smoke tasks only; not the full 16-task matrix",
+  "task_ids": ["BIP-black-2", "SWEL-psf__requests-1963"],
+  "api_cash_usd": 5,
+  "deepseek_inference_requests": 200,
+  "codex_subscription_turns": 32,
+  "per_request_timeout_seconds": 120,
+  "per_candidate_timeout_seconds": 600,
+  "per_role_timeout_seconds": 600,
+  "per_experiment_timeout_seconds": 1200,
+  "top_up_allowed": false,
+  "carry_over_allowed": false,
+  "model_execution_enabled": false,
+  "execution_status": "SMOKE_FINISHED_REMAINDER_LOCKED_2026-10-11",
+  "final_ledger_sha256": "58f7c5cc2f048371bae33cab0f644670d9fdb074d9756af15e1d355d56f36d7c"
+}

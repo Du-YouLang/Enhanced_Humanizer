@@ -18,8 +18,9 @@ class PlannedTurnLimit(RuntimeError):
 
 
 class MeteredDriver:
-    def __init__(self,spec,ledger,experiment,turns,max_turns=2,turn_seconds=115,permission=STRICT,fence_auditor=None,fence_transform=None):
+    def __init__(self,spec,ledger,experiment,turns,max_turns=2,turn_seconds=115,permission=STRICT,fence_auditor=None,fence_transform=None,external_readonly=False):
         self.inner=open_agent(parse_agents([spec])[0])
+        if external_readonly and str(self.inner.harness)!='codex':raise RuntimeError('External readonly mode is Codex-specific')
         if str(self.inner.harness)=='dsh':
             host=urlparse(os.environ['DEEPSEEK_BASE_URL']).netloc
             base_kind=self.inner._kind
@@ -31,19 +32,30 @@ class MeteredDriver:
                     fence=super().fenced()
                     if fence is None or fence.online:raise RuntimeError('DSH transport requires external network isolation')
                     narrowed=replace(fence,hosts=(host,))
+                    if fence_transform is not None:narrowed=fence_transform(narrowed)
                     if fence_auditor is not None:fence_auditor(narrowed)
                     return narrowed
             self.inner._kind=BrokerOnlyAgent
         elif fence_transform is not None:
             base_kind=self.inner._kind
+            if external_readonly and (str(permission.local)!='read' or str(permission.user)!='none' or str(permission.system)!='none' or str(permission.online)!='none'):
+                raise RuntimeError('External readonly requires the unchanged narrow OS fence')
             class NarrowedAgent(base_kind):
                 @property
                 def backend(self):return 'codex'
+                @property
+                def config(self):
+                    config=super().config
+                    # Native bubblewrap cannot enumerate a filesystem already hidden by
+                    # Landlock. Keep the actual readonly OS fence; only avoid the redundant
+                    # inner sandbox. All CLI processes/tools still inherit that fence.
+                    return replace(config,permission='bypass') if external_readonly else config
                 def fenced(self):
                     fence=super().fenced()
                     if fence is None:raise RuntimeError('Judge isolation requires an external fence')
                     return fence_transform(fence)
             self.inner._kind=NarrowedAgent
+        elif external_readonly:raise RuntimeError('External readonly requires a verified fence transform')
         self.ledger=ledger
         self.experiment=experiment
         self.turns=turns
