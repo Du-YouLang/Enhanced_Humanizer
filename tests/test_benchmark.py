@@ -104,11 +104,34 @@ class BenchmarkTests(unittest.TestCase):
             (root/'outside').symlink_to('../outside-file')
             with self.assertRaises(ValueError):validate_source_links(root)
 
-    def test_phase_budget_is_closed_until_p6_authorization(self):
+    def test_p6_approved_caps_and_phase_separation_are_enforced(self):
         from p1_budget import Ledger, BudgetDenied
         with tempfile.TemporaryDirectory() as directory:
-            with self.assertRaises(BudgetDenied):Ledger(Path(directory)/'ledger.json', phase='P6')
-            self.assertFalse((Path(directory)/'ledger.json').exists())
+            path=Path(directory)/'ledger.json'
+            ledger=Ledger(path, phase='P6', requests=999, cash_nano=99_000_000_000, codex_turns=999)
+            self.assertEqual((ledger.requests,ledger.cash_nano,ledger.codex_turns),(200,5_000_000_000,32))
+            ledger.reserve_codex_turn('smoke','gpt-6.1-sol')
+            with self.assertRaises(BudgetDenied):Ledger(path,phase='P5').reserve_codex_turn('other','gpt-6.1-sol')
+            limited=Ledger(path,phase='P6',codex_turns=1)
+            with self.assertRaises(BudgetDenied):limited.reserve_codex_turn('smoke','gpt-6.1-sol')
+            self.assertEqual(len(json.loads(path.read_text())['codex_turns']),1)
+            with self.assertRaises(BudgetDenied):Ledger(Path(directory)/'p7.json',phase='P7')
+
+    def test_public_handoff_excludes_hidden_answers_and_private_state(self):
+        import p6_runtime_linux as runtime
+        task={'prompt':'public task','base_commit':'a'*40,'seal':{'env_sha256':'b'*64}}
+        old=dict(runtime.ACTIVE)
+        self.addCleanup(lambda:(runtime.ACTIVE.clear(),runtime.ACTIVE.update(old)))
+        runtime.ACTIVE['task']=task
+        rows=[dict(id=cid,base_commit='a'*40,env_hash='b'*64,prompt_hash=runtime.digest(b'public task'),
+                   verdict='FAIL',patch='public patch',source='public source',test_report={'log':'visible failure'},
+                   hidden_acceptance={'gold_answer':'withheld','verdict':'PASS'},root='/private/controller',
+                   partial_patch='withheld private snapshot') for cid in ('A','B','C')]
+        pool=runtime.public_pool(rows)
+        raw=json.dumps(pool)
+        self.assertNotIn('withheld',raw)
+        self.assertNotIn('/private/controller',raw)
+        self.assertEqual(len(pool['candidates']),3)
 
 
 if __name__ == '__main__':

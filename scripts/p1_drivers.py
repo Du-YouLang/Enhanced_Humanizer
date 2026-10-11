@@ -31,6 +31,7 @@ class MeteredDriver:
                     fence=super().fenced()
                     if fence is None or fence.online:raise RuntimeError('DSH transport requires external network isolation')
                     narrowed=replace(fence,hosts=(host,))
+                    if fence_transform is not None:narrowed=fence_transform(narrowed)
                     if fence_auditor is not None:fence_auditor(narrowed)
                     return narrowed
             self.inner._kind=BrokerOnlyAgent

@@ -144,7 +144,8 @@ def black_smoke(job):
             subprocess.run([str(prefix/'bin/python'), '-m', 'pip', 'install', '--no-deps', '--no-build-isolation', str(source)],
                            env=env, stdout=handle, stderr=subprocess.STDOUT, check=True, timeout=120)
     seal = seal_environment(prefix, task_id)
-    hidden = {'tests/test_black.py': (gold/'tests/test_black.py').read_bytes(), 'tests/__init__.py': b''}
+    hidden = {'tests/test_black.py': (gold/'tests/test_black.py').read_bytes(), 'tests/__init__.py': b'',
+              'tests/data/fmtonoff4.py': (gold/'tests/data/fmtonoff4.py').read_bytes()}
     argv = [str(prefix/'bin/python'), '-B', '-m', 'unittest', '-q', 'tests.test_black.BlackTestCase.test_fmtonoff4']
     results = {name: evaluate(path, prefix, argv, hidden) for name, path in [('buggy', source), ('gold', gold)]}
     receipt = dict(task_id=task_id, status='EVALUATOR_VALIDATED' if results['buggy']['verdict']=='FAIL' and results['gold']['verdict']=='PASS' else 'INFRA_FAIL',

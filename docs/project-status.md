@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-11 最新授权：P6 两项公共 smoke 独立预算已批准：USD5、200 DS 请求、32 Codex 订阅回合；120秒/请求、600秒/候选或角色、1200秒/实验，不充值/不结转。先验证两项冻结 smoke，再按实际耗用估算公共主集；主集模型矩阵不属于本次 smoke 预算。科研材料由用户暂缓，四项原定任务仍保留。P7 范围明确为安装打包和交付准备，对外发布前再次确认。GitHub 继续暂缓，所有交付先留本地分支、提交和备份。见 ADR-0013 和 configs/budget-p6-smoke-approved.json；以下等待授权文字是历史状态。
+
 2026-10-11 最新：用户授权继续P6，并提到P7；原指导书只定义P0–P6，P7范围待确认。P6在feature/p6-frozen-benchmark进行本地准备：12公共实例身份/材料hash+4缺料科研槽位、A–F96计划单元已冻结v2，Black/Python3.8.3正负对照与实际隔离、依赖封条通过。真实模型基准尚未运行，P6预算提案等待答复，不能结转P5。第二项Requests环境/原生执行适配、主集/消融/科学材料仍待完成；详见audits/P6-preparation-2026-10-11.md和ADR-0012。P7不视为已定义或验收。GitHub仍按用户指示暂缓，main/P4/P5 refs不变。以下旧“P6未开始/未授权”为历史记录，由本段取代。
 
 2026-10-11 当前：P0–P3已功能与远程交付验收，main仍为8d9b11de9ccbe13f12fb8a9b32a89fb19991404b。P4本地功能PASS，独立阶段提交8de702adf9d13d343fada7b85b317c938bf8401f、Issue #11此前已创建；远程P4交付暂缓。P5分支feature/p5-exploration-workbench的P5-A01..A03本地原型功能PASS；54 Windows（1 Linux skip）、47 native Linux、Node3、原生Flow/独立会话/硬测试/备份已验证。P6未开始。

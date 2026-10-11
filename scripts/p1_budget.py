@@ -22,7 +22,7 @@ class BudgetDenied(RuntimeError):
 class Ledger:
     def __init__(self, path, *, requests=40, codex_turns=6, cash_nano=1_000_000_000, phase='P1'):
         caps={'P1':(40,1_000_000_000,6),'P2':(100,2_000_000_000,6),'P3':(40,1_000_000_000,12),
-              'P5':(160,5_000_000_000,16)}  # finite operating cap under the user's as-needed P4/P5 authorization
+              'P5':(160,5_000_000_000,16),'P6':(200,5_000_000_000,32)}
         if phase not in caps:raise BudgetDenied('Unauthorized phase')
         self.path=Path(path)
         self.phase=phase

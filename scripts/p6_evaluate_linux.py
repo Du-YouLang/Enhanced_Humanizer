@@ -44,7 +44,8 @@ def validate_source_links(source):
                     raise ValueError('Source symlink escapes the frozen task')
 
 
-def evaluate(source, prefix, argv, hidden_files, *, timeout=120, expected_tests=None, test_patch=None):
+def evaluate(source, prefix, argv, hidden_files, *, timeout=120, expected_tests=None, test_patch=None,
+             fixture_url=None, tls_regressions=False):
     from hmz.coganchor.fence import Fence, wrapper
     if os.getuid() == 0:
         raise RuntimeError('Evaluator must never run as root')
@@ -78,8 +79,21 @@ def evaluate(source, prefix, argv, hidden_files, *, timeout=120, expected_tests=
     # Python 3.8's http.server imports the host's MIME table even without network use.
     # Grant this one public system file read-only, rather than the entire /etc tree.
     system_read = ('/etc/mime.types',) if Path('/etc/mime.types').is_file() else ()
+    hosts=()
+    if fixture_url:
+        from urllib.parse import urlsplit
+        import socket
+        parsed=urlsplit(fixture_url)
+        if parsed.scheme!='http' or parsed.hostname!=socket.gethostname().lower() or not parsed.port or parsed.path not in ('','/'):
+            raise ValueError('Only the trusted local HTTPBIN fixture is permitted')
+        hosts=(parsed.netloc,)
+    if tls_regressions:
+        if not fixture_url:raise ValueError('TLS regressions require the Requests fixture contract')
+        hosts+=('httpbin.org:443',)
+        system_read+=('/etc/ssl/certs/ca-certificates.crt',)
+        system_read+=('/opt/workbench/source/p6_requests_runner.py',)
     fence = Fence.of(local='none', user='none', system='none', online=False, workdir=work,
-                     home=root/'home', read=(str(work), str(prefix), *system_read), write=(str(scratch),), hosts=())
+                     home=root/'home', read=(str(work), str(prefix), *system_read), write=(str(scratch),), hosts=hosts)
     fence = replace(fence, tmp=str(scratch))
     denied = [BASE/'private/gold', Path('/opt/workbench/state/codex/auth.json'), BASE/'bootstrap-receipt.json']
     # Probe real blocked files, without printing their contents or touching credentials.
@@ -103,6 +117,8 @@ print(json.dumps(dict(uid=os.getuid(),cap_eff=next(l.split()[-1] for l in Path('
     env = {k: v for k, v in os.environ.items() if k in ('LANG', 'LC_ALL')}
     env.update(PATH=str(prefix/'bin')+':/usr/bin:/bin', HOME=str(root/'home'), TMPDIR=str(scratch),
                PYTHONDONTWRITEBYTECODE='1', PYTHONHASHSEED='42', PYTEST_DISABLE_PLUGIN_AUTOLOAD='1')
+    if fixture_url:env['HTTPBIN_URL']=fixture_url
+    if tls_regressions:env['REQUESTS_CA_BUNDLE']='/etc/ssl/certs/ca-certificates.crt'
     probe_result = subprocess.run(namespace([*wrapper(fence), str(prefix/'bin/python'), '-B', '-c', probe,
                                            json.dumps(dict(denied=[str(p) for p in denied], environment_file=str(prefix/'conda-meta/history')))]),
                                   cwd=work, env=env, capture_output=True, text=True, timeout=20)
@@ -141,6 +157,7 @@ print(json.dumps(dict(uid=os.getuid(),cap_eff=next(l.split()[-1] for l in Path('
         result = dict(verdict='TIMEOUT', tests_observed='unavailable', exit_code='unavailable')
     result.update(elapsed_seconds=time.perf_counter()-tick, isolation=isolation, evidence_root=str(root), model_requests=0,
                   public_system_files={name: digest(Path(name).read_bytes()) for name in system_read},
-                  hidden_suite_sha256=digest(json.dumps({k: digest(v) for k, v in hidden_files.items()}, sort_keys=True).encode()+ (test_patch or '').encode()))
+                  hidden_suite_sha256=digest(json.dumps({'files':{k:digest(v) for k,v in hidden_files.items()},
+                        'patch':test_patch or '', 'argv':argv,'expected_tests':expected_tests},sort_keys=True).encode()))
     (root/'receipt.json').write_text(json.dumps(result, indent=2)+'\n')
     return result
