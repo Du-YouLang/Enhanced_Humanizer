@@ -76,6 +76,8 @@ class Execution:
                 'acceptance_test_program':TESTS+EXTRA+'\nunittest.main(verbosity=2)\n','protected_files':{'test_weighted_stats.py':sha(TESTS.encode())}}
 
     def start(self,options,contract=None,parent=None,reuse_pool=None):
+        if (ROOT/'.local-workbench/delivery/install-receipt.json').exists():
+            raise PermissionError('Installed preview: live execution requires separate environment and budget acceptance')
         options=settings(options)
         accepted=json.loads((ROOT/'.local-workbench/audits/p4-functional.json').read_text())
         if accepted['functional_gate']!='PASS':raise PermissionError('P4 functional gate missing')

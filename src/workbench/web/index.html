@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Enhanced Humanizer · 探索工作台</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
 <body>
-<header><div class="brand"><span class="mark">EH</span><div><strong>Enhanced Humanizer</strong><small>科研工程 · 探索工作台</small></div></div><div id="headline">正在连接本地事件库…</div><span class="pill">本地 · P5</span></header>
+<header><div class="brand"><span class="mark">EH</span><div><strong>Enhanced Humanizer</strong><small>科研工程 · 探索工作台</small></div></div><div id="headline">正在连接本地事件库…</div><span class="pill" id="phase-badge">本地 · P5</span></header>
 <main>
 <aside class="sidebar"><div class="section-label">项目探索</div><h1>每条路线，<br>都有证据。</h1><p class="muted">候选、合并和接力保留完整历史。失败也属于探索的一部分。</p><label for="task-search">筛选任务</label><input id="task-search" placeholder="任务名称 / 状态"><div id="tasks"></div><div class="sidebar-foot">Humanize · DSH · Codex<br><span id="remote-status">Git 交付暂缓</span></div></aside>
 <section class="workspace">
@@ -20,5 +20,5 @@
 <div class="control-buttons"><button id="start" class="primary">启动新任务</button><button id="continue">从所选节点继续</button><button id="retry">重用候选池重试</button><button id="pause">暂停</button><button id="resume">恢复</button><button id="stop" class="danger">停止</button></div></section>
 </section>
 <aside class="detail"><div class="detail-head"><span class="section-label">节点证据</span><span id="node-kind" class="muted"></span></div><div id="node-title"><h2>选择一个节点</h2><p class="muted">查看提交、测试、耗时与完整日志。</p></div><div class="tabs"><button data-tab="overview" class="active">详情</button><button data-tab="diff">Diff</button><button data-tab="evidence">证据</button><button data-tab="history">历史</button></div><div id="detail-body"></div><div class="decision"><label>人工注释 / 下一步方向<textarea id="reason" rows="3" placeholder="留下决定和理由"></textarea></label><div class="decision-buttons"><button id="annotate">注释</button><button id="reject">拒绝路线</button><button id="route">更新路线</button><button id="fork">新工作区</button><button id="handoff">交接包</button><button id="pr-intent">准备 PR 审核</button></div><p class="muted">每次产品 PR 都绑定精确提交，并需人工审核。当前远程操作按你的要求暂缓。</p><div id="review-intents"></div></div></aside>
-</main><footer><span id="notice" role="status">本地数据不上传 · P6 尚未开始</span><span>事件库 → 探索图 · 失败历史可恢复</span></footer>
+</main><footer><span id="notice" role="status">本地数据不上传 · 结论以验收证据为准</span><span>事件库 → 探索图 · 失败历史可恢复</span></footer>
 </body></html>

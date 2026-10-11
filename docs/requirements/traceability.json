@@ -2395,8 +2395,12 @@
     {
       "id": "USR-P7-01",
       "requirement": "P7安装打包和交付准备；发布前再次征求用户确认",
-      "status": "AUTHORIZED_LOCAL_DELIVERY_PREPARATION_IN_PROGRESS",
-      "checkpoint": "2026-10-11 user confirmed scope; local source package/installer/doctor; no GitHub or external publication"
+      "status": "P7_LOCAL_INSTALLATION_VERIFIED_NOT_RELEASED",
+      "checkpoint": "P7-A01..A04 real local source/package/venv/HTTP/CUA/side-by-side rollback PASS; docs/audits/P7-2026-10-11.md and evidence JSON. Full P6/remote CI and external publication remain separate gates.",
+      "relevant_adrs": [
+        "ADR-0013",
+        "ADR-0015"
+      ]
     }
   ]
 }

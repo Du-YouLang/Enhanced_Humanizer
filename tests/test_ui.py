@@ -52,6 +52,7 @@ class TestUI(unittest.TestCase):
 
     def test_anonymous_dns_rebinding_cross_site_and_csrf_fail_before_changes(self):
         before=len(self.memory.events())
+        self.assertEqual(self.request('/health')[1]['project_root'],str(ROOT.resolve()))
         self.assertEqual(self.request('/api/state')[0],403)
         self.assertEqual(self.request('/',headers={'Sec-Fetch-Site':'cross-site','Sec-Fetch-Mode':'navigate'})[0],403)
         self.assertEqual(self.request('/health',headers={'Host':'evil.example'})[0],403)
