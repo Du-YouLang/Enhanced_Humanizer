@@ -56,7 +56,8 @@ class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
             self.boundary();url=urlsplit(self.path);params=parse_qs(url.query)
-            if url.path=='/health':return self.output(200,{'status':'ready','phase':'P5','bind':'loopback'})
+            if url.path=='/health':return self.output(200,{'status':'ready','phase':'P5','bind':'loopback',
+                'project_root':str(ROOT.resolve()),'delivery_preview':(ROOT/'.local-workbench/delivery/install-receipt.json').is_file()})
             cookie=None
             if url.path=='/':
                 try:self.session()
@@ -77,6 +78,7 @@ class Handler(BaseHTTPRequestHandler):
                        'tests':memory.list('test_result'),'csrf':self.session()['csrf'],'active_run':self.server.execution.running,
                        'phase_budget':self.server.execution.limits,'current_ledger':None,'defaults':settings({}),
                        'git_delivery':'DEFERRED_BY_USER','product_pr_policy':'fresh human review for each exact head',
+                       'delivery_preview':(ROOT/'.local-workbench/delivery/install-receipt.json').is_file(),
                        'judges':[{'id':'J0','status':'available','identity':'frozen tests and deterministic rules'},
                                  {'id':'J1','status':'available','identity':'original LAV logprob scoring'},
                                  {'id':'J2','status':'BLOCKED_REGION','identity':'Jev; zero requests'},
