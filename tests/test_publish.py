@@ -89,6 +89,12 @@ class PublishTests(unittest.TestCase):
         with self.assertRaises(ValueError):self.publisher.publish(intent['id'])
         self.assertEqual(self.remote.created,[])
 
+    def test_tabular_research_output_requires_a_separate_distribution_review(self):
+        (self.repo/'measurements.csv').write_text('subject,value\nTEST,1\n');self.commit()
+        node=self.memory.get('attempt','node');node['head_sha']=git(self.repo,'rev-parse','HEAD');self.memory.record('attempt','node',node)
+        with self.assertRaises(ValueError):self.publisher.prepare('node','fixture')
+        self.assertEqual(self.remote.created,[])
+
     def test_ambiguous_external_failure_consumes_approval_without_replay(self):
         intent=self.approved();self.remote.fail=True
         with self.assertRaises(RuntimeError):self.publisher.publish(intent['id'])

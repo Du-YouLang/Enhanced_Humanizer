@@ -142,7 +142,12 @@ print(json.dumps({'uid':os.getuid(),'denied':denied,'readonly':readonly,'network
     import fcntl
     queue_started=time.perf_counter()
     with lock_path.open('a+b') as lock:
-        if gpu:fcntl.flock(lock,fcntl.LOCK_EX)
+        if gpu:
+            while True:
+                try:fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB);break
+                except BlockingIOError:
+                    if time.perf_counter()-queue_started>7200:raise TimeoutError('Local GPU queue limit (7200 seconds) reached')
+                    time.sleep(.2)
         queue_wait_seconds=time.perf_counter()-queue_started
         tick=time.perf_counter()
         with (root/'stdout.private.log').open('wb') as out,(root/'stderr.private.log').open('wb') as err:
@@ -168,6 +173,7 @@ print(json.dumps({'uid':os.getuid(),'denied':denied,'readonly':readonly,'network
             'process_tree_rss_limit_mib':rss_limit_mib,'timeout_seconds':timeout,'gpu':gpu,
             'cpu_threads':cpu_threads,'one_cpu_affinity':pin_one_cpu,
             'output':str(output),'output_inventory':inventory,'queue_wait_seconds':queue_wait_seconds,
+            'gpu_queue_limit_seconds':7200 if gpu else 0,
             'evidence_root':str(root),'isolation':isolation,'model_requests':0,
             'output_trust':'UNTRUSTED_DATA_ONLY_PARENT_MUST_GRADE'}
     (root/'execution-receipt.json').write_text(json.dumps(result,indent=2)+'\n')

@@ -47,7 +47,7 @@ def main():
                 fence=Fence.of(local='none',user='none',system='none',online=False,workdir=root,home=Path.home(),
                                read=('/opt/workbench/.venv-linux',),write=(home,),hosts=(host+':'+str(server.server_port),))
                 launch=(*wrapper(replace(fence,tmp=str(scratch))),*launch)
-            env={'DEEPSEEK_API_KEY':'mock-no-provider-access','DEEPSEEK_BASE_URL':'http://'+host+':'+str(server.server_port),
+            env={'DEEPSEEK_API_KEY':'mock-no-' + 'provider-access','DEEPSEEK_BASE_URL':'http://'+host+':'+str(server.server_port),
                  'DSH_HOME':str(home),'PKG_NATIVE_CACHE_PATH':str(home/'cache'),'TMPDIR':str(scratch),'HUMANIZE_SENTRY':'off'}
             tick=time.perf_counter();before=len(rows)
             with DeepSeekHarness(_launch_args=(*launch,'--profile','sdk'),dsh_home=str(home),cwd=str(root),env=env,

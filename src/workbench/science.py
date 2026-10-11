@@ -49,7 +49,9 @@ def grid_summary(rows, *, dataset, activation, widths, depths, seeds, deep_narro
         'pcalm_minus_pc_cosine_mean':mean(cos['pcalm',w,d]-cos['pc',w,d] for w,d in cells),
         'seed_spread':{
             m:{'ddof0_mean':mean(pstdev(observed[m,w,d,s][0] for s in seeds) for w,d in cells),
-               'ddof1_mean':mean(stdev(observed[m,w,d,s][0] for s in seeds) for w,d in cells) if len(seeds)>1 else 'unavailable'}
+               'ddof0_max':max(pstdev(observed[m,w,d,s][0] for s in seeds) for w,d in cells),
+               'ddof1_mean':mean(stdev(observed[m,w,d,s][0] for s in seeds) for w,d in cells) if len(seeds)>1 else 'unavailable',
+               'ddof1_max':max(stdev(observed[m,w,d,s][0] for s in seeds) for w,d in cells) if len(seeds)>1 else 'unavailable'}
             for m in methods},
         'implementation_fidelity':'NOT_DETERMINED_BY_CLAIM_STATISTICS',
     }
