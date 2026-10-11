@@ -26,6 +26,12 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Pinned local dependencies could not be installed' }
     & $workbenchLocalPython -B (Join-Path $workbenchDestination 'scripts\doctor_workbench.py')
     if ($LASTEXITCODE -ne 0) { throw 'Installed source/UI diagnostics failed' }
+    $workbenchReceiptPath = Join-Path $workbenchDestination '.local-workbench\delivery\install-receipt.json'
+    $workbenchReceipt = Get-Content -LiteralPath $workbenchReceiptPath -Raw | ConvertFrom-Json
+    $workbenchReceipt | Add-Member -NotePropertyName runtime_status -NotePropertyValue 'LOCAL_UI_READY_LIVE_DISABLED'
+    $workbenchReceipt | Add-Member -NotePropertyName runtime_path -NotePropertyValue $workbenchRuntime
+    $workbenchReceiptJSON = $workbenchReceipt | ConvertTo-Json -Depth 8
+    [System.IO.File]::WriteAllText($workbenchReceiptPath, $workbenchReceiptJSON, (New-Object System.Text.UTF8Encoding($false)))
 } finally {
     $env:TEMP = $workbenchOldTemp; $env:TMP = $workbenchOldTmp
 }
