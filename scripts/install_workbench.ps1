@@ -22,7 +22,7 @@ try {
     if ($LASTEXITCODE -ne 0) { throw 'Local Python environment creation failed' }
     $workbenchLocalPython = Join-Path $workbenchRuntime 'Scripts\python.exe'
     $workbenchLock = Join-Path $workbenchDestination 'configs\requirements-workbench-windows.lock'
-    & $workbenchLocalPython -B -m pip --disable-pip-version-check install --no-compile --require-hashes --only-binary=:all: --cache-dir $workbenchCache -r $workbenchLock
+    & $workbenchLocalPython -B -m pip --isolated --disable-pip-version-check install --index-url https://pypi.org/simple --no-compile --require-hashes --only-binary=:all: --cache-dir $workbenchCache -r $workbenchLock
     if ($LASTEXITCODE -ne 0) { throw 'Pinned local dependencies could not be installed' }
     & $workbenchLocalPython -B (Join-Path $workbenchDestination 'scripts\doctor_workbench.py')
     if ($LASTEXITCODE -ne 0) { throw 'Installed source/UI diagnostics failed' }
