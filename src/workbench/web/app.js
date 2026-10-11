@@ -20,7 +20,7 @@ async function refresh(){try{const incoming=await api('/api/state'),fingerprint=
 function render(keepEvidence=false){const search=$('task-search').value.toLowerCase();$('tasks').replaceChildren();for(const t of state.tasks){if(!(t.name+' '+t.status).toLowerCase().includes(search))continue;const b=el('button',undefined,'task'+(t.id===taskId?' active':''));b.append(el('strong',t.name),el('small',t.status+' · '+t.id));b.onclick=()=>{taskId=t.id;nodeId=null;render();fit();};$('tasks').append(b);}
  const task=state.tasks.find(t=>t.id===taskId);$('task-name').textContent=task?.name||'尚无任务';$('task-status').textContent=task?.status||'';const ledger=state.current_ledger;
  $('phase-badge').textContent=state.delivery_preview?'安装预览 · 模型关闭':'本地 · P5';
- if(state.delivery_preview){$('remote-status').textContent='本地安装预览 · 发布暂缓';}
+ $('remote-status').textContent=state.delivery_preview?'本地安装预览 · 发布暂缓':state.product_pr_target?'GitHub 已连接 · 每个 PR 需人工审核':'本地审核 · 尚未配置 GitHub 交付';
  $('headline').textContent=state.active_run?'运行中 · '+state.active_run:'工程事件已连接 · '+state.attempts.length+' 个保存节点';$('budget-detail').textContent='P5 阶段门禁：API $'+state.phase_budget.api_cash_usd+' / '+state.phase_budget.deepseek_inference_requests+' 次请求 / '+state.phase_budget.codex_subscription_turns+' 个订阅回合；每请求≤120秒，每候选≤600秒。单候选另限12请求、$0.5。已用 API 上界 $'+money(ledger?.cash_upper_bound_usd??0)+'，账单 '+(ledger?.api_bill_usd||'unavailable')+'；订阅美元成本 unavailable。';
  const usages=ledger?.usage||[],fields=['input_tokens','cache_read_input_tokens','cache_creation_input_tokens','output_tokens'];const known=usages.filter(u=>u&&fields.every(k=>Number.isInteger(u[k])));$('budget-detail').textContent+=' DS Tokens 普通input/cache read/cache creation/output：'+(known.length&&known.length===usages.length?fields.map(k=>fmt(known.reduce((sum,u)=>sum+u[k],0))).join(' / '):'unavailable')+'。订阅已预留 '+(ledger?.codex_turns??0)+' 回合；Token 见各独立会话，未知不视为零。';
  if(state.delivery_preview){$('headline').textContent='本地安装预览 · 真实模型启动关闭';$('budget-detail').textContent='预览可检查界面和源码。真实运行需先验收环境、登录与预算，继续使用原工作区中的已授权开发入口。';}
@@ -41,7 +41,22 @@ async function details(){const node=selected();$('detail-body').replaceChildren(
  if(tab==='diff'){const pre=el('pre','正在读取保存的 Git diff…');box.append(pre);try{const raw=await api('/api/diff?node='+encodeURIComponent(node.id));if(nodeId!==node.id||tab!=='diff')return;pre.textContent=raw||'该节点与基线没有代码差异。';}catch(error){pre.textContent=error.message;}}
  if(tab==='evidence'){const tests=state.tests.filter(t=>t.attempt_id===node.id);for(const test of tests)field(box,'冻结硬测试',test);const refs=[...Object.entries(node.artifacts||{}),...(node.trace_artifacts||[]).map((v,i)=>['完整日志 '+(i+1),v])];for(const [name,id] of refs){const b=el('button',name+' · '+id.slice(0,10),'evidence-button');b.onclick=async()=>{try{const raw=await api('/api/artifact?id='+id);const pre=el('pre',text(raw));b.after(pre);b.disabled=true;}catch(error){notice(error.message,true);}};box.append(b);}const judgments=state.judgments.filter(j=>j.attempt_id===node.id);for(const j of judgments)field(box,'评分：'+j.judge,j);}
  if(tab==='history'){try{const events=await api('/api/events?node='+encodeURIComponent(node.id));if(nodeId!==node.id||tab!=='history')return;for(const e of events){field(box,'#'+e.seq+' · '+e.actor+' · '+e.timestamp,e.kind);const d=el('details');d.append(el('summary','查看原始事件'),el('pre',JSON.stringify(e.data,null,2)));box.append(d);}}catch(error){notice(error.message,true);}}
- for(const intent of state.actions.filter(a=>a.attempt_id===node.id&&a.review_scope)){const card=el('div',undefined,'review-card');card.append(el('strong',intent.status),el('p','精确 head '+intent.head_sha),el('p','目标 '+text(intent.target)+' · 证据 '+intent.evidence_hash.slice(0,12)));if(intent.status==='AWAITING_HUMAN_REVIEW'){const approve=el('button','人工批准此提案'),reject=el('button','拒绝');approve.onclick=()=>action('/api/approve',{intent:intent.id,reviewed_head:node.head_sha,reason:reason()});reject.onclick=()=>action('/api/reject-pr',{intent:intent.id,reason:reason()});card.append(approve,reject);}card.append(el('p','远程发布暂缓；每次实际 PR 需重新核验。'));$('review-intents').append(card);}}
+ for(const intent of state.actions.filter(a=>a.attempt_id===node.id&&a.review_scope)){
+  const card=el('div',undefined,'review-card');
+  card.append(el('strong',intent.status),el('p','精确 head '+intent.head_sha),el('p','目标 '+text(intent.target)+' · 证据 '+intent.evidence_hash.slice(0,12)));
+  if(intent.status==='AWAITING_HUMAN_REVIEW'){
+   const approve=el('button','人工批准此提案'),reject=el('button','拒绝');
+   approve.onclick=()=>action('/api/approve',{intent:intent.id,reviewed_head:node.head_sha,reason:reason()});
+   reject.onclick=()=>action('/api/reject-pr',{intent:intent.id,reason:reason()});card.append(approve,reject);
+  }
+  if(intent.status==='HUMAN_APPROVED'&&intent.target.mode==='GITHUB_DRAFT_PR'){
+   const publish=el('button','按此次人工批准创建 Draft PR');
+   publish.onclick=()=>action('/api/publish-pr',{intent:intent.id});card.append(publish);
+  }
+  if(intent.pr_url)field(card,'GitHub Draft PR',intent.pr_url,intent.pr_url);
+  card.append(el('p',intent.target.mode==='GITHUB_DRAFT_PR'?'提交、目标、隐私检查和测试证据均已绑定。此批准仅用一次；Draft PR 仍需 GitHub CI 和人工审核后合并。':'本地提案；配置目标并完成预检后，需重新人工批准。'));
+  $('review-intents').append(card);
+ }}
 $('task-search').oninput=()=>render();document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;details();});$('fit').onclick=fit;$('focus').onclick=focusNode;$('zoom-in').onclick=()=>zoom(1.2);$('zoom-out').onclick=()=>zoom(1/1.2);
 let drag=null;$('viewport').onpointerdown=e=>{if(e.target.closest('button'))return;drag={x:e.clientX,y:e.clientY,tx,ty};$('viewport').setPointerCapture(e.pointerId);};$('viewport').onpointermove=e=>{if(drag){tx=drag.tx+e.clientX-drag.x;ty=drag.ty+e.clientY-drag.y;transform();}};$('viewport').onpointerup=()=>drag=null;$('viewport').addEventListener('wheel',e=>{e.preventDefault();const before=scale;scale=Math.max(.15,Math.min(2,scale*(e.deltaY<0?1.1:.9)));const r=$('viewport').getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;tx=x-(x-tx)*scale/before;ty=y-(y-ty)*scale/before;transform();},{passive:false});
 for(const name of ['annotate','reject','route','fork','handoff','pr-intent'])$(name).onclick=async()=>{if(!selected()){notice('先选择一个节点',true);return;}const value=await action('/api/'+name,{node:nodeId,reason:reason()});if(value&&name==='route')$('direction').value=reason();if(value&&['handoff','fork'].includes(name)){$('detail-body').replaceChildren(el('pre',JSON.stringify(value,null,2)));}};

@@ -27,7 +27,8 @@
       ],
       "source_line": 35,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -81,7 +82,8 @@
       ],
       "source_line": 39,
       "phase_evidence": {
-        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial."
+        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -108,7 +110,8 @@
       ],
       "source_line": 41,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -303,7 +306,8 @@
       "source_line": 57,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -333,7 +337,8 @@
       "source_line": 59,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -485,7 +490,8 @@
       "source_line": 73,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -517,7 +523,8 @@
       "source_line": 75,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -609,7 +616,8 @@
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -636,7 +644,8 @@
       ],
       "source_line": 83,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -671,7 +680,8 @@
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -706,7 +716,8 @@
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -841,7 +852,8 @@
       "source_line": 99,
       "phase_evidence": {
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。",
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1025,7 +1037,8 @@
       ],
       "source_line": 115,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1101,7 +1114,8 @@
       ],
       "source_line": 123,
       "phase_evidence": {
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1134,7 +1148,8 @@
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。",
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1160,7 +1175,8 @@
       ],
       "source_line": 127,
       "phase_evidence": {
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1185,7 +1201,8 @@
       ],
       "source_line": 129,
       "phase_evidence": {
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1210,7 +1227,8 @@
       ],
       "source_line": 131,
       "phase_evidence": {
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1242,7 +1260,8 @@
       "source_line": 133,
       "phase_evidence": {
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1274,7 +1293,8 @@
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1306,7 +1326,8 @@
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1335,7 +1356,8 @@
       "source_line": 141,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1367,7 +1389,8 @@
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1399,7 +1422,8 @@
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1431,7 +1455,8 @@
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1461,7 +1486,8 @@
       "source_line": 149,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
-        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1486,7 +1512,8 @@
       ],
       "source_line": 153,
       "phase_evidence": {
-        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial."
+        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1511,7 +1538,8 @@
       ],
       "source_line": 155,
       "phase_evidence": {
-        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial."
+        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1536,7 +1564,8 @@
       ],
       "source_line": 157,
       "phase_evidence": {
-        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial."
+        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1561,7 +1590,8 @@
       ],
       "source_line": 159,
       "phase_evidence": {
-        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial."
+        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1586,7 +1616,8 @@
       ],
       "source_line": 161,
       "phase_evidence": {
-        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial."
+        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1612,7 +1643,8 @@
       ],
       "source_line": 163,
       "phase_evidence": {
-        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial."
+        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1639,7 +1671,8 @@
       ],
       "source_line": 167,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1666,7 +1699,8 @@
       ],
       "source_line": 169,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1693,7 +1727,8 @@
       ],
       "source_line": 171,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1720,7 +1755,8 @@
       ],
       "source_line": 173,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1747,7 +1783,8 @@
       ],
       "source_line": 175,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1774,7 +1811,8 @@
       ],
       "source_line": 177,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1801,7 +1839,8 @@
       ],
       "source_line": 179,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1828,7 +1867,8 @@
       ],
       "source_line": 181,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1855,7 +1895,8 @@
       ],
       "source_line": 183,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1882,7 +1923,8 @@
       ],
       "source_line": 185,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1909,7 +1951,8 @@
       ],
       "source_line": 187,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1961,7 +2004,8 @@
       "source_line": 193,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -1990,7 +2034,8 @@
       ],
       "source_line": 195,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -2022,7 +2067,8 @@
       "source_line": 197,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -2051,7 +2097,8 @@
       ],
       "source_line": 199,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -2186,7 +2233,8 @@
       "source_line": 211,
       "phase_evidence": {
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -2213,7 +2261,8 @@
       ],
       "source_line": 213,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     },
     {
@@ -2330,17 +2379,20 @@
       "tests": [
         "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "DEFERRED_BY_USER_MATERIALS_NOT_PROVIDED",
+      "implementation_status": "MATERIALS_RECEIVED_LOCAL_CONTROLS_IN_PREPARATION_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0016"
       ],
       "source_line": 243,
       "phase_evidence": {
-        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN": "Four owner guides/assets copied into private project intake; local-only CPU/GPU preparation and corrected grading under ADR-0016. No main model matrix acceptance yet."
       }
     },
     {
@@ -2369,7 +2421,8 @@
       "source_line": 244,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
-        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial."
+        "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
       }
     }
   ],
@@ -2383,24 +2436,36 @@
     {
       "id": "USR-GIT-01",
       "requirement": "开发仓库轻量 PR/CI，给予代理自主权并保持本地与 GitHub 代码一致",
-      "status": "ADOPTED_ADR-0004",
-      "checkpoint": "Latest user temporarily disconnected Du-YouLang; local commits allowed, remote push/Issue/PR/CI deferred until identity restored"
+      "status": "RESTORED_P4_P7_REMOTE_DELIVERY_VERIFIED",
+      "checkpoint": "Du-YouLang identity/access reverified; P4-P7 actual CI and PR merges complete. New main-work branch synchronization remains in progress."
     },
     {
       "id": "USR-PR-01",
       "requirement": "软件产品自身每一次 PR 必须经过人工审核",
-      "status": "LOCAL_BACKEND_GATE_VERIFIED_PUBLISHING_DEFERRED",
-      "checkpoint": "Fixture/adversarial exact-head/test/evidence/single-use human review verified; real product PR approval and remote preflight still pending"
+      "status": "DRAFT_PUBLISH_BACKEND_OFFLINE_VERIFIED_REAL_HUMAN_GATE_PENDING",
+      "checkpoint": "Exact head/evidence/target/base/privacy, one-use approval, isolated owner HTTP, private-history refusal and ambiguous-outcome no-replay tested with fixtures; real human approval and live product PR acceptance pending."
     },
     {
       "id": "USR-P7-01",
       "requirement": "P7安装打包和交付准备；发布前再次征求用户确认",
       "status": "P7_LOCAL_INSTALLATION_VERIFIED_NOT_RELEASED",
-      "checkpoint": "P7-A01..A04 real local source/package/venv/HTTP/CUA/side-by-side rollback PASS; docs/audits/P7-2026-10-11.md and evidence JSON. Full P6/remote CI and external publication remain separate gates.",
+      "checkpoint": "P7 local preview installation/rollback accepted and PR #18 actual CI/merge complete. External product release and naming/license confirmation remain separate.",
       "relevant_adrs": [
         "ADR-0013",
         "ADR-0015"
       ]
+    },
+    {
+      "id": "USR-COMPUTE-01",
+      "requirement": "全部计算留本机，冻结 CPU 协议保留，GPU 任务使用本机 4060，不用4090/A800计算",
+      "status": "ADOPTED_ADR-0016",
+      "checkpoint": "Scientific local environments/control preparation; no remote computation."
+    },
+    {
+      "id": "USR-API-01",
+      "requirement": "正式 benchmark API 累计预算不设上限，仍逐项记录时间、Token和成本",
+      "status": "AUTHORIZED_SEPARATE_MAIN_LEDGER",
+      "checkpoint": "P6_MAIN_LOCAL_20261011 authorization-bound aggregate-null ledger; per-role/time watchdogs enforced, no legacy budget carry-over."
     }
   ]
 }
