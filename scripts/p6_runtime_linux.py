@@ -49,18 +49,35 @@ def fenced_git(work,*args):
                     '-c','core.fsmonitor=false','-c','core.pager=cat','-c','credential.helper=',*args]),
                     cwd=work,env=env,capture_output=True,text=True,timeout=30)
     if p.returncode:raise RuntimeError('Fenced Git operation failed')
-    return p.stdout.strip()
+    return p.stdout if args and args[0] in ('diff','ls-files') else p.stdout.strip()
 
 
 def clone(source,target,branch,trusted=False):
     target=Path(target)
-    if trusted:transfer=Path(source)
-    else:
-        transfer=Path(source).parent/'git-tmp/transfer.bundle'
+    if not trusted:
+        transfer=Path(source).parent/('git-tmp/transfer-'+uuid.uuid4().hex+'.bundle')
         fenced_git(source,'bundle','create',str(transfer),'--all')
-    trusted_git(BASE,'clone','--no-local',str(transfer),str(target))
+    # A shallow bundle omits the shallow-boundary marker. Start from the immutable
+    # independent base, preserving that marker, then fetch the fenced export.
+    trusted_git(BASE,'clone','--no-local',str(source if trusted else ACTIVE['task']['base']),str(target))
     for key,value in [('user.name','Workbench P6 Role'),('user.email','p6-role@example.invalid'),
                       ('core.hooksPath','/dev/null'),('core.fsmonitor','false')]:trusted_git(target,'config',key,value)
+    if not trusted:
+        trusted_git(target,'fetch','--no-tags',str(transfer),'HEAD')
+        trusted_git(target,'checkout','--detach','FETCH_HEAD')
+        partial=fenced_git(source,'diff','--no-ext-diff','--no-textconv','--binary','HEAD')
+        if partial:
+            if len(partial.encode())>1_000_000:raise ValueError('Partial transfer exceeds explicit bound')
+            p=subprocess.run(['git','-c','core.hooksPath=/dev/null','apply','--binary','-'],cwd=target,
+                             input=partial,text=True,capture_output=True,timeout=30)
+            if p.returncode:raise RuntimeError('Preserved partial program could not be transferred')
+        untracked=fenced_git(source,'ls-files','--others','--exclude-standard','-z').split('\0')
+        size=0
+        for name in (n for n in untracked if n):
+            from p6_evaluate_linux import task_path
+            task_path(name);f=Path(source)/name;size+=f.stat().st_size
+            if size>1_000_000:raise ValueError('Untracked partial files exceed explicit bound')
+            dest=target/name;dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(f.read_bytes())
     trusted_git(target,'remote','remove','origin');trusted_git(target,'switch','-c',branch)
     if (target/'.git/objects/info/alternates').exists():raise RuntimeError('Shared Git object stores forbidden')
 
@@ -119,7 +136,7 @@ def prepare_job(name,backend,role='builder',source=None,view=None,prompt=None,mo
     root=ACTIVE['root']/name;root.mkdir();task=ACTIVE['task'];work=root/'code'
     clone(source or task['base'],work,'run/'+ACTIVE['root'].name+'/'+name,trusted=source is None)
     env=candidate_env(root);env.update(GIT_CONFIG_GLOBAL='/dev/null',GIT_CONFIG_NOSYSTEM='1')
-    env['PATH']=task['prefix']+'/bin:'+env['PATH'];env['PYTHONHASHSEED']='42'
+    env['PATH']=task['prefix']+'/bin:/opt/workbench/tools/bubblewrap/0.9.0-1build1/unpacked/usr/bin:'+env['PATH'];env['PYTHONHASHSEED']='42'
     if ACTIVE.get('fixture_url'):env.update(HTTPBIN_URL=ACTIVE['fixture_url'],REQUESTS_CA_BUNDLE='/etc/ssl/certs/ca-certificates.crt')
     if backend=='codex':
         codex=Path(env['HOME'])/'.codex';codex.mkdir();(codex/'auth.json').symlink_to('/opt/workbench/state/codex/auth.json')
@@ -216,7 +233,8 @@ def judge(name,pool):
     job,env=prepare_job(name,'codex','verifier',view=view,prompt=prompt)
     worker=launch(job,env);ACTIVE['workers'][name]=worker
     if worker['status']!='COMPLETED':return blocked(pool,'J3',worker['status'],'Independent Sol judgment failed; reservation retained')
-    value=J3(lambda _: (worker['answer']['judgment'],{'session_id':worker['session_id'],'usage':worker['usage']})).judge(pool)
+    try:value=J3(lambda _: (worker['answer']['judgment'],{'session_id':worker['session_id'],'usage':worker['usage']})).judge(pool)
+    except ValueError as error:return blocked(pool,'J3','INDETERMINATE',str(error))
     return value
 
 
@@ -224,6 +242,32 @@ def select(pool,judgment):
     ids=judgment.get('ranking') or [c['id'] for c in pool['candidates']]
     eligible={c['id'] for c in pool['candidates'] if c['verdict']=='PASS'}
     return next((cid for cid in ids if cid in eligible),None)
+
+
+def prior_chain(name,task):
+    import re
+    chain=[]
+    while name:
+        if len(chain)>=8 or not re.fullmatch(r'p6-execute-'+re.escape(task['id'])+r'-[0-9]{8}T[0-9]{6}Z',name):
+            raise ValueError('Invalid explicit continuation identity')
+        root=BASE/'private/runs'/name
+        contract=json.loads((root/'control/run-contract.json').read_text())
+        if contract['manifest']['manifest_sha256']!=ACTIVE['payload']['manifest']['manifest_sha256'] or contract['public_prompt_sha256']!=digest(task['prompt'].encode()):
+            raise ValueError('Continuation changed frozen task or seed')
+        if root in chain:raise ValueError('Continuation cycle')
+        chain.append(root);reuse=root/'control/reuse.json'
+        name=json.loads(reuse.read_text())['source_run'] if reuse.exists() else None
+    return chain
+
+
+def retained_judge(root,name,pool):
+    worker=json.loads((root/name/'controller-outcome.json').read_text())
+    if worker['input_sha256']!=digest(__import__('p2_judges').evidence(pool)):
+        raise ValueError('Retained judgment public input changed')
+    ACTIVE['workers'][name]=worker
+    if worker['status']!='COMPLETED':return blocked(pool,'J3',worker['status'],'Preserved failed judgment')
+    try:return J3(lambda _: (worker['answer']['judgment'],{'session_id':worker['session_id'],'usage':worker['usage']})).judge(pool)
+    except ValueError as error:return blocked(pool,'J3','INDETERMINATE',str(error))
 
 
 def metrics(scopes,elapsed):
@@ -246,6 +290,8 @@ def result(arm,chosen,scopes,elapsed,reason=None):
     prep=ACTIVE['preparation'];task=ACTIVE['task'];manifest=ACTIVE['payload']['manifest']
     hidden=chosen.get('hidden_acceptance',{}) if chosen else {}
     outcome=hidden.get('verdict','INDETERMINATE')
+    if chosen and chosen.get('worker_status')!='COMPLETED':
+        outcome='TIMEOUT' if chosen.get('worker_status')=='TIMEOUT' else 'INFRA_FAIL'
     if outcome=='PASS' and chosen['verdict']!='PASS':outcome='FAIL'
     if outcome not in ('PASS','FAIL','TIMEOUT','INFRA_FAIL','INDETERMINATE'):outcome='INDETERMINATE'
     row={'task_id':task['id'],'arm':arm,'seed':42,'repetition':0,'manifest_sha256':manifest['manifest_sha256'],
@@ -274,6 +320,22 @@ def run(payload):
     contract['public_prompt_sha256']=digest(task['prompt'].encode());exclusive_json(root/'control/run-contract.json',contract)
     ACTIVE.update(root=root,task=task,payload=payload,key=payload.pop('key'),ledger=ledger,deadline=time.monotonic()+1200,
                   workers={},contract_sha256=digest(contract),preparation=payload['preparation'])
+    if payload.get('mode')=='lav-only':
+        chain=prior_chain(payload.get('reuse_run'),task)
+        if not chain:raise ValueError('Frozen source pool required')
+        pool=json.loads((chain[0]/'frozen-public-pool.json').read_text());validate_pool(pool)
+        if pool['base_commit']!=task['base_commit'] or pool['env_hash']!=task['seal']['env_sha256'] or pool['task_hash']!=digest(task['prompt'].encode()):
+            raise ValueError('Probability probe must retain the exact frozen task/pool')
+        os.environ['DEEPSEEK_EFFORT']='off';os.environ['DEEPSEEK_MAX_TOKENS']='4096'
+        import llm_verifier.fine_grained_reward as lav_module
+        client=LavTransport(ACTIVE['key'],ledger,root.name+'/J1',ACTIVE['deadline'],lav_module,root/'lav-responses')
+        try:value=J1(client,'/opt/workbench/upstreams/lav',root/'lav-cache').judge(pool)
+        except Exception as error:value=blocked(pool,'J1','BLOCKED_LOGPROBS' if 'LOGPROBS' in str(error) else 'INFRA_FAIL',type(error).__name__)
+        exclusive_json(root/'judgments.json',{'J1':value})
+        exclusive_json(root/'receipt.json',{'status':'JUDGE_ONLY_COMPLETED','source_run':chain[0].name,'pool_hash':pool['pool_hash'],
+                       'candidate_model_replays':0,'judgment':value,'requests':client.requests_sent})
+        ACTIVE['key']=''
+        return {'run_id':root.name,'status':'JUDGE_ONLY_COMPLETED','J1':value['status'],'requests':client.requests_sent}
     results=[]
     with task['fixture_context'] as url:
         ACTIVE['fixture_url']=url
@@ -287,55 +349,100 @@ def run(payload):
                 job,env=prepare_job('offline-'+backend+'-'+role,backend,role,offline=True)
                 worker=launch(job,env);rows.append(worker['status'])
             return {'run_id':root.name,'status':'PASS' if rows==['COMPLETED']*3 else 'FAIL','model_requests':0,'root':str(root)}
-        start=time.perf_counter();job,env=prepare_job('native-ds','dsh',mode='native_driver')
-        w=launch(job,env);ACTIVE['workers']['native-ds']=w;raw=candidate('DS0',w);a_seconds=time.perf_counter()-start
+        reuse=payload.get('reuse_run')
+        if reuse:
+            chain=prior_chain(reuse,task);previous=chain[0]
+            origin=next(p for p in chain if (p/'native-ds/candidate-private.json').exists())
+            retained={}
+            for p in chain:
+                for q in p.glob('*/controller-outcome.json'):
+                    d=json.loads(q.read_text());retained[d['scope']]=d
+            # Conservative cumulative activity: parallel workers are summed, never
+            # treated as free. Infrastructure repair/downtime is reported separately.
+            carried=sum(d['wall_seconds'] for d in retained.values())
+            ACTIVE['deadline']-=carried
+            raw=json.loads((origin/'native-ds/candidate-private.json').read_text())
+            w=json.loads((origin/'native-ds/controller-outcome.json').read_text());ACTIVE['workers']['native-ds']=w
+            a_seconds=json.loads((origin/'arm-A.json').read_text())['metrics']['end_to_end_seconds']
+            exclusive_json(root/'control/reuse.json',{'source_run':reuse,'source_pool_sha256':digest((previous/'frozen-public-pool.json').read_bytes()),
+                           'model_replays':0,'carried_activity_seconds':carried,
+                           'reason':'Explicit infrastructure recovery; prior model attempts and phase ledger retained'})
+        else:
+            start=time.perf_counter();job,env=prepare_job('native-ds','dsh',mode='native_driver')
+            w=launch(job,env);ACTIVE['workers']['native-ds']=w;raw=candidate('DS0',w);a_seconds=time.perf_counter()-start
         results.append(result('A',raw,[w['scope']],a_seconds))
-        start=time.perf_counter();jobs={cid:prepare_job('pool-'+cid,'dsh') for cid in ['A','B','C']}
-        ACTIVE['candidate_jobs']=jobs
-        from hmz.sdk import Hmz
-        from datetime import timedelta
-        run_flow=Hmz(workspace=str(BASE)).run('/opt/workbench/source/flows/benchmark_candidates',task['id'],
-                   budget={'duration':timedelta(seconds=max(1,ACTIVE['deadline']-time.monotonic())),'graceful':False})
-        workers=run_flow.run()['workers']
-        pool_rows=[]
-        for cid,w in zip(['A','B','C'],workers):ACTIVE['workers']['pool-'+cid]=w;pool_rows.append(candidate(cid,w))
-        b_seconds=time.perf_counter()-start;pool=public_pool(pool_rows);exclusive_json(root/'frozen-public-pool.json',pool)
+        if reuse:
+            workers=[json.loads((origin/('pool-'+cid)/'controller-outcome.json').read_text()) for cid in ('A','B','C')]
+            pool_rows=[json.loads((origin/('pool-'+cid)/'candidate-private.json').read_text()) for cid in ('A','B','C')]
+            for cid,w in zip(('A','B','C'),workers):ACTIVE['workers']['pool-'+cid]=w
+            b_seconds=json.loads((origin/'arm-B.json').read_text())['metrics']['end_to_end_seconds']
+            pool=public_pool(pool_rows)
+            if json.loads((previous/'frozen-public-pool.json').read_text())!=pool:raise ValueError('Reused public pool changed')
+        else:
+            start=time.perf_counter();jobs={cid:prepare_job('pool-'+cid,'dsh') for cid in ['A','B','C']}
+            # Probe every peer, including peers created after the first descriptor.
+            peers=[str(p) for p in root.glob('*/humanize/canary')]
+            for job,_ in jobs.values():job['denied_paths']+= [p for p in peers if not p.startswith(job['root']+'/') and p not in job['denied_paths']]
+            ACTIVE['candidate_jobs']=jobs
+            from hmz.sdk import Hmz
+            from datetime import timedelta
+            run_flow=Hmz(workspace=str(BASE)).run('/opt/workbench/source/flows/benchmark_candidates',task['id'],
+                       budget={'duration':timedelta(seconds=max(1,ACTIVE['deadline']-time.monotonic())),'graceful':False})
+            workers=run_flow.run()['workers'];pool_rows=[]
+            for cid,w in zip(['A','B','C'],workers):ACTIVE['workers']['pool-'+cid]=w;pool_rows.append(candidate(cid,w))
+            b_seconds=time.perf_counter()-start;pool=public_pool(pool_rows)
+        exclusive_json(root/'frozen-public-pool.json',pool)
         j0=J0().judge(pool);judgments={'J0':j0,'J2':J2().judge(pool)}
         selected=select(pool,j0);best=next((c for c in pool_rows if c['id']==selected),None)
         pool_scopes=[w['scope'] for w in workers]
         results.append(result('B',best,pool_scopes,b_seconds,'J0 visible-test selection; hidden outcomes withheld until selected'))
-        start=time.perf_counter();judgments['J3']=judge('judge-input',pool)
+        retained_merge=bool(reuse and (previous/'reviewer/candidate-private.json').exists() and (previous/'judge-merge/controller-outcome.json').exists())
+        start=time.perf_counter();judgments['J3']=retained_judge(previous,'judge-input',pool) if retained_merge else judge('judge-input',pool)
         view={'task':task['prompt'],'pool':pool,'judgments':[judgments['J3']]}
         prompt=('Act as a fresh independent Reviewer. Read ALL candidate patches and visible failures from '+str(root/'reviewer/input.json')+'. '
                 'Design and IMPLEMENT a new M in this clean baseline worktree, freely rewrite when justified. '
                 'Do not cherry-pick blindly. Preserve original tests/dependencies, add relevant tests, run visible checks and commit cleanly. '
                 'Explicitly REFUSE if synthesis is unjustified. Report every candidate ID considered. '
                 'No hidden answers, installs, external repositories, credentials, prior chat or subagents.')
-        job,env=prepare_job('reviewer','codex','reviewer',view=view,prompt=prompt)
-        w=launch(job,env);ACTIVE['workers']['reviewer']=w;m=candidate('M',w)
+        if retained_merge:
+            w=json.loads((previous/'reviewer/controller-outcome.json').read_text());m=json.loads((previous/'reviewer/candidate-private.json').read_text())
+        else:
+            job,env=prepare_job('reviewer','codex','reviewer',view=view,prompt=prompt)
+            w=launch(job,env);m=candidate('M',w)
+        ACTIVE['workers']['reviewer']=w
         decision=w.get('answer',{}).get('decision',{})
         if w['status']=='COMPLETED' and (sorted(decision.get('considered_candidates',[]))!=['A','B','C'] or decision.get('action')!='IMPLEMENTED'):
             m['verdict']='FAIL';m['reviewer_decision']=decision
-        expanded=public_pool(pool_rows+[m],'JUDGE_COMPARISON');j_m=judge('judge-merge',expanded)
+        expanded=public_pool(pool_rows+[m],'JUDGE_COMPARISON');j_m=retained_judge(previous,'judge-merge',expanded) if retained_merge else judge('judge-merge',expanded)
         chosen_id=select(expanded,j_m);enhanced=next((c for c in pool_rows+[m] if c['id']==chosen_id),None)
-        c_seconds=b_seconds+time.perf_counter()-start;c_scopes=pool_scopes+[ACTIVE['workers'][n]['scope'] for n in ('judge-input','reviewer','judge-merge')]
+        c_seconds=json.loads((previous/'arm-C.json').read_text())['metrics']['end_to_end_seconds'] if retained_merge else b_seconds+time.perf_counter()-start
+        c_scopes=pool_scopes+[ACTIVE['workers'][n]['scope'] for n in ('judge-input','reviewer','judge-merge')]
         results.append(result('C',enhanced,c_scopes,c_seconds,'J3 plus freely implemented M; hard visible gates constrain selection'))
         exclusive_json(root/'merge-ablation.json',{'input_pool_hash':pool['pool_hash'],'rubric_hash':pool['rubric_hash'],
             'public_evidence_hash':digest(__import__('p2_judges').evidence(pool)),'best_of_n':selected,'with_m':chosen_id,
             'original_hidden':{c['id']:c['hidden_acceptance']['verdict'] for c in pool_rows},'m_hidden':m['hidden_acceptance']['verdict'],
             'all_originals_failed_hidden':all(c['hidden_acceptance']['verdict']!='PASS' for c in pool_rows),
             'all_originals_failed_visible':all(c['verdict']!='PASS' for c in pool_rows),'judge_m':j_m})
+        # A failed program remains a failed program, but its preserved code/facts
+        # can be sent to Builder for another independently tested attempt.
+        transfer_enhanced=enhanced or next((c for c in pool_rows+[m] if c['id']==(j_m.get('ranking') or ['M'])[0]),m)
         for arm,name,source,prior,scopes,prior_seconds,mode in [
             ('D','native-sol',None,None,[],0,'native_driver'),
             ('E','relay-native',raw.get('root'),raw,[ACTIVE['workers']['native-ds']['scope']],a_seconds,'humanize_flow'),
-            ('F','relay-enhanced',enhanced.get('root') if enhanced else None,enhanced,c_scopes,c_seconds,'humanize_flow')]:
+            ('F','relay-enhanced',transfer_enhanced['root'],transfer_enhanced,c_scopes,c_seconds,'humanize_flow')]:
             start=time.perf_counter()
+            if reuse and (previous/name/'candidate-private.json').exists():
+                w=json.loads((previous/name/'controller-outcome.json').read_text());ACTIVE['workers'][name]=w
+                c=json.loads((previous/name/'candidate-private.json').read_text())
+                elapsed=json.loads((previous/('arm-'+arm+'.json')).read_text())['metrics']['end_to_end_seconds']
+                results.append(result(arm,c,scopes+[w['scope']],elapsed));continue
             source_path=str(Path(source)/'code') if source else None
             relay_view={'task':task['prompt'],'selected_program_facts':{k:prior.get(k) for k in ('id','head_commit','patch','test_report','verdict')} if prior else None}
             prompt=task['prompt']+'\nAct as a fresh direct Builder. Inspect and improve this transferred program; preserve correctness, add tests when useful, and make a new commit. You may fully redesign the implementation. Prior judge chat and hidden outcomes are excluded.'
             job,env=prepare_job(name,'codex',source=source_path,view=relay_view,prompt=prompt,mode=mode)
             w=launch(job,env);ACTIVE['workers'][name]=w;c=candidate(arm,w)
             results.append(result(arm,c,scopes+[w['scope']],prior_seconds+time.perf_counter()-start))
+        os.environ['DEEPSEEK_EFFORT']='off';os.environ['DEEPSEEK_MAX_TOKENS']='4096'
         import llm_verifier.fine_grained_reward as lav_module
         client=LavTransport(ACTIVE['key'],ledger,root.name+'/J1',ACTIVE['deadline'],lav_module,root/'lav-responses')
         try:judgments['J1']=J1(client,'/opt/workbench/upstreams/lav',root/'lav-cache').judge(pool)

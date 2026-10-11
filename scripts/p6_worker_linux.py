@@ -27,6 +27,7 @@ def task_fence(job):
         reads=tuple(p for p in fence.read if not contains_auth(p))
         writes=tuple(p for p in fence.write if not contains_auth(p))
         reads+=(job['prefix'],job['input_file'],'/etc/mime.types')
+        reads+=('/opt/workbench/tools/bubblewrap/0.9.0-1build1',)
         if job['backend']=='codex':reads+=(str(auth),)
         hosts=fence.hosts
         if job.get('fixture_url'):
@@ -101,7 +102,8 @@ def main():
     label='verifier' if role=='verifier' else 'reviewer' if role=='reviewer' else 'builder'
     model='deepseek-flash' if job['backend']=='dsh' else 'gpt-6.1-sol'
     driver=MeteredDriver(f'{label}={job["backend"]}/{model}:low',RoleLedger(ledger),job['scope'],turns,1,
-                         600 if job['backend']=='dsh' else 115,permission=permission,fence_transform=task_fence(job))
+                         600 if job['backend']=='dsh' else 115,permission=permission,fence_transform=task_fence(job),
+                         external_readonly=role=='verifier')
     value={'kind':'REAL_MODEL_EXPERIMENT','status':'RUNNING','turns':turns,'scope':job['scope'],
            'role':role,'execution_mode':job['execution_mode'],'input_sha256':job['input_sha256']}
     try:
@@ -125,7 +127,8 @@ def main():
                 value.update(usage=usage,model_id=completed['model_id'],session_id=completed['session_id'])
             else:value.update(model_id='deepseek-flash',session_id=turns[0]['session_id'])
     except BaseException as error:
-        value.update(status='INFRA_FAIL',error_type=type(error).__name__,error=str(error)[:800])
+        status='TIMEOUT' if type(error).__name__ in ('DurationExceeded','TimeoutError') else 'INFRA_FAIL'
+        value.update(status=status,error_type=type(error).__name__,error=str(error)[:800])
         if job['backend']=='codex':value['usage']=collect(Path(job['root']))
     value['elapsed_seconds']=time.perf_counter()-tick
     exclusive_json(Path(job['root'])/'worker.json',value)
