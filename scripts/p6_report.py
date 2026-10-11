@@ -60,10 +60,10 @@ def report(manifest, results, preparations, output):
             ax.set_yticks([])
         ax.set_title(label)
         ax.set_xlabel('Arm (A-F)')
-    fig.suptitle('P6 exploratory selected tasks; preparation is not model performance')
+    fig.suptitle('P6 public smoke: exploratory; unequal limits and recovery' if actual else 'P6 preparation; real model benchmark not run')
     fig.savefig(output/'latency-cost-completion.png', dpi=160)
     plt.close(fig)
-    (output/'README.txt').write_text('Exploratory convenience sample. NOT_RUN excluded from attempted denominator but coverage shown. All attempted failures/infra/timeouts retained. Unknown costs/tokens are unavailable. API upper bounds are not bills. No science quality or efficacy conclusion.\n')
+    (output/'README.txt').write_text('Exploratory convenience sample. NOT_RUN excluded from attempted denominator but coverage shown. All attempted failures/infra/timeouts retained. Unknown costs/tokens are unavailable. API upper bounds are not bills. API cash excludes subscription cost; a zero API value does not mean free model usage. Unequal smoke operational guards and engineering recovery prevent efficacy comparisons. No science quality or efficacy conclusion.\n')
     return dict(status='REPORT_GENERATED', actual_model_results=len(actual), planned_cells=len(rows), output=str(output))
 
 

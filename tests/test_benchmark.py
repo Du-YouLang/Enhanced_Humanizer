@@ -5,6 +5,7 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+import subprocess
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'src'))
 from workbench.benchmark import (ARMS, REQUIRED_METRICS, check_manifest, digest,
@@ -16,6 +17,15 @@ from p6_evaluate_linux import validate_source_links, task_path
 class BenchmarkTests(unittest.TestCase):
     def setUp(self):
         self.manifest = json.loads((Path(__file__).resolve().parents[1]/'configs/benchmark-p6-v2.json').read_text())
+
+    def test_closed_smoke_refuses_paid_reentry_before_wsl_or_credential_access(self):
+        root=Path(__file__).resolve().parents[1]
+        config=json.loads((root/'configs/budget-p6-smoke-approved.json').read_text())
+        self.assertFalse(config['model_execution_enabled'])
+        p=subprocess.run([sys.executable,'-B',str(root/'scripts/run_p6_smoke.py'),'execute','--task','BIP-black-2'],
+                         cwd=root,capture_output=True,text=True,timeout=10)
+        self.assertNotEqual(p.returncode,0)
+        self.assertIn('P6 paid entry is closed',p.stderr)
 
     def test_immutable_task_material_and_original_count(self):
         with tempfile.TemporaryDirectory() as directory:

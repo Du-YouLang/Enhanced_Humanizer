@@ -12,5 +12,7 @@
   "per_experiment_timeout_seconds": 1200,
   "top_up_allowed": false,
   "carry_over_allowed": false,
-  "model_execution_enabled": true
+  "model_execution_enabled": false,
+  "execution_status": "SMOKE_FINISHED_REMAINDER_LOCKED_2026-10-11",
+  "final_ledger_sha256": "58f7c5cc2f048371bae33cab0f644670d9fdb074d9756af15e1d355d56f36d7c"
 }

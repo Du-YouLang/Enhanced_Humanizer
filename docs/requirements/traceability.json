@@ -15,17 +15,19 @@
       ],
       "issue": "PLANNED:P6",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 35,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -94,17 +96,19 @@
       ],
       "issue": "PLANNED:P6",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 41,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -466,20 +470,22 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0008",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 73,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -496,20 +502,22 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "ADR_REFERENCE_ONLY_OPTION_NOT_PROMOTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0008",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 75,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -583,9 +591,9 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)",
         "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
       "relevant_adrs": [
@@ -593,13 +601,15 @@
         "ADR-0002",
         "ADR-0007",
         "ADR-0008",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 81,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -614,17 +624,19 @@
       ],
       "issue": "PLANNED:P6",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 83,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -642,8 +654,8 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
-        "P6-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
       "relevant_adrs": [
@@ -651,13 +663,15 @@
         "ADR-0002",
         "ADR-0006",
         "ADR-0008",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 87,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -675,8 +689,8 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
-        "P6-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "P2_INTERFACE_READY_BLOCKED_CREDENTIAL",
       "relevant_adrs": [
@@ -684,13 +698,15 @@
         "ADR-0002",
         "ADR-0006",
         "ADR-0008",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 89,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -810,20 +826,22 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)",
-        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）",
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0009",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 99,
       "phase_evidence": {
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。",
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -995,17 +1013,19 @@
       ],
       "issue": "PLANNED:P6",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 115,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1207,20 +1227,22 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)",
-        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING",
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0010",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 133,
       "phase_evidence": {
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1605,17 +1627,19 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 167,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1630,17 +1654,19 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 169,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1655,17 +1681,19 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 171,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1680,17 +1708,19 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 173,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1705,17 +1735,19 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 175,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1730,17 +1762,19 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 177,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1755,17 +1789,19 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 179,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1780,17 +1816,19 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 181,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1805,17 +1843,19 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 183,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1830,17 +1870,19 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 185,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1855,17 +1897,19 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6-A01 partial preparation verified; P6-A02..A04 real benchmark pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PREPARATION_PARTIAL_REAL_BENCHMARK_PENDING",
+      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 187,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1902,20 +1946,22 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
         "ADR-0008",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 193,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1932,17 +1978,19 @@
       "issue": "PLANNED:P2",
       "tests": [
         "P2-A01..A04 (计划；不能视为已通过)",
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 195,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1959,20 +2007,22 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)",
-        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "P1_SMOKE_MEASURED_ENHANCED_BENCHMARK_PENDING_P6",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
         "ADR-0007",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 197,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -1989,17 +2039,19 @@
       "issue": "PLANNED:P2",
       "tests": [
         "P2-A01..A04 (计划；不能视为已通过)",
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 199,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -2119,20 +2171,22 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)",
-        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING",
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
         "ADR-0010",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 211,
       "phase_evidence": {
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -2147,17 +2201,19 @@
       ],
       "issue": "PLANNED:P6",
       "tests": [
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 213,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -2272,17 +2328,19 @@
       ],
       "issue": "PLANNED:P6",
       "tests": [
-        "P6-A01..A04 (计划)"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
       ],
-      "implementation_status": "PENDING_USER_DECISION",
+      "implementation_status": "DEFERRED_BY_USER_MATERIALS_NOT_PROVIDED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
-        "ADR-0012"
+        "ADR-0012",
+        "ADR-0013",
+        "ADR-0014"
       ],
       "source_line": 243,
       "phase_evidence": {
-        "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
+        "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md"
       }
     },
     {
@@ -2336,9 +2394,9 @@
     },
     {
       "id": "USR-P7-01",
-      "requirement": "用户请求P6之后继续P7，但保留v0.4合同只定义P0-P6",
-      "status": "PENDING_SCOPE_CLARIFICATION",
-      "checkpoint": "Async question asks whether P7 means installation/package/delivery preparation or another provided document; no release/publish authorization inferred"
+      "requirement": "P7安装打包和交付准备；发布前再次征求用户确认",
+      "status": "AUTHORIZED_LOCAL_DELIVERY_PREPARATION_IN_PROGRESS",
+      "checkpoint": "2026-10-11 user confirmed scope; local source package/installer/doctor; no GitHub or external publication"
     }
   ]
 }

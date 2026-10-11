@@ -1,0 +1,17 @@
+{
+  "phase": "P6_PUBLIC_MAIN",
+  "authorization_status": "PROPOSED_NOT_APPROVED",
+  "model_execution_enabled": false,
+  "scope": "12 frozen public tasks A-F, compact and full-trace J0/J1/J3, Merge ablation; four science slots remain deferred",
+  "api_cash_usd": 12,
+  "deepseek_inference_requests": 1200,
+  "codex_subscription_turns": 120,
+  "per_request_timeout_seconds": 120,
+  "common_generation_timeout_seconds": 115,
+  "per_candidate_timeout_seconds": 600,
+  "per_experiment_timeout_seconds": 1200,
+  "top_up_allowed": false,
+  "carry_over_allowed": false,
+  "requires_new_protocol_freeze_and_positive_negative_controls": true,
+  "references": ["docs/p6-public-main-plan.md", "docs/decisions/ADR-0014.md"]
+}

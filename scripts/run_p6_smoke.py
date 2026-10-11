@@ -46,13 +46,13 @@ print(json.dumps({'status':'READY','task_id':tid,'env_sha256':r['environment']['
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('mode',choices=['offline','execute','lav-only','deploy'])
+    parser.add_argument('mode',choices=['offline','execute','lav-only','source-audit','deploy'])
     parser.add_argument('--task',choices=['BIP-black-2','SWEL-psf__requests-1963'],default='BIP-black-2')
     parser.add_argument('--reuse-run',help='Explicit interrupted-controller continuation; retained candidates are not regenerated')
     args=parser.parse_args()
     config=json.loads((ROOT/'configs/budget-p6-smoke-approved.json').read_text())
-    if config['authorization_status']!='APPROVED_BY_USER_2026-10-11' or not config['model_execution_enabled'] or args.task not in config['task_ids']:
-        raise PermissionError('Specific human P6 smoke authorization missing')
+    if config['authorization_status']!='APPROVED_BY_USER_2026-10-11' or args.task not in config['task_ids'] or (args.mode in ('execute','lav-only','source-audit') and not config['model_execution_enabled']):
+        raise PermissionError('P6 paid entry is closed or task is outside authorized smoke scope')
     source=deploy()
     if args.mode=='deploy':print('Deployed; no model requests');return 0
     manifest=json.loads((ROOT/'configs/benchmark-p6-v2.json').read_text())
@@ -74,12 +74,12 @@ def main():
     (snapshot/'receipt.json').write_text(json.dumps({'run_id':payload['run_id'],'source_sha256':source,
         'development_head':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT).decode().strip()},indent=2))
     if args.reuse_run:
-        if args.mode not in ('execute','lav-only'):raise ValueError('Continuation is only for explicit execution')
+        if args.mode not in ('execute','lav-only','source-audit'):raise ValueError('Continuation is only for explicit execution')
         payload['reuse_run']=args.reuse_run
     if args.task.startswith('SWEL-'):
         rows=json.loads((ROOT/'.local-workbench/benchmark/sources/swe-selected.private.json').read_text())
         payload['swe_row']=next(r for r in rows if r['instance_id']=='psf__requests-1963')
-    if args.mode in ('execute','lav-only'):
+    if args.mode in ('execute','lav-only','source-audit'):
         import yaml
         home=Path(os.environ['USERPROFILE'])/'.dsh'
         key=yaml.safe_load((home/'.credentials.yaml').read_text(encoding='utf-8'))['refs']['DEEPSEEK_API_KEY']

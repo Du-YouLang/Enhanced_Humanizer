@@ -5,6 +5,7 @@ public handoffs, and invokes the separate hidden tester. It implements no coding
 """
 from contextlib import nullcontext
 import copy
+import base64
 from dataclasses import replace
 import json
 import os
@@ -193,8 +194,9 @@ def candidate(name,worker):
         row['working_tree']=fenced_git(work,'status','--porcelain')
         patch=fenced_git(work,'diff','--no-ext-diff','--no-textconv',task['base_commit'],'HEAD')
         if len(patch.encode())>1_000_000:raise ValueError('Task patch exceeds frozen public handoff bound')
-        row['patch']=patch;row['source']='Full base project plus this complete patch; no truncated source-file surrogate'
-        changed=fenced_git(work,'diff','--name-only',task['base_commit'],'HEAD').splitlines()
+        row['committed_patch_sha256']=digest(patch.encode())
+        row['patch'],row['source']=program_evidence(work,task['base_commit'])
+        changed=fenced_git(work,'diff','--name-only',task['base_commit']).splitlines()
         protected=[p for p in changed if (p.startswith(('tests/','testing/','test_')) or Path(p).name in {'pyproject.toml','setup.py','requirements.txt','setup.cfg'}) and (Path(task['base'])/p).exists()]
         test=test_source(work);raw=(Path(test['evidence_root'])/'test.private.log').read_text()
         row['test_report']={k:test[k] for k in ('verdict','exit_code','tests_observed','elapsed_seconds','private_log_sha256')}
@@ -210,6 +212,31 @@ def candidate(name,worker):
     except Exception as error:row.update(verdict='INFRA_FAIL',error_type=type(error).__name__,hidden_acceptance={'verdict':'INFRA_FAIL'})
     exclusive_json(root/'candidate-private.json',row)
     return row
+
+
+def program_evidence(work,base_commit):
+    """Retain the complete partial program as well as the committed revision."""
+    from p6_evaluate_linux import task_path
+    validate_source_links(work)
+    patch=fenced_git(work,'diff','--no-ext-diff','--no-textconv','--binary',base_commit)
+    if len(patch.encode())>1_000_000:raise ValueError('Working patch exceeds explicit bound')
+    files={};size=0;runtime_artifacts={}
+    for name in (n for n in fenced_git(work,'ls-files','--others','--exclude-standard','-z').split('\0') if n):
+        task_path(name);data=(Path(work)/name).read_bytes()
+        if name=='{junit}':
+            runtime_artifacts[name]={'sha256':digest(data),'reason':'Literal output of the frozen visible --junitxml={junit} command; retained privately as a test artifact'}
+            continue
+        size+=len(data)
+        if size>1_000_000:raise ValueError('Complete untracked evidence exceeds explicit bound')
+        try:content=data.decode('utf8');encoding='utf8'
+        except UnicodeDecodeError:content=base64.b64encode(data).decode();encoding='base64'
+        files[name]={'encoding':encoding,'content':content,'sha256':digest(data)}
+    description={'representation':'Full frozen baseline plus complete working patch and untracked files; no truncated source surrogate',
+                 'committed_head':fenced_git(work,'rev-parse','HEAD'),
+                 'working_tree':fenced_git(work,'status','--porcelain'),
+                 'untracked_files':files,'runtime_artifacts_withheld':runtime_artifacts,
+                 'worktree_evidence_sha256':digest({'patch':patch,'untracked_files':files,'runtime_artifacts':runtime_artifacts})}
+    return patch,json.dumps(description,sort_keys=True)
 
 
 def public_pool(candidates,purpose=None):
@@ -270,6 +297,18 @@ def retained_judge(root,name,pool):
     except ValueError as error:return blocked(pool,'J3','INDETERMINATE',str(error))
 
 
+def carried_activity(chain,task_id):
+    workers={}
+    for root in chain:
+        for q in root.glob('*/controller-outcome.json'):
+            value=json.loads(q.read_text());workers[value['scope']]=value
+    seconds=sum(w['wall_seconds'] for w in workers.values())
+    ledger=json.loads(LEDGER_PATH.read_text())
+    seconds+=sum(r.get('receipt',{}).get('elapsed_seconds',0) for r in ledger['requests']
+                 if task_id+'-' in r['experiment'] and r['experiment'].endswith('/J1'))
+    return seconds
+
+
 def metrics(scopes,elapsed):
     ledger=json.loads(LEDGER_PATH.read_text());ds=[r for r in ledger['requests'] if r['experiment'] in scopes]
     turns=[r for r in ledger['codex_turns'] if r['experiment'] in scopes]
@@ -310,7 +349,7 @@ def run(payload):
     protect_memory()
     if os.getuid()==0:raise RuntimeError('Non-root project runtime required')
     approved=payload['budget']
-    if approved.get('authorization_status')!='APPROVED_BY_USER_2026-10-11' or not approved.get('model_execution_enabled') or approved.get('top_up_allowed') or approved.get('carry_over_allowed'):
+    if approved.get('authorization_status')!='APPROVED_BY_USER_2026-10-11' or (payload.get('mode')!='offline' and not approved.get('model_execution_enabled')) or approved.get('top_up_allowed') or approved.get('carry_over_allowed'):
         raise PermissionError('P6 explicit smoke authorization missing')
     if (approved['api_cash_usd'],approved['deepseek_inference_requests'],approved['codex_subscription_turns'])!=(5,200,32):raise PermissionError('P6 approved limits differ')
     task=make_task(payload);root=BASE/'private/runs'/payload['run_id'];root.mkdir(parents=True)
@@ -320,6 +359,35 @@ def run(payload):
     contract['public_prompt_sha256']=digest(task['prompt'].encode());exclusive_json(root/'control/run-contract.json',contract)
     ACTIVE.update(root=root,task=task,payload=payload,key=payload.pop('key'),ledger=ledger,deadline=time.monotonic()+1200,
                   workers={},contract_sha256=digest(contract),preparation=payload['preparation'])
+    if payload.get('mode')=='source-audit':
+        chain=prior_chain(payload.get('reuse_run'),task)
+        carried=carried_activity(chain,task['id']);ACTIVE['deadline']-=carried
+        if ACTIVE['deadline']<=time.monotonic():raise BudgetDenied('Cumulative task activity exhausted before source audit')
+        origin=next(p for p in chain if (p/'pool-A/candidate-private.json').exists())
+        merged=next(p for p in chain if (p/'reviewer/candidate-private.json').exists())
+        rows=[]
+        for role,source in [('pool-A',origin),('pool-B',origin),('pool-C',origin),('reviewer',merged)]:
+            c=json.loads((source/role/'candidate-private.json').read_text())
+            w=json.loads((source/role/'controller-outcome.json').read_text())
+            if fenced_git(Path(c['root'])/'code','rev-parse','HEAD')!=c['head_commit']:
+                raise ValueError('Frozen model object changed')
+            c['patch'],c['source']=program_evidence(Path(c['root'])/'code',task['base_commit'])
+            rows.append(c)
+        pool=public_pool(rows,'JUDGE_COMPARISON');exclusive_json(root/'frozen-public-pool.json',pool)
+        j0=J0().judge(pool);j3=judge('judge-public-source',pool)
+        os.environ['DEEPSEEK_EFFORT']='off';os.environ['DEEPSEEK_MAX_TOKENS']='4096'
+        import llm_verifier.fine_grained_reward as lav_module
+        client=LavTransport(ACTIVE['key'],ledger,root.name+'/J1',ACTIVE['deadline'],lav_module,root/'lav-responses')
+        try:j1=J1(client,'/opt/workbench/upstreams/lav',root/'lav-cache').judge(pool)
+        except Exception as error:j1=blocked(pool,'J1','BLOCKED_LOGPROBS' if 'LOGPROBS' in str(error) else 'INFRA_FAIL',type(error).__name__)
+        judgments={'J0':j0,'J1':j1,'J2':J2().judge(pool),'J3':j3}
+        exclusive_json(root/'judgments.json',judgments)
+        exclusive_json(root/'receipt.json',{'status':'PUBLIC_SOURCE_CORRECTION_AUDIT_COMPLETED','source_run':chain[0].name,
+            'pool_hash':pool['pool_hash'],'candidate_model_replays':0,'new_merge_generation':0,
+            'scope':'Corrected complete public worktree evidence on unchanged frozen N3 and existing M; not a new A-F result or full tool-trace experiment',
+            'carried_activity_seconds':carried,'judgments':{k:v['status'] for k,v in judgments.items()},'requests':client.requests_sent})
+        ACTIVE['key']=''
+        return {'run_id':root.name,'status':'PUBLIC_SOURCE_CORRECTION_AUDIT_COMPLETED','judgments':{k:v['status'] for k,v in judgments.items()},'requests':client.requests_sent}
     if payload.get('mode')=='lav-only':
         chain=prior_chain(payload.get('reuse_run'),task)
         if not chain:raise ValueError('Frozen source pool required')
