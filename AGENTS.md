@@ -2,6 +2,9 @@
 
 Read `docs/project-status.md` before continuing. The user's latest instructions take precedence over document suggestions.
 
+- Latest user authorization (2026-10-10): implement P4 then P5, with spending as needed. Still use finite visible operational budgets and separate phase ledgers; do not alter P0-P3 ledgers or start P6. Product PRs continue to require individual human review. P4 memory/recovery makes zero new model requests. See ADR-0010.
+- User temporarily disconnected Du-YouLang Git on 2026-10-10: continue local implementation/commits/acceptance, defer push and PR until the user restores that connection. Do not use another account for remote changes. P4 local independent gates permit P5 local work under this explicit exception; remote delivery remains pending.
+
 - Treat both original v0.4 files in `GPT_guides/` as preserved baseline inputs. Do not overwrite them; changes require an ADR and traceability updates.
 - The user authorized project WSL2 and proceeding directly to P1 after all P0 gates pass. The manual reboot, Linux Codex login, OS denial tests and real Humanize/Codex demo passed on 2026-10-10; see docs/audits/P0-Linux-2026-10-10.md. Do not treat installation, CI or a PR merge alone as phase acceptance.
 - Reuse Humanize Flow, official DSH and Codex Harness. Do not build a replacement Coding Harness.

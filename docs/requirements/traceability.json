@@ -272,20 +272,22 @@
         "P1",
         "P4"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P4-A01..A04 (计划；不能视为已通过)",
-        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0007"
+        "ADR-0007",
+        "ADR-0010"
       ],
       "source_line": 57,
       "phase_evidence": {
-        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
       }
     },
     {
@@ -300,20 +302,22 @@
         "P1",
         "P4"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P4-A01..A04 (计划；不能视为已通过)",
-        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）"
+        "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "P1_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0007"
+        "ADR-0007",
+        "ADR-0010"
       ],
       "source_line": 59,
       "phase_evidence": {
-        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
+        "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
       }
     },
     {
@@ -1033,16 +1037,20 @@
       "phases": [
         "P4"
       ],
-      "issue": "PLANNED:P4",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P4-A01..A04 (计划；不能视为已通过)"
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0010"
       ],
-      "source_line": 123
+      "source_line": 123,
+      "phase_evidence": {
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+      }
     },
     {
       "id": "CX-02",
@@ -1054,25 +1062,27 @@
       "phases": [
         "P4"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P4-A01..A04 (计划；不能视为已通过)",
         "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
-        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）"
+        "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）",
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0007",
         "ADR-0008",
-        "ADR-0009"
+        "ADR-0009",
+        "ADR-0010"
       ],
       "source_line": 125,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
-        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
+        "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。",
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
       }
     },
     {
@@ -1086,16 +1096,20 @@
       "phases": [
         "P4"
       ],
-      "issue": "PLANNED:P4",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P4-A01..A04 (计划；不能视为已通过)"
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0010"
       ],
-      "source_line": 127
+      "source_line": 127,
+      "phase_evidence": {
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+      }
     },
     {
       "id": "CX-04",
@@ -1107,16 +1121,20 @@
       "phases": [
         "P4"
       ],
-      "issue": "PLANNED:P4",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P4-A01..A04 (计划；不能视为已通过)"
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0010"
       ],
-      "source_line": 129
+      "source_line": 129,
+      "phase_evidence": {
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+      }
     },
     {
       "id": "CX-05",
@@ -1128,16 +1146,20 @@
       "phases": [
         "P4"
       ],
-      "issue": "PLANNED:P4",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P4-A01..A04 (计划；不能视为已通过)"
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0010"
       ],
-      "source_line": 131
+      "source_line": 131,
+      "phase_evidence": {
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+      }
     },
     {
       "id": "CX-06",
@@ -1151,17 +1173,21 @@
         "P4",
         "P6"
       ],
-      "issue": "PLANNED:P4",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P4-A01..A04 (计划；不能视为已通过)",
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01..A04 (计划；不能视为已通过)",
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "PLANNED_STUDY_OR_OPTION",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0010"
       ],
-      "source_line": 133
+      "source_line": 133,
+      "phase_evidence": {
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+      }
     },
     {
       "id": "GC-01",
@@ -1174,23 +1200,25 @@
         "P0",
         "P4"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
-        "P4-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
         "ADR-0006",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0010"
       ],
       "source_line": 137,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
       }
     },
     {
@@ -1204,23 +1232,25 @@
         "P0",
         "P4"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
-        "P4-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
         "ADR-0006",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0010"
       ],
       "source_line": 139,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
       }
     },
     {
@@ -1234,20 +1264,22 @@
         "P2",
         "P4"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P4-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0010"
       ],
       "source_line": 141,
       "phase_evidence": {
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
       }
     },
     {
@@ -1261,23 +1293,25 @@
         "P0",
         "P4"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
-        "P4-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
         "ADR-0006",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0010"
       ],
       "source_line": 143,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
       }
     },
     {
@@ -1291,23 +1325,25 @@
         "P0",
         "P4"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
-        "P4-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
         "ADR-0006",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0010"
       ],
       "source_line": 145,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
       }
     },
     {
@@ -1321,23 +1357,25 @@
         "P0",
         "P4"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
-        "P4-A01..A04 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
         "ADR-0006",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0010"
       ],
       "source_line": 147,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
-        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
+        "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
       }
     },
     {
@@ -1352,20 +1390,22 @@
         "P0",
         "P4"
       ],
-      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/1",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
-        "P4-A01..A04 (计划；不能视为已通过)"
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "P0_AUDIT_PASSED_LATER_PHASES_PENDING",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
-        "ADR-0006"
+        "ADR-0006",
+        "ADR-0010"
       ],
       "source_line": 149,
       "phase_evidence": {
-        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
+        "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
       }
     },
     {
@@ -1959,17 +1999,21 @@
         "P4",
         "P6"
       ],
-      "issue": "PLANNED:P4",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P4-A01..A04 (计划；不能视为已通过)",
-        "P6-A01..A04 (计划；不能视为已通过)"
+        "P6-A01..A04 (计划；不能视为已通过)",
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
       ],
-      "implementation_status": "PLANNED",
+      "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0003"
+        "ADR-0003",
+        "ADR-0010"
       ],
-      "source_line": 211
+      "source_line": 211,
+      "phase_evidence": {
+        "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial"
+      }
     },
     {
       "id": "SG-05",

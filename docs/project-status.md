@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-10 最新用户授权：执行 P4→P5，本轮预算按需但保留有限执行门禁。P3 私有 p3-accepted.json 已 PASS，main 8d9b11de9ccbe13f12fb8a9b32a89fb19991404b。P4 本地 P4-A01..A04 独立 PASS（28历史节点逐一分叉、失败复验、备份新目录恢复）；见 audits/P4-2026-10-10.md。用户随后断开 Du-YouLang Git连接，允许继续本地代码修改，要求PR等明天恢复连接；不得用其他账号推送或更改远程，不把本地验收称为远程交付。P5 实现中；P6 未授权开始。下文旧的阶段状态为历史记录，由本段取代。
+
 2026-10-10 最新：P2 私有最终交付验收 PASS，main 基线 ee6eb07921f93ab3373acbe5f3d2c1c1c8741f36。用户授权进入 P3，并批准独立预算 USD 1 / 40 DeepSeek 请求 / 12 Codex 订阅实验回合，单请求120秒、候选/角色600秒、实验1200秒，不充值。P3-A01..A04 真实功能和16个冻结独立复验通过；feature/9-synthesis-loop、Issue #9 / [PR #10](https://github.com/Du-YouLang/Enhanced_Humanizer/pull/10) 的 Git 交付仍须实际 PR CI/main/12归档 refs 同步，私有 p3-accepted.json 为 PASS 才可声称交付完成；评分使用明确的 Sol/J3。Jev 因用户所在地区不被 TypeSafe 支持而阻塞，不新增 OpenRouter 支出。此前文中的“不进入 P3”为历史状态，由本段取代。
 
 当前：**P0_ACCEPTED / P1_ACCEPTED / P2_FUNCTIONAL_ACCEPTED**。P1-A01..A04 已有真实模型、独立隔离复验和预算控制证据。P1 开发交付以 Issue #5 关联 PR 的实际 CI 成功及 main 同步为准；不把 merge/CI 单独当作功能验收。阶段交付分支 feature/5-basic-relay，[PR #6](https://github.com/Du-YouLang/Enhanced_Humanizer/pull/6)。最终 CI/merge/main 一致性及 bundle 哈希记录在项目私有 `.local-workbench/audits/p1-accepted.json`；该记录不存在或非 PASS 时不得声称 Git 交付完成。用户已明确授权开始 P2，独立预算已批准；P2 功能独立验收通过，Git 交付以 PR #8 实际 CI/main 同步及私有 p2-accepted.json 为 PASS 为准（公开文档不预写合并结果）；不进入 P3。
