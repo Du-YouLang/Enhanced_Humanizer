@@ -31,7 +31,9 @@ def namespace(argv):
 
 
 def validate_source_links(source):
-    source = Path(source)
+    # Windows CI may expose its workspace through a junction. Resolve the
+    # existing root before walking so internal dangling links use the same base.
+    source = Path(source).resolve()
     for directory, names, files in os.walk(source):
         if '.git' in names: names.remove('.git')
         for name in names+files:
