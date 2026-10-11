@@ -2,6 +2,8 @@
 
 版本 `0.1.0-preview.1`，P7 范围为安装打包和交付准备。包以一个精确 Git commit 为来源；并非已发布产品，完整 P6 尚待验收。本机验证平台为 Windows + PowerShell + Python 3.12 及以上 + Git。没有重新实现或捆绑 Coding Harness。
 
+本机 P7-A01..A04 已通过，见 [验收记录](audits/P7-2026-10-11.md)。最终包目录为 `D:\Desktop\Enhanced_Humanizer\.local-workbench\deliveries\p7-final-20261011`，从其中 `receipt.json` 读取实际 ZIP 文件名与独立 SHA，不凭文件名猜测版本。完整运行仍使用原开发工作区；安装预览默认拒绝真实推理。
+
 源码包包含已提交源码、保留的需求基线、公开审计、固定依赖清单和一个离线 Git bundle。它不包含 `.local-workbench`、账号登录、模型原始记录、科研原文、数据库、Python/Conda 安装或 WSL VHD。完整运行状态需另行本地私有备份。原有单账号的 GitHub 连接继续暂缓，安装器不联网操作 Git。
 
 ## 校验并安装
