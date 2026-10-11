@@ -11,6 +11,44 @@ import sys
 from urllib.parse import urlsplit
 
 
+def route_main_transport():
+    """Tunnel raw sockets through the same fence, preserving client URL handling.
+
+    Legacy Requests treats mixed-case HTTPS differently when environment HTTP
+    proxies are present. The frozen tests expect direct HTTP/TLS semantics.
+    Restrict this adapter to the two existing fixture destinations; retain TLS
+    verification and all upstream request/response/test code.
+    """
+    raw=os.environ.get('HTTPS_PROXY') or os.environ.get('https_proxy')
+    proxy=urlsplit(raw or '');fixture=urlsplit(os.environ.get('HTTPBIN_URL',''))
+    if proxy.hostname!='127.0.0.1' or proxy.scheme!='http' or not proxy.port or not fixture.hostname or not fixture.port:
+        raise RuntimeError('Expected the exact Humanize proxy and local fixture')
+    targets={fixture.port:fixture.hostname,443:'httpbin.org'}
+    original_lookup=socket.getaddrinfo;original_connect=socket.socket.connect
+    def lookup(host,target_port,*args,**kwargs):
+        if targets.get(int(target_port or 0))==host:host='127.0.0.1'
+        return original_lookup(host,target_port,*args,**kwargs)
+    def connect(sock,address):
+        if isinstance(address,tuple) and len(address)==2 and address[0].startswith('127.') and address[1] in targets:
+            host=targets[address[1]];port=address[1]
+            original_connect(sock,('127.0.0.1',proxy.port))
+            sock.sendall(f'CONNECT {host}:{port} HTTP/1.1\r\nHost: {host}:{port}\r\n\r\n'.encode())
+            header=b''
+            while not header.endswith(b'\r\n\r\n'):
+                byte=sock.recv(1)
+                if not byte or len(header)>4096:raise OSError('Fixture proxy tunnel failed')
+                header+=byte
+            if not header.startswith(b'HTTP/1.1 200 '):raise OSError('Fixture proxy tunnel refused')
+            return
+        return original_connect(sock,address)
+    socket.getaddrinfo=lookup;socket.socket.connect=connect
+    for key in tuple(os.environ):
+        if key.lower() in ('http_proxy','https_proxy','all_proxy','no_proxy'):os.environ.pop(key)
+    # Plain HTTP retains the original proxy and its forbidden-host responses.
+    # HTTPS uses the raw tunnel, including Session.send's mixed-case URL tests.
+    os.environ['HTTP_PROXY']=raw
+
+
 def route_legacy_proxy():
     raw=os.environ.get('HTTPS_PROXY') or os.environ.get('https_proxy')
     if not raw:return
@@ -49,6 +87,13 @@ def route_legacy_proxy():
 
 
 if __name__=='__main__':
-    route_legacy_proxy()
+    if len(sys.argv)>1 and sys.argv[1]=='--frozen-selection':route_main_transport()
+    else:route_legacy_proxy()
     import pytest
+    if len(sys.argv)>1 and sys.argv[1]=='--frozen-selection':
+        import json
+        import runpy
+        Selection=runpy.run_path('/opt/workbench/source/p6_pytest_runner.py')['Selection']
+        names=json.loads(sys.argv[2]);paths=list(dict.fromkeys(n.split('::',1)[0] for n in names))
+        sys.exit(pytest.main([*sys.argv[3:],*paths],plugins=[Selection(names)]))
     sys.exit(pytest.main(sys.argv[1:]))

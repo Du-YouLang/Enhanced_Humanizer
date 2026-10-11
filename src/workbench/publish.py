@@ -112,7 +112,8 @@ class Publisher:
             for entry in filter(None,entries):
                 metadata,name = entry.split('\t',1)
                 mode,kind,oid,size = metadata.split()
-                if mode not in ('100644','100755') or kind != 'blob' or private_path(name):
+                if (mode not in ('100644','100755') or kind != 'blob' or private_path(name)
+                        or Path(name).suffix.lower() in {'.csv','.tsv','.npz','.npy','.parquet','.h5','.hdf5','.zip','.tar','.gz'}):
                     raise ValueError('Private paths, symlinks and submodules cannot be uploaded')
                 if name.startswith(('-', '/')) or any(p in ('..','.git') for p in name.split('/')):
                     raise ValueError('Unsafe repository path')
