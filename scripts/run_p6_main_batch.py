@@ -15,6 +15,7 @@ import sys
 import time
 
 from wsl_project import ROOT,run
+from p1_budget import replace_ledger
 
 QUERY=r'''import json,sys
 from pathlib import Path
@@ -32,7 +33,7 @@ print(json.dumps({'run_id':name,'alive':alive,'status':status,**details}))
 
 
 def snapshot(path,value):
-    tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(value,indent=2),encoding='utf-8');tmp.replace(path)
+    tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(value,indent=2),encoding='utf-8');replace_ledger(tmp,path)
 
 
 def continuation_attempts(previous, manifest, launch_log):

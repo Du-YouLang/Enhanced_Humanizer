@@ -1,11 +1,15 @@
 """A manually continued pre-spend refusal cannot retry a model failure."""
 import copy
+import json
+import os
 from pathlib import Path
 import sys
 import unittest
+import tempfile
+from unittest.mock import patch
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from run_p6_main_batch import continuation_attempts
+from run_p6_main_batch import continuation_attempts,snapshot
 
 
 class BatchContinuationTests(unittest.TestCase):
@@ -38,3 +42,19 @@ class BatchContinuationTests(unittest.TestCase):
     def test_skipping_task_or_mode_is_refused(self):
         batch=copy.deepcopy(self.batch);batch['attempts'][-1]['task_id']='second'
         with self.assertRaises(ValueError):continuation_attempts(batch,self.manifest,self.log)
+
+    def test_index_sharing_retry_keeps_identical_attempt_bytes_without_launch(self):
+        scratch=Path(__file__).resolve().parents[1]/'.local-workbench/test-tmp'
+        scratch.mkdir(parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch) as folder:
+            path=Path(folder)/'index.json';path.write_text('old')
+            error=PermissionError('fixture sharing violation');error.winerror=5
+            real_replace=os.replace;seen=[]
+            def transient(source,destination):
+                seen.append(source.read_bytes())
+                if len(seen)<3:raise error
+                real_replace(source,destination)
+            with patch('p1_budget.os.name','nt'),patch('p1_budget.os.replace',side_effect=transient),patch('p1_budget.time.sleep'),patch('run_p6_main_batch.launch') as launch:
+                snapshot(path,self.batch)
+            self.assertEqual(len(seen),3);self.assertEqual(len(set(seen)),1)
+            self.assertEqual(json.loads(path.read_text()),self.batch);launch.assert_not_called()
