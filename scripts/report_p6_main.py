@@ -91,7 +91,9 @@ def main():
     a=p.parse_args()
     for path in (a.batch,a.output):
         if not path.resolve().is_relative_to(ROOT):raise ValueError('Reports and batch evidence must stay in the project')
-    batch=json.loads(a.batch.read_text());manifest=json.loads((ROOT/'configs/benchmark-p6-v3.json').read_text());check_manifest(manifest)
+    batch=json.loads(a.batch.read_text());manifest_path=ROOT/batch.get('manifest_file','configs/benchmark-p6-v3.json')
+    if not manifest_path.resolve().is_relative_to(ROOT):raise ValueError('Manifest must stay in the project')
+    manifest=json.loads(manifest_path.read_text());check_manifest(manifest)
     if manifest['manifest_sha256']!=batch['manifest_sha256']:raise ValueError('Wrong frozen manifest for batch')
     result=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',COLLECT],input_bytes=json.dumps(batch).encode(),timeout=60)
     if result.returncode:raise RuntimeError('Unable to collect exact batch evidence')

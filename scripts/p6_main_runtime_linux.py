@@ -127,12 +127,14 @@ def record(arm,chosen,scopes,elapsed,hidden=None):
     accepted=hidden or {'verdict':'NOT_RUN'}
     outcome=accepted['verdict']
     if chosen is None:outcome='FAIL'
+    elif chosen['worker_status']=='BUDGET_EXHAUSTED':outcome='FAIL'
     elif chosen['worker_status']!='COMPLETED':outcome='TIMEOUT' if chosen['worker_status']=='TIMEOUT' else 'INFRA_FAIL'
     elif chosen['verdict']!='PASS':outcome='FAIL'
     if outcome not in ('PASS','FAIL','TIMEOUT','INFRA_FAIL','INDETERMINATE'):outcome='INDETERMINATE'
     incomplete_judge=arm in ('C','F') and a.get('enhancement_judge_incomplete',False)
     if incomplete_judge:outcome='INDETERMINATE'
     failure_class='REQUIRED_JUDGE_INCOMPLETE' if incomplete_judge else 'NO_ELIGIBLE_PUBLIC_CANDIDATE' if chosen is None else 'ROLE_TIMEOUT' if chosen['worker_status']=='TIMEOUT' else 'ROLE_INFRASTRUCTURE' if chosen['worker_status']!='COMPLETED' else 'PUBLIC_HARD_GATE_FAILED' if chosen['verdict']!='PASS' else 'PRIVATE_ACCEPTANCE_FAILED' if accepted['verdict']=='FAIL' else 'INDEPENDENT_REVIEW_PENDING' if accepted['verdict']=='INDETERMINATE' else 'NONE'
+    if not incomplete_judge and chosen and chosen['worker_status']=='BUDGET_EXHAUSTED':failure_class='ROLE_REQUEST_CAP'
     row={'task_id':task['id'],'arm':arm,'seed':42,'repetition':0,'manifest_sha256':a['payload']['manifest']['manifest_sha256'],
          'outcome':outcome,'reason':'Required enhancement judge incomplete; downstream output is diagnostic only' if incomplete_judge else 'Uniform main protocol; selection frozen before private acceptance',
          'failure_class':failure_class,
@@ -192,7 +194,7 @@ def run(payload):
     def interrupted(signum,frame):raise InterruptedError('Owned main controller interrupted by signal '+str(signum))
     signal.signal(signal.SIGTERM,interrupted);signal.signal(signal.SIGINT,interrupted)
     if os.getuid()==0:raise RuntimeError('No root runtime')
-    if payload['manifest'].get('protocol_version')!=3:raise RuntimeError('A new frozen protocol version is required')
+    if payload['manifest'].get('protocol_version') not in (3,4):raise RuntimeError('A new frozen protocol version is required')
     if payload['task']['family']=='scientific':
         sys.path.insert(0,str(BASE/'envs/science-tms-v1/lib/python3.12/site-packages'))
         from p6_science_main_linux import task as scientific_task,test as scientific_test

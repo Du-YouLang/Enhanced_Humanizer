@@ -2,6 +2,22 @@
 from p2_candidates import validate_pool
 
 
+def classify_role_completion(worker):
+    """Only trusted broker evidence distinguishes a local cap from upstream 402.
+
+    Keep the worker's original failure and error; HTTP status text alone must
+    never turn credential, provider, policy or transport failures into a cap.
+    """
+    value=dict(worker)
+    denials=worker.get('broker_denials',[])
+    if worker.get('status')=='INFRA_FAIL' and denials and all(
+        d.get('reason')=='Role request cap exhausted' for d in denials
+    ):
+        value.update(status='BUDGET_EXHAUSTED',raw_worker_status='INFRA_FAIL',
+                     operational_stop_reason='MAIN_ROLE_REQUEST_CAP')
+    return value
+
+
 def enhanced_selection(original,expanded,input_judgment,merge_judgment):
     validate_pool(original);validate_pool(expanded)
     previous={c['id']:c for c in original['candidates']}
