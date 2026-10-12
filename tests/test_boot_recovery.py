@@ -13,6 +13,36 @@ SCRIPTS = Path(__file__).resolve().parents[1] / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 from p6_boot_recovery import Journal, atomic, contained, next_step, singleton, validate_sources, supervise, digest
 import p6_recovery_probe_linux as probe
+import p6_boot_recovery as recovery
+
+
+class BackgroundConsoleControls(unittest.TestCase):
+    def test_non_windows_keeps_native_process_behavior(self):
+        with patch.object(recovery.sys, 'platform', 'linux'):
+            self.assertEqual({}, recovery.background_process_options())
+
+    def test_windows_child_is_explicitly_windowless(self):
+        with patch.object(recovery.sys, 'platform', 'win32'), \
+             patch.object(subprocess, 'CREATE_NO_WINDOW', 0x08000000, create=True):
+            self.assertEqual({'creationflags': 0x08000000}, recovery.background_process_options())
+
+    def test_poll_queries_receive_windowless_options(self):
+        result = subprocess.CompletedProcess([], 0, stdout=b'{}')
+        with patch.object(recovery, 'background_process_options', return_value={'creationflags': 0x08000000}), \
+             patch.object(recovery.subprocess, 'run', return_value=result) as run:
+            recovery.native({'project': str(SCRIPTS.parent)})
+            self.assertEqual(0x08000000, run.call_args.kwargs['creationflags'])
+            result.stdout = '{}'
+            recovery.ps_json('fixture')
+            self.assertEqual(0x08000000, run.call_args.kwargs['creationflags'])
+
+    @unittest.skipUnless(sys.platform == 'win32', 'Windows console handle control')
+    def test_real_console_child_has_no_console_and_still_returns_output(self):
+        command = [sys.executable, '-c',
+                   'import ctypes; print(ctypes.windll.kernel32.GetConsoleWindow())']
+        result = subprocess.run(command, capture_output=True, text=True, check=True,
+                                **recovery.background_process_options())
+        self.assertEqual('0', result.stdout.strip())
 
 
 class BootRecoveryTests(unittest.TestCase):

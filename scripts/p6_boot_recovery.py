@@ -139,9 +139,16 @@ def next_step(config, state, inventory, *, original_alive, boot_changed):
     return {'action': 'FINISHED_WITH_PENDING_INTERRUPTED' if pending else 'ALL_COMPLETED', 'pending': pending}
 
 
+def background_process_options():
+    """pythonw does not hide child consoles; suppress every Windows child console."""
+    if sys.platform == 'win32':
+        return {'creationflags': subprocess.CREATE_NO_WINDOW}
+    return {}
+
+
 def ps_json(code):
     result = subprocess.run(['powershell.exe', '-NoProfile', '-NonInteractive', '-Command', code],
-                            capture_output=True, timeout=30, encoding='utf-8')
+                            capture_output=True, timeout=30, encoding='utf-8', **background_process_options())
     if result.returncode: raise RuntimeError('Windows process/boot query failed')
     return json.loads(result.stdout.lstrip('\ufeff'))
 
@@ -160,7 +167,8 @@ def native(config):
     env = dict(os.environ, WSLENV='', WSL_UTF8='1')
     result = subprocess.run(['wsl.exe', '-d', 'EnhancedHumanizer-P0', '-u', 'workbench', '--cd', '/opt/workbench',
                              '--exec', '/opt/workbench/.venv-linux/bin/python', '-B', '-c', script],
-                            cwd=project, input=canonical(config), capture_output=True, timeout=45, env=env)
+                            cwd=project, input=canonical(config), capture_output=True, timeout=45, env=env,
+                            **background_process_options())
     if result.returncode: raise RuntimeError('Read-only native inventory unavailable or invalid')
     return json.loads(result.stdout)
 
@@ -251,7 +259,8 @@ def supervise(config_path, *, execute=False, once=False):
                     if len(inv['runs']) and any(r['alive'] for r in inv['runs']): raise ValueError('Concurrent native controller')
                     if inv['ledger']['requests'] >= budget['deepseek_inference_requests'] or inv['ledger']['cash_bound_nano'] >= int(budget['api_cash_usd'] * 1_000_000_000):
                         raise ValueError('Cumulative model budget exhausted')
-                    if subprocess.check_output(['git', 'status', '--porcelain'], cwd=project).strip():
+                    if subprocess.check_output(['git', 'status', '--porcelain'], cwd=project,
+                                               **background_process_options()).strip():
                         raise ValueError('Uncommitted source: recovery launch refused')
                     intent = dict(task=decision['task'], mode=decision['mode'], source_run=decision['source_run'],
                                   id=uuid.uuid4().hex, status='LAUNCH_INTENT', at_unix=time.time())
@@ -262,7 +271,8 @@ def supervise(config_path, *, execute=False, once=False):
                             '--detach', '--manifest', config['manifest_file']]
                     if decision['source_run']: argv += ['--reuse-run', decision['source_run']]
                     with (folder / (intent['id'] + '.launch.private.log')).open('xb') as log:
-                        result = subprocess.run(argv, cwd=project, stdout=subprocess.PIPE, stderr=log, timeout=150)
+                        result = subprocess.run(argv, cwd=project, stdout=subprocess.PIPE, stderr=log, timeout=150,
+                                                **background_process_options())
                         log.write(result.stdout); log.flush(); os.fsync(log.fileno())
                     if result.returncode: raise RuntimeError('Frozen runner refused; intent preserved without replay')
                     receipt = json.loads(result.stdout); intent.update(receipt, status='STARTED')

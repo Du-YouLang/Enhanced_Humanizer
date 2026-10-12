@@ -1,5 +1,7 @@
 # Project instructions
 
+- 2026-10-12 recovery popup fix: pythonw alone does not hide Windows child consoles. All supervisor subprocess calls use CREATE_NO_WINDOW on Windows only. Installed p6-boot-v5 preserves v4 journal prefix/state/ledger, recovery30 and governance7 controls PASS. Old main batch was already INFRA_RETRY_PENDING before the service update; no model replay or frozen-source changes. Exact new CI/installed heartbeat follow their own receipts.
+
 - 2026-10-12 user explicitly authorized local boot recovery without disturbing active benchmark. ADR-0028: independent pinned supervisor, current-user login startup; while original controller alive observe only, reattach native live work, skip completed execute/sensitivity, preserve interrupted/uncertain slots pending and continue never-started tasks after Windows reboot. Do not claim arbitrary model-stream/partial-training resume or physical power-loss acceptance. Main v12-final2 source/manifest/ledger remain untouched, cumulative prefixes/reservations retained; damaged journals block spending. Installed scope/status/CI follow own receipts; no product PR or release bypass.
 
 - 2026-10-12 v12-final2首题Black-2真实A–F六分支全部独立验收PASS，完整主流程1838.856秒，receipt SHA c3e0e206e6ef2f6f580772a8d71478e290184b18130fab6a6415c5dab3d66a84；共享N3池，不是六独立随机样本。完整trace敏感性run20261012T132738Z仍执行，有限batch继续其它题；最新快照1811DS/68订阅/API上界USD30.742602，实付unavailable。20条LAV settlement缺request timeout字段，不填0；源代码600s recover与字段缺口分开记，不修改活动冻结源码。见P6-v12-final2-first-task审计；完整P6/Pi仍未接受，旧账本和样本保持。

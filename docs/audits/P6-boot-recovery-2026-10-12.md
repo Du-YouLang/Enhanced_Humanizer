@@ -1,5 +1,7 @@
 # P6 本机重启恢复验收
 
+后续用户报告每隔一段时间弹出控制台。定位到恢复服务虽以 pythonw 隐藏启动，但30秒轮询中的 PowerShell/WSL 子进程没有 Windows CREATE_NO_WINDOW 标志。新增统一后台启动选项，覆盖轮询、Git只读查询和后续阶段入口；Linux不传Windows标志。Windows恢复控制30项全部通过，包含真实控制台子进程 GetConsoleWindow 返回0且stdout正常的控制；治理7项通过。独立安装升级到p6-boot-v5，保留v4完整journal前缀/状态/账本，旧服务单独停用，没有停止或重启实验进程。修复时原batch已经因INFRA_RETRY_PENDING停止，保留该网络现场，不在窗口修复中重试模型。精确CI及连续heartbeat取本次私有回执，先前CI仅对原提交有效。
+
 用户明确要求续跑、开机自动恢复、已完成题不重跑、日志与预算累计，并不干扰活动 benchmark。实现独立 supervisor，沿用 v12-final2 `b751822058b84512f8755676881e38eb691081ae8fa58456737824803bffc454` 以及原累计 MainLedger；冻结入口、runtime、manifest、原批次索引均未改。见 ADR-0028。
 
 26 项零 provider 控制通过：已完成（包含失败分支）整题跳过；只补未开始的 sensitivity；丢失 Windows controller 时观察仍存活的 native controller；原进程仍活动时禁止新增模型；新 boot 才运行尚未开始项；中断/启动不明槽位保留 pending；实际独立进程崩溃后的持久 intent、真实互斥锁/释放、hash-chain replay 和损坏尾部拒绝；累计账本前缀不可删除/改写、允许正常结算降低费用上界；timeout 父进程与 runtime 子进程识别、跨 boot PID 不可信、缺少六臂完整回执拒绝。
