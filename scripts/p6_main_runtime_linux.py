@@ -104,6 +104,22 @@ def judge(name,pool,extra=None):
     except (KeyError,ValueError,TypeError):return blocked(pool,'J3','INDETERMINATE','Invalid independent score coverage/schema')
 
 
+def lav(name,pool):
+    a=shared.ACTIVE
+    os.environ.update(DEEPSEEK_EFFORT='off',DEEPSEEK_MAX_TOKENS='4096')
+    import llm_verifier.fine_grained_reward as lav_module
+    client=LavTransport(a['key'],a['ledger'],a['root'].name+'/'+name,min(a['deadline'],time.monotonic()+115),lav_module,a['root']/(name+'-responses'))
+    try:
+        value=J1(client,'/opt/workbench/upstreams/lav',a['root']/(name+'-cache')).judge(pool)
+        value['note']='Original LAV K1; exact frozen pool and full public evidence retained'
+        return value
+    except Exception as error:return blocked(pool,'J1','BLOCKED_LOGPROBS' if 'LOGPROBS' in str(error) else 'INFRA_FAIL',type(error).__name__)
+
+
+def region_blocked(pool):
+    return blocked(pool,'J2','BLOCKED_REGION_REPORTED_BY_USER','TypeSafe unavailable in the user region; no substitution')
+
+
 def record(arm,chosen,scopes,elapsed,hidden=None):
     from workbench.benchmark import ARMS,validate_result
     a=shared.ACTIVE;task=a['task'];prep=a['preparation']
@@ -144,18 +160,21 @@ def sensitivity(payload):
         patch,description=shared.program_evidence(root/'code',a['task']['base_commit'])
         if patch!=c['patch'] or description!=c['source']:raise ValueError('Candidate program changed before sensitivity')
     full,identity=trace_pool(pool,roots);exclusive_json(a['root']/'trace-public-pool.json',full)
-    j3=judge('judge-full-trace',full)
-    os.environ.update(DEEPSEEK_EFFORT='off',DEEPSEEK_MAX_TOKENS='4096')
-    import llm_verifier.fine_grained_reward as lav_module
-    client=LavTransport(a['key'],a['ledger'],a['root'].name+'/J1-full-trace',min(a['deadline'],time.monotonic()+115),lav_module,a['root']/'lav-responses')
-    try:j1=J1(client,'/opt/workbench/upstreams/lav',a['root']/'lav-cache').judge(full)
-    except Exception as error:j1=blocked(full,'J1','BLOCKED_LOGPROBS' if 'LOGPROBS' in str(error) else 'INFRA_FAIL',type(error).__name__)
-    judgments={'J0':J0().judge(full),'J1':j1,'J2':blocked(full,'J2','BLOCKED_REGION_REPORTED_BY_USER','TypeSafe unavailable in the user region; no substitution'),'J3':j3}
+    judgments={'J0':J0().judge(full),'J1':lav('J1-full-trace',full),'J2':region_blocked(full),'J3':judge('judge-full-trace',full)}
     exclusive_json(a['root']/'judgments.json',judgments)
+    expanded=json.loads((source/'frozen-expanded-public-pool.json').read_text())
+    m=next(c for c in expanded['candidates'] if c['id']=='M');mroot=source/'reviewer'
+    patch,description=shared.program_evidence(mroot/'code',a['task']['base_commit'])
+    if patch!=m['patch'] or description!=m['source']:raise ValueError('Reviewer program changed before sensitivity')
+    augmented,merge_identity=trace_pool(expanded,{**roots,'M':mroot})
+    exclusive_json(a['root']/'trace-expanded-public-pool.json',augmented)
+    merge_judgments={'J0':J0().judge(augmented),'J1':lav('J1-merge-full-trace',augmented),'J2':region_blocked(augmented),'J3':judge('judge-merge-full-trace',augmented)}
+    exclusive_json(a['root']/'merge-judgments.json',merge_judgments)
     receipt={'status':'FULL_TOOL_TRACE_SENSITIVITY_COMPLETED','source_run':name,'candidate_model_replays':0,
              'identity':identity,'source_judgments':json.loads((source/'judgments.json').read_text()),
              'trace_judgments':judgments,'evidence_is_complete_not_truncated':True,'independent_acceptance_replayed':False,
-             'incremental_metrics':shared.metrics([a['root'].name+'/judge-full-trace',a['root'].name+'/J1-full-trace'],time.monotonic()-a['started_monotonic'])}
+             'merge_identity':merge_identity,'source_merge_judgments':json.loads((source/'merge-judgments.json').read_text()),'trace_merge_judgments':merge_judgments,
+             'incremental_metrics':shared.metrics([a['root'].name+'/'+name for name in ('judge-full-trace','J1-full-trace','judge-merge-full-trace','J1-merge-full-trace')],time.monotonic()-a['started_monotonic'])}
     exclusive_json(a['root']/'receipt.json',receipt);a['key']=''
     return {'status':receipt['status'],'run_id':a['root'].name,'source_run':name,'judgments':{k:v['status'] for k,v in judgments.items()}}
 
@@ -221,7 +240,7 @@ def run(payload):
         pool=shared.public_pool(pool_rows);exclusive_json(root/'frozen-public-pool.json',pool)
         if any(w['status']=='INFRA_FAIL' for w in workers):
             raise RuntimeError('Pool infrastructure failure retained; no automatic model retry')
-        judgments={'J0':J0().judge(pool),'J2':blocked(pool,'J2','BLOCKED_REGION_REPORTED_BY_USER','TypeSafe unavailable in the user region; no substitution')}
+        judgments={'J0':J0().judge(pool),'J2':region_blocked(pool)}
         selected=shared.select(pool,judgments['J0']);selections['B']=next((c for c in pool_rows if c['id']==selected),None)
         timings['B']=time.perf_counter()-start;scopes['B']=[w['scope'] for w in workers]
         start=time.perf_counter();judgments['J3']=judge('judge-input',pool)
@@ -229,8 +248,10 @@ def run(payload):
         prompt=task['prompt']+'\nAct as an independent Reviewer. Read input.json, consider every A/B/C candidate including failures. Freely implement a new M from this baseline, or explicitly REFUSE. Preserve existing tests/dependencies. Report every considered candidate ID and commit cleanly.'
         w=launch('reviewer','codex','reviewer',view=view,prompt=prompt);m=shared.candidate('M',w)
         decision=w.get('answer',{}).get('decision',{})
-        if w['status']=='COMPLETED' and (sorted(decision.get('considered_candidates',[]))!=['A','B','C'] or decision.get('action')!='IMPLEMENTED'):m['verdict']='FAIL'
+        considered=decision.get('considered_candidates',[])
+        if w['status']=='COMPLETED' and (not isinstance(considered,list) or not all(isinstance(cid,str) for cid in considered) or sorted(considered)!=['A','B','C'] or decision.get('action')!='IMPLEMENTED'):m['verdict']='FAIL'
         expanded=shared.public_pool(pool_rows+[m],'JUDGE_COMPARISON');jm=judge('judge-merge',expanded)
+        exclusive_json(root/'frozen-expanded-public-pool.json',expanded)
         chosen=shared.select(expanded,jm);enhanced=next((c for c in pool_rows+[m] if c['id']==chosen),None)
         selections['C']=enhanced;timings['C']=timings['B']+time.perf_counter()-start
         scopes['C']=scopes['B']+[shared.ACTIVE['workers'][name]['scope'] for name in ('judge-input','reviewer','judge-merge')]
@@ -243,11 +264,8 @@ def run(payload):
             w=launch(name,'codex',source=source,view=public,mode=mode,prompt=task['prompt']+'\nAct as a fresh Builder. Inspect and improve the current program, freely redesign if needed, run public checks, and commit a clean change.')
             selections[arm]=shared.candidate(arm,w);timings[arm]=prior_seconds+time.perf_counter()-start
             scopes[arm]=([*scopes['A']] if arm=='E' else [*scopes['C']] if arm=='F' else [])+[w['scope']]
-        os.environ.update(DEEPSEEK_EFFORT='off',DEEPSEEK_MAX_TOKENS='4096')
-        import llm_verifier.fine_grained_reward as lav_module
-        client=LavTransport(shared.ACTIVE['key'],shared.ACTIVE['ledger'],root.name+'/J1',min(shared.ACTIVE['deadline'],time.monotonic()+115),lav_module,root/'lav-responses')
-        try:judgments['J1']=J1(client,'/opt/workbench/upstreams/lav',root/'lav-cache').judge(pool)
-        except Exception as error:judgments['J1']=blocked(pool,'J1','BLOCKED_LOGPROBS' if 'LOGPROBS' in str(error) else 'INFRA_FAIL',type(error).__name__)
+        judgments['J1']=lav('J1',pool)
+        exclusive_json(root/'merge-judgments.json',{'J0':J0().judge(expanded),'J1':lav('J1-merge',expanded),'J2':region_blocked(expanded),'J3':jm})
         exclusive_json(root/'judgments.json',judgments)
         exclusive_json(root/'frozen-selections.json',{'heads':{arm:c.get('head_commit') if c else None for arm,c in selections.items()},
             'public_candidate_hashes':{arm:digest(c) if c else None for arm,c in selections.items()},'hidden_results_seen':False})

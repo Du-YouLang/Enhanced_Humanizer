@@ -34,17 +34,25 @@ def redact(value):
 
 def tool_trace(root,*,max_bytes=2_000_000):
     files=sorted(Path(root).glob('humanize/epics/*/*/sessions/dsh/sessions/*/*/session.v3.jsonl'))
-    if not files:raise ValueError('Native DSH tool trace is unavailable')
+    backend='dsh'
+    if not files:
+        backend='codex';files=sorted(Path(root).rglob('rollout-*.jsonl'))
+    if not files:raise ValueError('Native Harness tool trace is unavailable')
     records=[];origins=[];redactions=0
     for file in files:
         if file.is_symlink() or file.stat().st_size>20_000_000:raise ValueError('Invalid native trace')
         raw=file.read_bytes();origins.append({'file':str(file.relative_to(root)),'sha256':hashlib.sha256(raw).hexdigest()})
         for line in raw.decode('utf-8').splitlines():
             row=json.loads(line)
+            if backend=='codex':
+                payload=row.get('payload',{});kind=payload.get('type','')
+                if row.get('type')!='response_item' or kind not in ('function_call','function_call_output','custom_tool_call','custom_tool_call_output','web_search_call','computer_call','computer_call_output','file_search_call','mcp_call','mcp_list_tools'):continue
+                row={'type':'tool/result' if kind.endswith('_output') else 'tool/call',
+                     'source_backend':'codex','timestamp':row.get('timestamp'),'data':payload}
             if row.get('type') not in ('tool/call','tool/result'):continue
             row,count=redact(row)
             redactions+=count;records.append(row)
-    value={'kind':'COMPLETE_NATIVE_TOOL_CALLS_AND_RESULTS','records':records,'origin_hashes':origins,
+    value={'kind':'COMPLETE_NATIVE_TOOL_CALLS_AND_RESULTS','backend':backend,'records':records,'origin_hashes':origins,
            'tool_calls':sum(r['type']=='tool/call' for r in records),'tool_results':sum(r['type']=='tool/result' for r in records),
            'credential_redactions':redactions,'private_reasoning':'EXCLUDED','provider_headers':'EXCLUDED','truncated':False}
     if len(json.dumps(value).encode())>max_bytes:raise ValueError('Complete tool evidence exceeds declared bound; no truncation')
