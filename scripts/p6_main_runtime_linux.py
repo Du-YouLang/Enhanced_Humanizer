@@ -195,7 +195,7 @@ def run(payload):
     def interrupted(signum,frame):raise InterruptedError('Owned main controller interrupted by signal '+str(signum))
     signal.signal(signal.SIGTERM,interrupted);signal.signal(signal.SIGINT,interrupted)
     if os.getuid()==0:raise RuntimeError('No root runtime')
-    if payload['manifest'].get('protocol_version') not in (3,4,5,6):raise RuntimeError('A new frozen protocol version is required')
+    if payload['manifest'].get('protocol_version') not in (3,4,5,6,7,8):raise RuntimeError('A new frozen protocol version is required')
     if payload['task']['family']=='scientific':
         sys.path.insert(0,str(BASE/'envs/science-tms-v1/lib/python3.12/site-packages'))
         from p6_science_main_linux import task as scientific_task,test as scientific_test

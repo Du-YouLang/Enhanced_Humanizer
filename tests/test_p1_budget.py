@@ -7,9 +7,10 @@ import sys
 import tempfile
 import unittest
 from concurrent.futures import ThreadPoolExecutor
+from unittest.mock import patch
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from p1_budget import BudgetDenied, ChatUsage, Ledger, MessagesUsage, REQUEST_RESERVE
+from p1_budget import BudgetDenied, ChatUsage, Ledger, MessagesUsage, REQUEST_RESERVE,replace_ledger
 
 
 class P1BudgetTests(unittest.TestCase):
@@ -19,6 +20,23 @@ class P1BudgetTests(unittest.TestCase):
         self.directory=tempfile.TemporaryDirectory(dir=scratch)
         self.addCleanup(self.directory.cleanup)
         self.path=Path(self.directory.name)/'ledger.json'
+
+    def test_windows_sharing_retry_replaces_exact_bytes_once_and_exhaustion_preserves_old(self):
+        self.path.write_text('old');temporary=self.path.with_suffix('.tmp');temporary.write_text('new')
+        error=PermissionError('fixture sharing violation');error.winerror=32
+        real_replace=os.replace;calls=[]
+        def transient(source,dest):
+            calls.append((source,dest))
+            if len(calls)<3:raise error
+            real_replace(source,dest)
+        with patch('p1_budget.os.name','nt'),patch('p1_budget.os.replace',side_effect=transient),patch('p1_budget.time.sleep'):
+            replace_ledger(temporary,self.path)
+        self.assertEqual(self.path.read_text(),'new');self.assertEqual(len(calls),3)
+        temporary.write_text('next')
+        with patch('p1_budget.os.name','nt'),patch('p1_budget.os.replace',side_effect=error) as replacement,patch('p1_budget.time.sleep'):
+            with self.assertRaises(PermissionError):replace_ledger(temporary,self.path)
+        self.assertEqual(replacement.call_count,6)
+        self.assertEqual(self.path.read_text(),'new');self.assertEqual(temporary.read_text(),'next')
 
     def test_unknown_requests_retain_peak_cash_after_restart(self):
         ledger=Ledger(self.path)

@@ -37,7 +37,7 @@ def codex_routing_failure(root):
 
 def dsh_terminal_reason(root):
     """Structured terminal proof; never infer a model limit from error text."""
-    files=sorted(Path(root).glob('humanize/epics/*/*/sessions/dsh/sessions/*/*/session.v3.jsonl'))
+    files=dsh_traces(root)
     reasons=[]
     for file in files:
         if file.is_symlink() or file.stat().st_size>20_000_000:raise ValueError('Invalid native terminal trace')
@@ -49,6 +49,13 @@ def dsh_terminal_reason(root):
                 reasons.append({'kind':reason.get('kind'),'source_sha256':hashlib.sha256(raw).hexdigest(),
                                 'turn':row.get('data',{}).get('turn'),'seq':row.get('seq')})
     return reasons[-1] if reasons else None
+
+
+def dsh_traces(root):
+    """NativeDriver and Humanize Flow both retain upstream DSH transcripts."""
+    root=Path(root)
+    return sorted(set(root.glob('humanize/epics/*/*/sessions/dsh/sessions/*/*/session.v3.jsonl'))|
+                  set(root.glob('dsh/sessions/*/*/session.v3.jsonl')))
 
 
 def redact(value):
@@ -75,7 +82,7 @@ def redact(value):
 
 
 def tool_trace(root,*,max_bytes=2_000_000):
-    files=sorted(Path(root).glob('humanize/epics/*/*/sessions/dsh/sessions/*/*/session.v3.jsonl'))
+    files=dsh_traces(root)
     backend='dsh'
     if not files:
         backend='codex';files=sorted(Path(root).rglob('rollout-*.jsonl'))

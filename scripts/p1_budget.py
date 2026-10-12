@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import threading
+import time
 
 CONTEXT_TOKENS = 1_048_576
 MAX_OUTPUT = 4096
@@ -13,6 +14,17 @@ MAX_OUTPUT = 4096
 INPUT_NANO = 300
 OUTPUT_NANO = 1200
 REQUEST_RESERVE = CONTEXT_TOKENS * INPUT_NANO + MAX_OUTPUT * OUTPUT_NANO
+
+
+def replace_ledger(temporary,destination):
+    """Bounded Windows sharing retry; never rerun the reservation transaction."""
+    for attempt in range(6):
+        try:
+            os.replace(temporary,destination)
+            return
+        except PermissionError as error:
+            if os.name!='nt' or getattr(error,'winerror',None) not in (5,32,33) or attempt==5:raise
+            time.sleep(.02*(attempt+1))
 
 
 class BudgetDenied(RuntimeError):
@@ -50,7 +62,7 @@ class Ledger:
                 temporary=self.path.with_suffix('.tmp')
                 with temporary.open('w') as handle:
                     handle.write(json.dumps(value,indent=2)+'\n');handle.flush();os.fsync(handle.fileno())
-                os.replace(temporary,self.path)
+                replace_ledger(temporary,self.path)
 
     def reserve_request(self, experiment, *, scope_requests=None, scope_cash_nano=None):
         with self.transaction() as value:

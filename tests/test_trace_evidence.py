@@ -8,7 +8,7 @@ import sqlite3
 from contextlib import closing
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from p6_trace_evidence import tool_trace,codex_routing_failure
+from p6_trace_evidence import tool_trace,codex_routing_failure,dsh_terminal_reason
 
 
 class TraceEvidenceTests(unittest.TestCase):
@@ -81,6 +81,17 @@ class TraceEvidenceTests(unittest.TestCase):
         rollout=database.parent/'sessions/rollout-example.jsonl';rollout.parent.mkdir()
         rollout.write_text(json.dumps({'type':'response_item','payload':{'type':'message','role':'assistant','content':'actual generation'}})+'\n')
         self.assertIsNone(codex_routing_failure(self.root))
+
+    def test_native_driver_terminal_and_complete_tools_use_official_direct_state(self):
+        self.trace=self.root/'dsh/sessions/project/session/session.v3.jsonl';self.trace.parent.mkdir(parents=True)
+        self.write([{'type':'tool/call','seq':1,'data':{'arguments':'full native call'}},
+                    {'type':'tool/result','seq':2,'data':{'result':'full native result'}},
+                    {'type':'turn/end','seq':3,'data':{'turn':1,'reason':{'kind':'max-tokens'}}}])
+        proof=dsh_terminal_reason(self.root);self.assertEqual(proof['kind'],'max-tokens')
+        self.assertEqual(len(proof['source_sha256']),64)
+        evidence=tool_trace(self.root)
+        self.assertEqual((evidence['tool_calls'],evidence['tool_results']),(1,1))
+        self.assertIn('full native result',str(evidence))
 
 
 if __name__=='__main__':unittest.main()
