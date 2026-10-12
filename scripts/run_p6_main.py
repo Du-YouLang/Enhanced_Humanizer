@@ -61,7 +61,7 @@ def main():
     p.add_argument('mode',choices=('deploy','offline','execute','sensitivity'))
     p.add_argument('--reuse-run')
     p.add_argument('--detach',action='store_true',help='Finite owned Linux controller, independent of the chat command lifetime')
-    p.add_argument('--task',default='BIP-black-2');p.add_argument('--manifest',default='configs/benchmark-p6-v5.json')
+    p.add_argument('--task',default='BIP-black-2');p.add_argument('--manifest',default='configs/benchmark-p6-v6.json')
     args=p.parse_args();config,_=authorization(ROOT/'configs/budget-p6-main-v2-approved.json')
     source=deploy()
     if args.mode=='deploy':print(json.dumps({'status':'DEPLOYED','model_requests':0}));return 0
@@ -86,6 +86,12 @@ if v['status']!='PASS_LOCAL_CALIBRATION' or not v['calibration']['tolerances_fro
 print('PC calibration PASS')'''
         r=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',gate])
         if r.returncode:raise RuntimeError('User requested PC calibration before main execution')
+    network=None
+    if args.mode in ('execute','sensitivity') and manifest.get('protocol_version',0)>=6:
+        r=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',"import json,sys;sys.path.insert(0,'/opt/workbench/source');from p6_connection_probe import probe;print(json.dumps(probe()))"],timeout=25)
+        if r.returncode:raise RuntimeError('Fenced zero-model connectivity probe failed before credential access or spending')
+        network=json.loads(r.stdout)
+        if network['verdict']!='PASS':raise RuntimeError('Codex routing unavailable; no model launch or automatic retry')
     run_id='p6-main-'+args.mode+'-'+args.task+'-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     prep=preparation(args.task)
     if args.mode=='offline' and args.task.startswith('SCI-'):
@@ -100,6 +106,7 @@ print('PC calibration PASS')'''
              'entrypoint_sha256':hashlib.sha256(entry).hexdigest(),
              'development_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
              'run_id':run_id,'source_sha256':source,'gold':prep['gold'],'control_receipt_sha256':prep['control_receipt_sha256']}
+    if network is not None:payload['network_preflight']=network
     if args.mode=='sensitivity':payload['reuse_run']=args.reuse_run
     snapshot=ROOT/'.local-workbench/benchmark/source-snapshots'/run_id;snapshot.mkdir(parents=True)
     (snapshot/'scripts').mkdir();(snapshot/'scripts/run_p6_main.py').write_bytes(entry)

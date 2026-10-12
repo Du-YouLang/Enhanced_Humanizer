@@ -4,9 +4,11 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+import sqlite3
+from contextlib import closing
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from p6_trace_evidence import tool_trace
+from p6_trace_evidence import tool_trace,codex_routing_failure
 
 
 class TraceEvidenceTests(unittest.TestCase):
@@ -63,6 +65,22 @@ class TraceEvidenceTests(unittest.TestCase):
         self.assertEqual((value['tool_calls'],value['tool_results']),(1,1))
         self.assertIn('complete failure',json.dumps(value))
         self.assertNotIn('private reasoning',json.dumps(value))
+
+    def test_routing_logs_are_readonly_hashed_and_successful_generation_prevents_excuse(self):
+        database=self.root/'home/.codex/logs_2.sqlite';database.parent.mkdir(parents=True)
+        with closing(sqlite3.connect(database)) as db,db:
+            db.execute('CREATE TABLE logs (target TEXT, feedback_log_body TEXT)')
+            db.execute('INSERT INTO logs VALUES (?,?)',('candidate_text','sampling_error=workspace routing discovery timed out'))
+        self.assertIsNone(codex_routing_failure(self.root))
+        with closing(sqlite3.connect(database)) as db,db:
+            db.execute('INSERT INTO logs VALUES (?,?)',('codex_core::responses_retry','sampling_error=workspace routing discovery timed out'))
+        before=database.read_bytes();proof=codex_routing_failure(self.root)
+        self.assertEqual(proof['matching_retry_records'],1)
+        self.assertEqual(len(proof['source_sha256']),64)
+        self.assertEqual(database.read_bytes(),before)
+        rollout=database.parent/'sessions/rollout-example.jsonl';rollout.parent.mkdir()
+        rollout.write_text(json.dumps({'type':'response_item','payload':{'type':'message','role':'assistant','content':'actual generation'}})+'\n')
+        self.assertIsNone(codex_routing_failure(self.root))
 
 
 if __name__=='__main__':unittest.main()

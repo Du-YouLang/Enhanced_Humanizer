@@ -207,7 +207,11 @@ def launch(job,env):
             if ACTIVE['payload']['manifest'].get('protocol_version',0)>=5 and job['backend']=='dsh' and worker['status']=='INFRA_FAIL':
                 from p6_trace_evidence import dsh_terminal_reason
                 terminal=dsh_terminal_reason(root)
-            worker=classify_role_completion(worker,terminal)
+            transport=None
+            if ACTIVE['payload']['manifest'].get('protocol_version',0)>=6 and job['backend']=='codex' and worker['status'] in ('TIMEOUT','INFRA_FAIL'):
+                from p6_trace_evidence import codex_routing_failure
+                transport=codex_routing_failure(root)
+            worker=classify_role_completion(worker,terminal,transport)
         exclusive_json(root/'controller-outcome.json',worker)
         return worker
     finally:

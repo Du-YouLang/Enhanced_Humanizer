@@ -2,7 +2,7 @@
 from p2_candidates import validate_pool
 
 
-def classify_role_completion(worker,terminal=None):
+def classify_role_completion(worker,terminal=None,transport=None):
     """Only trusted broker evidence distinguishes a local cap from upstream 402.
 
     Keep the worker's original failure and error; HTTP status text alone must
@@ -18,6 +18,8 @@ def classify_role_completion(worker,terminal=None):
     elif worker.get('status')=='INFRA_FAIL' and not denials and terminal and terminal.get('kind')=='max-tokens':
         value.update(status='OUTPUT_LIMIT',raw_worker_status='INFRA_FAIL',
                      operational_stop_reason='HARNESS_OUTPUT_TOKEN_LIMIT',terminal_evidence=terminal)
+    elif worker.get('status') in ('TIMEOUT','INFRA_FAIL') and transport and transport.get('kind')=='CLI_ROUTING_DISCOVERY_TIMEOUT' and transport.get('generated_response_items')==0 and transport.get('matching_retry_records',0)>0 and len(transport.get('source_sha256',''))==64:
+        value.update(status='INFRA_FAIL',raw_worker_status=worker['status'],operational_stop_reason='CODEX_WORKSPACE_ROUTING_UNAVAILABLE',transport_evidence=transport)
     return value
 
 

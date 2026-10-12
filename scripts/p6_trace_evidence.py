@@ -7,6 +7,32 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import sqlite3
+from contextlib import closing
+
+
+def codex_routing_failure(root):
+    """A completed CLI log can stop a failed turn; it cannot establish success."""
+    root=Path(root);database=root/'home/.codex/logs_2.sqlite'
+    if not database.exists():return None
+    origins=[]
+    for path in (database,Path(str(database)+'-wal')):
+        if not path.exists():continue
+        if path.is_symlink() or path.stat().st_size>64_000_000:raise ValueError('Invalid Codex diagnostic log')
+        origins.append({'file':str(path.relative_to(root)),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()})
+    with closing(sqlite3.connect(database.resolve().as_uri()+'?mode=ro',uri=True,timeout=2)) as db:
+        count=db.execute("SELECT count(*) FROM logs WHERE target='codex_core::responses_retry' AND instr(feedback_log_body,'sampling_error=workspace routing discovery timed out')>0").fetchone()[0]
+    if not count:return None
+    # A transient routing retry followed by real generation must remain the
+    # role's actual completion/timeout, rather than an infrastructure excuse.
+    for path in (root/'home/.codex').rglob('rollout-*.jsonl'):
+        if path.is_symlink() or path.stat().st_size>20_000_000:raise ValueError('Invalid Codex rollout')
+        raw=path.read_bytes();origins.append({'file':str(path.relative_to(root)),'sha256':hashlib.sha256(raw).hexdigest()})
+        for line in raw.decode('utf-8').splitlines():
+            row=json.loads(line);payload=row.get('payload',{})
+            if row.get('type')=='response_item' and (payload.get('type') in ('function_call','custom_tool_call') or payload.get('role')=='assistant'):return None
+    return {'kind':'CLI_ROUTING_DISCOVERY_TIMEOUT','matching_retry_records':count,'generated_response_items':0,'origin_hashes':origins,
+            'source_sha256':hashlib.sha256(json.dumps(origins,sort_keys=True).encode()).hexdigest()}
 
 
 def dsh_terminal_reason(root):
