@@ -39,4 +39,4 @@ def paired_judgments(source, traced, identity, truth):
                 row[mode+'_'+field+'_accepted'] = verdict == 'PASS' if verdict in ('PASS', 'FAIL', 'TIMEOUT') else 'unavailable'
         rows[name] = row
     return {'identity': identity, 'judges': rows,
-            'interpretation': 'Paired evidence sensitivity on the same programs; new independent scoring sessions, no candidate replay. Missing/blocked judges and no eligible selection are not zero accuracy.'}
+            'interpretation': 'Paired evidence sensitivity on the same programs; new independent scoring sessions, no candidate replay. A single pair cannot separate evidence effects from scoring variability. Missing/blocked judges and no eligible selection are not zero accuracy.'}

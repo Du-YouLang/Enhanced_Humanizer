@@ -183,12 +183,19 @@ def main():
         import matplotlib
         matplotlib.use('Agg');import matplotlib.pyplot as plt
         arms=list('ABCDEF');fig,axes=plt.subplots(1,3,figsize=(12,4),layout='constrained')
-        counts=[sum(r['outcome']=='PASS' for r in rows if r['arm']==arm) for arm in arms]
-        axes[0].bar(arms,counts);axes[0].set(title='Independent PASS / 16 planned tasks',ylabel='Tasks',ylim=(0,16))
+        bottom=[0]*len(arms)
+        for outcome,color in zip(('PASS','FAIL','TIMEOUT','INFRA_FAIL','INDETERMINATE','NOT_RUN'),
+                                 ('#25845e','#b94a48','#d39629','#7e586f','#686eb3','#dcdfe6')):
+            counts=[sum(r['outcome']==outcome for r in rows if r['arm']==arm) for arm in arms]
+            axes[0].bar(arms,counts,bottom=bottom,label=outcome,color=color)
+            bottom=[a+b for a,b in zip(bottom,counts)]
+        axes[0].set(title='Independent outcomes; missing retained',ylabel='Tasks',ylim=(0,16))
+        axes[0].legend(fontsize=7,loc='upper left')
         for axis,metric,title in ((axes[1],'end_to_end_seconds','Known logical arm time (s)'),(axes[2],'api_upper_bound_usd','Known API upper bound (USD)')):
-            values=[report['summary']['arms'][arm]['metrics'][metric]['known_sum'] for arm in arms]
+            values=[report['summary']['arms'][arm]['metrics'][metric]['known_sum']
+                    if report['summary']['arms'][arm]['metrics'][metric]['known_count'] else float('nan') for arm in arms]
             axis.bar(arms,values);axis.set_title(title)
-        fig.suptitle('Exploratory selected tasks; missing/indeterminate outcomes retained')
+        fig.suptitle('Exploratory selected tasks; API bounds exclude subscription price')
         fig.savefig(a.output/'summary.png',dpi=180);fig.savefig(a.output/'summary.svg');plt.close(fig)
     print(json.dumps({'status':report['status'],'rows':len(rows),'summary':{arm:r['outcomes'] for arm,r in report['summary']['arms'].items()},'output':str(a.output)}))
 
