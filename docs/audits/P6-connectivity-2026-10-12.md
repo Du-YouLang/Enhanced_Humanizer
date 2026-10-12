@@ -13,3 +13,7 @@ v6清单SHA256：4fc184aaf95d549035f6132e8d5b931453610180a2a869e50f2a192055c45e7
 Windows首次完整121项出现旧P5账本fixture文件替换WinError5，未把该轮记PASS；原因尚未独立确定，首次日志保留。按失败依据进行一次完整复查后121项通过、7平台skip；原生121项无skip通过。新5项UI Node回归与3项旧预算Node回归通过。
 
 随后v6 NativeDriver输出上限终止的官方直接state路径实证已补入，原INFRA_FAIL回执不改，零模型派生OUTPUT_LIMIT并绑定终止日志hash。v7仅冻结/测试，无付费模型启动。Windows高频fixture替换错误重复出现后新增精确字节有限共享重试，最终v8独立冻结d61c98afc1864f8e0ebd2fc62e82372c1fad2f547f49d3e90b8e69df8698a82d。Windows123项通过（7平台skip）、native123项全部通过、Node8通过。剩余完整主集与科学来源审阅仍需实际执行。
+
+v8 第一次批次在 Judge 收到原生订阅 usageLimitExceeded 后停止，旧账号两个会话的未知 Tokens 和角色预留完整保留。累计 357 DS 请求、7 订阅预留、API 保守上界 USD4.2235404，5 API 请求 usage 未知保留峰值。96 个未形成最终臂回执的单元记 NOT_RUN，不等于没有实际部分执行或零成本。原始批次 `20261012T043850Z` 与只读报告 `main-v8-quota-first-attempt` 保留。
+
+按用户授权和两次实际独立登录核验，WSL 已切换到当前桌面账号；第一次落到旧账号的记录也保留。新批次 `20261012T045212Z` 单独启动，继续同一 v8 协议和累计账本，实际完成情况以该批次索引/逐臂回执为准。见 [ADR-0022](../decisions/ADR-0022.md)。

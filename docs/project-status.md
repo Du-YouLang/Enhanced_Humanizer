@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-12：v8 首次主集因旧 WSL 订阅 usageLimitExceeded 停止，累计357DS/7订阅/API上界USD4.2235404，未知usage不记零。用户明确授权并亲自完成当前桌面账号的 WSL 独立登录，元数据核对一致；新有限批次20261012T045212Z按原v8协议继续，旧尝试/账本不覆盖，实际状态取批次回执，P6尚未完整接受。最新功能d05199bd的P7独立安装/HTTP权限与禁用/同目录重用和跨目录端口拒绝/旧包并存回滚均PASS_LOCAL_PREVIEW；见ADR-0022及audits/P7-v8-local-delivery-2026-10-12.md。开发PR25–28 CI已通过且暂保留OPEN以维持真实产品审核的绑定基线；产品每PR人审/上传仍待实际人类操作，对外发布未授权。
+
 2026-10-12 v8正式执行前检查：补全NativeDriver max-tokens日志路径，修复Windows历史fixture反复共享替换错误（只对同一份字节有限重试，不重新模型调用）。Windows123项通过/7平台skip，native123项全部通过、Node8通过。v7仅冻结/零模型控制未启动付费任务；独立v8冻结d61c98afc1864f8e0ebd2fc62e82372c1fad2f547f49d3e90b8e69df8698a82d，将用于后续完整矩阵，实际结果取回执。
 
 2026-10-12 v6原生DS首次出现23请求后的官方max-tokens终止；解析器遗漏NativeDriver直接state路径导致批次停止。新v7补全直接/Flow两种原生证据，冻结b020532551bdb0b8d1b929f2d6ac3eb0f376f9b3952a1b68608af4758959902c；旧尝试保留，累计247DS/6订阅/API上界USD2.805156。现有cce0a776源码的P7独立venv安装/实际HTTP owner-CSRF/推理发布禁用/端口归属和ef085旧包回滚均通过；最新源码仍需后续打包。

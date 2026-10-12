@@ -13,26 +13,31 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/15",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 35,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -74,11 +79,11 @@
       "phases": [
         "P5"
       ],
-      "issue": "PLANNED:P5",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; real product approval/publishing and remote CI deferred"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
       ],
-      "implementation_status": "P5_LOCAL_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_DEFERRED",
+      "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
@@ -87,7 +92,8 @@
       "source_line": 39,
       "phase_evidence": {
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
       }
     },
     {
@@ -100,26 +106,31 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/15",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 41,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -484,7 +495,7 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
       "tests": [
         "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
       "relevant_adrs": [
@@ -494,16 +505,21 @@
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 73,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -521,7 +537,7 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
       "tests": [
         "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "ADR_REFERENCE_ONLY_OPTION_NOT_PROMOTED",
       "relevant_adrs": [
@@ -531,16 +547,21 @@
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 75,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -616,7 +637,7 @@
       "tests": [
         "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
         "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
       "relevant_adrs": [
@@ -627,17 +648,22 @@
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 81,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -650,9 +676,9 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/15",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
@@ -661,15 +687,20 @@
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 83,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -688,7 +719,7 @@
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
         "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
       "relevant_adrs": [
@@ -699,17 +730,22 @@
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 87,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -728,7 +764,7 @@
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
         "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "P2_INTERFACE_READY_BLOCKED_CREDENTIAL",
       "relevant_adrs": [
@@ -739,17 +775,22 @@
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 89,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -870,7 +911,7 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/9",
       "tests": [
         "P3-A01..A04 PASS（固定合成机制；完整需求范围见报告）",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "P3_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL",
       "relevant_adrs": [
@@ -880,16 +921,21 @@
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 99,
       "phase_evidence": {
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -1059,11 +1105,11 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/15",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
@@ -1072,15 +1118,20 @@
         "ADR-0014",
         "ADR-0016",
         "ADR-0017",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 115,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -1288,7 +1339,7 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
         "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
@@ -1298,16 +1349,21 @@
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 133,
       "phase_evidence": {
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -1546,11 +1602,11 @@
       "phases": [
         "P5"
       ],
-      "issue": "PLANNED:P5",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; real product approval/publishing and remote CI deferred"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
       ],
-      "implementation_status": "P5_LOCAL_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_DEFERRED",
+      "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
@@ -1559,7 +1615,8 @@
       "source_line": 153,
       "phase_evidence": {
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
       }
     },
     {
@@ -1572,11 +1629,11 @@
       "phases": [
         "P5"
       ],
-      "issue": "PLANNED:P5",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; real product approval/publishing and remote CI deferred"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
       ],
-      "implementation_status": "P5_LOCAL_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_DEFERRED",
+      "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
@@ -1585,7 +1642,8 @@
       "source_line": 155,
       "phase_evidence": {
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
       }
     },
     {
@@ -1598,11 +1656,11 @@
       "phases": [
         "P5"
       ],
-      "issue": "PLANNED:P5",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; real product approval/publishing and remote CI deferred"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
       ],
-      "implementation_status": "P5_LOCAL_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_DEFERRED",
+      "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
@@ -1611,7 +1669,8 @@
       "source_line": 157,
       "phase_evidence": {
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
       }
     },
     {
@@ -1624,11 +1683,11 @@
       "phases": [
         "P5"
       ],
-      "issue": "PLANNED:P5",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; real product approval/publishing and remote CI deferred"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
       ],
-      "implementation_status": "P5_LOCAL_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_DEFERRED",
+      "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
@@ -1637,7 +1696,8 @@
       "source_line": 159,
       "phase_evidence": {
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
       }
     },
     {
@@ -1650,11 +1710,11 @@
       "phases": [
         "P5"
       ],
-      "issue": "PLANNED:P5",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; real product approval/publishing and remote CI deferred"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
       ],
-      "implementation_status": "P5_LOCAL_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_DEFERRED",
+      "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
@@ -1663,7 +1723,8 @@
       "source_line": 161,
       "phase_evidence": {
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
       }
     },
     {
@@ -1677,11 +1738,11 @@
       "phases": [
         "P5"
       ],
-      "issue": "PLANNED:P5",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; real product approval/publishing and remote CI deferred"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
       ],
-      "implementation_status": "P5_LOCAL_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_DEFERRED",
+      "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
@@ -1690,7 +1751,8 @@
       "source_line": 163,
       "phase_evidence": {
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
       }
     },
     {
@@ -1705,9 +1767,9 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
@@ -1716,15 +1778,20 @@
         "ADR-0014",
         "ADR-0016",
         "ADR-0017",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 167,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -1739,9 +1806,9 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
@@ -1750,15 +1817,20 @@
         "ADR-0014",
         "ADR-0016",
         "ADR-0017",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 169,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -1773,9 +1845,9 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
@@ -1784,15 +1856,20 @@
         "ADR-0014",
         "ADR-0016",
         "ADR-0017",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 171,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -1807,24 +1884,29 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 173,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -1839,24 +1921,29 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 175,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -1871,24 +1958,29 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 177,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -1903,24 +1995,29 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 179,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -1935,9 +2032,9 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
@@ -1946,15 +2043,20 @@
         "ADR-0014",
         "ADR-0016",
         "ADR-0017",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 181,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -1969,9 +2071,9 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
@@ -1980,15 +2082,20 @@
         "ADR-0014",
         "ADR-0016",
         "ADR-0017",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 183,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -2003,9 +2110,9 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
@@ -2014,15 +2121,20 @@
         "ADR-0014",
         "ADR-0016",
         "ADR-0017",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 185,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -2037,24 +2149,29 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
-      "implementation_status": "P6_PUBLIC_SMOKE_PARTIAL_MAIN_NOT_RUN",
+      "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 187,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -2092,7 +2209,7 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
       "tests": [
         "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
       "relevant_adrs": [
@@ -2102,16 +2219,21 @@
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 193,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -2128,7 +2250,7 @@
       "issue": "PLANNED:P2",
       "tests": [
         "P2-A01..A04 (计划；不能视为已通过)",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
@@ -2137,15 +2259,20 @@
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 195,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -2163,7 +2290,7 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
         "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "P1_SMOKE_MEASURED_ENHANCED_BENCHMARK_PENDING_P6",
       "relevant_adrs": [
@@ -2173,16 +2300,21 @@
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 197,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -2199,7 +2331,7 @@
       "issue": "PLANNED:P2",
       "tests": [
         "P2-A01..A04 (计划；不能视为已通过)",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
@@ -2208,15 +2340,20 @@
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 199,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -2337,7 +2474,7 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
         "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
@@ -2349,16 +2486,21 @@
         "ADR-0014",
         "ADR-0016",
         "ADR-0017",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 211,
       "phase_evidence": {
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -2371,9 +2513,9 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/15",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
@@ -2382,15 +2524,20 @@
         "ADR-0012",
         "ADR-0013",
         "ADR-0014",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 213,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -2503,9 +2650,9 @@
       "phases": [
         "P6"
       ],
-      "issue": "PLANNED:P6",
+      "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/15",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
       ],
       "implementation_status": "MATERIALS_RECEIVED_LOCAL_CONTROLS_IN_PREPARATION_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -2516,16 +2663,21 @@
         "ADR-0014",
         "ADR-0016",
         "ADR-0017",
-        "ADR-0018"
+        "ADR-0018",
+        "ADR-0020",
+        "ADR-0021",
+        "ADR-0022"
       ],
       "source_line": 243,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
-        "P6_MAIN": "Four owner guides/assets copied into private project intake; local-only CPU/GPU preparation and corrected grading under ADR-0016. No main model matrix acceptance yet."
+        "P6_MAIN": "Four owner guides/assets copied into private project intake; local-only CPU/GPU preparation and corrected grading under ADR-0016. No main model matrix acceptance yet.",
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
       },
       "acceptance_records": {
-        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
       }
     },
     {
@@ -2542,9 +2694,9 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
         "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; real product approval/publishing and remote CI deferred"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
       ],
-      "implementation_status": "P5_LOCAL_CORE_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_DEFERRED",
+      "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
@@ -2555,7 +2707,8 @@
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
-        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+        "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
+        "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
       }
     }
   ],
@@ -2575,8 +2728,8 @@
     {
       "id": "USR-PR-01",
       "requirement": "软件产品自身每一次 PR 必须经过人工审核",
-      "status": "DRAFT_PUBLISH_BACKEND_OFFLINE_VERIFIED_REAL_HUMAN_GATE_PENDING",
-      "checkpoint": "Exact head/evidence/target/base/privacy, one-use approval, isolated owner HTTP, private-history refusal and ambiguous-outcome no-replay tested with fixtures; real human approval and live product PR acceptance pending."
+      "status": "IMPLEMENTED_LOCAL_REAL_HUMAN_OPERATION_PENDING",
+      "checkpoint": "Every product PR requires exact-head/evidence/target-bound human review. Diff/tests/opinion/feedback fixed; actual owner approval and product Draft upload still pending. docs/audits/Product-PR-review-ui-2026-10-12.md."
     },
     {
       "id": "USR-P7-01",
