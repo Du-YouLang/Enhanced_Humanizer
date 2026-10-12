@@ -24,3 +24,5 @@ P0=原生Pi，P1=Scientific Skills，P2=NeuroForge，P3=Research Loop；这四�
 后续真实smoke先串行并避开现有主集计算，按同模型/同环境/同公开合同对照；H0产品组合另表，并保留订阅与API费用的不同单位。Research Loop的后台任务、checkpoint、恢复和费用归属仍需专项实际控制，不能从扩展加载通过推断完整支持。
 
 实际证据与限制见[能力矩阵](docs/capability-matrix.md)、[风险记录](docs/risk-register.md)和[本轮审计](../../docs/audits/Pi-comparison-Phase0-2026-10-12.md)。公开PR只包含适配/元数据和脱敏证据摘要，原轨迹、患者/科研材料、密钥、上游包和运行目录继续私有。
+
+新增官方SDK工具计量控制已真实通过：五次合成wire/完整工具链及错误usage负对照，输入/输出/cache统计与mock账本一致；主集活动期间Windows/native实际探针门均拒绝。免费入口是`runners/run_sdk_tool_probe.py`（默认fixture）及`--fixture-fault usage`。真实P0工具探针须显式选provider/执行参数、空闲主集、精确源码正负控制、干净提交和共享累计账本；当前尚未运行。此SDK适配不启用正式任务矩阵，也不把订阅内部wire计量或OAuth只读刷新称为已验。见[SDK控制审计](../../docs/audits/Pi-SDK-tool-gate-2026-10-12.md)。

@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-12 v12-final2有限主集batch20261012T125458Z已实际启动，首题Black-2独立控制器p6-main-execute-BIP-black-2-20261012T125459Z；实际新DS wire256000、request timeout600。精确功能a1db源码P7本地安装/HTTP/端口/ef085回滚及三CI已接受；文档366c21e CI38251993922三SUCCESS。新增Pi官方SDK正向完整工具/五wire计量、错误usage负控/未知预留保留及Windows/native活动主集拒绝均零模型PASS，正式Pi工具/任务仍待串行实际验证，订阅wire总数/600秒作用不推断。见Pi-SDK-tool-gate审计；主集最新用量和整题验收以私有回执为准，旧1481DS/60订阅/USD25.0755186起点保留，非重置。
+
 2026-10-12 v12-final2功能a1db821c00e077ffbc96fffc97ad8407305cc20c：native161全PASS/Windows154pass7skip/Node8及真实零provider网络控制通过；精确CI38235107038三SUCCESS。新P7精确包de4d34e809731846f8a2eb6fd097681fe144aa2fa0f7ad7b2f838c10b5e09d11、独立venv/HTTP9项/端口/旧ef085回滚PASS_LOCAL_PREVIEW，仅验本地交付不等于外部发布。旧服务已退出的首个端口复验不算PASS并保留，重启旧包后复验通过。v12各准备未开模型，实际新主集进度取后续batch/ledger回执；累计1481DS/60订阅/USD25.0755186上界保留。Pi访问通过而正式任务比较待验；Codex内部request/600秒总限仍未证实。
 
 2026-10-12 新主集入口采用v12-final2，SHAb751822058b84512f8755676881e38eb691081ae8fa58456737824803bffc454；普通角色超时/主动停止无连接故障时仍为原模型TIMEOUT/停止，不能伪装网络待重试。真实重连后限时不足仍INFRA_RETRY_PENDING。旧所有v12准备未开模型并保留；d3efdda源码CI38233814352三SUCCESS及P7独立安装/HTTP/端口/ef085回滚PASS，仅对d3ef有效。新修正需自身测试/CI/交付回执。Pi订阅已通过，任务对照仍未验；累计账本不重置。

@@ -28,6 +28,7 @@ jobs:
       - run: python -m compileall -q scripts tests src
       - run: python -m compileall -q benchmarks/pi-comparison/runners
       - run: node --check benchmarks/pi-comparison/runners/resource_probe.mjs
+      - run: node --check benchmarks/pi-comparison/runners/sdk_tool_probe.mjs
       - name: Parse PowerShell setup scripts without executing them
         shell: pwsh
         run: |
