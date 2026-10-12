@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-12 v12-final2首题Black-2真实A–F六分支全部独立验收PASS，完整主流程1838.856秒，receipt SHA c3e0e206e6ef2f6f580772a8d71478e290184b18130fab6a6415c5dab3d66a84；共享N3池，不是六独立随机样本。完整trace敏感性run20261012T132738Z仍执行，有限batch继续其它题；最新快照1811DS/68订阅/API上界USD30.742602，实付unavailable。20条LAV settlement缺request timeout字段，不填0；源代码600s recover与字段缺口分开记，不修改活动冻结源码。见P6-v12-final2-first-task审计；完整P6/Pi仍未接受，旧账本和样本保持。
+
 2026-10-12 SDK增量功能fba8a127642fa9a74fd225562230a06a5c36be80已同步远程，精确CI38254622384三SUCCESS；新P7包ed1adb38a7dd8146f7d56605b73e1414e152f5e3bf258b547412863e270eca56独立安装/HTTP9项/端口/旧ef085回滚PASS_LOCAL_PREVIEW，回执p7-sdk-gate-fba8a12-accepted.private.json；全refs私有bundle验证通过。P6 v12-final2仍在Black-2角色链执行，非整题PASS；Pi SDK正负控制和真实入口Windows/native拒绝PASS，实际Pi工具/任务对照仍须串行验证。旧账本/结果、Draft30待人合并及外部发布确认继续保留。
 
 2026-10-12 v12-final2有限主集batch20261012T125458Z已实际启动，首题Black-2独立控制器p6-main-execute-BIP-black-2-20261012T125459Z；实际新DS wire256000、request timeout600。精确功能a1db源码P7本地安装/HTTP/端口/ef085回滚及三CI已接受；文档366c21e CI38251993922三SUCCESS。新增Pi官方SDK正向完整工具/五wire计量、错误usage负控/未知预留保留及Windows/native活动主集拒绝均零模型PASS，正式Pi工具/任务仍待串行实际验证，订阅wire总数/600秒作用不推断。见Pi-SDK-tool-gate审计；主集最新用量和整题验收以私有回执为准，旧1481DS/60订阅/USD25.0755186起点保留，非重置。
