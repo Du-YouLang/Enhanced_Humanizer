@@ -22,9 +22,9 @@ paths={
  'SCI-GRANGER-GPU':['gc-local-controls-v1/positive.json','gc-local-controls-v1/negative-wrong-number.json','gc-local-controls-v1/negative-cpu-download.json']}
 roots={
  'SCI-PC-ALM':(b/'intake/pc-alm/inputs',private/'pc-calibration-20261012-v1'),
- 'SCI-STROKE':(b/'intake/tms/agent_public/inputs',b/'intake/tms/judge_private'),
+ 'SCI-STROKE':(b/'intake/tms/judge_private/inputs',b/'intake/tms/judge_private'),
  'SCI-EGL':(b/'intake/egl/agent_public',private/'egl-reference-local-v2'),
- 'SCI-GRANGER-GPU':(b/'intake/gc/agent_public',b/'intake/gc/judge_private')}
+ 'SCI-GRANGER-GPU':(b/'intake/gc/judge_private/inputs',b/'intake/gc/judge_private')}
 tasks={}
 for tid,names in paths.items():
  receipts={}
@@ -41,7 +41,11 @@ for tid,names in paths.items():
  prep=private/'main-science-preparation-v1'/(tid+'.json');r=json.loads(prep.read_text())
  data,gold=roots[tid];di=inventory(data);gi=inventory(gold)
  if not di or not gi:raise RuntimeError('Empty material inventory: '+tid)
- tasks[tid]={'base_commit':r['base_commit'],'data_sha256':digest(di),'gold_sha256':digest(gi),
+ data_contract={'frozen_input_inventory_sha256':digest(di)}
+ if tid=='SCI-EGL':
+  data_contract={'public_material_sha256':digest(di),'independent_generator_sha256':sha(Path('/opt/workbench/source/p6_egl_replay.py')),
+   'synthetic_protocol':{'n':[200,2000,20000],'k':100,'r':50,'seeds':[1,2,3],'train':10000,'validation':1000,'test':1000,'precision':'float32'}}
+ tasks[tid]={'base_commit':r['base_commit'],'data_sha256':digest(data_contract),'data_contract':data_contract,'gold_sha256':digest(gi),
   'public_material_sha256':digest(r['public_fingerprint']),'control_receipts':receipts,'preparation_receipt_sha256':sha(prep),
   'environment_sha256':r['environment']['env_sha256']}
 public=private/'public-main-controls-frozen-v2.json';v=json.loads(public.read_text())
@@ -57,12 +61,15 @@ def main():
     if result.returncode:
         raise RuntimeError('Main freeze blocked by local controls: '+result.stderr.decode(errors='replace')[-1000:])
     proof=json.loads(result.stdout)
+    from run_p6_main import deploy
+    runner=deploy()
     body=json.loads((ROOT/'configs/benchmark-p6-v2.json').read_text());body.pop('manifest_sha256')
     body.update(protocol_version=3,common_generation_timeout_seconds=115,
                 generation_scope='One actual outer/Harness role turn; no 600s DS-only allowance',
                 private_acceptance_policy='Freeze all selections first; separate finite independent acceptance and substantive science review',
                 full_tool_trace_policy='Separate metered same-program review; complete calls/results or refuse; explicitly different evidence hash',
-                public_controls_sha256=proof['public_controls_sha256'],compute_policy='LOCAL_ONLY_CPU_PROTOCOLS_PRESERVED_GPU_TASKS_SINGLE_LOCAL_GPU')
+                public_controls_sha256=proof['public_controls_sha256'],compute_policy='LOCAL_ONLY_CPU_PROTOCOLS_PRESERVED_GPU_TASKS_SINGLE_LOCAL_GPU',
+                runner_source_sha256=runner,entrypoint_sha256=hashlib.sha256((ROOT/'scripts/run_p6_main.py').read_bytes()).hexdigest())
     config=json.loads((ROOT/'configs/budget-p6-main-approved.json').read_text())
     descriptions={
         'SCI-PC-ALM':('SakanaAI PC-ALM official frozen implementation and owner v1.1 task',

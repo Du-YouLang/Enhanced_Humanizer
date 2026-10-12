@@ -11,7 +11,8 @@ from p6_trace_evidence import tool_trace
 
 class TraceEvidenceTests(unittest.TestCase):
     def setUp(self):
-        self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
+        folder=Path(__file__).resolve().parents[1]/'.local-workbench/test-tmp';folder.mkdir(parents=True,exist_ok=True)
+        self.tmp=tempfile.TemporaryDirectory(dir=folder);self.addCleanup(self.tmp.cleanup)
         self.root=Path(self.tmp.name)
         self.trace=self.root/'humanize/epics/task/epic/sessions/dsh/sessions/project/session/session.v3.jsonl'
         self.trace.parent.mkdir(parents=True)
@@ -50,6 +51,18 @@ class TraceEvidenceTests(unittest.TestCase):
         self.assertEqual(value['credential_redactions'],3)
         self.assertNotIn(token,json.dumps(value))
         self.assertIn('complete diagnostic retained',json.dumps(value))
+
+    def test_native_codex_reviewer_calls_and_outputs_exclude_reasoning(self):
+        p=self.root/'home/.codex/sessions/rollout-control.jsonl';p.parent.mkdir(parents=True)
+        rows=[{'type':'response_item','payload':{'type':'reasoning','text':'private reasoning'}},
+              {'type':'response_item','payload':{'type':'custom_tool_call','call_id':'1','input':'complete patch'}},
+              {'type':'response_item','payload':{'type':'custom_tool_call_output','call_id':'1','output':'complete failure'}}]
+        p.write_text(''.join(json.dumps(r)+'\n' for r in rows))
+        value=tool_trace(self.root)
+        self.assertEqual(value['backend'],'codex')
+        self.assertEqual((value['tool_calls'],value['tool_results']),(1,1))
+        self.assertIn('complete failure',json.dumps(value))
+        self.assertNotIn('private reasoning',json.dumps(value))
 
 
 if __name__=='__main__':unittest.main()

@@ -75,6 +75,8 @@ def main():
     else:manifest=json.loads(manifest_path.read_text())
     task=next(t for t in manifest['tasks'] if t['task_id']==args.task)
     if args.mode in ('execute','sensitivity'):
+        if manifest.get('runner_source_sha256')!=source or manifest.get('entrypoint_sha256')!=hashlib.sha256((ROOT/'scripts/run_p6_main.py').read_bytes()).hexdigest():
+            raise RuntimeError('Executable source differs from the frozen main protocol')
         if subprocess.check_output(['git','status','--porcelain'],cwd=ROOT).strip():
             raise RuntimeError('Commit and validate source before paid execution')
         gate=r'''import json
@@ -116,10 +118,10 @@ print('PC calibration PASS')'''
         if not isinstance(payload['key'],str) or not payload['key']:raise RuntimeError('Saved credential unavailable')
     else:payload['key']='offline-no-key'
     raw=json.dumps(payload).encode();payload['key']='';started=time.perf_counter()
-    # Bounded public task: 1200 seconds of activity plus six independent 180s
-    # acceptances and startup. Scientific entry has separate per-task deadlines.
+    # Eight potential programs: native DS + N3 + M + D/E/F. Ground truth for
+    # both judge pools is collected only after all selections are frozen.
     evaluation=config['scientific_evaluation_timeout_seconds'].get(args.task,180)
-    total=1200+6*evaluation+120
+    total=1200+8*evaluation+120
     if args.detach:
         launcher=r'''import json,sys,os,subprocess,time
 from pathlib import Path
