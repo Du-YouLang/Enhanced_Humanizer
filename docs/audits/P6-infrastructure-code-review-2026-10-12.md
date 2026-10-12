@@ -55,6 +55,10 @@ Pi官方订阅OAuth访问已真实通过gpt-6.1-sol（21输入/5输出Token、4.
 
 启动前分类复核：无连接故障的普通role deadline/主动停止不能由重连适配器改记网络pending；修正为ROLE_TIMEOUT/ROLE_STOPPED并新增两个针对性控制（总8项）。只有已有实际瞬态故障的恢复限时不足才pending。network-v5 installed DSH/HTTP控制再次PASS，零provider、账本逐字未变；主集另冻v12-final2（b751822058b84512f8755676881e38eb691081ae8fa58456737824803bffc454），此前三个v12准备均无模型启动。d3ef源码三CI成功且P7精确包/独立venv/HTTP9项/端口/旧ef085回滚通过；本修正新源码不得沿用其安装验收。
 
-凭据边界补充：Codex Harness必须读取自己的项目OAuth文件；该文件在进程fence中为只读，不能把“只读”表述为对该Harness的拒读。独立候选数值验收不开放任何auth；DS/Pi资源控制另拒Codex auth。Codex工具进程针对自身OAuth文件的进一步隔离尚无专项可复现控制，因此此次不宣称所有backend工具均无法读取自身凭据。未读取或输出任何真实凭据值。
+凭据边界补充：Codex Harness必须读取自己的项目OAuth文件；该文件在进程fence中为只读，不能把“只读”表述为对该Harness的拒读。独立候选数值验收不开放任何auth；DS/Pi资源控制另拒Codex auth。Codex工具进程针对自身OAuth文件的进一步隔离尚无专项可复现控制，因此此次不宣称所有backend工具均无法读取自身凭据。未将真实凭据值输出或放入此审阅材料。
 
 最终分类修正源码：native161全PASS（54.590秒）、Windows161项/154pass7平台skip（97.118秒）。network-v5真实HTTP/installed SDK控制PASS；原控制/冻结/CI/P7回执继续保留。
+
+交付复验：功能源码a1db821c00e077ffbc96fffc97ad8407305cc20c的CI38235107038三项SUCCESS，新精确包/独立venv/HTTP九项/端口拥有者/旧ef085并行回滚已通过PASS_LOCAL_PREVIEW，见P7-network600-2026-10-12.md。完整P6/Pi编码任务仍未验收。
+
+长输出之外仍有证据大小边界：patch与未跟踪文件各1,000,000字节、完整tool trace/公共handoff各2,000,000字节，公开测试原始log超过400,000字节时handoff给出隔离trace哈希提示。它们属于既有证据协议，不是provider Token上限；超界可能使长任务失去传递证据，不能据此自动声称模型不会写代码。本轮未静默扩大边界、截去证明或降低验收门，后续比较须单独统计超界原因。
