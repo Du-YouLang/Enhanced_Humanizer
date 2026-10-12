@@ -26,6 +26,8 @@ jobs:
       - run: node --check scripts/probe_deepseek_api.mjs
       - run: node --check src/workbench/web/app.js
       - run: python -m compileall -q scripts tests src
+      - run: python -m compileall -q benchmarks/pi-comparison/runners
+      - run: node --check benchmarks/pi-comparison/runners/resource_probe.mjs
       - name: Parse PowerShell setup scripts without executing them
         shell: pwsh
         run: |
@@ -68,6 +70,7 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_memory.py' -v
       - run: python -m unittest discover -s tests -p 'test_ui.py' -v
       - run: python -m unittest discover -s tests -p 'test_benchmark.py' -v
+      - run: python -m unittest discover -s tests -p 'test_pi_comparison.py' -v
       - run: python -m unittest discover -s tests -p 'test_p6_main_budget.py' -v
       - run: python -m unittest discover -s tests -p 'test_p6_main_contract.py' -v
       - run: python -m unittest discover -s tests -p 'test_science.py' -v

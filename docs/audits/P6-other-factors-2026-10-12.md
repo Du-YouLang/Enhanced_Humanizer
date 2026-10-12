@@ -18,3 +18,5 @@
 16:44:11北京时间只读快照：新策略352DS请求，累计1344DS/48订阅预留/API保守上界USD22.3784307，实际cash unavailable；pool-A383.920秒、pool-C459.899秒及Reviewer117.866秒已COMPLETED，首题仍无最终整题receipt。由此只能确认部分长预算角色完成，不预写A–F通过率。私有证据.runtime-risk-and-controls日志保存原始摘要，路径在.local-workbench/pi-comparison/intake，raw轨迹继续native私有。
 
 科研任务还要绑定实际preparation：PC运行时gpu_coding=true，不应凭早期manifest单个requires_gpu字段为Pi猜设备授权；TMS/EGL保留冻结CPU协议，GC用本地4060，数值验收期限与编码期限独立。这些控制不由Pi材料改变。
+
+17:03更新：首题正式receipt已实际产生，SHA bd78281923e3184b32bf62760bbd1b75eeb9787b8060463569fbf6c6424f7234；B/C/D/E/F五臂独立验收PASS，A为FAIL/ROLE_REQUEST_CAP，5/6。原N3中的pool-B请求门失败继续保留，不因B/C最终通过而删除。独立完整工具轨迹敏感性批次20261012T085607Z完成，第二题Requests-1963新run20261012T090223Z运行中。累计1388DS/53订阅/API保守上界USD23.8109277，实付unavailable。该一题结果不等于完整P6接受，也不能据此把256000、时间、融合或Harness因果混为一个已证实收益。
