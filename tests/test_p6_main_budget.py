@@ -11,7 +11,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'scripts'))
 from p6_main_budget import MainLedger, PHASE, BudgetDenied, REQUEST_RESERVE
-from p6_main_budget import authorization
+from p6_main_budget import authorization,task_limits
 
 
 def reserve_process(path, config):
@@ -118,6 +118,46 @@ class MainBudgetTests(unittest.TestCase):
         for key,changed in [('api_cash_usd',101),('deepseek_inference_requests',10001),('per_role_inference_requests',101)]:
             bad=copy.deepcopy(finite);bad[key]=changed
             with self.assertRaises(BudgetDenied):authorization(bad)
+
+    def test_human_time_amendment_retains_settlement_and_subscription_without_rebind(self):
+        old=json.loads((ROOT/'configs/budget-p6-main-v2-approved.json').read_text())
+        new=json.loads((ROOT/'configs/budget-p6-main-v3-time-approved.json').read_text())
+        previous=MainLedger(self.path,old)
+        index=previous.reserve_request('TEST_ONLY/earlier')
+        previous.settle(index,{'input_tokens':7,'cache_read_input_tokens':4,'cache_creation_input_tokens':0,'output_tokens':2},
+                        {'model_id':'deepseek-flash','bill_cash_usd':'unavailable'})
+        previous.reserve_codex_turn('TEST_ONLY/earlier-judge','gpt-6.1-sol')
+        before=self.path.read_bytes();next_ledger=MainLedger(self.path,new)
+        with self.assertRaises(BudgetDenied):next_ledger.reserve_request('TEST_ONLY/later')
+        archive=self.path.parent/'before-time-amendment.json'
+        receipt=next_ledger.amend_authorization(old,archive)
+        self.assertEqual(archive.read_bytes(),before)
+        after=json.loads(self.path.read_text());original=json.loads(before)
+        for field in ('requests','codex_turns','cash_bound_nano'):self.assertEqual(after[field],original[field])
+        self.assertEqual(after['aggregate_caps'],original['aggregate_caps'])
+        self.assertEqual(receipt['subscription_turns_retained'],1)
+        self.assertEqual(next_ledger.role_requests,100)
+        next_ledger.reserve_request('TEST_ONLY/later')
+        with self.assertRaises(BudgetDenied):previous.reserve_request('TEST_ONLY/stale-budget')
+        with self.assertRaises(BudgetDenied):next_ledger.amend_authorization(old,self.path.parent/'again.json')
+
+    def test_family_time_limits_are_exact_and_non_time_controls_cannot_amend(self):
+        old=json.loads((ROOT/'configs/budget-p6-main-v2-approved.json').read_text())
+        new=json.loads((ROOT/'configs/budget-p6-main-v3-time-approved.json').read_text())
+        for family in ('BugsInPy','SWE-bench Lite'):
+            self.assertEqual(task_limits(new,{'family':family}),{'role_seconds':900,'active_seconds':7200})
+        self.assertEqual(task_limits(new,{'family':'scientific'}),{'role_seconds':1200,'active_seconds':10800})
+        self.assertEqual(task_limits(old,{'family':'scientific'}),{'role_seconds':115,'active_seconds':1200})
+        with self.assertRaises(BudgetDenied):task_limits(new,{'family':'unknown'})
+        for field,bad in [('role_timeout_seconds_by_family',{'public':900.0,'scientific':1200}),
+                          ('experiment_timeout_seconds_by_family',{'public':7200,'scientific':10801}),
+                          ('per_role_inference_requests',101)]:
+            altered=copy.deepcopy(new);altered[field]=bad
+            with self.assertRaises(BudgetDenied):authorization(altered)
+        MainLedger(self.path,old).reserve_request('TEST_ONLY/earlier');before=self.path.read_bytes()
+        altered=copy.deepcopy(new);altered['scientific_evaluation_timeout_seconds']['SCI-PC-ALM']=7201
+        with self.assertRaises(BudgetDenied):MainLedger(self.path,altered).amend_authorization(old,self.path.parent/'bad.json')
+        self.assertEqual(self.path.read_bytes(),before)
 
     @unittest.skipUnless(os.name == 'posix', 'Production uses native Linux flock')
     def test_parallel_controllers_share_exact_role_count(self):

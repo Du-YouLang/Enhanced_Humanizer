@@ -10,7 +10,7 @@ import sys
 import time
 
 from wsl_project import ROOT,run
-from p6_main_budget import authorization
+from p6_main_budget import authorization,task_limits
 
 
 def deploy():
@@ -61,8 +61,9 @@ def main():
     p.add_argument('mode',choices=('deploy','offline','execute','sensitivity'))
     p.add_argument('--reuse-run')
     p.add_argument('--detach',action='store_true',help='Finite owned Linux controller, independent of the chat command lifetime')
-    p.add_argument('--task',default='BIP-black-2');p.add_argument('--manifest',default='configs/benchmark-p6-v9.json')
-    args=p.parse_args();config,_=authorization(ROOT/'configs/budget-p6-main-v2-approved.json')
+    p.add_argument('--task',default='BIP-black-2');p.add_argument('--manifest',default='configs/benchmark-p6-v10-final.json')
+    p.add_argument('--budget',default='configs/budget-p6-main-v3-time-approved.json')
+    args=p.parse_args();config,_=authorization(ROOT/args.budget)
     source=deploy()
     if args.mode=='deploy':print(json.dumps({'status':'DEPLOYED','model_requests':0}));return 0
     manifest_path=ROOT/args.manifest
@@ -128,7 +129,7 @@ print('PC calibration PASS')'''
     # Eight potential programs: native DS + N3 + M + D/E/F. Ground truth for
     # both judge pools is collected only after all selections are frozen.
     evaluation=config['scientific_evaluation_timeout_seconds'].get(args.task,180)
-    total=1200+8*evaluation+120
+    total=task_limits(config,task)['active_seconds']+8*evaluation+120
     if args.detach:
         launcher=r'''import json,sys,os,subprocess,time
 from pathlib import Path

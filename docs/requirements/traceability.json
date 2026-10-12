@@ -2841,6 +2841,16 @@
       "status": "AUTHORIZED_AGGREGATE_10000_REQUESTS_AND_USD100",
       "checkpoint": "Latest human amendment: cumulative maximum10000 API calls AND USD100 API Token fees, including existing P6_MAIN_LOCAL_20261011 spend; no reset or carryover. Subscription usage separate. ADR-0020; configs/budget-p6-main-v2-approved.json.",
       "latest_requirement": "Latest human budget supersedes the preserved historical unlimited statement: maximum10000 API calls AND USD100 API Token fees."
+    },
+    {
+      "id": "USR-BM-TIME-01",
+      "requirement": "2026-10-12 用户决定公共任务每角色15min、科研20min；同题A-F统一时限，旧短预算结果保留",
+      "status": "IMPLEMENTED_ZERO_MODEL_CONTROLS_MAIN_RECEIPTS_PENDING",
+      "checkpoint": "v10-final c7342d9c22824edf5c47ead44a9ce2790e3d1546504d78fc8f6926c513e0ac82; public900/scientific1200 role seconds, active7200/10800. Actual ten Harness/fence controls and four file-policy controls PASS; cumulative10000API/USD100 and numerical acceptance unchanged. Locked time amendment preserves897requests/39subscription/API boundUSD15.1468026.",
+      "relevant_adrs": [
+        "ADR-0020",
+        "ADR-0024"
+      ]
     }
   ]
 }

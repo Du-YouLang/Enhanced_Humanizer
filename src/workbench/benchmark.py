@@ -38,13 +38,25 @@ def validate_manifest(value):
         raise ValueError('Duplicate task identity')
     if value.get('seed') != 42 or value.get('repetitions') != 1:
         raise ValueError('Protocol change requires a new manifest and decision record')
-    if value.get('n_candidates') != 3 or (value.get('request_time_cap_seconds'), value.get('candidate_time_cap_seconds'), value.get('task_time_cap_seconds')) != (120, 600, 1200):
+    time_caps = (120,1200,10800) if value.get('protocol_version')==10 else (120,600,1200)
+    if value.get('n_candidates') != 3 or any(type(value.get(k)) is not int for k in ('request_time_cap_seconds','candidate_time_cap_seconds','task_time_cap_seconds')) or (value.get('request_time_cap_seconds'), value.get('candidate_time_cap_seconds'), value.get('task_time_cap_seconds')) != time_caps:
         raise ValueError('Frozen candidate count and explicit time caps required')
+    if value.get('protocol_version')==10:
+        for key,expected in (('role_timeout_seconds_by_family',{'public':900,'scientific':1200}),
+                             ('experiment_timeout_seconds_by_family',{'public':7200,'scientific':10800})):
+            if value.get(key)!=expected or any(type(v) is not int for v in value[key].values()):
+                raise ValueError('Human-approved family time allocation required')
     ids = {t['task_id'] for t in tasks}
     smoke = value.get('smoke_tasks', [])
     if len(smoke) != 2 or len(set(smoke)) != 2 or not set(smoke) <= ids:
         raise ValueError('Two distinct smoke identities required')
     for task in tasks:
+        if value.get('protocol_version')==10:
+            family='scientific' if task['family']=='scientific' else 'public'
+            for field,mapping in (('role_time_cap_seconds','role_timeout_seconds_by_family'),
+                                  ('model_activity_time_cap_seconds','experiment_timeout_seconds_by_family')):
+                if type(task.get(field)) is not int or task[field]!=value[mapping][family]:
+                    raise ValueError('Per-task time allocation differs from its frozen family')
         if task['family'] != 'scientific':
             if not SHA40.fullmatch(task.get('base_commit', '')) or not SHA40.fullmatch(task.get('source_revision', '')):
                 raise ValueError('Public task needs exact upstream revisions')
@@ -113,7 +125,8 @@ def validate_result(row, body, preparation):
             raise ValueError('Unfair or unbound result: ' + key)
     if row['base_commit'] != task['base_commit']:
         raise ValueError('Initial source differs from frozen task')
-    if row.get('time_cap_seconds') != value['task_time_cap_seconds']:
+    expected_cap=task['model_activity_time_cap_seconds'] if value.get('protocol_version')==10 else value['task_time_cap_seconds']
+    if row.get('time_cap_seconds') != expected_cap:
         raise ValueError('Time caps must be equal across arms')
     metrics = row.get('metrics', {})
     for key in REQUIRED_METRICS:

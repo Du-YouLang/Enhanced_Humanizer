@@ -63,7 +63,11 @@ def task(payload):
     if fingerprint(base)!=r['public_fingerprint'] or seal['env_sha256']!=r['environment']['env_sha256']:
         raise RuntimeError('Scientific source or environment changed')
     if r['base_commit']!=payload['task']['base_commit']:raise RuntimeError('Science base differs from frozen manifest')
-    prompt=(base/card).read_text()+'\nProject execution contract: coding is limited to 115 seconds per independent role. Implement and test the public submission interface, commit cleanly. Full numerical acceptance is performed later by a separate controller; do not wait for full training while coding. Preserve provided input data, official training/configuration files and original tests. No installs, external repositories, credentials, subagents or historical outputs. All compute is local.\n'
+    role_seconds=115
+    if payload.get('budget'):
+        from p6_main_budget import task_limits
+        role_seconds=task_limits(payload['budget'],payload['task'])['role_seconds']
+    prompt=(base/card).read_text()+f'\nProject execution contract: coding is limited to {role_seconds} seconds per independent role. Implement and test the public submission interface, commit cleanly. Full numerical acceptance is performed later by a separate controller; do not wait for full training while coding. Preserve provided input data, official training/configuration files and original tests. No installs, external repositories, credentials, subagents or historical outputs. All compute is local.\n'
     if kind=='pc-alm':prompt+='Offline public data directory: '+str(SCIENCE/'intake/pc-alm/inputs')+'\n'
     # A public syntax/entrypoint check is deliberately weak. It never claims
     # hidden scientific correctness, and does not load any private reference.

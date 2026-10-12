@@ -1,4 +1,4 @@
-"""Separate, authorization-bound main ledger; no aggregate ceiling was requested.
+"""Separate, authorization-bound main ledger with preserved amendment history.
 
 Reuses the established atomic reservation/settlement transport accounting. Historical
 phase caps and ledgers are deliberately untouched; role watchdogs remain mandatory.
@@ -14,6 +14,7 @@ import threading
 from p1_budget import BudgetDenied, Ledger, REQUEST_RESERVE, INPUT_NANO, OUTPUT_NANO, CONTEXT_TOKENS, MAX_OUTPUT
 
 PHASE = 'P6_MAIN_LOCAL_20261011'
+TIME_REVISION = 'USER_APPROVED_2026-10-12_PUBLIC15_SCIENCE20'
 
 
 def authorization(config):
@@ -37,12 +38,37 @@ def authorization(config):
         required.update(authorization_status='APPROVED_BY_USER_2026-10-12',
                         aggregate_limit_policy='USER_FINITE_CEILING',api_cash_usd=100,
                         deepseek_inference_requests=10000,per_role_inference_requests=100)
+        if value.get('time_budget_revision') == TIME_REVISION:
+            for field in ('role_timeout_seconds_by_family','experiment_timeout_seconds_by_family'):
+                if not isinstance(value.get(field),dict) or any(type(v) is not int for v in value[field].values()):
+                    raise BudgetDenied('Integer family time limits required')
+            required.update(time_budget_revision=TIME_REVISION,
+                            common_generation_timeout_seconds=900,
+                            role_timeout_seconds_by_family={'public':900,'scientific':1200},
+                            per_candidate_timeout_seconds=1200,
+                            per_experiment_active_timeout_seconds=10800,
+                            experiment_timeout_seconds_by_family={'public':7200,'scientific':10800})
+        elif 'time_budget_revision' in value:
+            raise BudgetDenied('Unknown human time-budget revision')
     if not value.get('authorization_reference') or any(
         key not in value or type(value[key]) is not type(expected) or value[key] != expected
         for key, expected in required.items()
     ):
         raise BudgetDenied('Missing or changed main experiment authorization/watchdogs')
     return value, hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+
+
+def task_limits(config, task):
+    """One family policy for every arm and role, including scoring and LAV."""
+    value,_ = authorization(config)
+    if task.get('family') not in ('BugsInPy','SWE-bench Lite','scientific'):
+        raise BudgetDenied('Unknown task family for time allocation')
+    family = 'scientific' if task['family']=='scientific' else 'public'
+    if value.get('time_budget_revision') == TIME_REVISION:
+        return {'role_seconds':value['role_timeout_seconds_by_family'][family],
+                'active_seconds':value['experiment_timeout_seconds_by_family'][family]}
+    return {'role_seconds':value['common_generation_timeout_seconds'],
+            'active_seconds':value['per_experiment_active_timeout_seconds']}
 
 
 class MainLedger(Ledger):
@@ -106,8 +132,20 @@ class MainLedger(Ledger):
         fingerprint still cannot be silently rebound by ordinary execution.
         """
         previous=MainLedger(self.path,previous_config)
-        if self.config['authorization_status']!='APPROVED_BY_USER_2026-10-12' or previous.config['authorization_status']!='APPROVED_BY_USER_2026-10-11':
-            raise BudgetDenied('Only the explicit recorded finite-ceiling amendment is supported')
+        finite_amendment = self.config['authorization_status']=='APPROVED_BY_USER_2026-10-12' and previous.config['authorization_status']=='APPROVED_BY_USER_2026-10-11' and 'time_budget_revision' not in self.config
+        time_amendment = (previous.config['authorization_status']=='APPROVED_BY_USER_2026-10-12'
+                          and 'time_budget_revision' not in previous.config
+                          and self.config.get('time_budget_revision')==TIME_REVISION
+                          and self.caps()==previous.caps()
+                          and self.role_requests==previous.role_requests)
+        if time_amendment:
+            allowed={'authorization_reference','time_budget_revision','common_generation_timeout_seconds',
+                     'role_timeout_seconds_by_family','per_candidate_timeout_seconds',
+                     'per_experiment_active_timeout_seconds','experiment_timeout_seconds_by_family'}
+            if any(self.config.get(key)!=previous.config.get(key) for key in set(self.config)|set(previous.config) if key not in allowed):
+                raise BudgetDenied('Time amendment cannot change other authorized controls')
+        if not (finite_amendment or time_amendment):
+            raise BudgetDenied('Only the explicit finite-ceiling or human time-budget amendment is supported')
         if not self.path.exists():raise BudgetDenied('No existing ledger to amend')
         archive=Path(archive)
         with Ledger.transaction(self) as value:
@@ -117,6 +155,8 @@ class MainLedger(Ledger):
             value.setdefault('authorization_history',[]).append({'previous_authorization_sha256':previous.authorization_sha256,
                 'previous_aggregate_caps':previous.caps(),'before_ledger_sha256':snapshot,
                 'amended_at':datetime.now(timezone.utc).isoformat(),'requests_retained':len(value['requests']),
+                'subscription_turns_retained':len(value['codex_turns']),
+                'amendment_kind':TIME_REVISION if time_amendment else 'USER_FINITE_CEILING',
                 'cash_bound_nano_retained':value['cash_bound_nano']})
             value.update(authorization_sha256=self.authorization_sha256,aggregate_caps=self.caps())
             self.validate(value)
@@ -126,6 +166,7 @@ class MainLedger(Ledger):
             with archive.open('xb') as file:file.write(before);file.flush();os.fsync(file.fileno())
         return {'status':'AMENDED_WITHOUT_RESET','before_ledger_sha256':snapshot,
                 'authorization_sha256':self.authorization_sha256,'requests_retained':len(value['requests']),
+                'subscription_turns_retained':len(value['codex_turns']),
                 'cash_bound_nano_retained':value['cash_bound_nano'],'aggregate_caps':self.caps()}
 
     @staticmethod

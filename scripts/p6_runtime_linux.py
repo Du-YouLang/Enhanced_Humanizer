@@ -161,7 +161,7 @@ def prepare_job(name,backend,role='builder',source=None,view=None,prompt=None,mo
          'role_seconds':min(600,max(1,int(ACTIVE['deadline']-time.monotonic()))),'offline_control':offline}
     if ACTIVE.get('main_phase'):
         job.update(phase='P6_MAIN_LOCAL_20261011',budget=ACTIVE['payload']['budget'],
-                   role_seconds=min(115,max(1,int(ACTIVE['deadline']-time.monotonic()))),
+                   role_seconds=min(ACTIVE.get('generation_seconds',115),max(1,int(ACTIVE['deadline']-time.monotonic()))),
                    public_read_paths=task.get('public_read_paths',[]),gpu_coding=task.get('gpu_coding',False))
     return job,env
 

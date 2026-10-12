@@ -69,7 +69,7 @@ def launch(mode,task,source_run,folder,manifest_path):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--tasks',nargs='+');p.add_argument('--execute-only',action='store_true')
-    p.add_argument('--manifest',type=Path,default=ROOT/'configs/benchmark-p6-v9.json')
+    p.add_argument('--manifest',type=Path,default=ROOT/'configs/benchmark-p6-v10-final.json')
     p.add_argument('--continue-batch',type=Path,help='Explicit continuation of a preserved pre-spend dirty-source refusal; reuses completed candidates')
     args=p.parse_args();manifest=json.loads(args.manifest.read_text())
     tasks=args.tasks or manifest['smoke_tasks']+[t['task_id'] for t in manifest['tasks'] if t['task_id'] not in manifest['smoke_tasks']]

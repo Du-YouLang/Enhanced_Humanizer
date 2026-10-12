@@ -55,21 +55,32 @@ for r in v['tasks']:
  if sha(p)!=r['receipt_sha256'] or d['results']['buggy']['verdict']!='FAIL' or d['results']['gold']['verdict']!='PASS':raise RuntimeError('Public controls invalid')
 proof={'scientific':tasks,'public_controls_sha256':sha(public)}
 if int(sys.argv[1])>=9:
- p=Path('/opt/workbench/benchmark/private/file-policy-controls-20261012-v2/receipt.json');r=json.loads(p.read_text())
+ revision='v3' if int(sys.argv[1])>=10 else 'v2'
+ p=Path('/opt/workbench/benchmark/private/file-policy-controls-20261012-'+revision+'/receipt.json');r=json.loads(p.read_text())
  expected={'original-preserved':'PASS','new-regression-file':'PASS','existing-test-appended':'FAIL','unchanged-baseline':'FAIL'}
  if r['status']!='PASS' or r['model_requests']!=0 or r['uid']==0 or r['ledger_sha256_before']!=r['ledger_sha256_after']:raise RuntimeError('File-policy control failed')
  if any(r['results'][k]['candidate_verdict']!=v for k,v in expected.items()) or any(r['results'][k]['private_verdict']!='PASS' for k in ('original-preserved','new-regression-file')):raise RuntimeError('File-policy positive/negative controls invalid')
  for name,expected_sha in {**r['source_sha256'],'p6_file_policy_control_linux.py':r['control_script_sha256']}.items():
   if sha(Path('/opt/workbench/source')/name)!=expected_sha:raise RuntimeError('File-policy control source changed')
  proof['file_policy_control_receipt_sha256']=sha(p)
+if int(sys.argv[1])>=10:
+ p=Path('/opt/workbench/benchmark/private/time-controls-20261012-v3/receipt.json');r=json.loads(p.read_text())
+ if r['status']!='PASS' or r['model_requests']!=0 or r['uid']==0 or r['ledger_sha256_before']!=r['ledger_sha256_after']:raise RuntimeError('Actual Harness time control failed')
+ for name,expected_sha in r['source_sha256'].items():
+  if sha(Path('/opt/workbench/source')/name)!=expected_sha:raise RuntimeError('Time control executable source changed')
+ for tid,v in r['results'].items():
+  expected={'role_seconds':1200,'active_seconds':10800} if tid.startswith('SCI-') else {'role_seconds':900,'active_seconds':7200}
+  if v['limits']!=expected or not v['remaining_deadline_clamped'] or any(role['status']!='PASS' or role['effective_harness_seconds']!=expected['role_seconds'] for role in v['roles'].values()):raise RuntimeError('Time control family allocation failed')
+ proof['time_control_receipt_sha256']=sha(p);proof['time_control_budget_sha256']=r['budget_authorization_sha256']
 print(json.dumps(proof))
 '''
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--version',type=int,default=9)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--version',type=int,default=10)
+    parser.add_argument('--output',type=Path,help='Fresh separately named manifest; never overwrite an earlier freeze')
     args=parser.parse_args()
-    if args.version not in (3,4,5,6,7,8,9):raise ValueError('Explicit supported new protocol required')
+    if args.version not in (3,4,5,6,7,8,9,10):raise ValueError('Explicit supported new protocol required')
     result=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',COLLECT,str(args.version)],timeout=60)
     if result.returncode:
         raise RuntimeError('Main freeze blocked by local controls: '+result.stderr.decode(errors='replace')[-1000:])
@@ -85,7 +96,8 @@ def main():
                 runner_source_sha256=runner,entrypoint_sha256=hashlib.sha256((ROOT/'scripts/run_p6_main.py').read_bytes()).hexdigest())
     if args.version>=4:
         body['operational_cap_policy']='Trusted local role-request-cap exhaustion is BUDGET_EXHAUSTED/arm FAIL, not infrastructure; no upstream HTTP-code inference or retry. Caps unchanged. Preserve first v3 attempt separately.'
-    config=json.loads((ROOT/('configs/budget-p6-main-v2-approved.json' if args.version>=5 else 'configs/budget-p6-main-approved.json')).read_text())
+    budget_path='configs/budget-p6-main-v3-time-approved.json' if args.version>=10 else ('configs/budget-p6-main-v2-approved.json' if args.version>=5 else 'configs/budget-p6-main-approved.json')
+    config=json.loads((ROOT/budget_path).read_text())
     if args.version>=5:
         from p6_main_budget import authorization
         body.update(budget_authorization_sha256=authorization(config)[1],
@@ -102,6 +114,18 @@ def main():
         body['public_file_policy']=GENERATION_RULES
         body['file_policy_revision']='Original tests/fixtures protected at every path depth; new regression files allowed. Same explicit instruction for all coding roles, including Reviewer. Preserve v8 failures as protocol investigation, never mix them with v9 results.'
         body['file_policy_control_receipt_sha256']=proof['file_policy_control_receipt_sha256']
+    if args.version>=10:
+        if proof['time_control_budget_sha256']!=authorization(config)[1]:raise RuntimeError('Time control used a different budget authorization')
+        body.update(budget_config=budget_path,
+                    common_generation_timeout_seconds=config['common_generation_timeout_seconds'],
+                    candidate_time_cap_seconds=config['per_candidate_timeout_seconds'],
+                    task_time_cap_seconds=config['per_experiment_active_timeout_seconds'],
+                    role_timeout_seconds_by_family=config['role_timeout_seconds_by_family'],
+                    experiment_timeout_seconds_by_family=config['experiment_timeout_seconds_by_family'],
+                    time_budget_revision=config['time_budget_revision'],
+                    time_control_receipt_sha256=proof['time_control_receipt_sha256'],
+                    generation_scope='Human approved public900s/scientific1200s for every coding/scoring role in a task; outer model activity public7200s/scientific10800s. Single request120s and role100 requests remain.',
+                    time_comparison_policy='New prospective family limits; preserve v9 short-cap outcomes and human-paused partial run separately. No relabeling, same-task A-F equality, no acceptance relaxation or automatic retries.')
     descriptions={
         'SCI-PC-ALM':('SakanaAI PC-ALM official frozen implementation and owner v1.1 task',
             {'accuracy_pp':.25,'gradient_cosine_abs':.02},
@@ -117,13 +141,23 @@ def main():
             ['27_numeric_cases','13_invalid_cases','10_repeat_outputs','rawkernel_used','no_CPU_download','3_warmups_5_timed_runs','local_GPU_performance_not_biology_claim'])}
     for task in body['tasks']:
         task['preparation_status']='READY'
+        if args.version>=10:
+            from p6_main_budget import task_limits
+            limits=task_limits(config,task)
+            task.update(role_time_cap_seconds=limits['role_seconds'],model_activity_time_cap_seconds=limits['active_seconds'])
         if task['family']=='scientific':
             tid=task['task_id'];paper,tolerances,invariants=descriptions[tid]
             task.update(proof['scientific'][tid],paper=paper,tolerances=tolerances,invariants=invariants,
                         license='Private authorized local evaluation; retain source notices; no research-material redistribution',
                         independent_evaluation_timeout_seconds=config['scientific_evaluation_timeout_seconds'][tid])
-    path=ROOT/('configs/benchmark-p6-v'+str(args.version)+'.json');frozen=freeze_manifest(body,path)
-    (ROOT/('.local-workbench/audits/p6-main-frozen-controls-v'+str(args.version)+'.private.json')).write_text(json.dumps(proof,indent=2),encoding='utf-8')
+    path=args.output.resolve() if args.output else ROOT/('configs/benchmark-p6-v'+str(args.version)+'.json')
+    if not path.is_relative_to((ROOT/'configs').resolve()):raise ValueError('Frozen manifest must stay in project configs')
+    frozen=freeze_manifest(body,path)
+    proof_path=ROOT/('.local-workbench/audits/'+path.stem+'-frozen-controls.private.json')
+    if proof_path.exists():
+        if json.loads(proof_path.read_text())!=proof:raise ValueError('Existing frozen control proof is immutable')
+    else:
+        with proof_path.open('x',encoding='utf-8') as file:json.dump(proof,file,indent=2)
     print(json.dumps({'status':'FROZEN','manifest_sha256':frozen['manifest_sha256'],'tasks':16,'planned_arms':96,'model_requests':0}))
 
 

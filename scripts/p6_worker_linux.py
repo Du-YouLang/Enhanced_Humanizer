@@ -112,10 +112,11 @@ def main():
     label='verifier' if role=='verifier' else 'reviewer' if role=='reviewer' else 'builder'
     model='deepseek-flash' if job['backend']=='dsh' else 'gpt-6.1-sol'
     driver=MeteredDriver(f'{label}={job["backend"]}/{model}:low',RoleLedger(ledger),job['scope'],turns,1,
-                         115 if main_phase else (600 if job['backend']=='dsh' else 115),permission=permission,fence_transform=task_fence(job),
-                         external_readonly=role=='verifier')
+                         job['role_seconds'] if main_phase else (600 if job['backend']=='dsh' else 115),permission=permission,fence_transform=task_fence(job),
+                         external_readonly=role=='verifier',turn_seconds_ceiling=job['role_seconds'] if main_phase else 600)
     value={'kind':'REAL_MODEL_EXPERIMENT','status':'RUNNING','turns':turns,'scope':job['scope'],
-           'role':role,'execution_mode':job['execution_mode'],'input_sha256':job['input_sha256']}
+           'role':role,'execution_mode':job['execution_mode'],'input_sha256':job['input_sha256'],
+           'configured_role_seconds':job['role_seconds'],'effective_harness_turn_seconds':driver.turn_seconds}
     try:
         if job.get('offline_control'):
             value['kind']='ZERO_MODEL_CONTROL'

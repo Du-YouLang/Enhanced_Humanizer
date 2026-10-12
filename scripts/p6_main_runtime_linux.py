@@ -15,7 +15,7 @@ import sys
 import time
 
 import p6_runtime_linux as shared
-from p6_main_budget import MainLedger,authorization,PHASE
+from p6_main_budget import MainLedger,authorization,PHASE,task_limits
 from p6_prepare_linux import BASE,seal_environment
 from p6_evaluate_linux import evaluate
 from p2_candidates import exclusive_json,digest
@@ -110,7 +110,7 @@ def lav(name,pool):
     a=shared.ACTIVE
     os.environ.update(DEEPSEEK_EFFORT='off',DEEPSEEK_MAX_TOKENS='4096')
     import llm_verifier.fine_grained_reward as lav_module
-    client=LavTransport(a['key'],a['ledger'],a['root'].name+'/'+name,min(a['deadline'],time.monotonic()+115),lav_module,a['root']/(name+'-responses'))
+    client=LavTransport(a['key'],a['ledger'],a['root'].name+'/'+name,min(a['deadline'],time.monotonic()+a['generation_seconds']),lav_module,a['root']/(name+'-responses'))
     try:
         value=J1(client,'/opt/workbench/upstreams/lav',a['root']/(name+'-cache')).judge(pool)
         value['note']='Original LAV K1; exact frozen pool and full public evidence retained'
@@ -142,7 +142,7 @@ def record(arm,chosen,scopes,elapsed,hidden=None):
     row={'task_id':task['id'],'arm':arm,'seed':42,'repetition':0,'manifest_sha256':a['payload']['manifest']['manifest_sha256'],
          'outcome':outcome,'reason':'Required enhancement judge incomplete; downstream output is diagnostic only' if incomplete_judge else 'Uniform main protocol; selection frozen before private acceptance',
          'failure_class':failure_class,
-         'model_identity':ARMS[arm][0],'harness':ARMS[arm][1],'evidence_kind':'REAL_MODEL','time_cap_seconds':1200,
+         'model_identity':ARMS[arm][0],'harness':ARMS[arm][1],'evidence_kind':'REAL_MODEL','time_cap_seconds':a['active_seconds'],
          'independent_acceptance':accepted['verdict'],'head_commit':chosen.get('head_commit','unavailable') if chosen else 'unavailable',
          'metrics':shared.metrics(scopes,elapsed),'run_contract_sha256':a['contract_sha256'],
          **{k:prep[k] for k in ('env_sha256','hardware_sha256','permissions_sha256','base_commit','hidden_suite_sha256')}}
@@ -193,12 +193,18 @@ def sensitivity(payload):
 def run(payload):
     from p1_broker import protect_memory
     from workbench.benchmark import check_manifest
-    protect_memory();authorization(payload['budget']);check_manifest(payload['manifest'])
+    protect_memory();_,budget_sha=authorization(payload['budget']);check_manifest(payload['manifest'])
+    limits=task_limits(payload['budget'],payload['task'])
+    if payload['manifest'].get('protocol_version',0)>=10:
+        if (payload['manifest'].get('budget_authorization_sha256')!=budget_sha or
+            payload['task'].get('role_time_cap_seconds')!=limits['role_seconds'] or
+            payload['task'].get('model_activity_time_cap_seconds')!=limits['active_seconds']):
+            raise RuntimeError('Frozen task and actual authorized time allocation differ')
     import signal
     def interrupted(signum,frame):raise InterruptedError('Owned main controller interrupted by signal '+str(signum))
     signal.signal(signal.SIGTERM,interrupted);signal.signal(signal.SIGINT,interrupted)
     if os.getuid()==0:raise RuntimeError('No root runtime')
-    if payload['manifest'].get('protocol_version') not in (3,4,5,6,7,8,9):raise RuntimeError('A new frozen protocol version is required')
+    if payload['manifest'].get('protocol_version') not in (3,4,5,6,7,8,9,10):raise RuntimeError('A new frozen protocol version is required')
     if payload['task']['family']=='scientific':
         sys.path.insert(0,str(BASE/'envs/science-tms-v1/lib/python3.12/site-packages'))
         from p6_science_main_linux import task as scientific_task,test as scientific_test
@@ -211,12 +217,12 @@ def run(payload):
     exclusive_json(root/'control/run-contract.json',contract)
     hardware={'kernel':platform.release(),'machine':platform.machine(),'cpu':next(l for l in Path('/proc/cpuinfo').read_text().splitlines() if l.startswith('model name')),'threads':os.cpu_count()}
     prep={'status':'READY','task_id':task['id'],'env_sha256':task['seal']['env_sha256'],'base_commit':task['base_commit'],
-          'hardware_sha256':digest(hardware),'permissions_sha256':digest({'version':3,'common_generation_seconds':115,'non_root':True,'private_namespaces':True,'hidden_excluded':True,
+          'hardware_sha256':digest(hardware),'permissions_sha256':digest({'version':4 if payload['manifest'].get('protocol_version',0)>=10 else 3,'common_generation_seconds':limits['role_seconds'],'non_root':True,'private_namespaces':True,'hidden_excluded':True,
               'public_read_paths':task['public_read_paths'],'gpu_coding':task.get('gpu_coding',False),'requests_fixture':'LOCAL_TLS_V2' if task['fixture_ca'] else None,
               'role_rss_limit_mib':8192,'role_process_limit':64,'role_thread_limit':512}),
           'hidden_suite_sha256':task['hidden_suite_sha256']}
     shared.ACTIVE.clear();shared.ACTIVE.update(root=root,task=task,payload=payload,key=payload.pop('key'),ledger=MainLedger(LEDGER,payload['budget']),
-            deadline=time.monotonic()+1200,started_monotonic=time.monotonic(),workers={},contract_sha256=digest(contract),preparation=prep,main_phase=True,defer_hidden=True)
+            deadline=time.monotonic()+limits['active_seconds'],generation_seconds=limits['role_seconds'],active_seconds=limits['active_seconds'],started_monotonic=time.monotonic(),workers={},contract_sha256=digest(contract),preparation=prep,main_phase=True,defer_hidden=True)
     shared.LEDGER_PATH=LEDGER;shared.test_source=tester
     exclusive_json(root/'preparation.json',prep)
     with task['fixture_context'] as url:
@@ -305,7 +311,7 @@ def run(payload):
             results.append(record(arm,c,scopes[arm],timings[arm],truth[c['id']]['acceptance'] if c else None))
         receipt={'status':'MAIN_TASK_COMPLETED','task_id':task['id'],'run_id':root.name,'results':results,
                  'model_activity_seconds':active,'controller_end_to_end_seconds':time.perf_counter()-started,
-                 'common_generation_timeout_seconds':115,'judgments':{k:v['status'] for k,v in judgments.items()},
+                 'common_generation_timeout_seconds':limits['role_seconds'],'model_activity_time_cap_seconds':limits['active_seconds'],'judgments':{k:v['status'] for k,v in judgments.items()},
                  'benchmark_oracle_audit_seconds':time.perf_counter()-oracle_started,'private_unique_program_evaluations':len(accepted),
                  'full_tool_trace_sensitivity':'PENDING_SEPARATE_SAME_POOL_REVIEW','failures_preserved':True,'api_cash_usd':'unavailable'}
         exclusive_json(root/'receipt.json',receipt)
