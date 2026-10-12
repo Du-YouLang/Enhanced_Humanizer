@@ -13,6 +13,7 @@ from wsl_project import ROOT,run
 sys.path.insert(0,str(ROOT/'src'))
 from workbench.benchmark import check_manifest,plan,summarize,validate_result
 from report_latency import tool_timing
+from report_sensitivity import paired_judgments
 
 COLLECT=r'''import json,sys,re
 from pathlib import Path
@@ -37,6 +38,11 @@ for attempt in batch.get('reused_attempts',[])+batch['attempts']:
  oracle=root/'private-candidate-acceptance.json'
  if attempt['mode']=='sensitivity' and (root/'receipt.json').exists():
   receipt=json.loads((root/'receipt.json').read_text());oracle=base/receipt['source_run']/'private-candidate-acceptance.json'
+  row['sensitivity']={k:receipt[k] for k in ('source_run','candidate_model_replays','identity','merge_identity','incremental_metrics')}
+  def public_judgments(values):
+   return {k:{f:v[f] for f in ('status','pool_hash','ranking','raw_selected','eligible_selected') if f in v} for k,v in values.items()}
+  row['sensitivity']['source_judgments']=public_judgments(receipt['source_judgments'])
+  row['sensitivity']['source_merge_judgments']=public_judgments(receipt['source_merge_judgments'])
  if oracle.exists():
   row['candidate_acceptance']={cid:{'verdict':v['acceptance']['verdict'],'public_verdict':v['public_verdict'],'program_identity':v['program_identity'],
    'worker_status':v['worker_status'],'elapsed_seconds':v['acceptance'].get('elapsed_seconds','unavailable')} for cid,v in json.loads(oracle.read_text()).items()}
@@ -137,6 +143,13 @@ def main():
             if trace is not None:
                 try:role['native_tool_timing']=tool_timing(trace)
                 except ValueError as error:role['tool_timing_unavailable_reason']=str(error)
+        if 'sensitivity' in entry:
+            value=entry['sensitivity'];truth=entry.get('candidate_acceptance',{})
+            entry['paired_tool_trace_sensitivity']={
+                'original_pool':paired_judgments(value['source_judgments'],entry['judgments'],value['identity'],truth),
+                'expanded_pool':paired_judgments(value['source_merge_judgments'],entry['merge_judgments'],value['merge_identity'],truth),
+                'incremental_metrics':value['incremental_metrics'],'source_run':value['source_run'],
+                'candidate_model_replays':value['candidate_model_replays']}
     for entry in evidence['runs']:
         if entry['mode']!='execute':continue
         if entry['task_id'] in seen:raise ValueError('Repeated task attempt requires explicit investigation, never best-attempt selection')
