@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-12 用户明确要求继续网络中断工作后：真实隔离零模型连接200/PASS、无残留native进程。旧batch20261012T125458Z保留5题完整execute/sensitivity与Black-5候选池INFRA_RETRY_PENDING（model_failure=false），不整题重放。新有限batch20261012T155227Z以相同v12-final2协议只启动尚未开始的10题，首项Black-6已有真实请求；快照3035DS/API上界USD53.4246795，账本不重置。恢复注册升级p6-boot-v6观察新精确Windows拥有者，仍覆盖原16题/原起始时刻，完整保留v5事件链和旧批次hash；状态OBSERVE_ORIGINAL、服务自身launch intent零。弹窗功能8d95fe4精确CI38272394644三SUCCESS，旧主集源码保持96d32ee且干净。P6完整验收/Black-5中断恢复/Pi正式任务比较仍待完成；见本机私有p6-network-continuation-accepted回执。
+
 2026-10-12 恢复监控控制台弹窗修复：Windows子进程统一CREATE_NO_WINDOW，实际无控制台/stdout控制及恢复30项、治理7项通过。已升级独立p6-boot-v5并保留v4完整事件链与累计状态，无模型重跑或实验进程重启。原batch在此之前已因网络INFRA_RETRY_PENDING停止，窗口修复不构成新实验续跑授权/结果；冻结主集源码/清单/账本不改，精确CI/安装heartbeat以本次回执为准。
 
 2026-10-12 用户授权本机断电／开机恢复。独立 supervisor 与26项零provider控制已实现；项目私有v4 runtime 的 HKCU 当前用户登录启动核验，保留v3 journal前缀与累计状态。活动Windows主集controller保持原PID30312，冻结v12-final2源码/manifest未改，主账本未重置，服务只观察。完成题不重跑，execute完成只补未开始sensitivity；中断/不明槽位保留pending并继续其它未开始题。任意模型流/训练中间状态及物理断电未验，不把pending称完整P6。见ADR-0028与P6-boot-recovery审计；独立安装重启控制/精确commit/CI取私有回执。
