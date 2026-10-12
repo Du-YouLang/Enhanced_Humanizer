@@ -27,7 +27,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 35,
       "phase_evidence": {
@@ -37,7 +38,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -123,7 +125,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 41,
       "phase_evidence": {
@@ -133,7 +136,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -511,7 +515,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 73,
       "phase_evidence": {
@@ -522,7 +527,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -553,7 +559,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 75,
       "phase_evidence": {
@@ -564,7 +571,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -654,7 +662,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 81,
       "phase_evidence": {
@@ -666,7 +675,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -693,7 +703,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 83,
       "phase_evidence": {
@@ -703,7 +714,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -736,7 +748,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 87,
       "phase_evidence": {
@@ -748,7 +761,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -781,7 +795,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 89,
       "phase_evidence": {
@@ -793,7 +808,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -927,7 +943,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 99,
       "phase_evidence": {
@@ -938,7 +955,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -1124,7 +1142,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 115,
       "phase_evidence": {
@@ -1134,7 +1153,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -1355,7 +1375,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 133,
       "phase_evidence": {
@@ -1366,7 +1387,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -1808,7 +1830,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 167,
       "phase_evidence": {
@@ -1818,7 +1841,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -1847,7 +1871,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 169,
       "phase_evidence": {
@@ -1857,7 +1882,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -1886,7 +1912,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 171,
       "phase_evidence": {
@@ -1896,7 +1923,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -1923,7 +1951,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 173,
       "phase_evidence": {
@@ -1933,7 +1962,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -1960,7 +1990,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 175,
       "phase_evidence": {
@@ -1970,7 +2001,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -1997,7 +2029,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 177,
       "phase_evidence": {
@@ -2007,7 +2040,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -2034,7 +2068,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 179,
       "phase_evidence": {
@@ -2044,7 +2079,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -2073,7 +2109,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 181,
       "phase_evidence": {
@@ -2083,7 +2120,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -2112,7 +2150,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 183,
       "phase_evidence": {
@@ -2122,7 +2161,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -2151,7 +2191,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 185,
       "phase_evidence": {
@@ -2161,7 +2202,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -2188,7 +2230,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 187,
       "phase_evidence": {
@@ -2198,7 +2241,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -2249,7 +2293,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 193,
       "phase_evidence": {
@@ -2260,7 +2305,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -2289,7 +2335,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 195,
       "phase_evidence": {
@@ -2299,7 +2346,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -2330,7 +2378,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 197,
       "phase_evidence": {
@@ -2341,7 +2390,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -2370,7 +2420,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 199,
       "phase_evidence": {
@@ -2380,7 +2431,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -2516,7 +2568,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 211,
       "phase_evidence": {
@@ -2527,7 +2580,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -2554,7 +2608,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 213,
       "phase_evidence": {
@@ -2564,7 +2619,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -2693,7 +2749,8 @@
         "ADR-0018",
         "ADR-0020",
         "ADR-0021",
-        "ADR-0022"
+        "ADR-0022",
+        "ADR-0023"
       ],
       "source_line": 243,
       "phase_evidence": {
@@ -2704,7 +2761,8 @@
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
-        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md."
+        "P6_MAIN_ACCOUNT_SWITCH_2026_10_12": "v8 first attempt stopped on original subscription quota; 357 DS / 7 subscription reservations / USD4.2235404 API upper bound preserved. User-authorized independent account switch verified; new batch 20261012T045212Z RUNNING at audit, not full acceptance. ADR-0022; docs/audits/P6-connectivity-2026-10-12.md.",
+        "P6_V9_FILE_POLICY_2026_10_12": "v8 two-task public-file ambiguity investigated and stopped; v9 frozen a8863872, four real zero-model file/Git/public/private controls PASS. Main model acceptance pending; no v8/v9 pooling. ADR-0023."
       }
     },
     {
@@ -2765,7 +2823,7 @@
       "id": "USR-P7-01",
       "requirement": "P7安装打包和交付准备；发布前再次征求用户确认",
       "status": "P7_LOCAL_INSTALLATION_VERIFIED_NOT_RELEASED",
-      "checkpoint": "P7 local preview installation/rollback accepted and PR #18 actual CI/merge complete. External product release and naming/license confirmation remain separate.",
+      "checkpoint": "Exact14c26d293ebd local preview ZIP/real fresh venv/HTTP permissions/inference-publishing disabled/port ownership/ef085 old rollback PASS; source CI38207003117 Windows129 total121pass8skip, Node8. Receipt p7-current-account-accepted.private.json. Later v9 source requires a new exact package; no external release.",
       "relevant_adrs": [
         "ADR-0013",
         "ADR-0015"
@@ -2780,8 +2838,9 @@
     {
       "id": "USR-API-01",
       "requirement": "正式 benchmark API 累计预算不设上限，仍逐项记录时间、Token和成本",
-      "status": "AUTHORIZED_SEPARATE_MAIN_LEDGER",
-      "checkpoint": "P6_MAIN_LOCAL_20261011 authorization-bound aggregate-null ledger; per-role/time watchdogs enforced, no legacy budget carry-over."
+      "status": "AUTHORIZED_AGGREGATE_10000_REQUESTS_AND_USD100",
+      "checkpoint": "Latest human amendment: cumulative maximum10000 API calls AND USD100 API Token fees, including existing P6_MAIN_LOCAL_20261011 spend; no reset or carryover. Subscription usage separate. ADR-0020; configs/budget-p6-main-v2-approved.json.",
+      "latest_requirement": "Latest human budget supersedes the preserved historical unlimited statement: maximum10000 API calls AND USD100 API Token fees."
     }
   ]
 }

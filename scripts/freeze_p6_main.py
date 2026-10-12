@@ -9,7 +9,7 @@ from wsl_project import ROOT,run
 sys.path.insert(0,str(ROOT/'src'))
 from workbench.benchmark import freeze_manifest
 
-COLLECT=r'''import json,hashlib
+COLLECT=r'''import json,hashlib,sys
 from pathlib import Path
 b=Path('/opt/workbench/benchmark/science');private=b/'private'
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -53,15 +53,24 @@ public=private/'public-main-controls-frozen-v2.json';v=json.loads(public.read_te
 for r in v['tasks']:
  p=Path(r['receipt']);d=json.loads(p.read_text())
  if sha(p)!=r['receipt_sha256'] or d['results']['buggy']['verdict']!='FAIL' or d['results']['gold']['verdict']!='PASS':raise RuntimeError('Public controls invalid')
-print(json.dumps({'scientific':tasks,'public_controls_sha256':sha(public)}))
+proof={'scientific':tasks,'public_controls_sha256':sha(public)}
+if int(sys.argv[1])>=9:
+ p=Path('/opt/workbench/benchmark/private/file-policy-controls-20261012-v2/receipt.json');r=json.loads(p.read_text())
+ expected={'original-preserved':'PASS','new-regression-file':'PASS','existing-test-appended':'FAIL','unchanged-baseline':'FAIL'}
+ if r['status']!='PASS' or r['model_requests']!=0 or r['uid']==0 or r['ledger_sha256_before']!=r['ledger_sha256_after']:raise RuntimeError('File-policy control failed')
+ if any(r['results'][k]['candidate_verdict']!=v for k,v in expected.items()) or any(r['results'][k]['private_verdict']!='PASS' for k in ('original-preserved','new-regression-file')):raise RuntimeError('File-policy positive/negative controls invalid')
+ for name,expected_sha in {**r['source_sha256'],'p6_file_policy_control_linux.py':r['control_script_sha256']}.items():
+  if sha(Path('/opt/workbench/source')/name)!=expected_sha:raise RuntimeError('File-policy control source changed')
+ proof['file_policy_control_receipt_sha256']=sha(p)
+print(json.dumps(proof))
 '''
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--version',type=int,default=8)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--version',type=int,default=9)
     args=parser.parse_args()
-    if args.version not in (3,4,5,6,7,8):raise ValueError('Explicit supported new protocol required')
-    result=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',COLLECT],timeout=60)
+    if args.version not in (3,4,5,6,7,8,9):raise ValueError('Explicit supported new protocol required')
+    result=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',COLLECT,str(args.version)],timeout=60)
     if result.returncode:
         raise RuntimeError('Main freeze blocked by local controls: '+result.stderr.decode(errors='replace')[-1000:])
     proof=json.loads(result.stdout)
@@ -88,6 +97,11 @@ def main():
         body['native_terminal_evidence_policy']='Read both official DSH NativeDriver state and Humanize Flow state; structured max-tokens is OUTPUT_LIMIT/arm FAIL in both. Complete raw transcripts preserved; no inferred output limit from error text and no limit relaxation.'
     if args.version>=8:
         body['windows_ledger_io_policy']='Bounded sharing-violation retry for exact atomic replacement only; no transaction/model replay, count reset or POSIX locking change. Exhaustion preserves original bytes and fails closed.'
+    if args.version>=9:
+        from p6_gate_policy import GENERATION_RULES
+        body['public_file_policy']=GENERATION_RULES
+        body['file_policy_revision']='Original tests/fixtures protected at every path depth; new regression files allowed. Same explicit instruction for all coding roles, including Reviewer. Preserve v8 failures as protocol investigation, never mix them with v9 results.'
+        body['file_policy_control_receipt_sha256']=proof['file_policy_control_receipt_sha256']
     descriptions={
         'SCI-PC-ALM':('SakanaAI PC-ALM official frozen implementation and owner v1.1 task',
             {'accuracy_pp':.25,'gradient_cosine_abs':.02},

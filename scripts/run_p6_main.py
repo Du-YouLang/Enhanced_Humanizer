@@ -61,7 +61,7 @@ def main():
     p.add_argument('mode',choices=('deploy','offline','execute','sensitivity'))
     p.add_argument('--reuse-run')
     p.add_argument('--detach',action='store_true',help='Finite owned Linux controller, independent of the chat command lifetime')
-    p.add_argument('--task',default='BIP-black-2');p.add_argument('--manifest',default='configs/benchmark-p6-v8.json')
+    p.add_argument('--task',default='BIP-black-2');p.add_argument('--manifest',default='configs/benchmark-p6-v9.json')
     args=p.parse_args();config,_=authorization(ROOT/'configs/budget-p6-main-v2-approved.json')
     source=deploy()
     if args.mode=='deploy':print(json.dumps({'status':'DEPLOYED','model_requests':0}));return 0

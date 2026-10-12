@@ -21,6 +21,7 @@ from p6_evaluate_linux import evaluate
 from p2_candidates import exclusive_json,digest
 from p2_judges import J0,J1,J2,J3,LavTransport,blocked,evidence
 from p6_main_contract import enhanced_selection
+from p6_gate_policy import GENERATION_RULES
 
 LEDGER=Path('/opt/workbench/state/p6-main-local-20261011/ledger.json')
 
@@ -48,7 +49,7 @@ def public_task(payload):
         context=fixture();ca=str(CA);public['requests/cacert.pem']=CA.read_bytes()
     elif 'pytest-' in tid:
         public['src/_pytest/_version.py']=(prefix/'lib/python3.9/site-packages/_pytest/_version.py').read_bytes()
-    prompt=r['prompt']+'\nUse the frozen task environment. Preserve existing tests and dependency configuration; add regression tests when useful. No installs, subagents, external repositories, credentials or previous run state. Commit a clean real change. Private acceptance is withheld.\n'
+    prompt=r['prompt']+'\nUse the frozen task environment. '+GENERATION_RULES+' No installs, subagents, external repositories, credentials or previous run state. Private acceptance is withheld.\n'
     prompt+='Public checks (a scratch copy receives the frozen public build/trust data): '+str(prefix/'bin/python')+' -B /opt/workbench/source/p6_public_visible.py --contract {public_contract}\n'
     return {'id':tid,'base':str(base),'base_commit':task['base_commit'],'prefix':str(prefix),'seal':seal,
             'prompt':prompt,'visible':r['visible'],'visible_expected':r.get('visible_expected'),
@@ -136,6 +137,8 @@ def record(arm,chosen,scopes,elapsed,hidden=None):
     failure_class='REQUIRED_JUDGE_INCOMPLETE' if incomplete_judge else 'NO_ELIGIBLE_PUBLIC_CANDIDATE' if chosen is None else 'ROLE_TIMEOUT' if chosen['worker_status']=='TIMEOUT' else 'ROLE_INFRASTRUCTURE' if chosen['worker_status']!='COMPLETED' else 'PUBLIC_HARD_GATE_FAILED' if chosen['verdict']!='PASS' else 'PRIVATE_ACCEPTANCE_FAILED' if accepted['verdict']=='FAIL' else 'INDEPENDENT_REVIEW_PENDING' if accepted['verdict']=='INDETERMINATE' else 'NONE'
     if not incomplete_judge and chosen and chosen['worker_status']=='BUDGET_EXHAUSTED':failure_class='ROLE_REQUEST_CAP'
     if not incomplete_judge and chosen and chosen['worker_status']=='OUTPUT_LIMIT':failure_class='ROLE_OUTPUT_TOKEN_LIMIT'
+    if not incomplete_judge and chosen and chosen['worker_status']=='COMPLETED' and chosen.get('protected_paths_modified'):
+        failure_class='PUBLIC_FILE_POLICY_VIOLATION'
     row={'task_id':task['id'],'arm':arm,'seed':42,'repetition':0,'manifest_sha256':a['payload']['manifest']['manifest_sha256'],
          'outcome':outcome,'reason':'Required enhancement judge incomplete; downstream output is diagnostic only' if incomplete_judge else 'Uniform main protocol; selection frozen before private acceptance',
          'failure_class':failure_class,
@@ -195,11 +198,12 @@ def run(payload):
     def interrupted(signum,frame):raise InterruptedError('Owned main controller interrupted by signal '+str(signum))
     signal.signal(signal.SIGTERM,interrupted);signal.signal(signal.SIGINT,interrupted)
     if os.getuid()==0:raise RuntimeError('No root runtime')
-    if payload['manifest'].get('protocol_version') not in (3,4,5,6,7,8):raise RuntimeError('A new frozen protocol version is required')
+    if payload['manifest'].get('protocol_version') not in (3,4,5,6,7,8,9):raise RuntimeError('A new frozen protocol version is required')
     if payload['task']['family']=='scientific':
         sys.path.insert(0,str(BASE/'envs/science-tms-v1/lib/python3.12/site-packages'))
         from p6_science_main_linux import task as scientific_task,test as scientific_test
         task=scientific_task(payload);tester=scientific_test
+        task['prompt']+='\n'+GENERATION_RULES
     else:task=public_task(payload);tester=public_test
     root=BASE/'private/main-runs'/payload['run_id'];root.mkdir(parents=True)
     (root/'control').mkdir();(root/'control/canary').write_text('withheld controller state')

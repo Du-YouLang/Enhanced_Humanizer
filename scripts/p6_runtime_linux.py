@@ -240,15 +240,24 @@ def candidate(name,worker):
         row['committed_patch_sha256']=digest(patch.encode())
         row['patch'],row['source']=program_evidence(work,task['base_commit'])
         changed=fenced_git(work,'diff','--name-only',task['base_commit']).splitlines()
-        protected=[p for p in changed if (p.startswith(('tests/','testing/','test_')) or Path(p).name in {'pyproject.toml','setup.py','requirements.txt','setup.cfg'}) and (Path(task['base'])/p).exists()]
-        protected.extend(p for p in changed if p in task.get('protected_paths',()) and p not in protected)
+        if ACTIVE.get('main_phase'):
+            from p6_gate_policy import protected_changes
+            protected=protected_changes(changed,task['base'],task.get('protected_paths',()))
+        else:
+            protected=[p for p in changed if (p.startswith(('tests/','testing/','test_')) or Path(p).name in {'pyproject.toml','setup.py','requirements.txt','setup.cfg'}) and (Path(task['base'])/p).exists()]
+            protected.extend(p for p in changed if p in task.get('protected_paths',()) and p not in protected)
         test=test_source(work);raw=(Path(test['evidence_root'])/'test.private.log').read_text()
         row['test_report']={k:test[k] for k in ('verdict','exit_code','tests_observed','elapsed_seconds','private_log_sha256')}
         row['test_report']['log']=raw if len(raw.encode())<=400_000 else 'Public raw test output exceeds handoff bound; see isolated trace hash'
         row['verdict']=test['verdict'] if worker['status']=='COMPLETED' else worker['status']
         if protected or row['working_tree'] or row['head_commit']==task['base_commit'] or not patch:row['verdict']='FAIL' if worker['status']=='COMPLETED' else worker['status']
         row.update(protected_paths_modified=protected)
-        if row['verdict']!='PASS':row['known_failures'].append('Visible tests or completion/clean-commit gate did not pass')
+        if row['verdict']!='PASS':
+            if protected:row['known_failures'].append('Immutable existing test/fixture/dependency files modified: '+', '.join(protected))
+            if row['working_tree']:row['known_failures'].append('Worktree is not clean')
+            if row['head_commit']==task['base_commit'] or not patch:row['known_failures'].append('No committed implementation change')
+            if test['verdict']!='PASS':row['known_failures'].append('Independent public tests did not pass')
+            if worker['status']!='COMPLETED':row['known_failures'].append('Role did not complete: '+worker['status'])
         row['hidden_acceptance']=({'verdict':'NOT_RUN','reason':'Main protocol defers private acceptance until public selection is frozen'}
                                   if ACTIVE.get('defer_hidden') else test_source(work,hidden=True))
         bundle=root/'git-tmp/candidate.bundle';fenced_git(work,'bundle','create',str(bundle),'--all')
