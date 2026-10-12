@@ -45,7 +45,7 @@ def launch(mode,task,source_run,folder):
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--tasks',nargs='+');p.add_argument('--execute-only',action='store_true')
     args=p.parse_args();manifest=json.loads((ROOT/'configs/benchmark-p6-v3.json').read_text())
-    tasks=args.tasks or [t['task_id'] for t in manifest['tasks']]
+    tasks=args.tasks or manifest['smoke_tasks']+[t['task_id'] for t in manifest['tasks'] if t['task_id'] not in manifest['smoke_tasks']]
     if len(tasks)!=len(set(tasks)) or not set(tasks)<={t['task_id'] for t in manifest['tasks']}:raise ValueError('Distinct frozen task identities required')
     head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     folder=ROOT/'.local-workbench/benchmark/main-batches'/datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ');folder.mkdir(parents=True)
@@ -56,7 +56,10 @@ def main():
         for task in tasks:
             source_run=None
             for mode in ('execute',) if args.execute_only else ('execute','sensitivity'):
-                if subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()!=head:raise RuntimeError('Source checkout advanced during the frozen batch')
+                if json.loads((ROOT/'configs/benchmark-p6-v3.json').read_text())['manifest_sha256']!=manifest['manifest_sha256']:raise RuntimeError('Main manifest changed during the frozen batch')
+                # The entry verifies exact executable/entrypoint hashes before
+                # spending. Documentation-only commits and identical-tree Git
+                # merges may advance HEAD without changing this protocol.
                 if shutil.disk_usage(ROOT).free<8*1024**3:raise RuntimeError('Less than 8 GiB host project disk remains; stop before another model role')
                 attempt={'task_id':task,'mode':mode,'status':'LAUNCHING'};value['attempts'].append(attempt);snapshot(path,value)
                 receipt=launch(mode,task,source_run,folder);attempt.update(receipt);snapshot(path,value)
