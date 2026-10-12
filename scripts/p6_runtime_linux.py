@@ -201,6 +201,9 @@ def launch(job,env):
             worker.update(controller_peak_process_tree=peak,controller_rss_limit_mib=8192,controller_process_limit=64,controller_thread_limit=512,controller_stop_reason=stop_reason)
             if stop_reason:worker['status']='TIMEOUT'
         if broker:worker['broker_denials']=broker.denials
+        if ACTIVE.get('main_phase') and ACTIVE['payload']['manifest'].get('protocol_version',0)>=4:
+            from p6_main_contract import classify_role_completion
+            worker=classify_role_completion(worker)
         exclusive_json(root/'controller-outcome.json',worker)
         return worker
     finally:

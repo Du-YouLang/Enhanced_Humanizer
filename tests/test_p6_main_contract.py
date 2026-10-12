@@ -7,11 +7,26 @@ import unittest
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from p2_candidates import digest
 from p2_judges import J0,blocked
-from p6_main_contract import enhanced_selection
+from p6_main_contract import enhanced_selection,classify_role_completion
 from test_p2 import pool
 
 
 class MainContractTests(unittest.TestCase):
+    def test_trusted_request_cap_is_failure_not_infrastructure_or_retry(self):
+        raw={'status':'INFRA_FAIL','error':'HTTP 402','broker_denials':[{'reason':'Role request cap exhausted'}]}
+        got=classify_role_completion(raw)
+        self.assertEqual(got['status'],'BUDGET_EXHAUSTED')
+        self.assertEqual(got['raw_worker_status'],'INFRA_FAIL')
+        self.assertEqual(raw['status'],'INFRA_FAIL')
+        self.assertEqual(got['error'],'HTTP 402')
+
+    def test_upstream_402_policy_and_timeout_do_not_become_request_caps(self):
+        for denials in ([],[{'reason':'Invalid output cap'}],[{'reason':'Role request cap exhausted'},{'reason':'Invalid request size'}]):
+            raw={'status':'INFRA_FAIL','error':'HTTP 402','broker_denials':denials}
+            self.assertEqual(classify_role_completion(raw),raw)
+        raw={'status':'TIMEOUT','broker_denials':[{'reason':'Role request cap exhausted'}]}
+        self.assertEqual(classify_role_completion(raw),raw)
+
     def setup_pools(self):
         original=pool();expanded=copy.deepcopy(original);expanded.pop('pool_hash')
         m=copy.deepcopy(expanded['candidates'][0]);m.update(id='M',head_commit='9'*40)

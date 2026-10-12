@@ -33,8 +33,8 @@ def snapshot(path,value):
     tmp=path.with_suffix('.tmp');tmp.write_text(json.dumps(value,indent=2),encoding='utf-8');tmp.replace(path)
 
 
-def launch(mode,task,source_run,folder):
-    argv=[sys.executable,'scripts/run_p6_main.py',mode,'--task',task,'--detach']
+def launch(mode,task,source_run,folder,manifest_path):
+    argv=[sys.executable,'scripts/run_p6_main.py',mode,'--task',task,'--detach','--manifest',str(manifest_path)]
     if source_run:argv+=['--reuse-run',source_run]
     result=subprocess.run(argv,cwd=ROOT,capture_output=True,timeout=120)
     (folder/(task+'-'+mode+'-launch.private.log')).write_bytes(result.stdout+result.stderr)
@@ -44,25 +44,26 @@ def launch(mode,task,source_run,folder):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--tasks',nargs='+');p.add_argument('--execute-only',action='store_true')
-    args=p.parse_args();manifest=json.loads((ROOT/'configs/benchmark-p6-v3.json').read_text())
+    p.add_argument('--manifest',type=Path,default=ROOT/'configs/benchmark-p6-v4.json')
+    args=p.parse_args();manifest=json.loads(args.manifest.read_text())
     tasks=args.tasks or manifest['smoke_tasks']+[t['task_id'] for t in manifest['tasks'] if t['task_id'] not in manifest['smoke_tasks']]
     if len(tasks)!=len(set(tasks)) or not set(tasks)<={t['task_id'] for t in manifest['tasks']}:raise ValueError('Distinct frozen task identities required')
     head=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     folder=ROOT/'.local-workbench/benchmark/main-batches'/datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ');folder.mkdir(parents=True)
-    value={'status':'RUNNING','manifest_sha256':manifest['manifest_sha256'],'source_commit':head,'planned_tasks':tasks,'attempts':[],
+    value={'status':'RUNNING','manifest_sha256':manifest['manifest_sha256'],'manifest_file':str(args.manifest.resolve().relative_to(ROOT)),'source_commit':head,'planned_tasks':tasks,'attempts':[],
            'automatic_retry':False,'model_identity_substitution':False,'started_unix':time.time()}
     path=folder/'batch-index.private.json';snapshot(path,value)
     try:
         for task in tasks:
             source_run=None
             for mode in ('execute',) if args.execute_only else ('execute','sensitivity'):
-                if json.loads((ROOT/'configs/benchmark-p6-v3.json').read_text())['manifest_sha256']!=manifest['manifest_sha256']:raise RuntimeError('Main manifest changed during the frozen batch')
+                if json.loads(args.manifest.read_text())['manifest_sha256']!=manifest['manifest_sha256']:raise RuntimeError('Main manifest changed during the frozen batch')
                 # The entry verifies exact executable/entrypoint hashes before
                 # spending. Documentation-only commits and identical-tree Git
                 # merges may advance HEAD without changing this protocol.
                 if shutil.disk_usage(ROOT).free<8*1024**3:raise RuntimeError('Less than 8 GiB host project disk remains; stop before another model role')
                 attempt={'task_id':task,'mode':mode,'status':'LAUNCHING'};value['attempts'].append(attempt);snapshot(path,value)
-                receipt=launch(mode,task,source_run,folder);attempt.update(receipt);snapshot(path,value)
+                receipt=launch(mode,task,source_run,folder,args.manifest);attempt.update(receipt);snapshot(path,value)
                 if mode=='execute':source_run=receipt['run_id']
                 while True:
                     query=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',QUERY,receipt['run_id']],timeout=30)

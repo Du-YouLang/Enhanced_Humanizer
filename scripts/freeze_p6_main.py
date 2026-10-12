@@ -1,5 +1,6 @@
 """Freeze the new main manifest only after actual local per-task controls pass."""
 import hashlib
+import argparse
 import json
 from pathlib import Path
 import sys
@@ -57,6 +58,9 @@ print(json.dumps({'scientific':tasks,'public_controls_sha256':sha(public)}))
 
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--version',type=int,default=4)
+    args=parser.parse_args()
+    if args.version not in (3,4):raise ValueError('Explicit supported new protocol required')
     result=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',COLLECT],timeout=60)
     if result.returncode:
         raise RuntimeError('Main freeze blocked by local controls: '+result.stderr.decode(errors='replace')[-1000:])
@@ -64,12 +68,14 @@ def main():
     from run_p6_main import deploy
     runner=deploy()
     body=json.loads((ROOT/'configs/benchmark-p6-v2.json').read_text());body.pop('manifest_sha256')
-    body.update(protocol_version=3,common_generation_timeout_seconds=115,
+    body.update(protocol_version=args.version,common_generation_timeout_seconds=115,
                 generation_scope='One actual outer/Harness role turn; no 600s DS-only allowance',
                 private_acceptance_policy='Freeze all selections first; separate finite independent acceptance and substantive science review',
                 full_tool_trace_policy='Separate metered same-program review; complete calls/results or refuse; explicitly different evidence hash',
                 public_controls_sha256=proof['public_controls_sha256'],compute_policy='LOCAL_ONLY_CPU_PROTOCOLS_PRESERVED_GPU_TASKS_SINGLE_LOCAL_GPU',
                 runner_source_sha256=runner,entrypoint_sha256=hashlib.sha256((ROOT/'scripts/run_p6_main.py').read_bytes()).hexdigest())
+    if args.version>=4:
+        body['operational_cap_policy']='Trusted local role-request-cap exhaustion is BUDGET_EXHAUSTED/arm FAIL, not infrastructure; no upstream HTTP-code inference or retry. Caps unchanged. Preserve first v3 attempt separately.'
     config=json.loads((ROOT/'configs/budget-p6-main-approved.json').read_text())
     descriptions={
         'SCI-PC-ALM':('SakanaAI PC-ALM official frozen implementation and owner v1.1 task',
@@ -91,8 +97,8 @@ def main():
             task.update(proof['scientific'][tid],paper=paper,tolerances=tolerances,invariants=invariants,
                         license='Private authorized local evaluation; retain source notices; no research-material redistribution',
                         independent_evaluation_timeout_seconds=config['scientific_evaluation_timeout_seconds'][tid])
-    path=ROOT/'configs/benchmark-p6-v3.json';frozen=freeze_manifest(body,path)
-    (ROOT/'.local-workbench/audits/p6-main-frozen-controls-v3.private.json').write_text(json.dumps(proof,indent=2),encoding='utf-8')
+    path=ROOT/('configs/benchmark-p6-v'+str(args.version)+'.json');frozen=freeze_manifest(body,path)
+    (ROOT/('.local-workbench/audits/p6-main-frozen-controls-v'+str(args.version)+'.private.json')).write_text(json.dumps(proof,indent=2),encoding='utf-8')
     print(json.dumps({'status':'FROZEN','manifest_sha256':frozen['manifest_sha256'],'tasks':16,'planned_arms':96,'model_requests':0}))
 
 
