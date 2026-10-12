@@ -27,6 +27,17 @@ class MainContractTests(unittest.TestCase):
         raw={'status':'TIMEOUT','broker_denials':[{'reason':'Role request cap exhausted'}]}
         self.assertEqual(classify_role_completion(raw),raw)
 
+    def test_model_output_limit_needs_structured_native_terminal_proof(self):
+        raw={'status':'INFRA_FAIL','error':'max-tokens','broker_denials':[]}
+        self.assertEqual(classify_role_completion(raw),raw)
+        proof={'kind':'max-tokens','source_sha256':'a'*64,'seq':128,'turn':1}
+        got=classify_role_completion(raw,proof)
+        self.assertEqual(got['status'],'OUTPUT_LIMIT')
+        self.assertEqual(got['terminal_evidence'],proof)
+        self.assertEqual(classify_role_completion(raw,{'kind':'error'}),raw)
+        raw['broker_denials']=[{'reason':'Main request/cash cap exhausted'}]
+        self.assertEqual(classify_role_completion(raw,proof),raw)
+
     def setup_pools(self):
         original=pool();expanded=copy.deepcopy(original);expanded.pop('pool_hash')
         m=copy.deepcopy(expanded['candidates'][0]);m.update(id='M',head_commit='9'*40)

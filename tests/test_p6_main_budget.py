@@ -11,6 +11,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT/'scripts'))
 from p6_main_budget import MainLedger, PHASE, BudgetDenied, REQUEST_RESERVE
+from p6_main_budget import authorization
 
 
 def reserve_process(path, config):
@@ -81,6 +82,42 @@ class MainBudgetTests(unittest.TestCase):
         self.ledger().reserve_request('TEST_ONLY/role')
         value = copy.deepcopy(self.config); value['authorization_reference'] += ' changed'
         with self.assertRaises(BudgetDenied): MainLedger(self.path,value).reserve_request('other')
+
+    def test_explicit_finite_amendment_preserves_bytes_requests_and_counts(self):
+        self.ledger().reserve_request('TEST_ONLY/old');before=self.path.read_bytes()
+        finite=json.loads((ROOT/'configs/budget-p6-main-v2-approved.json').read_text())
+        ledger=MainLedger(self.path,finite);archive=self.path.parent/'before.json'
+        with self.assertRaises(BudgetDenied):ledger.reserve_request('TEST_ONLY/new')
+        receipt=ledger.amend_authorization(self.config,archive)
+        self.assertEqual(archive.read_bytes(),before)
+        after=json.loads(self.path.read_text());old=json.loads(before)
+        for key in ('requests','codex_turns','cash_bound_nano'):self.assertEqual(after[key],old[key])
+        self.assertEqual(receipt['requests_retained'],1)
+        self.assertEqual(after['aggregate_caps'],{'requests':10000,'cash_nano':100_000_000_000,'codex_turns':None})
+        ledger.reserve_request('TEST_ONLY/new')
+        self.assertEqual(len(json.loads(self.path.read_text())['requests']),2)
+        with self.assertRaises(BudgetDenied):ledger.amend_authorization(self.config,self.path.parent/'twice.json')
+
+    def test_finite_total_request_and_cash_limits_deny_before_append(self):
+        finite=json.loads((ROOT/'configs/budget-p6-main-v2-approved.json').read_text())
+        ledger=MainLedger(self.path,finite);ledger.reserve_request('TEST_ONLY/setup')
+        template=json.loads(self.path.read_text())
+        for request_limit in (True,False):
+            value=copy.deepcopy(template)
+            count=10000 if request_limit else 100_000_000_000//REQUEST_RESERVE
+            value['requests']=[]
+            for index in range(count):
+                row=copy.deepcopy(template['requests'][0]);row.update(index=index+1,experiment='TEST_ONLY/scope-'+str(index//100))
+                if request_limit:
+                    row.update(status='SETTLED_USAGE_UPPER_BOUND',charge_bound_nano=0,model_id='deepseek-flash',usage={k:0 for k in ('input_tokens','cache_read_input_tokens','cache_creation_input_tokens','output_tokens')})
+                value['requests'].append(row)
+            value['cash_bound_nano']=sum(r['charge_bound_nano'] for r in value['requests'])
+            self.path.write_text(json.dumps(value));before=self.path.read_bytes()
+            with self.assertRaisesRegex(BudgetDenied,'Main request/cash cap exhausted'):ledger.reserve_request('TEST_ONLY/another')
+            self.assertEqual(self.path.read_bytes(),before)
+        for key,changed in [('api_cash_usd',101),('deepseek_inference_requests',10001),('per_role_inference_requests',101)]:
+            bad=copy.deepcopy(finite);bad[key]=changed
+            with self.assertRaises(BudgetDenied):authorization(bad)
 
     @unittest.skipUnless(os.name == 'posix', 'Production uses native Linux flock')
     def test_parallel_controllers_share_exact_role_count(self):

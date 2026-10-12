@@ -58,9 +58,9 @@ print(json.dumps({'scientific':tasks,'public_controls_sha256':sha(public)}))
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--version',type=int,default=4)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--version',type=int,default=5)
     args=parser.parse_args()
-    if args.version not in (3,4):raise ValueError('Explicit supported new protocol required')
+    if args.version not in (3,4,5):raise ValueError('Explicit supported new protocol required')
     result=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',COLLECT],timeout=60)
     if result.returncode:
         raise RuntimeError('Main freeze blocked by local controls: '+result.stderr.decode(errors='replace')[-1000:])
@@ -76,7 +76,12 @@ def main():
                 runner_source_sha256=runner,entrypoint_sha256=hashlib.sha256((ROOT/'scripts/run_p6_main.py').read_bytes()).hexdigest())
     if args.version>=4:
         body['operational_cap_policy']='Trusted local role-request-cap exhaustion is BUDGET_EXHAUSTED/arm FAIL, not infrastructure; no upstream HTTP-code inference or retry. Caps unchanged. Preserve first v3 attempt separately.'
-    config=json.loads((ROOT/'configs/budget-p6-main-approved.json').read_text())
+    config=json.loads((ROOT/('configs/budget-p6-main-v2-approved.json' if args.version>=5 else 'configs/budget-p6-main-approved.json')).read_text())
+    if args.version>=5:
+        from p6_main_budget import authorization
+        body.update(budget_authorization_sha256=authorization(config)[1],
+                    aggregate_api_requests=10000,aggregate_api_cash_usd=100,per_role_api_requests=100,
+                    operational_output_policy='Structured native DSH max-tokens terminal proof is OUTPUT_LIMIT/arm FAIL; retain original error and trace hash; no automatic retry')
     descriptions={
         'SCI-PC-ALM':('SakanaAI PC-ALM official frozen implementation and owner v1.1 task',
             {'accuracy_pp':.25,'gradient_cosine_abs':.02},
