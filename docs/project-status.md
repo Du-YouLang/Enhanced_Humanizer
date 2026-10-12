@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-12 Pi增量比较准备：独立codex/pi-comparison-phase0，真实Pi1.1.0/Node24.19.0/Scientific1.7/PRL0.6.3/NeuroForge固定commit在项目D盘WSL内安装；四组资源/OS/peer/auth/network控制和合成HTTP驱动真实文件/测试/commit控制PASS，provider调用0/费用0。已交16题映射、四profiles、依赖锁、schema/日志归一化、关闭的两题smoke计划。完整Phase0真实provider gate、smoke、PRL后台、OpenAI API仍未验；旧A-F与活动v11不改。原Black-2 DS0/pool-B在100轮请求处BUDGET_EXHAUSTED，额外blackd服务测试有网络PermissionError；见ADR-0026、Pi-comparison-Phase0及P6-other-factors审计。原P7功能632d精确包仍有效，新Pi工作包尚未并入发布包；没有发布授权。
+
 2026-10-12 v11实际有限batch20261012T081602Z已启动，首题Black-2仍在执行；16:22真实71个新DS请求中70个已结算，wire max_tokens全为256000、最高已知输出5708，累计1063DS/45订阅预留/API保守上界USD17.4810246（实付unavailable）。功能632d8c7原生144全PASS，GitHub精确CI38222470447三项SUCCESS；新版P7独立安装/HTTP/端口/ef085回滚/411refs私有备份PASS_LOCAL_PREVIEW，回执p7-default256k-accepted.private.json。实际执行不等于整题通过；完整P6仍待验收，旧部分结果保留且不重试，产品Draft30人审合并及外部发布确认保留。见audits/P6-DSH-default-output-2026-10-12.md。
 
 2026-10-12 用户明确要求DSH每请求默认256000，取代4096及16384提案；v11独立冻结f327d2c9b3eb0485571c06ee7f905dbd9dbc1220a663ef5f121eb0e15ca6875d。角色私有profile/计量Broker/逐请求预留及LAV缓存一致，旧账本不重置。官方installed SDK+实际HTTP合成输出控制、时间十项/文件四项控制PASS且零provider调用。v10拥有者核验时已退出、没有最终回执且无遗留工作区进程，原因unavailable；不完整原样本保留，不能称整题完成或模型FAIL。原生144全PASS、Windows137pass7skip/Node8通过，锁内修订保留992DS/45订阅/API上界USD15.886371；CI/实际新主集/新版P7打包取后续回执；完整P6仍待验收。见audits/P6-DSH-default-output-2026-10-12.md及ADR-0025。

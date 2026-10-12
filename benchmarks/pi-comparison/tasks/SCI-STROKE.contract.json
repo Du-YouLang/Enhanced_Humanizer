@@ -1,0 +1,16 @@
+{
+  "task_id": "SCI-STROKE",
+  "family": "scientific",
+  "base_commit": "d5df0c335cf37bbc4e54e49e19c9b48dbab9dda2",
+  "material_sha256": "aa2af5aeba5be46dbc9a8dc34e5509378040bf907bcbe137ab4125818360d793",
+  "preparation_status": "READY",
+  "environment_sha256": "c060ab1965e829d297a661473b698a5a7672eb8b7ec41d4e97c3bb9b3ccecd54",
+  "private_acceptance_binding": "Use exact main preparation; no private paths or gold values in this view",
+  "public_contract_status": "BIND_EXISTING_PREPARATION_BEFORE_LIVE",
+  "grader_authority": "Existing private P6 evaluator, never passed to Pi",
+  "task_role_seconds": 1200,
+  "per_request_seconds": 120,
+  "max_output_tokens": 256000,
+  "compute_policy": "LOCAL_ONLY_CPU_PROTOCOLS_PRESERVED_GPU_TASKS_SINGLE_LOCAL_GPU",
+  "independent_acceptance": "NOT_RUN"
+}
