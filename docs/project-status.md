@@ -1,6 +1,6 @@
 # 项目交接状态
 
-2026-10-12 用户授权本机断电／开机恢复。独立 supervisor 与26项零provider控制已实现；项目私有v3 runtime 的 HKCU 当前用户登录启动、真实后台观察与互斥均核验。活动Windows主集controller保持原PID30312，冻结v12-final2源码/manifest/账本未改，服务只观察。完成题不重跑，execute完成只补未开始sensitivity；中断/不明槽位保留pending并继续其它未开始题。任意模型流/训练中间状态及物理断电未验，不把pending称完整P6。见ADR-0028与P6-boot-recovery审计；独立安装重启控制/精确commit/CI取私有回执。
+2026-10-12 用户授权本机断电／开机恢复。独立 supervisor 与26项零provider控制已实现；项目私有v4 runtime 的 HKCU 当前用户登录启动核验，保留v3 journal前缀与累计状态。活动Windows主集controller保持原PID30312，冻结v12-final2源码/manifest未改，主账本未重置，服务只观察。完成题不重跑，execute完成只补未开始sensitivity；中断/不明槽位保留pending并继续其它未开始题。任意模型流/训练中间状态及物理断电未验，不把pending称完整P6。见ADR-0028与P6-boot-recovery审计；独立安装重启控制/精确commit/CI取私有回执。
 
 2026-10-12 v12-final2首题Black-2真实A–F六分支全部独立验收PASS，完整主流程1838.856秒，receipt SHA c3e0e206e6ef2f6f580772a8d71478e290184b18130fab6a6415c5dab3d66a84；共享N3池，不是六独立随机样本。完整trace敏感性run20261012T132738Z仍执行，有限batch继续其它题；最新快照1811DS/68订阅/API上界USD30.742602，实付unavailable。20条LAV settlement缺request timeout字段，不填0；源代码600s recover与字段缺口分开记，不修改活动冻结源码。见P6-v12-final2-first-task审计；完整P6/Pi仍未接受，旧账本和样本保持。
 

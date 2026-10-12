@@ -6,9 +6,9 @@
 
 模拟 boot 端到端控制实际调用两个 fixture Python 子进程，只启动第二题的 execute/sensitivity，第一题两个已完成阶段调用数为零。该控制使用合成 inventory，provider 调用零，不能称为真实模型或物理断电验收。
 
-真实安装在项目 `.local-workbench/recovery/p6-boot-v3/`，使用当前用户 HKCU Run 单独启动值。Windows 当前 token 非提权，Task Scheduler 注册被操作系统拒绝；核验注册未成功后采用无需密码/管理员权限的用户登录启动方式。初次注册检查错误与拒绝记录保留，不称成功。实际 HKCU 值、固定 Pythonw/配置、后台进程和 heartbeat 已核验；必须登录该 Windows 用户后恢复，无需打开 Codex，不配置自动登录。
+真实安装先在项目 `.local-workbench/recovery/p6-boot-v3/`，最终修正升级到 `p6-boot-v4/`，使用当前用户 HKCU Run 单独启动值。Windows 当前 token 非提权，Task Scheduler 注册被操作系统拒绝；核验注册未成功后采用无需密码/管理员权限的用户登录启动方式。初次注册检查错误与拒绝记录保留，不称成功。实际 HKCU 值、固定 Pythonw/配置、后台进程和 heartbeat 已核验；必须登录该 Windows 用户后恢复，无需打开 Codex，不配置自动登录。
 
-服务实际状态为 `OBSERVE_ORIGINAL`；当前 Windows 主集 controller 仍 PID30312、创建时间2026-10-12T20:54:58.373942+08:00，服务没有模型 launch intent。首次 native inventory 发现历史 offline launch 不在 matcher 中而失败关闭，未读取真实凭据或调用模型；补充 offline 排除与 GNU timeout 子进程归属控制后通过。旧准备目录 v1/v2 保留，失败原因见本轮工具记录，注册最终指向 v3。
+服务实际状态为 `OBSERVE_ORIGINAL`；当前 Windows 主集 controller 仍 PID30312、创建时间2026-10-12T20:54:58.373942+08:00，服务没有模型 launch intent。首次 native inventory 发现历史 offline launch 不在 matcher 中而失败关闭，未读取真实凭据或调用模型；补充 offline 排除与 GNU timeout 子进程归属控制后通过。旧准备目录 v1/v2 保留，失败原因见本轮工具记录。v4升级保留v3完整journal前缀和累计状态；恢复健康后清除旧blocked状态、单次模式只启动一阶段、锁冲突不混作其它文件PermissionError。旧版本控制仍只对其版本有效，最终源码控制/CI见独立回执。
 
 Windows 完整测试187项（180通过、7平台skip），61.911秒；独立WSL恢复控制26项全通过，0.337秒；治理7项及staged repository/Gitleaks通过。真实恢复服务进程终止/重启（只针对精确核验过的服务PID26100→31316）后hash-chain/累计状态仍可读取，主集原PID/创建时间/命令未变、恢复launch intents仍为零；第二个服务入口实际被OS互斥锁拒绝。此服务进程测试不是对当前模型或整机实施断电。
 

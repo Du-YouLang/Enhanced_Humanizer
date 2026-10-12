@@ -40,16 +40,23 @@ def atomic(path, value):
         finally: os.close(fd)
 
 
+class SupervisorAlreadyRunning(RuntimeError):
+    pass
+
+
 @contextmanager
 def singleton(path):
     """Nonblocking OS-owned lock; reboot releases it, stale PID text grants no ownership."""
     with Path(path).open('a+b') as file:
-        if os.name == 'nt':
-            import msvcrt
-            file.seek(0); msvcrt.locking(file.fileno(), msvcrt.LK_NBLCK, 1)
-        else:
-            import fcntl
-            fcntl.flock(file, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        try:
+            if os.name == 'nt':
+                import msvcrt
+                file.seek(0); msvcrt.locking(file.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+                fcntl.flock(file, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except (BlockingIOError, PermissionError) as error:
+            raise SupervisorAlreadyRunning('Another process owns the recovery lock') from error
         try: yield
         finally:
             if os.name == 'nt':
@@ -234,7 +241,8 @@ def supervise(config_path, *, execute=False, once=False):
                         completed[row['run_id']] = row['receipt_sha256']
                 state['ledger_floor'] = inv['ledger']['floor']
                 state.update(last_probe_unix=time.time(), boot=identity['boot'], decision=decision,
-                             ledger=inv['ledger'], native_boot_id=inv['native_boot_id'])
+                             ledger=inv['ledger'], native_boot_id=inv['native_boot_id'], status=decision['action'])
+                state.pop('error_type', None)
                 if decision != state.get('last_event_decision'):
                     journal.append('DECISION', {'decision': decision, 'ledger': inv['ledger']})
                     state['last_event_decision'] = decision
@@ -260,6 +268,8 @@ def supervise(config_path, *, execute=False, once=False):
                     receipt = json.loads(result.stdout); intent.update(receipt, status='STARTED')
                     state['native_boot_id'] = inv['native_boot_id']
                     journal.append('LAUNCHED', intent); atomic(state_path, state)
+                    if once:
+                        print(json.dumps({'status': 'STARTED', 'run_id': receipt['run_id']})); return
                 elif decision['action'] in ('ALL_COMPLETED', 'FINISHED_WITH_PENDING_INTERRUPTED'):
                     state['status'] = decision['action']; atomic(state_path, state)
                     print(json.dumps({'status': decision['action'], 'pending': decision.get('pending', [])})); return
@@ -305,4 +315,4 @@ if __name__ == '__main__':
     if args.command == 'arm': arm(args.project, args.batch_index, args.owner, args.destination)
     else:
         try: supervise(args.config, execute=args.execute, once=args.once)
-        except (BlockingIOError, PermissionError): print(json.dumps({'status': 'ANOTHER_SUPERVISOR_OWNS_LOCK'}))
+        except SupervisorAlreadyRunning: print(json.dumps({'status': 'ANOTHER_SUPERVISOR_OWNS_LOCK'}))
