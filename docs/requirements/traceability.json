@@ -351,14 +351,16 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
         "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
-        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING",
+        "tests/test_boot_recovery.py"
       ],
       "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0007",
-        "ADR-0010"
+        "ADR-0010",
+        "ADR-0028"
       ],
       "source_line": 59,
       "phase_evidence": {
@@ -1193,14 +1195,16 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "tests/test_boot_recovery.py"
       ],
       "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
         "ADR-0006",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0028"
       ],
       "source_line": 119,
       "phase_evidence": {
@@ -1220,13 +1224,15 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING",
+        "tests/test_boot_recovery.py"
       ],
       "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0010"
+        "ADR-0010",
+        "ADR-0028"
       ],
       "source_line": 123,
       "phase_evidence": {
@@ -2280,7 +2286,8 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
       "tests": [
         "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "tests/test_boot_recovery.py"
       ],
       "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
       "relevant_adrs": [
@@ -2294,7 +2301,8 @@
         "ADR-0020",
         "ADR-0021",
         "ADR-0022",
-        "ADR-0023"
+        "ADR-0023",
+        "ADR-0028"
       ],
       "source_line": 193,
       "phase_evidence": {

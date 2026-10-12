@@ -75,6 +75,7 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_p6_main_budget.py' -v
       - run: python -m unittest discover -s tests -p 'test_p6_main_contract.py' -v
       - run: python -m unittest discover -s tests -p 'test_p6_network_recovery.py' -v
+      - run: python -m unittest discover -s tests -p 'test_boot_recovery.py' -v
       - run: python -m unittest discover -s tests -p 'test_science.py' -v
       - run: python -m unittest discover -s tests -p 'test_publish.py' -v
       - run: python -m unittest discover -s tests -p 'test_pc*.py' -v
