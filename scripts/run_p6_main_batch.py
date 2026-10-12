@@ -24,7 +24,8 @@ root=base/'main-runs'/name;stat=Path('/proc/'+str(launch['pid'])+'/stat');alive=
 if stat.exists():
  fields=stat.read_text().split();alive=fields[2]!='Z' and fields[21]==launch['process_start_ticks']
 status='RUNNING' if alive else 'EXIT_WITHOUT_RECEIPT';details={}
-if (root/'failure.json').exists():status='INFRA_FAIL';details={'error_type':json.loads((root/'failure.json').read_text())['error_type']}
+if (root/'failure.json').exists():
+ v=json.loads((root/'failure.json').read_text());status=v.get('status','INFRA_FAIL');details={'error_type':v['error_type'],'model_failure':v.get('model_failure','unavailable')}
 elif (root/'receipt.json').exists():
  v=json.loads((root/'receipt.json').read_text());status=v['status'];details={k:v[k] for k in ('task_id','judgments','controller_end_to_end_seconds','model_activity_seconds') if k in v}
  details['arms']={p.stem[4:]:json.loads(p.read_text())['outcome'] for p in root.glob('arm-*.json')}
@@ -70,7 +71,7 @@ def launch(mode,task,source_run,folder,manifest_path):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--tasks',nargs='+');p.add_argument('--execute-only',action='store_true')
-    p.add_argument('--manifest',type=Path,default=ROOT/'configs/benchmark-p6-v11.json')
+    p.add_argument('--manifest',type=Path,default=ROOT/'configs/benchmark-p6-v12-final.json')
     p.add_argument('--continue-batch',type=Path,help='Explicit continuation of a preserved pre-spend dirty-source refusal; reuses completed candidates')
     args=p.parse_args();manifest=json.loads(args.manifest.read_text())
     tasks=args.tasks or manifest['smoke_tasks']+[t['task_id'] for t in manifest['tasks'] if t['task_id'] not in manifest['smoke_tasks']]

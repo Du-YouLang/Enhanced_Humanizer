@@ -1,0 +1,16 @@
+{
+  "task_id": "SWEL-pytest-dev__pytest-11143",
+  "family": "SWE-bench Lite",
+  "base_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+  "material_sha256": "0a29b6c2063fcb556ad6ae20de6a6a8ecc07680df01bddb605585aff823e1c7c",
+  "preparation_status": "READY",
+  "environment_sha256": null,
+  "private_acceptance_binding": "Use exact main preparation; no private paths or gold values in this view",
+  "public_contract_status": "BIND_EXISTING_PREPARATION_BEFORE_LIVE",
+  "grader_authority": "Existing private P6 evaluator, never passed to Pi",
+  "task_role_seconds": 900,
+  "per_request_seconds": 120,
+  "max_output_tokens": 256000,
+  "compute_policy": "LOCAL_ONLY_CPU_PROTOCOLS_PRESERVED_GPU_TASKS_SINGLE_LOCAL_GPU",
+  "independent_acceptance": "NOT_RUN"
+}

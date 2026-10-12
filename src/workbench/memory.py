@@ -56,7 +56,8 @@ class Memory:
             with (self.root/'writer.lock').open('a+b') as lock:
                 if os.name=='nt':
                     import msvcrt
-                    if lock.tell()==0:lock.write(b'0');lock.flush()
+                    # Windows can lock beyond EOF; initialization writes race
+                    # another process already holding this same region.
                     lock.seek(0);msvcrt.locking(lock.fileno(),msvcrt.LK_LOCK,1)
                 else:
                     import fcntl

@@ -57,7 +57,7 @@ class Broker:
                     if body.get('stream_options')!={'include_usage':True}:raise BudgetDenied('Exact usage reporting required')
                     if any(tool.get('type')!='function' for tool in body.get('tools',[])):
                         raise BudgetDenied('Billed server tools are not authorized')
-                    index=broker.ledger.reserve_request(broker.experiment)
+                    index=broker.reserve_request()
                     asyncio.run(broker.forward(self,body,index))
                 except BudgetDenied as error:
                     broker.denials.append({'reason':str(error),'observed_monotonic':time.monotonic()})
@@ -86,6 +86,9 @@ class Broker:
 
     def start(self):
         threading.Thread(target=self.server.serve_forever,daemon=True).start()
+
+    def reserve_request(self):
+        return self.ledger.reserve_request(self.experiment)
 
     async def forward(self,handler,body,index):
         # Offline governance imports must not require the live transport package.

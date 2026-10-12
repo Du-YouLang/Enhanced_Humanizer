@@ -6,6 +6,7 @@ import sqlite3
 import sys
 import tempfile
 import unittest
+import subprocess
 import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -26,6 +27,17 @@ class TestMemory(unittest.TestCase):
         self.m.record('attempt','node',{'task_id':'task','role':'builder','status':'PASS','head_sha':head,'base_sha':head,
                        'contract':{'prompt':'current task'},'artifacts':{}})
         self.m.record('test_result','fixture-test',{'task_id':'task','attempt_id':'node','verdict':'PASS','kind':'TEST_FIXTURE'})
+
+    def test_fresh_writer_lock_serializes_independent_processes(self):
+        shared=self.root/'new-shared-state'
+        code='import sys;sys.path.insert(0,sys.argv[1]);from workbench.memory import Memory;m=Memory(sys.argv[2]);' \
+             '[m.record("task",sys.argv[3]+"-"+str(i),{"value":i}) for i in range(3)]'
+        children=[subprocess.Popen([sys.executable,'-c',code,str(ROOT/'src'),str(shared),str(i)],stdout=subprocess.PIPE,stderr=subprocess.PIPE) for i in range(4)]
+        outcomes=[(child.returncode,error) for child in children for _,error in [child.communicate(timeout=30)]]
+        for code,error in outcomes:self.assertEqual(code,0,error.decode(errors='replace'))
+        m=Memory(shared)
+        self.assertEqual(m.verify()['events'],12)
+        self.assertEqual(len(m.list('task')),12)
 
     def test_journal_replays_after_projection_loss_and_retains_epistemic_history(self):
         for state in ('hypothesis','fact','rejected','superseded','unresolved'):

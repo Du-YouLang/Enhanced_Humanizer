@@ -82,6 +82,15 @@ class TraceEvidenceTests(unittest.TestCase):
         rollout.write_text(json.dumps({'type':'response_item','payload':{'type':'message','role':'assistant','content':'actual generation'}})+'\n')
         self.assertIsNone(codex_routing_failure(self.root))
 
+    def test_unicode_line_separators_do_not_split_jsonl_records(self):
+        self.trace=self.root/'dsh/sessions/project/session/session.v3.jsonl';self.trace.parent.mkdir(parents=True)
+        rows=[{'type':'tool/call','seq':1,'data':{'arguments':'before\u2028after\u0085tail'}},
+              {'type':'tool/result','seq':2,'data':{'result':'result\u2029end'}}]
+        self.trace.write_text(''.join(json.dumps(r,ensure_ascii=False)+'\n' for r in rows),encoding='utf-8')
+        value=tool_trace(self.root)
+        self.assertEqual((value['tool_calls'],value['tool_results']),(1,1))
+        self.assertEqual(value['records'][1]['data']['result'],'result\u2029end')
+
     def test_native_driver_terminal_and_complete_tools_use_official_direct_state(self):
         self.trace=self.root/'dsh/sessions/project/session/session.v3.jsonl';self.trace.parent.mkdir(parents=True)
         self.write([{'type':'tool/call','seq':1,'data':{'arguments':'full native call'}},

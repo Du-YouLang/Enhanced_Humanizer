@@ -10,7 +10,13 @@ def classify_role_completion(worker,terminal=None,transport=None):
     """
     value=dict(worker)
     denials=worker.get('broker_denials',[])
-    if worker.get('status')=='INFRA_FAIL' and denials and all(
+    events=worker.get('network_recovery_events',[])
+    pending=[e for e in events if e.get('state') in ('RETRY_PENDING','NETWORK_CHECK_REQUIRED')]
+    if worker.get('status') in ('INFRA_FAIL','TIMEOUT') and pending:
+        value.update(status='INFRA_RETRY_PENDING',raw_worker_status=worker['status'],
+                     operational_stop_reason='NETWORK_CHECK_REQUIRED' if pending[-1]['state']=='NETWORK_CHECK_REQUIRED' else 'NETWORK_RECOVERY_PENDING',
+                     model_failure=False,network_recovery_evidence=pending)
+    elif worker.get('status')=='INFRA_FAIL' and denials and all(
         d.get('reason')=='Role request cap exhausted' for d in denials
     ):
         value.update(status='BUDGET_EXHAUSTED',raw_worker_status='INFRA_FAIL',

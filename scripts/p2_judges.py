@@ -74,16 +74,35 @@ class LavTransport:
             raise BudgetDenied('Unauthorized LAV request')
         if type(body.get('max_tokens')) is not int or not 0<body['max_tokens']<=self.max_output:
             raise BudgetDenied('LAV output limit')
-        index=self.ledger.reserve_request(self.scope,scope_requests=15,scope_cash_nano=1_000_000_000)
+        config=getattr(self.ledger,'config',{})
+        from p6_network_policy import enabled,NetworkCheckRequired,NetworkRetryPending
+        new_policy=enabled(config)
+        reserve=lambda:self.ledger.reserve_request(self.scope,scope_requests=config['per_role_inference_requests'] if new_policy else 15,
+                                                   scope_cash_nano=None if new_policy else 1_000_000_000)
+        index=reserve()
         tick=time.perf_counter()
         import asyncio
-        async def call():
-            async with asyncio.timeout(min(120,max(.01,self.deadline-time.monotonic()))):
-                async with httpx.AsyncClient(trust_env=False,follow_redirects=False,timeout=120) as client:
-                    return await client.post('https://api.deepseek.com/chat/completions',json=body,
+        async def call(index=None,seconds=120):
+            self.requests_sent+=1
+            async with asyncio.timeout(min(seconds,max(.01,self.deadline-time.monotonic()))):
+                async with httpx.AsyncClient(trust_env=False,follow_redirects=False,timeout=seconds) as client:
+                    result=await client.post('https://api.deepseek.com/chat/completions',json=body,
                                              headers={'Authorization':'Bearer '+self.key})
-        self.requests_sent+=1
-        response=asyncio.run(call())
+                    if new_policy:
+                        from p6_network_recovery import TRANSIENT_HTTP,TransientNetworkError
+                        if result.status_code in TRANSIENT_HTTP:raise TransientNetworkError('Transient LAV provider status')
+                    return result
+        network_events=[]
+        if new_policy:
+            from p6_network_recovery import recover
+            try:response=asyncio.run(recover(call,reserve,self.deadline,config,network_events,first_index=index))
+            finally:
+                if self.private_response_root is not None:
+                    from p2_candidates import exclusive_json
+                    self.private_response_root.mkdir(parents=True,exist_ok=True)
+                    exclusive_json(self.private_response_root/('network-request-'+str(index)+'.json'),{'events':network_events,'model_failure':False})
+            index=network_events[-1]['request_index']
+        else:response=asyncio.run(call())
         if response.status_code!=200:raise RuntimeError('LAV upstream HTTP '+str(response.status_code))
         raw=response.json();tracker=ChatUsage();tracker.event(raw);tracker.event('[DONE]')
         if self.private_response_root is not None:

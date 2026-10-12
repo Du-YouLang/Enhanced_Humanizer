@@ -2,6 +2,7 @@
 import subprocess
 import time
 import uuid
+import json
 from pathlib import Path
 
 
@@ -18,3 +19,19 @@ def probe():
     return {'kind':'ZERO_MODEL_FENCED_CONNECTIVITY','model_requests':0,'elapsed_seconds':time.perf_counter()-tick,
             'http_status':result.stdout.strip(),'exit':result.returncode,'observed_unix':time.time(),
             'verdict':'PASS' if result.returncode==0 and result.stdout.strip()=='200' else 'FAIL'}
+
+
+def reconnect_probe():
+    """Five actual, zero-model, unchanged-fence connection attempts at most."""
+    attempts=[]
+    for n in range(5):
+        try:value=probe()
+        except subprocess.TimeoutExpired:
+            value={'kind':'ZERO_MODEL_FENCED_CONNECTIVITY','model_requests':0,'verdict':'FAIL',
+                   'error_type':'TimeoutExpired','http_status':'unavailable','observed_unix':time.time()}
+        attempts.append(value)
+        if value['verdict']=='PASS':
+            return {'verdict':'PASS','model_requests':0,'attempts':attempts,'consecutive_failures':0}
+        value['state']='SHOULD_RETRY' if n<4 else 'NETWORK_CHECK_REQUIRED'
+        if n<4:time.sleep((1,2,4,8)[n])
+    return {'verdict':'NETWORK_CHECK_REQUIRED','model_requests':0,'attempts':attempts,'consecutive_failures':5}

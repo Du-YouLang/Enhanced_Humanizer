@@ -13,6 +13,7 @@ import threading
 
 from p1_budget import BudgetDenied, Ledger, REQUEST_RESERVE, INPUT_NANO, OUTPUT_NANO, CONTEXT_TOKENS, MAX_OUTPUT
 from p6_output_policy import OUTPUT_REVISION,MAIN_OUTPUT_TOKENS
+from p6_network_policy import POLICY as NETWORK_POLICY, REVISION as NETWORK_REVISION, enabled as network_enabled
 
 PHASE = 'P6_MAIN_LOCAL_20261011'
 TIME_REVISION = 'USER_APPROVED_2026-10-12_PUBLIC15_SCIENCE20'
@@ -51,6 +52,11 @@ def authorization(config):
                             experiment_timeout_seconds_by_family={'public':7200,'scientific':10800})
         elif 'time_budget_revision' in value:
             raise BudgetDenied('Unknown human time-budget revision')
+        if 'network_recovery_revision' in value:
+            if (not network_enabled(value) or value.get('time_budget_revision')!=TIME_REVISION
+                    or value.get('output_budget_revision')!=OUTPUT_REVISION):
+                raise BudgetDenied('Unknown or unbound human network revision')
+            required.update(NETWORK_POLICY)
     if not value.get('authorization_reference') or any(
         key not in value or type(value[key]) is not type(expected) or value[key] != expected
         for key, expected in required.items()
@@ -158,6 +164,14 @@ class MainLedger(Ledger):
                           and 'output_budget_revision' not in previous.config
                           and self.config.get('output_budget_revision')==OUTPUT_REVISION
                           and self.caps()==previous.caps())
+        network_amendment=('network_recovery_revision' not in previous.config
+                           and network_enabled(self.config)
+                           and previous.config.get('output_budget_revision')==OUTPUT_REVISION
+                           and self.caps()==previous.caps())
+        if network_amendment:
+            allowed={'authorization_reference',*NETWORK_POLICY}
+            if any(self.config.get(key)!=previous.config.get(key) for key in set(self.config)|set(previous.config) if key not in allowed):
+                raise BudgetDenied('Network amendment cannot change other authorized controls')
         if output_amendment:
             allowed={'authorization_reference','output_budget_revision','per_request_output_tokens'}
             if any(self.config.get(key)!=previous.config.get(key) for key in set(self.config)|set(previous.config) if key not in allowed):
@@ -168,7 +182,7 @@ class MainLedger(Ledger):
                      'per_experiment_active_timeout_seconds','experiment_timeout_seconds_by_family'}
             if any(self.config.get(key)!=previous.config.get(key) for key in set(self.config)|set(previous.config) if key not in allowed):
                 raise BudgetDenied('Time amendment cannot change other authorized controls')
-        if not (finite_amendment or time_amendment or output_amendment):
+        if not (finite_amendment or time_amendment or output_amendment or network_amendment):
             raise BudgetDenied('Only the explicit finite-ceiling or human time-budget amendment is supported')
         if not self.path.exists():raise BudgetDenied('No existing ledger to amend')
         archive=Path(archive)
@@ -180,7 +194,7 @@ class MainLedger(Ledger):
                 'previous_aggregate_caps':previous.caps(),'before_ledger_sha256':snapshot,
                 'amended_at':datetime.now(timezone.utc).isoformat(),'requests_retained':len(value['requests']),
                 'subscription_turns_retained':len(value['codex_turns']),
-                'amendment_kind':OUTPUT_REVISION if output_amendment else TIME_REVISION if time_amendment else 'USER_FINITE_CEILING',
+                'amendment_kind':NETWORK_REVISION if network_amendment else OUTPUT_REVISION if output_amendment else TIME_REVISION if time_amendment else 'USER_FINITE_CEILING',
                 'cash_bound_nano_retained':value['cash_bound_nano']})
             value.update(authorization_sha256=self.authorization_sha256,aggregate_caps=self.caps())
             self.validate(value)

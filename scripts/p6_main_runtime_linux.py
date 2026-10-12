@@ -92,6 +92,9 @@ def launch(name,backend,role='builder',**kwargs):
     if time.monotonic()>=shared.ACTIVE['deadline']:raise TimeoutError('Main experiment activity cap')
     d,env=job(name,backend,role,**kwargs);w=shared.launch(d,env)
     shared.ACTIVE['workers'][name]=w
+    if w['status']=='INFRA_RETRY_PENDING':
+        from p6_network_policy import NetworkRetryPending
+        raise NetworkRetryPending('Role network recovery pending: '+name)
     if w['status']=='INFRA_FAIL':
         raise RuntimeError('Role infrastructure failed; preserved without automatic retry: '+name)
     return w
@@ -119,7 +122,11 @@ def lav(name,pool):
         value=J1(client,'/opt/workbench/upstreams/lav',a['root']/(name+'-cache')).judge(pool)
         value['note']='Original LAV K1; exact frozen pool and full public evidence retained'
         return value
-    except Exception as error:return blocked(pool,'J1','BLOCKED_LOGPROBS' if 'LOGPROBS' in str(error) else 'INFRA_FAIL',type(error).__name__)
+    except Exception as error:
+        from p6_network_policy import NetworkCheckRequired,NetworkRetryPending
+        if isinstance(error,(NetworkCheckRequired,NetworkRetryPending)):
+            raise
+        return blocked(pool,'J1','BLOCKED_LOGPROBS' if 'LOGPROBS' in str(error) else 'INFRA_FAIL',type(error).__name__)
 
 
 def region_blocked(pool):
@@ -208,8 +215,8 @@ def run(payload):
     def interrupted(signum,frame):raise InterruptedError('Owned main controller interrupted by signal '+str(signum))
     signal.signal(signal.SIGTERM,interrupted);signal.signal(signal.SIGINT,interrupted)
     if os.getuid()==0:raise RuntimeError('No root runtime')
-    if payload['manifest'].get('protocol_version') not in (3,4,5,6,7,8,9,10,11):raise RuntimeError('A new frozen protocol version is required')
-    if payload['manifest'].get('protocol_version')==11:
+    if payload['manifest'].get('protocol_version') not in (3,4,5,6,7,8,9,10,11,12):raise RuntimeError('A new frozen protocol version is required')
+    if payload['manifest'].get('protocol_version') in (11,12):
         from p6_output_policy import GENERATION_GUIDANCE
         if (payload['manifest'].get('per_request_output_tokens')!=payload['budget'].get('per_request_output_tokens') or
             payload['manifest'].get('generation_guidance')!=GENERATION_GUIDANCE):
@@ -265,6 +272,9 @@ def run(payload):
         for cid,w in zip(('A','B','C'),workers):
             shared.ACTIVE['workers']['pool-'+cid]=w;pool_rows.append(shared.candidate(cid,w))
         pool=shared.public_pool(pool_rows);exclusive_json(root/'frozen-public-pool.json',pool)
+        if any(w['status']=='INFRA_RETRY_PENDING' for w in workers):
+            from p6_network_policy import NetworkRetryPending
+            raise NetworkRetryPending('Pool network recovery pending; partial programs preserved')
         if any(w['status']=='INFRA_FAIL' for w in workers):
             raise RuntimeError('Pool infrastructure failure retained; no automatic model retry')
         judgments={'J0':J0().judge(pool),'J2':region_blocked(pool)}
@@ -334,7 +344,10 @@ if __name__=='__main__':
         if value.get('status')=='FAIL':raise SystemExit(1)
     except Exception as error:
         import traceback
+        from p6_network_policy import NetworkCheckRequired,NetworkRetryPending
+        pending=isinstance(error,(NetworkCheckRequired,NetworkRetryPending))
+        status='INFRA_RETRY_PENDING' if pending else 'INFRA_FAIL'
         if shared.ACTIVE.get('root'):
-            exclusive_json(shared.ACTIVE['root']/'failure.json',{'status':'INFRA_FAIL','error_type':type(error).__name__,'traceback':traceback.format_exc(),
+            exclusive_json(shared.ACTIVE['root']/'failure.json',{'status':status,'model_failure':False if pending else 'unavailable','error_type':type(error).__name__,'traceback':traceback.format_exc(),
                 'completed_arms':[p.name for p in shared.ACTIVE['root'].glob('arm-*.json')]})
-        print(json.dumps({'status':'INFRA_FAIL','error_type':type(error).__name__}),flush=True);raise
+        print(json.dumps({'status':status,'error_type':type(error).__name__}),flush=True);raise

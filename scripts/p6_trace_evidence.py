@@ -28,7 +28,7 @@ def codex_routing_failure(root):
     for path in (root/'home/.codex').rglob('rollout-*.jsonl'):
         if path.is_symlink() or path.stat().st_size>20_000_000:raise ValueError('Invalid Codex rollout')
         raw=path.read_bytes();origins.append({'file':str(path.relative_to(root)),'sha256':hashlib.sha256(raw).hexdigest()})
-        for line in raw.decode('utf-8').splitlines():
+        for line in filter(None,raw.decode('utf-8').split('\n')):
             row=json.loads(line);payload=row.get('payload',{})
             if row.get('type')=='response_item' and (payload.get('type') in ('function_call','custom_tool_call') or payload.get('role')=='assistant'):return None
     return {'kind':'CLI_ROUTING_DISCOVERY_TIMEOUT','matching_retry_records':count,'generated_response_items':0,'origin_hashes':origins,
@@ -42,7 +42,7 @@ def dsh_terminal_reason(root):
     for file in files:
         if file.is_symlink() or file.stat().st_size>20_000_000:raise ValueError('Invalid native terminal trace')
         raw=file.read_bytes()
-        for line in raw.decode('utf-8').splitlines():
+        for line in filter(None,raw.decode('utf-8').split('\n')):
             row=json.loads(line)
             if row.get('type')=='turn/end':
                 reason=row.get('data',{}).get('reason',{})
@@ -91,7 +91,7 @@ def tool_trace(root,*,max_bytes=2_000_000):
     for file in files:
         if file.is_symlink() or file.stat().st_size>20_000_000:raise ValueError('Invalid native trace')
         raw=file.read_bytes();origins.append({'file':str(file.relative_to(root)),'sha256':hashlib.sha256(raw).hexdigest()})
-        for line in raw.decode('utf-8').splitlines():
+        for line in filter(None,raw.decode('utf-8').split('\n')):
             row=json.loads(line)
             if backend=='codex':
                 payload=row.get('payload',{});kind=payload.get('type','')

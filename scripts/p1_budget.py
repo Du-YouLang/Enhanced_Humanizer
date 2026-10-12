@@ -31,6 +31,25 @@ class BudgetDenied(RuntimeError):
     pass
 
 
+@contextmanager
+def process_lock(path):
+    """Serialize reservations across processes on both supported platforms."""
+    with Path(path).open('a+b') as handle:
+        if os.name=='posix':
+            import fcntl
+            fcntl.flock(handle,fcntl.LOCK_EX)
+        elif os.name=='nt':
+            import msvcrt
+            # Windows permits locking beyond EOF. Writing an initialization
+            # byte here races a second process that already holds this region.
+            handle.seek(0);msvcrt.locking(handle.fileno(),msvcrt.LK_LOCK,1)
+        else:raise BudgetDenied('No supported interprocess ledger lock')
+        try:yield
+        finally:
+            if os.name=='nt':
+                handle.seek(0);msvcrt.locking(handle.fileno(),msvcrt.LK_UNLCK,1)
+
+
 class Ledger:
     def __init__(self, path, *, requests=40, codex_turns=6, cash_nano=1_000_000_000, phase='P1'):
         caps={'P1':(40,1_000_000_000,6),'P2':(100,2_000_000_000,6),'P3':(40,1_000_000_000,12),
@@ -47,10 +66,7 @@ class Ledger:
     def transaction(self):
         self.path.parent.mkdir(parents=True,exist_ok=True)
         with self.lock:
-            with self.path.with_suffix('.lock').open('a+b') as lock:
-                if os.name=='posix':
-                    import fcntl
-                    fcntl.flock(lock,fcntl.LOCK_EX)
+            with process_lock(self.path.with_suffix('.lock')):
                 value=json.loads(self.path.read_text()) if self.path.exists() else {
                     'schema_version':1,'phase':self.phase,'requests':[],'codex_turns':[],'cash_bound_nano':0}
                 if value.get('phase')!=self.phase or not isinstance(value.get('requests'),list) or not isinstance(value.get('codex_turns'),list):

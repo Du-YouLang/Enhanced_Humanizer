@@ -169,8 +169,10 @@ def prepare_job(name,backend,role='builder',source=None,view=None,prompt=None,mo
 def launch(job,env):
     root=Path(job['root']);tick=time.perf_counter();broker=None
     if job['backend']=='dsh' and not job.get('offline_control'):
-        broker=Broker(ACTIVE['key'],ScopedLedger(ACTIVE['ledger'],job['scope'],request_cap=ACTIVE['payload']['budget']['per_role_inference_requests'] if ACTIVE.get('main_phase') else 20,cash_cap=None if ACTIVE.get('main_phase') else 1_000_000_000),
-                      job['scope'],min(ACTIVE['deadline'],time.monotonic()+job['role_seconds']))
+        from p6_network_recovery import broker as make_broker
+        broker=make_broker(ACTIVE['key'],ScopedLedger(ACTIVE['ledger'],job['scope'],request_cap=ACTIVE['payload']['budget']['per_role_inference_requests'] if ACTIVE.get('main_phase') else 20,cash_cap=None if ACTIVE.get('main_phase') else 1_000_000_000),
+                      job['scope'],min(ACTIVE['deadline'],time.monotonic()+job['role_seconds']),
+                      ACTIVE['payload']['budget'] if ACTIVE.get('main_phase') else {})
         broker.start();job=dict(job,capability=broker.capability,broker_url=broker.url)
     elif job['backend']=='dsh':job=dict(job,capability='offline-control',broker_url='http://offline.invalid')
     try:
@@ -200,7 +202,13 @@ def launch(job,env):
         if ACTIVE.get('main_phase'):
             worker.update(controller_peak_process_tree=peak,controller_rss_limit_mib=8192,controller_process_limit=64,controller_thread_limit=512,controller_stop_reason=stop_reason)
             if stop_reason:worker['status']='TIMEOUT'
-        if broker:worker['broker_denials']=broker.denials
+        if broker:
+            worker['broker_denials']=broker.denials
+            if hasattr(broker,'network_events'):
+                # Stop outstanding forwards before freezing the outcome and usage.
+                broker.close()
+                worker['network_recovery_events']=list(broker.network_events)
+                broker=None
         if ACTIVE.get('main_phase') and ACTIVE['payload']['manifest'].get('protocol_version',0)>=4:
             from p6_main_contract import classify_role_completion
             terminal=None

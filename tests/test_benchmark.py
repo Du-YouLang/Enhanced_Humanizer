@@ -21,7 +21,7 @@ class BenchmarkTests(unittest.TestCase):
 
     def test_latest_entrypoint_bytes_match_frozen_protocol_and_packaged_lf(self):
         root=Path(__file__).resolve().parents[1]
-        latest=json.loads((root/'configs/benchmark-p6-v11.json').read_text())
+        latest=json.loads((root/'configs/benchmark-p6-v12-final.json').read_text())
         check_manifest(latest);entry=(root/'scripts/run_p6_main.py').read_bytes()
         self.assertNotIn(b'\r\n',entry)
         self.assertEqual(hashlib.sha256(entry).hexdigest(),latest['entrypoint_sha256'])
@@ -35,6 +35,22 @@ class BenchmarkTests(unittest.TestCase):
             changed=copy.deepcopy(latest);changed['per_request_output_tokens']=value
             changed.pop('manifest_sha256')
             with self.assertRaises(ValueError):freeze_manifest(changed,root/'.local-workbench/test-tmp/output-bad-manifest.json')
+
+    def test_wrong_budget_is_refused_before_paid_entry(self):
+        root=Path(__file__).resolve().parents[1]
+        p=subprocess.run([sys.executable,'scripts/run_p6_main.py','execute','--manifest','configs/benchmark-p6-v12.json',
+            '--budget','configs/budget-p6-main-v4-default256k-approved.json'],cwd=root,capture_output=True,text=True,timeout=10)
+        self.assertNotEqual(p.returncode,0)
+        self.assertIn('no deployment or spending',p.stderr)
+
+    def test_new_request_policy_keeps_same_family_time_and_private_gates(self):
+        root=Path(__file__).resolve().parents[1]
+        latest=json.loads((root/'configs/benchmark-p6-v12.json').read_text());check_manifest(latest)
+        self.assertEqual((latest['per_role_api_requests'],latest['request_time_cap_seconds'],latest['per_request_output_tokens']),(1000,600,256000))
+        prior=json.loads((root/'configs/benchmark-p6-v11.json').read_text())
+        for new,old in zip(latest['tasks'],prior['tasks']):
+            for key in ('task_id','base_commit','gold_sha256','tolerances','invariants','role_time_cap_seconds','model_activity_time_cap_seconds'):
+                self.assertEqual(new.get(key),old.get(key))
 
     def test_closed_smoke_refuses_paid_reentry_before_wsl_or_credential_access(self):
         root=Path(__file__).resolve().parents[1]

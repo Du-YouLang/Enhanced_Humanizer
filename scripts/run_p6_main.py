@@ -61,12 +61,17 @@ def main():
     p.add_argument('mode',choices=('deploy','offline','execute','sensitivity'))
     p.add_argument('--reuse-run')
     p.add_argument('--detach',action='store_true',help='Finite owned Linux controller, independent of the chat command lifetime')
-    p.add_argument('--task',default='BIP-black-2');p.add_argument('--manifest',default='configs/benchmark-p6-v11.json')
-    p.add_argument('--budget',default='configs/budget-p6-main-v4-default256k-approved.json')
-    args=p.parse_args();config,_=authorization(ROOT/args.budget)
+    p.add_argument('--task',default='BIP-black-2');p.add_argument('--manifest',default='configs/benchmark-p6-v12-final.json')
+    p.add_argument('--budget',help='Must match the frozen manifest authorization')
+    args=p.parse_args()
+    manifest_path=ROOT/args.manifest
+    frozen=json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
+    budget_path=args.budget or frozen.get('budget_config') or 'configs/budget-p6-main-v5-network-approved.json'
+    config,config_hash=authorization(ROOT/budget_path)
+    if args.mode in ('execute','sensitivity') and frozen.get('budget_authorization_sha256')!=config_hash:
+        raise RuntimeError('Budget authorization differs from the frozen manifest; no deployment or spending')
     source=deploy()
     if args.mode=='deploy':print(json.dumps({'status':'DEPLOYED','model_requests':0}));return 0
-    manifest_path=ROOT/args.manifest
     if args.mode=='offline' and not manifest_path.exists():
         # An offline control is not a frozen main model result.
         manifest=json.loads((ROOT/'configs/benchmark-p6-v2.json').read_text());manifest.pop('manifest_sha256')
@@ -89,7 +94,8 @@ print('PC calibration PASS')'''
         if r.returncode:raise RuntimeError('User requested PC calibration before main execution')
     network=None
     if args.mode in ('execute','sensitivity') and manifest.get('protocol_version',0)>=6:
-        r=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',"import json,sys;sys.path.insert(0,'/opt/workbench/source');from p6_connection_probe import probe;print(json.dumps(probe()))"],timeout=25)
+        probe_name='reconnect_probe' if manifest.get('protocol_version',0)>=12 else 'probe'
+        r=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',"import json,sys;sys.path.insert(0,'/opt/workbench/source');from p6_connection_probe import "+probe_name+" as probe;print(json.dumps(probe()))"],timeout=120 if probe_name=='reconnect_probe' else 25)
         if r.returncode:raise RuntimeError('Fenced zero-model connectivity probe failed before credential access or spending')
         network=json.loads(r.stdout)
         if network['verdict']!='PASS':raise RuntimeError('Codex routing unavailable; no model launch or automatic retry')

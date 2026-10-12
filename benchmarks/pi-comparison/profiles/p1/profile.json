@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "flow_id": "P1",
+  "pi_version": "1.1.0",
+  "separate_agent_home_required": true,
+  "discover_ambient_resources": false,
+  "explicit_skills": [
+    "pi-scientific-skills@1.7.0/skills"
+  ],
+  "explicit_extensions": [
+    "pi-scientific-skills@1.7.0/extensions"
+  ],
+  "extension_tools": [
+    "sci_find"
+  ],
+  "default_tools": [
+    "read",
+    "bash",
+    "edit",
+    "write"
+  ],
+  "auto_retry_enabled": false,
+  "model_execution_enabled": false,
+  "os_namespace_and_humanize_fence_required": true,
+  "deepseek_requested_model": "deepseek-flash",
+  "output_tokens": 256000,
+  "provider_wire_and_tools_gate": "NOT_RUN",
+  "research_loop_background_gate": "N/A"
+}
