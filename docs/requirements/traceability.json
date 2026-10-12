@@ -23,12 +23,16 @@
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 35,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -106,12 +110,16 @@
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 41,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -485,13 +493,17 @@
         "ADR-0008",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 73,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -518,13 +530,17 @@
         "ADR-0008",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 75,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -610,7 +626,8 @@
         "ADR-0008",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 81,
       "phase_evidence": {
@@ -618,6 +635,9 @@
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -640,12 +660,16 @@
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 83,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -674,7 +698,8 @@
         "ADR-0008",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 87,
       "phase_evidence": {
@@ -682,6 +707,9 @@
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -710,7 +738,8 @@
         "ADR-0008",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 89,
       "phase_evidence": {
@@ -718,6 +747,9 @@
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -847,13 +879,17 @@
         "ADR-0009",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 99,
       "phase_evidence": {
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -1035,12 +1071,16 @@
         "ADR-0013",
         "ADR-0014",
         "ADR-0016",
-        "ADR-0017"
+        "ADR-0017",
+        "ADR-0018"
       ],
       "source_line": 115,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -1257,13 +1297,17 @@
         "ADR-0010",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 133,
       "phase_evidence": {
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -1671,12 +1715,16 @@
         "ADR-0013",
         "ADR-0014",
         "ADR-0016",
-        "ADR-0017"
+        "ADR-0017",
+        "ADR-0018"
       ],
       "source_line": 167,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -1701,12 +1749,16 @@
         "ADR-0013",
         "ADR-0014",
         "ADR-0016",
-        "ADR-0017"
+        "ADR-0017",
+        "ADR-0018"
       ],
       "source_line": 169,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -1731,12 +1783,16 @@
         "ADR-0013",
         "ADR-0014",
         "ADR-0016",
-        "ADR-0017"
+        "ADR-0017",
+        "ADR-0018"
       ],
       "source_line": 171,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -1759,12 +1815,16 @@
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 173,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -1787,12 +1847,16 @@
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 175,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -1815,12 +1879,16 @@
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 177,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -1843,12 +1911,16 @@
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 179,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -1873,12 +1945,16 @@
         "ADR-0013",
         "ADR-0014",
         "ADR-0016",
-        "ADR-0017"
+        "ADR-0017",
+        "ADR-0018"
       ],
       "source_line": 181,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -1903,12 +1979,16 @@
         "ADR-0013",
         "ADR-0014",
         "ADR-0016",
-        "ADR-0017"
+        "ADR-0017",
+        "ADR-0018"
       ],
       "source_line": 183,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -1933,12 +2013,16 @@
         "ADR-0013",
         "ADR-0014",
         "ADR-0016",
-        "ADR-0017"
+        "ADR-0017",
+        "ADR-0018"
       ],
       "source_line": 185,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -1961,12 +2045,16 @@
         "ADR-0002",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 187,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -2013,13 +2101,17 @@
         "ADR-0008",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 193,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -2044,12 +2136,16 @@
         "ADR-0003",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 195,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -2076,13 +2172,17 @@
         "ADR-0007",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 197,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -2107,12 +2207,16 @@
         "ADR-0003",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 199,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -2244,13 +2348,17 @@
         "ADR-0013",
         "ADR-0014",
         "ADR-0016",
-        "ADR-0017"
+        "ADR-0017",
+        "ADR-0018"
       ],
       "source_line": 211,
       "phase_evidence": {
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -2273,12 +2381,16 @@
         "ADR-0003",
         "ADR-0012",
         "ADR-0013",
-        "ADR-0014"
+        "ADR-0014",
+        "ADR-0018"
       ],
       "source_line": 213,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {
@@ -2403,13 +2515,17 @@
         "ADR-0013",
         "ADR-0014",
         "ADR-0016",
-        "ADR-0017"
+        "ADR-0017",
+        "ADR-0018"
       ],
       "source_line": 243,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P6_MAIN": "Four owner guides/assets copied into private project intake; local-only CPU/GPU preparation and corrected grading under ADR-0016. No main model matrix acceptance yet."
+      },
+      "acceptance_records": {
+        "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals."
       }
     },
     {

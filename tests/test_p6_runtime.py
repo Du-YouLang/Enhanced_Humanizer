@@ -67,5 +67,14 @@ class NativeRuntimeTests(unittest.TestCase):
                           permission=Permission(local='all',user='none',system='none',online='none'),
                           fence_transform=lambda f:f,external_readonly=True)
 
+    def test_relay_rejects_external_links_before_export_or_parent_file_reads(self):
+        source=self.root/'source';source.mkdir()
+        outside=self.root/'private-reference';outside.write_text('withheld')
+        (source/'leak.py').symlink_to(outside)
+        with patch.object(self.r,'fenced_git') as export:
+            with self.assertRaisesRegex(ValueError,'escapes'):
+                self.r.clone(source,self.root/'relay','run/denial')
+            export.assert_not_called()
+
 
 if __name__=='__main__':unittest.main()

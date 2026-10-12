@@ -27,12 +27,17 @@ def task_fence(job):
         reads=tuple(p for p in fence.read if not contains_auth(p))
         writes=tuple(p for p in fence.write if not contains_auth(p))
         reads+=(job['prefix'],job['input_file'],'/etc/mime.types')
+        reads+=tuple(job.get('public_read_paths',()))
+        if job.get('gpu_coding'):
+            reads+=('/usr/lib/wsl',)
+            writes+=('/dev/dxg',)
         reads+=('/opt/workbench/tools/bubblewrap/0.9.0-1build1',)
         if job['backend']=='codex':reads+=(str(auth),)
         hosts=fence.hosts
         if job.get('fixture_url'):
             from urllib.parse import urlsplit
-            hosts+=(urlsplit(job['fixture_url']).netloc,'httpbin.org:443')
+            hosts+=(urlsplit(job['fixture_url']).netloc,)
+            if job.get('phase')!='P6_MAIN_LOCAL_20261011':hosts+=('httpbin.org:443',)
             reads+=('/etc/ssl/certs/ca-certificates.crt','/opt/workbench/source/p6_requests_runner.py')
         fence=replace(fence,read=reads,write=writes,hosts=hosts)
         if checked:return fence
@@ -98,20 +103,32 @@ def main():
     from hmz.flows import Permission
     role=job['role'];turns=[];tick=time.perf_counter()
     permission=Permission(local='read' if role=='verifier' else 'all',user='none',system='none',online='none')
-    ledger=Ledger('/opt/workbench/state/p6-budget/ledger.json',phase='P6',requests=200,codex_turns=32,cash_nano=5_000_000_000)
+    main_phase=job.get('phase')=='P6_MAIN_LOCAL_20261011'
+    if main_phase:
+        from p6_main_budget import MainLedger
+        ledger=MainLedger('/opt/workbench/state/p6-main-local-20261011/ledger.json',job['budget'])
+    else:
+        ledger=Ledger('/opt/workbench/state/p6-budget/ledger.json',phase='P6',requests=200,codex_turns=32,cash_nano=5_000_000_000)
     label='verifier' if role=='verifier' else 'reviewer' if role=='reviewer' else 'builder'
     model='deepseek-flash' if job['backend']=='dsh' else 'gpt-6.1-sol'
     driver=MeteredDriver(f'{label}={job["backend"]}/{model}:low',RoleLedger(ledger),job['scope'],turns,1,
-                         600 if job['backend']=='dsh' else 115,permission=permission,fence_transform=task_fence(job),
+                         115 if main_phase else (600 if job['backend']=='dsh' else 115),permission=permission,fence_transform=task_fence(job),
                          external_readonly=role=='verifier')
     value={'kind':'REAL_MODEL_EXPERIMENT','status':'RUNNING','turns':turns,'scope':job['scope'],
            'role':role,'execution_mode':job['execution_mode'],'input_sha256':job['input_sha256']}
     try:
         if job.get('offline_control'):
+            value['kind']='ZERO_MODEL_CONTROL'
             from hmz.coganchor.fence import Fence
             fence=Fence.of(local='read' if role=='verifier' else 'all',user='none',system='none',online=False,
                            workdir=job['work'],home=Path.home(),write=(os.environ.get('CODEX_HOME',str(Path.home()/'.codex')),))
-            task_fence(job)(fence)
+            fence=task_fence(job)(fence)
+            if job.get('offline_public_command'):
+                from hmz.coganchor.fence import wrapper
+                p=subprocess.run([*wrapper(fence),*job['offline_public_command']],cwd=job['work'],
+                                 capture_output=True,text=True,timeout=100)
+                (Path(job['root'])/'public-check.private.log').write_text(p.stdout+p.stderr)
+                if p.returncode!=job.get('offline_public_expected_exit',0):raise RuntimeError('Actual public scratch-copy check returned an unexpected baseline result')
             value.update(kind='ZERO_MODEL_CONTROL',status='COMPLETED')
         elif job['execution_mode']=='native_driver':
             answer=asyncio.run(native_turn(driver,job));value.update(status='COMPLETED',answer=answer)

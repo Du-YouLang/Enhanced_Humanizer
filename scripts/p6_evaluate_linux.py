@@ -65,7 +65,7 @@ def pytest_statuses(cases,expected):
 
 def evaluate(source, prefix, argv, hidden_files, *, timeout=120, expected_tests=None, test_patch=None,
              fixture_url=None, tls_regressions=False, test_framework='pytest',fixture_ca=None,
-             writable_fixture_paths=()):
+             writable_fixture_paths=(),local_tls_only=False):
     from hmz.coganchor.fence import Fence, wrapper
     if os.getuid() == 0:
         raise RuntimeError('Evaluator must never run as root')
@@ -114,7 +114,7 @@ def evaluate(source, prefix, argv, hidden_files, *, timeout=120, expected_tests=
         hosts=(parsed.netloc,)
     if tls_regressions:
         if not fixture_url:raise ValueError('TLS regressions require the Requests fixture contract')
-        hosts+=('httpbin.org:443',)
+        if not local_tls_only:hosts+=('httpbin.org:443',)
         system_read+=('/etc/ssl/certs/ca-certificates.crt',)
         if fixture_ca:
             ca=Path(fixture_ca).resolve()

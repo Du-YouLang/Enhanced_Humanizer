@@ -74,3 +74,5 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_pc*.py' -v
       - run: python -m unittest discover -s tests -p 'test_test_identities.py' -v
       - run: python -m unittest discover -s tests -p 'test_output_data.py' -v
+      - run: python -m unittest discover -s tests -p 'test_trace_evidence.py' -v
+      - run: python -m unittest discover -s tests -p 'test_requests_local_transport.py' -v
