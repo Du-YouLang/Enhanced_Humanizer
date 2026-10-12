@@ -20,6 +20,7 @@ from p6_prepare_linux import BASE,seal_environment
 from p6_evaluate_linux import evaluate
 from p2_candidates import exclusive_json,digest
 from p2_judges import J0,J1,J2,J3,LavTransport,blocked,evidence
+from p6_main_contract import enhanced_selection
 
 LEDGER=Path('/opt/workbench/state/p6-main-local-20261011/ledger.json')
 
@@ -129,8 +130,10 @@ def record(arm,chosen,scopes,elapsed,hidden=None):
     elif chosen['worker_status']!='COMPLETED':outcome='TIMEOUT' if chosen['worker_status']=='TIMEOUT' else 'INFRA_FAIL'
     elif chosen['verdict']!='PASS':outcome='FAIL'
     if outcome not in ('PASS','FAIL','TIMEOUT','INFRA_FAIL','INDETERMINATE'):outcome='INDETERMINATE'
+    incomplete_judge=arm in ('C','F') and a.get('enhancement_judge_incomplete',False)
+    if incomplete_judge:outcome='INDETERMINATE'
     row={'task_id':task['id'],'arm':arm,'seed':42,'repetition':0,'manifest_sha256':a['payload']['manifest']['manifest_sha256'],
-         'outcome':outcome,'reason':'Uniform main protocol; selection frozen before private acceptance',
+         'outcome':outcome,'reason':'Required enhancement judge incomplete; downstream output is diagnostic only' if incomplete_judge else 'Uniform main protocol; selection frozen before private acceptance',
          'model_identity':ARMS[arm][0],'harness':ARMS[arm][1],'evidence_kind':'REAL_MODEL','time_cap_seconds':1200,
          'independent_acceptance':accepted['verdict'],'head_commit':chosen.get('head_commit','unavailable') if chosen else 'unavailable',
          'metrics':shared.metrics(scopes,elapsed),'run_contract_sha256':a['contract_sha256'],
@@ -252,7 +255,8 @@ def run(payload):
         if w['status']=='COMPLETED' and (not isinstance(considered,list) or not all(isinstance(cid,str) for cid in considered) or sorted(considered)!=['A','B','C'] or decision.get('action')!='IMPLEMENTED'):m['verdict']='FAIL'
         expanded=shared.public_pool(pool_rows+[m],'JUDGE_COMPARISON');jm=judge('judge-merge',expanded)
         exclusive_json(root/'frozen-expanded-public-pool.json',expanded)
-        chosen=shared.select(expanded,jm);enhanced=next((c for c in pool_rows+[m] if c['id']==chosen),None)
+        chosen=enhanced_selection(pool,expanded,judgments['J3'],jm);enhanced=next((c for c in pool_rows+[m] if c['id']==chosen),None)
+        shared.ACTIVE['enhancement_judge_incomplete']=judgments['J3']['status']!='COMPLETED' or jm['status']!='COMPLETED'
         selections['C']=enhanced;timings['C']=timings['B']+time.perf_counter()-start
         scopes['C']=scopes['B']+[shared.ACTIVE['workers'][name]['scope'] for name in ('judge-input','reviewer','judge-merge')]
         exclusive_json(root/'merge-ablation-public.json',{'pool_hash':pool['pool_hash'],'best_of_n':selected,'with_m':chosen,'judgment':jm,
