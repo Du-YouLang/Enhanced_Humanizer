@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-12 v10-final已实际启动新有限batch20261012T070108Z，首题Black-2的四个DS角色已收束为OUTPUT_LIMIT（70–192秒，实际角色900秒），不是新时间限额超时；其余角色与最终独立验收继续，不能预写完整P6通过率。功能源96d461d：native140全PASS、CI38215186553三项SUCCESS、Windows132pass8skip/Node8；P7精确新ZIP/独立venv/HTTP/端口/ef085旧包回滚/410refs私有备份PASS_LOCAL_PREVIEW，回执p7-time-final-accepted.private.json。初次Windows索引占用是零模型启动失败，修复有限同字节替换后另开新batch，旧记录保留。见audits/P6-v10-time-budget-2026-10-12.md；累计预算不重置，产品Draft30人审合并和对外发布要求保留。
+
 2026-10-12 用户已明确采用公共每角色15分钟、科研20分钟，解除上条时间讨论暂停。新v10冻结c7342d9c22824edf5c47ead44a9ce2790e3d1546504d78fc8f6926c513e0ac82，新角色900/1200秒、整题活动7200/10800秒；新时间控制十项、原文件门四项真实零模型验证通过。锁内时间授权修订保留897DS/39订阅/API上界USD15.1468026及旧精确账本，未扩大累计10000次/USD100。原v9/第三题人类暂停样本不改写不混入新版。见ADR-0024及audits/P6-v10-time-budget-2026-10-12.md；新版实际模型/原生测试/远程CI/P7打包进度以后续精确回执为准，完整P6仍未接受。
 
 2026-10-12 最新用户暂停：检查失败/超时及是否延长困难任务时限。v9有限batch已停止并验证无拥有者/工作区进程；前两题5/12 PASS，Black-2八个编码角色均触发115秒时限，B/C因无eligible候选FAIL；Requests-1963五臂独立PASS、E超时。第三题因人类暂停保留部分结果，不作模型失败。累计897DS/39订阅预留/API上界USD15.1468026，未重置；后续调用、加时或新协议等待用户方向。见audits/P6-time-budget-review-2026-10-12.md。P7精确02243c7原生135/Windows127pass8skip/Node8、新独立安装/HTTP/旧包回滚PASS_LOCAL_PREVIEW；源码CI38210625407三项SUCCESS，交付回执p7-report-final-accepted.private.json。外部发布未授权，产品Draft PR30待GitHub人工合并。

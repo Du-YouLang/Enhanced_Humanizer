@@ -2823,7 +2823,7 @@
       "id": "USR-P7-01",
       "requirement": "P7安装打包和交付准备；发布前再次征求用户确认",
       "status": "P7_LOCAL_INSTALLATION_VERIFIED_NOT_RELEASED",
-      "checkpoint": "Exact14c26d293ebd local preview ZIP/real fresh venv/HTTP permissions/inference-publishing disabled/port ownership/ef085 old rollback PASS; source CI38207003117 Windows129 total121pass8skip, Node8. Receipt p7-current-account-accepted.private.json. Later v9 source requires a new exact package; no external release.",
+      "checkpoint": "Exact96d461d4ad17 local preview ZIP/fresh venv/HTTP disabled inference-publishing/port ownership/ef085 rollback PASS; native140, CI38215186553 all3success Windows132pass8skip Node8, receipt p7-time-final-accepted.private.json. External release not authorized.",
       "relevant_adrs": [
         "ADR-0013",
         "ADR-0015"
@@ -2845,8 +2845,8 @@
     {
       "id": "USR-BM-TIME-01",
       "requirement": "2026-10-12 用户决定公共任务每角色15min、科研20min；同题A-F统一时限，旧短预算结果保留",
-      "status": "IMPLEMENTED_ZERO_MODEL_CONTROLS_MAIN_RECEIPTS_PENDING",
-      "checkpoint": "v10-final c7342d9c22824edf5c47ead44a9ce2790e3d1546504d78fc8f6926c513e0ac82; public900/scientific1200 role seconds, active7200/10800. Actual ten Harness/fence controls and four file-policy controls PASS; cumulative10000API/USD100 and numerical acceptance unchanged. Locked time amendment preserves897requests/39subscription/API boundUSD15.1468026.",
+      "status": "IMPLEMENTED_REAL_MAIN_STARTED_PHASE_ACCEPTANCE_PENDING",
+      "checkpoint": "v10-final c7342d9c22824edf5c47ead44a9ce2790e3d1546504d78fc8f6926c513e0ac82; public900/scientific1200 role seconds, active7200/10800. Actual ten Harness/fence controls and four file-policy controls PASS; cumulative10000API/USD100 and numerical acceptance unchanged. Locked time amendment preserves897requests/39subscription/API boundUSD15.1468026. Functional96d461d native140/CI all pass; finite new batch20261012T070108Z actual role900 confirmed. First task DS0/N3 OUTPUT_LIMIT preserved as output cause, not deadline. Full task/matrix/scientific review remains pending.",
       "relevant_adrs": [
         "ADR-0020",
         "ADR-0024"
