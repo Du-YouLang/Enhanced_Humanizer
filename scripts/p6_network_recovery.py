@@ -35,24 +35,35 @@ async def recover(call, reserve, deadline, config, events, *, first_index=None):
     failures=0
     for attempt in range(1, config['network_consecutive_failure_limit']+1):
         if time.monotonic() >= deadline:
+            if not failures:
+                events.append({'state':'ROLE_TIMEOUT','reason':'ROLE_DEADLINE','consecutive_failures':0})
+                raise TimeoutError('Role deadline reached without a provider connection failure')
             events.append({'state':'RETRY_PENDING','reason':'ROLE_DEADLINE','consecutive_failures':failures})
             raise NetworkRetryPending('Role deadline reached during network recovery')
         try:index=first_index if attempt==1 and first_index is not None else reserve()
         except BudgetDenied:
-            events.append({'state':'RETRY_PENDING','reason':'AUTHORIZED_BUDGET','consecutive_failures':failures})
+            events.append({'state':'RETRY_PENDING' if failures else 'BUDGET_EXHAUSTED','reason':'AUTHORIZED_BUDGET','consecutive_failures':failures})
             raise
         tick=time.perf_counter()
         row={'attempt':attempt,'request_index':index,'state':'RUNNING'}
         events.append(row)
+        remaining=deadline-time.monotonic()
+        limited_by_role=remaining<config['per_request_timeout_seconds']
         try:
-            async with asyncio.timeout(min(config['per_request_timeout_seconds'],deadline-time.monotonic())):
+            async with asyncio.timeout(min(config['per_request_timeout_seconds'],remaining)):
                 result=await call(index,config['per_request_timeout_seconds'])
             row.update(state='RECOVERED' if failures else 'COMPLETED',consecutive_failures=0)
             return result
         except asyncio.CancelledError:
+            if not failures:
+                row.update(state='ROLE_STOPPED',consecutive_failures=0)
+                raise
             row.update(state='RETRY_PENDING',reason='ROLE_STOPPED',consecutive_failures=failures)
             raise NetworkRetryPending('Owning role stopped during a provider request')
         except Exception as error:
+            if isinstance(error,TimeoutError) and limited_by_role and time.monotonic()>=deadline and not failures:
+                row.update(state='ROLE_TIMEOUT',reason='ROLE_DEADLINE',consecutive_failures=0)
+                raise
             if not retryable(error):
                 row.update(state='NON_RETRYABLE',error_type=type(error).__name__)
                 raise

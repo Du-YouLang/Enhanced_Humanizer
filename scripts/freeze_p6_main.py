@@ -82,7 +82,7 @@ if int(sys.argv[1])>=11:
   if sha(Path('/opt/workbench/source')/name)!=expected_sha:raise RuntimeError('Output control source changed')
  proof['output_control_receipt_sha256']=sha(p)
 if int(sys.argv[1])>=12:
- p=Path('/opt/workbench/benchmark/private/network-controls-20261012-v4/receipt.json');r=json.loads(p.read_text())
+ p=Path('/opt/workbench/benchmark/private/network-controls-20261012-v5/receipt.json');r=json.loads(p.read_text())
  if r['status']!='PASS' or r['provider_requests']!=0 or r['uid']==0 or r['ledger_sha256_before']!=r['ledger_sha256_after']:raise RuntimeError('Network recovery control failed')
  for name,expected_sha in r['source_sha256'].items():
   if sha(Path('/opt/workbench/source')/name)!=expected_sha:raise RuntimeError('Network recovery executable source changed')

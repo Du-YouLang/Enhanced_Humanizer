@@ -56,5 +56,5 @@ def plan(manifest):
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--manifest',type=Path,default=ROOT/'configs/benchmark-p6-v12-final.json')
+    parser=argparse.ArgumentParser();parser.add_argument('--manifest',type=Path,default=ROOT/'configs/benchmark-p6-v12-final2.json')
     args=parser.parse_args();print(json.dumps(plan(args.manifest),ensure_ascii=False,indent=2))

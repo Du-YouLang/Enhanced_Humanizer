@@ -30,7 +30,7 @@ v8原测试追加歧义、Windows文件共享、WSL路由/旧登录额度、v10�
 | 工程记忆/恢复/Git | journal校验与锁、不可变artifact、路径/symlink检查、候选Git配置执行隔离；恢复和rollback测试保留 | 日志损坏失败关闭，不猜补旧结果；preview不能自动恢复付费模型 |
 | 包安装/端口 | ZIP大小/路径/重复与SHA/Git对象核对，独立目录、禁模型/发布和端口拥有者核验 | 旧P7精确632d包仍有效；当前新增源码尚需独立新包安装。没有外部发布授权 |
 | 科研oracle/算力 | PC75格/同机标定与两格独立重放、EGL冻结CPU与权重/优化器检查、TMS边界、GC禁CPU下载/本地GPU控制；模型选择前不见私有答案 | 实现门不等于科学论断成立。四任务难度不同，不能伪装等难；不降低容差、不改服务器协议来提高通过率 |
-| 编码/评分协议 | 同题同角色时间、独立会话/peer与凭据拒读、完整工具轨迹敏感性另计用量 | Jev因地区限制未测，Sol不是Jev；judge评分不等于独立数值验收 |
+| 编码/评分协议 | 同题同角色时间、独立会话/peer及私有答案拒读，DS使用broker capability；Codex仅开放自身项目OAuth文件只读，完整工具轨迹敏感性另计用量 | Jev因地区限制未测，Sol不是Jev；judge评分不等于独立数值验收 |
 
 ## 必须在结论中保留的边界
 
@@ -52,3 +52,9 @@ Pi官方订阅OAuth访问已真实通过gpt-6.1-sol（21输入/5输出Token、4.
 最终v12-final另冻结`f79a64d0ad81b7333bfc80596c49163b6f907714189b097c91cac349bd793001`，旧27fe准备冻结未运行模型并保留。进一步Windows复验暴露新锁文件初始化写字节竞态，改为直接锁区域，并对Memory同一模式修复；四独立进程账本/记忆控制均通过。network-v4复验PASS，time-v6/file-v6/output-v4源码控制仍一致。旧所有失败/准备日志不覆盖。最终完整测试与远程CI取后续回执。
 
 最终精确源码本地检查：native159全PASS（43.287秒），Windows159项/152pass7平台skip（67.819秒），Node8及新增官方登录/探测脚本语法通过。v12-final真实主入口Black-2零模型运行p6-main-offline-BIP-black-2-20261012T100026Z：三个角色隔离COMPLETED，buggy FAIL/gold PASS，模型请求0。秘密/治理检查已通过；此结果不是正式A–F主集。
+
+启动前分类复核：无连接故障的普通role deadline/主动停止不能由重连适配器改记网络pending；修正为ROLE_TIMEOUT/ROLE_STOPPED并新增两个针对性控制（总8项）。只有已有实际瞬态故障的恢复限时不足才pending。network-v5 installed DSH/HTTP控制再次PASS，零provider、账本逐字未变；主集另冻v12-final2（b751822058b84512f8755676881e38eb691081ae8fa58456737824803bffc454），此前三个v12准备均无模型启动。d3ef源码三CI成功且P7精确包/独立venv/HTTP9项/端口/旧ef085回滚通过；本修正新源码不得沿用其安装验收。
+
+凭据边界补充：Codex Harness必须读取自己的项目OAuth文件；该文件在进程fence中为只读，不能把“只读”表述为对该Harness的拒读。独立候选数值验收不开放任何auth；DS/Pi资源控制另拒Codex auth。Codex工具进程针对自身OAuth文件的进一步隔离尚无专项可复现控制，因此此次不宣称所有backend工具均无法读取自身凭据。未读取或输出任何真实凭据值。
+
+最终分类修正源码：native161全PASS（54.590秒）、Windows161项/154pass7平台skip（97.118秒）。network-v5真实HTTP/installed SDK控制PASS；原控制/冻结/CI/P7回执继续保留。

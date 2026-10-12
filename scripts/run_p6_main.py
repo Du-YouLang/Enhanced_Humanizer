@@ -61,7 +61,7 @@ def main():
     p.add_argument('mode',choices=('deploy','offline','execute','sensitivity'))
     p.add_argument('--reuse-run')
     p.add_argument('--detach',action='store_true',help='Finite owned Linux controller, independent of the chat command lifetime')
-    p.add_argument('--task',default='BIP-black-2');p.add_argument('--manifest',default='configs/benchmark-p6-v12-final.json')
+    p.add_argument('--task',default='BIP-black-2');p.add_argument('--manifest',default='configs/benchmark-p6-v12-final2.json')
     p.add_argument('--budget',help='Must match the frozen manifest authorization')
     args=p.parse_args()
     manifest_path=ROOT/args.manifest

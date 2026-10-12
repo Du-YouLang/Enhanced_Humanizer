@@ -21,7 +21,7 @@ class BenchmarkTests(unittest.TestCase):
 
     def test_latest_entrypoint_bytes_match_frozen_protocol_and_packaged_lf(self):
         root=Path(__file__).resolve().parents[1]
-        latest=json.loads((root/'configs/benchmark-p6-v12-final.json').read_text())
+        latest=json.loads((root/'configs/benchmark-p6-v12-final2.json').read_text())
         check_manifest(latest);entry=(root/'scripts/run_p6_main.py').read_bytes()
         self.assertNotIn(b'\r\n',entry)
         self.assertEqual(hashlib.sha256(entry).hexdigest(),latest['entrypoint_sha256'])

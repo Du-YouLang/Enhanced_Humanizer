@@ -19,7 +19,7 @@ P0=原生Pi，P1=Scientific Skills，P2=NeuroForge，P3=Research Loop；这四�
 
 `runners/events.py`只读取私有JSONL，按LF而非Unicode换行分割，仅统计assistant `message_end`；`turn_end`/`agent_end`副本不重复计Token。无法获取的reasoning、账单及细分时延留null+原因。`agent_settled`或Pi退出成功不是隐藏验收PASS；原私有裁判才有验收权。
 
-`smoke-plan.json`保留原v11准备快照。`smoke-plan-v2.json`保留初次v12零模型准备；最终新版`smoke-plan-v3.json`另绑定v12-final，同样预选Black-2和GC共两题×四组×两provider，不含重复补跑赢家。DeepSeek行等待真实计量/模型/工具及验收回放门。用户已亲自完成Pi独立官方ChatGPT订阅OAuth，真实gpt-6.1-sol访问探测通过；OpenAI比较采用此订阅通道，无需另购API key。账号元数据加密不可明文比对，不能假报账号一致。所有正式比较入口仍关闭，访问探测不等于工具或任务验收；256次全量矩阵仅为指导书提案。没有第二份100美元额度，不复制全局认证、不自动全题重跑。见[ADR-0027](../../docs/decisions/ADR-0027.md)。
+`smoke-plan.json`保留原v11准备快照。`smoke-plan-v2.json`保留初次v12零模型准备；`smoke-plan-v3.json`保留v12-final准备；当前新版`smoke-plan-v4.json`绑定v12-final2，同样预选Black-2和GC共两题×四组×两provider，不含重复补跑赢家。DeepSeek行等待真实计量/模型/工具及验收回放门。用户已亲自完成Pi独立官方ChatGPT订阅OAuth，真实gpt-6.1-sol访问探测通过；OpenAI比较采用此订阅通道，无需另购API key。账号元数据加密不可明文比对，不能假报账号一致。所有正式比较入口仍关闭，访问探测不等于工具或任务验收；256次全量矩阵仅为指导书提案。没有第二份100美元额度，不复制全局认证、不自动全题重跑。见[ADR-0027](../../docs/decisions/ADR-0027.md)。
 
 后续真实smoke先串行并避开现有主集计算，按同模型/同环境/同公开合同对照；H0产品组合另表，并保留订阅与API费用的不同单位。Research Loop的后台任务、checkpoint、恢复和费用归属仍需专项实际控制，不能从扩展加载通过推断完整支持。
 

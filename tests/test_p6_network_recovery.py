@@ -77,12 +77,32 @@ class RecoveryTests(unittest.TestCase):
     def test_exhausted_time_and_cash_stay_pending_and_do_not_reset(self):
         events=[]
         async def call(index,cap):raise AssertionError('No provider request authorized')
-        with self.assertRaises(NetworkRetryPending):asyncio.run(recover(call,lambda:1,time.monotonic()-1,self.config(),events))
-        self.assertEqual(events[-1]['state'],'RETRY_PENDING')
+        with self.assertRaises(TimeoutError):asyncio.run(recover(call,lambda:1,time.monotonic()-1,self.config(),events))
+        self.assertEqual(events[-1]['state'],'ROLE_TIMEOUT')
         events=[]
         def denied():raise BudgetDenied('Aggregate cash exhausted')
         with self.assertRaises(BudgetDenied):asyncio.run(recover(call,denied,time.monotonic()+900,self.config(),events))
         self.assertEqual(events[-1]['reason'],'AUTHORIZED_BUDGET')
+
+    def test_slow_role_deadline_is_not_a_network_excuse(self):
+        events=[]
+        async def slow(index,cap):await asyncio.sleep(1)
+        with self.assertRaises(TimeoutError):asyncio.run(recover(slow,lambda:1,time.monotonic()+.02,self.config(),events))
+        self.assertEqual(events[-1]['state'],'ROLE_TIMEOUT')
+        value=classify_role_completion({'status':'TIMEOUT','network_recovery_events':events})
+        self.assertEqual(value['status'],'TIMEOUT')
+
+    def test_deadline_during_a_proven_reconnect_stays_pending(self):
+        events=[];attempts=[]
+        async def slow(index,cap):
+            attempts.append(index)
+            if len(attempts)==1:raise TransientNetworkError('actual fixture disconnect')
+            await asyncio.sleep(1)
+        with patch('p6_network_recovery.asyncio.sleep',new=self.no_sleep):
+            # A timeout of the first request is still a role outcome. A real
+            # connect failure followed by insufficient backoff time is pending.
+            with self.assertRaises(NetworkRetryPending):asyncio.run(recover(slow,lambda:len(attempts)+1,time.monotonic()+.02,self.config(),events))
+        self.assertEqual(events[-1]['state'],'RETRY_PENDING')
 
     def test_role_cap_is_1000_for_v12_not_a_default_on_old_ledgers(self):
         with tempfile.TemporaryDirectory(dir=self.tmp) as tmp:
