@@ -38,10 +38,16 @@ def validate_manifest(value):
         raise ValueError('Duplicate task identity')
     if value.get('seed') != 42 or value.get('repetitions') != 1:
         raise ValueError('Protocol change requires a new manifest and decision record')
-    time_caps = (120,1200,10800) if value.get('protocol_version')==10 else (120,600,1200)
+    if value.get('protocol_version')==11:
+        if (type(value.get('per_request_output_tokens')) is not int or value['per_request_output_tokens']!=256000 or
+            value.get('output_budget_revision')!='USER_APPROVED_2026-10-12_DSH_DEFAULT256000' or
+            not isinstance(value.get('generation_guidance'),str) or not value['generation_guidance'] or
+            not SHA64.fullmatch(value.get('output_control_receipt_sha256',''))):
+            raise ValueError('Frozen prospective DSH output policy and native control required')
+    time_caps = (120,1200,10800) if value.get('protocol_version') in (10,11) else (120,600,1200)
     if value.get('n_candidates') != 3 or any(type(value.get(k)) is not int for k in ('request_time_cap_seconds','candidate_time_cap_seconds','task_time_cap_seconds')) or (value.get('request_time_cap_seconds'), value.get('candidate_time_cap_seconds'), value.get('task_time_cap_seconds')) != time_caps:
         raise ValueError('Frozen candidate count and explicit time caps required')
-    if value.get('protocol_version')==10:
+    if value.get('protocol_version') in (10,11):
         for key,expected in (('role_timeout_seconds_by_family',{'public':900,'scientific':1200}),
                              ('experiment_timeout_seconds_by_family',{'public':7200,'scientific':10800})):
             if value.get(key)!=expected or any(type(v) is not int for v in value[key].values()):
@@ -51,7 +57,7 @@ def validate_manifest(value):
     if len(smoke) != 2 or len(set(smoke)) != 2 or not set(smoke) <= ids:
         raise ValueError('Two distinct smoke identities required')
     for task in tasks:
-        if value.get('protocol_version')==10:
+        if value.get('protocol_version') in (10,11):
             family='scientific' if task['family']=='scientific' else 'public'
             for field,mapping in (('role_time_cap_seconds','role_timeout_seconds_by_family'),
                                   ('model_activity_time_cap_seconds','experiment_timeout_seconds_by_family')):
@@ -125,7 +131,7 @@ def validate_result(row, body, preparation):
             raise ValueError('Unfair or unbound result: ' + key)
     if row['base_commit'] != task['base_commit']:
         raise ValueError('Initial source differs from frozen task')
-    expected_cap=task['model_activity_time_cap_seconds'] if value.get('protocol_version')==10 else value['task_time_cap_seconds']
+    expected_cap=task['model_activity_time_cap_seconds'] if value.get('protocol_version') in (10,11) else value['task_time_cap_seconds']
     if row.get('time_cap_seconds') != expected_cap:
         raise ValueError('Time caps must be equal across arms')
     metrics = row.get('metrics', {})

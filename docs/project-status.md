@@ -1,5 +1,8 @@
 # 项目交接状态
 
+2026-10-12 用户明确要求DSH每请求默认256000，取代4096及16384提案；v11独立冻结f327d2c9b3eb0485571c06ee7f905dbd9dbc1220a663ef5f121eb0e15ca6875d。角色私有profile/计量Broker/逐请求预留及LAV缓存一致，旧账本不重置。官方installed SDK+实际HTTP合成输出控制、时间十项/文件四项控制PASS且零provider调用。v10拥有者核验时已退出、没有最终回执且无遗留工作区进程，原因unavailable；不完整原样本保留，不能称整题完成或模型FAIL。原生144全PASS、Windows137pass7skip/Node8通过，锁内修订保留992DS/45订阅/API上界USD15.886371；CI/实际新主集/新版P7打包取后续回执；完整P6仍待验收。见audits/P6-DSH-default-output-2026-10-12.md及ADR-0025。
+
+
 2026-10-12 v10-final已实际启动新有限batch20261012T070108Z，首题Black-2的四个DS角色已收束为OUTPUT_LIMIT（70–192秒，实际角色900秒），不是新时间限额超时；其余角色与最终独立验收继续，不能预写完整P6通过率。功能源96d461d：native140全PASS、CI38215186553三项SUCCESS、Windows132pass8skip/Node8；P7精确新ZIP/独立venv/HTTP/端口/ef085旧包回滚/410refs私有备份PASS_LOCAL_PREVIEW，回执p7-time-final-accepted.private.json。初次Windows索引占用是零模型启动失败，修复有限同字节替换后另开新batch，旧记录保留。见audits/P6-v10-time-budget-2026-10-12.md；累计预算不重置，产品Draft30人审合并和对外发布要求保留。
 
 2026-10-12 用户已明确采用公共每角色15分钟、科研20分钟，解除上条时间讨论暂停。新v10冻结c7342d9c22824edf5c47ead44a9ce2790e3d1546504d78fc8f6926c513e0ac82，新角色900/1200秒、整题活动7200/10800秒；新时间控制十项、原文件门四项真实零模型验证通过。锁内时间授权修订保留897DS/39订阅/API上界USD15.1468026及旧精确账本，未扩大累计10000次/USD100。原v9/第三题人类暂停样本不改写不混入新版。见ADR-0024及audits/P6-v10-time-budget-2026-10-12.md；新版实际模型/原生测试/远程CI/P7打包进度以后续精确回执为准，完整P6仍未接受。

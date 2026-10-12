@@ -63,6 +63,7 @@ class LavTransport:
         self.probability_evidence=[]
         self.requests_sent=0
         self.private_response_root=private_response_root
+        self.max_output=getattr(ledger,'max_output',MAX_OUTPUT)
 
     def create(self,**kwargs):
         import httpx
@@ -71,7 +72,7 @@ class LavTransport:
         allowed={'model','messages','max_tokens','temperature','logprobs','top_logprobs','thinking','reasoning_effort'}
         if set(body)-allowed or body.get('model')!='deepseek-flash' or body.get('logprobs') is not True:
             raise BudgetDenied('Unauthorized LAV request')
-        if type(body.get('max_tokens')) is not int or not 0<body['max_tokens']<=MAX_OUTPUT:
+        if type(body.get('max_tokens')) is not int or not 0<body['max_tokens']<=self.max_output:
             raise BudgetDenied('LAV output limit')
         index=self.ledger.reserve_request(self.scope,scope_requests=15,scope_cash_nano=1_000_000_000)
         tick=time.perf_counter()
@@ -120,7 +121,8 @@ class J1:
         from llm_verifier import select
         tick=time.perf_counter();ev=evidence(pool)
         self.cache_root.mkdir(parents=True,exist_ok=True)
-        cache=self.cache_root/('strict-v3-lav030-K1-p1-off-4096-'+pool['pool_hash']+'-'+pool['rubric_hash']+'.json')
+        output_cap=getattr(self.client,'max_output',4096)
+        cache=self.cache_root/('strict-v3-lav030-K1-p1-off-'+str(output_cap)+'-'+pool['pool_hash']+'-'+pool['rubric_hash']+'.json')
         proof_path=cache.with_suffix('.proof.json')
         prior=[]
         if cache.exists():
@@ -141,7 +143,7 @@ class J1:
                       [ids[i] for i in chosen.ranking],dict(zip(ids,chosen.scores)),
                       source_commit='90e8fc215606447d6d31e9e24bff7200fb0c0994',elapsed_seconds=time.perf_counter()-tick,
                       probability_evidence=all_proof,n_comparisons=chosen.n_comparisons,requests=self.client.requests_sent,
-                      cache_identity=cache.name,configuration={'K':1,'pivots':1,'seed':0,'effort':'off','max_output':4096},
+                      cache_identity=cache.name,configuration={'K':1,'pivots':1,'seed':0,'effort':'off','max_output':output_cap},
                       note='K1 smoke and compact evidence; full-trace sensitivity and benchmark accuracy remain P6')
 
 

@@ -2851,6 +2851,12 @@
         "ADR-0020",
         "ADR-0024"
       ]
+    },
+    {
+      "id": "USR-BM-OUTPUT-01",
+      "requirement": "用户明确要求DeepSeek每请求输出额度使用默认256000，非代理折中值；旧账本及结果保留",
+      "status": "IMPLEMENTED_NATIVE_ZERO_MODEL_CONTROLS_PASS_PHASE_PENDING",
+      "checkpoint": "ADR-0025、configs/benchmark-p6-v11.json、P6-DSH-default-output-2026-10-12；费用/请求/时间/独立验收不放宽"
     }
   ]
 }

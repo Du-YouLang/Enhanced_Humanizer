@@ -12,6 +12,7 @@ from pathlib import Path
 import threading
 
 from p1_budget import BudgetDenied, Ledger, REQUEST_RESERVE, INPUT_NANO, OUTPUT_NANO, CONTEXT_TOKENS, MAX_OUTPUT
+from p6_output_policy import OUTPUT_REVISION,MAIN_OUTPUT_TOKENS
 
 PHASE = 'P6_MAIN_LOCAL_20261011'
 TIME_REVISION = 'USER_APPROVED_2026-10-12_PUBLIC15_SCIENCE20'
@@ -55,6 +56,14 @@ def authorization(config):
         for key, expected in required.items()
     ):
         raise BudgetDenied('Missing or changed main experiment authorization/watchdogs')
+    if 'output_budget_revision' in value:
+        if (value.get('time_budget_revision')!=TIME_REVISION or
+            value.get('output_budget_revision')!=OUTPUT_REVISION or
+            type(value.get('per_request_output_tokens')) is not int or
+            value['per_request_output_tokens']!=MAIN_OUTPUT_TOKENS):
+            raise BudgetDenied('Explicit prospective output revision required')
+    elif 'per_request_output_tokens' in value:
+        raise BudgetDenied('Output cap cannot change without a protocol revision')
     return value, hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
 
 
@@ -80,6 +89,8 @@ class MainLedger(Ledger):
         self.cash_nano=None if self.config['api_cash_usd'] is None else self.config['api_cash_usd']*1_000_000_000
         self.codex_turns=None
         self.role_requests=self.config['per_role_inference_requests']
+        self.max_output=self.config.get('per_request_output_tokens',MAX_OUTPUT)
+        self.request_reserve=CONTEXT_TOKENS*INPUT_NANO+self.max_output*OUTPUT_NANO
         self.lock = threading.Lock()
 
     def caps(self):return {'requests':self.requests,'codex_turns':self.codex_turns,'cash_nano':self.cash_nano}
@@ -90,19 +101,24 @@ class MainLedger(Ledger):
         if (self.requests is not None and len(value['requests'])>self.requests) or (self.cash_nano is not None and value['cash_bound_nano']>self.cash_nano):
             raise BudgetDenied('Corrupt aggregate cap')
         for index, row in enumerate(value['requests'], 1):
+            output_cap=row.get('output_token_cap',MAX_OUTPUT)
+            if (type(output_cap) is not int or output_cap not in (MAX_OUTPUT,self.max_output) or
+                ('output_token_cap' in row and row.get('output_policy_revision')!=OUTPUT_REVISION)):
+                raise BudgetDenied('Corrupt request output policy')
+            reserve=CONTEXT_TOKENS*INPUT_NANO+output_cap*OUTPUT_NANO
             if (type(row.get('index')) is not int or row.get('index') != index or type(row.get('charge_bound_nano')) is not int
-                    or not 0 <= row['charge_bound_nano'] <= REQUEST_RESERVE
+                    or not 0 <= row['charge_bound_nano'] <= reserve
                     or row.get('status') not in ('RESERVED_UNKNOWN_USAGE', 'SETTLED_USAGE_UPPER_BOUND')
                     or not isinstance(row.get('experiment'), str) or not row['experiment']):
                 raise BudgetDenied('Corrupt request reservation')
-            if row['status'] == 'RESERVED_UNKNOWN_USAGE' and row['charge_bound_nano'] != REQUEST_RESERVE:
+            if row['status'] == 'RESERVED_UNKNOWN_USAGE' and row['charge_bound_nano'] != reserve:
                 raise BudgetDenied('Unknown usage cannot release a reservation')
             if row['status'] == 'SETTLED_USAGE_UPPER_BOUND':
                 usage=row.get('usage',{});fields=('input_tokens','cache_read_input_tokens','cache_creation_input_tokens','output_tokens')
                 if any(type(usage.get(key)) is not int or usage[key]<0 for key in fields):
                     raise BudgetDenied('Corrupt settled usage')
                 inputs=sum(usage[key] for key in fields[:3]);outputs=usage['output_tokens']
-                if (inputs>CONTEXT_TOKENS or outputs>MAX_OUTPUT or row.get('model_id')!='deepseek-flash'
+                if (inputs>CONTEXT_TOKENS or outputs>output_cap or row.get('model_id')!='deepseek-flash'
                         or row['charge_bound_nano']!=inputs*INPUT_NANO+outputs*OUTPUT_NANO):
                     raise BudgetDenied('Settled usage, model and recorded bound disagree')
         for row in value['codex_turns']:
@@ -138,13 +154,21 @@ class MainLedger(Ledger):
                           and self.config.get('time_budget_revision')==TIME_REVISION
                           and self.caps()==previous.caps()
                           and self.role_requests==previous.role_requests)
+        output_amendment=(previous.config.get('time_budget_revision')==TIME_REVISION
+                          and 'output_budget_revision' not in previous.config
+                          and self.config.get('output_budget_revision')==OUTPUT_REVISION
+                          and self.caps()==previous.caps())
+        if output_amendment:
+            allowed={'authorization_reference','output_budget_revision','per_request_output_tokens'}
+            if any(self.config.get(key)!=previous.config.get(key) for key in set(self.config)|set(previous.config) if key not in allowed):
+                raise BudgetDenied('Output amendment cannot change other authorized controls')
         if time_amendment:
             allowed={'authorization_reference','time_budget_revision','common_generation_timeout_seconds',
                      'role_timeout_seconds_by_family','per_candidate_timeout_seconds',
                      'per_experiment_active_timeout_seconds','experiment_timeout_seconds_by_family'}
             if any(self.config.get(key)!=previous.config.get(key) for key in set(self.config)|set(previous.config) if key not in allowed):
                 raise BudgetDenied('Time amendment cannot change other authorized controls')
-        if not (finite_amendment or time_amendment):
+        if not (finite_amendment or time_amendment or output_amendment):
             raise BudgetDenied('Only the explicit finite-ceiling or human time-budget amendment is supported')
         if not self.path.exists():raise BudgetDenied('No existing ledger to amend')
         archive=Path(archive)
@@ -156,7 +180,7 @@ class MainLedger(Ledger):
                 'previous_aggregate_caps':previous.caps(),'before_ledger_sha256':snapshot,
                 'amended_at':datetime.now(timezone.utc).isoformat(),'requests_retained':len(value['requests']),
                 'subscription_turns_retained':len(value['codex_turns']),
-                'amendment_kind':TIME_REVISION if time_amendment else 'USER_FINITE_CEILING',
+                'amendment_kind':OUTPUT_REVISION if output_amendment else TIME_REVISION if time_amendment else 'USER_FINITE_CEILING',
                 'cash_bound_nano_retained':value['cash_bound_nano']})
             value.update(authorization_sha256=self.authorization_sha256,aggregate_caps=self.caps())
             self.validate(value)
@@ -180,18 +204,20 @@ class MainLedger(Ledger):
         if type(cap) is not int or cap <= 0:
             raise BudgetDenied('Invalid role request cap')
         with self.transaction() as value:
-            if (self.requests is not None and len(value['requests'])>=self.requests) or (self.cash_nano is not None and value['cash_bound_nano']+REQUEST_RESERVE>self.cash_nano):
+            if (self.requests is not None and len(value['requests'])>=self.requests) or (self.cash_nano is not None and value['cash_bound_nano']+self.request_reserve>self.cash_nano):
                 raise BudgetDenied('Main request/cash cap exhausted')
             scoped = [r for r in value['requests'] if r['experiment'] == experiment]
             if len(scoped) >= cap:
                 raise BudgetDenied('Role request cap exhausted')
-            if scope_cash_nano is not None and sum(r['charge_bound_nano'] for r in scoped) + REQUEST_RESERVE > scope_cash_nano:
+            if scope_cash_nano is not None and sum(r['charge_bound_nano'] for r in scoped) + self.request_reserve > scope_cash_nano:
                 raise BudgetDenied('Explicit narrower role cash cap exhausted')
             index = len(value['requests']) + 1
             value['requests'].append({'index': index, 'experiment': experiment,
                 'observed_at': datetime.now(timezone.utc).isoformat(),
-                'status': 'RESERVED_UNKNOWN_USAGE', 'charge_bound_nano': REQUEST_RESERVE})
-            value['cash_bound_nano'] += REQUEST_RESERVE
+                'status': 'RESERVED_UNKNOWN_USAGE', 'charge_bound_nano': self.request_reserve})
+            if self.config.get('output_budget_revision')==OUTPUT_REVISION:
+                value['requests'][-1].update(output_token_cap=self.max_output,output_policy_revision=OUTPUT_REVISION)
+            value['cash_bound_nano'] += self.request_reserve
         return index
 
     def reserve_codex_turn(self, experiment, model, *, scope_turns=None):
@@ -206,8 +232,18 @@ class MainLedger(Ledger):
 
     def settle(self, index, usage, metadata):
         if type(index) is not int or index < 1 or not isinstance(metadata, dict) or metadata.get('model_id')!='deepseek-flash' or set(metadata) & {
-            'index', 'experiment', 'status', 'charge_bound_nano', 'usage', 'observed_at',
+            'index', 'experiment', 'status', 'charge_bound_nano', 'usage', 'observed_at','output_token_cap','output_policy_revision',
         }:
             raise BudgetDenied('Invalid settlement identity/metadata')
-        # The parent transaction serializes the settlement and verifies complete token accounting.
-        super().settle(index, usage, metadata)
+        fields=('input_tokens','cache_read_input_tokens','cache_creation_input_tokens','output_tokens')
+        if any(type(usage.get(k)) is not int or usage[k]<0 for k in fields):
+            raise BudgetDenied('Incomplete usage; keep full reservation')
+        inputs=sum(usage[k] for k in fields[:3]);charge=inputs*INPUT_NANO+usage['output_tokens']*OUTPUT_NANO
+        with self.transaction() as value:
+            if index>len(value['requests']):raise BudgetDenied('Unknown reservation')
+            row=value['requests'][index-1]
+            if row['status']!='RESERVED_UNKNOWN_USAGE':raise BudgetDenied('A reservation cannot be settled twice')
+            if inputs>CONTEXT_TOKENS or usage['output_tokens']>row.get('output_token_cap',MAX_OUTPUT) or charge>row['charge_bound_nano']:
+                raise BudgetDenied('Usage exceeds this request reservation')
+            value['cash_bound_nano']-=row['charge_bound_nano']-charge
+            row.update(status='SETTLED_USAGE_UPPER_BOUND',charge_bound_nano=charge,usage=usage,**metadata)

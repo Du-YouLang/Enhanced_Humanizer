@@ -1,0 +1,17 @@
+# DSH 256000 输出策略审计
+
+用户明确选择每轮DeepSeek请求max_tokens256000；已拒绝16384折中。新版清单`configs/benchmark-p6-v11.json` SHA256 `f327d2c9b3eb0485571c06ee7f905dbd9dbc1220a663ef5f121eb0e15ca6875d`，独立预算修订`configs/budget-p6-main-v4-default256k-approved.json`。16题/A–F96单元，公共900秒/科研1200秒及单请求120秒不变；见[ADR-0025](../decisions/ADR-0025.md)。
+
+当前用本机官方DSH SDK/runtime0.1.5rc1和Humanize0.1.0b2，经项目计量代理访问DeepSeek官方Chat Completions。4096来自项目早期保护，并非第三方8192限制。只改DSH环境变量不足以避开Broker的旧硬限；现角色私有settings.yaml和Broker共同使用256000。旧P0–P6 smoke默认4096不改变，旧main逐行结算不变。
+
+真实零模型控制`output-controls-20261012-v2`：旧profile4096出max-tokens；新profile256000出completed，fixture可见输出5001；SDK请求384000被Broker实际限制到256000。三项实际HTTP/官方SDK/结算链PASS，provider调用0，真实phase账本SHA前后一致。它们是合成响应传输控制，不是付费模型成功证据。初次v1期望值错把SDK max-tokens当error，原fixture保留；此前16384临时源码和预算另存私有provisional快照、模型调用0。
+
+新时间控制`time-controls-20261012-v4`十项PASS，公共/科研真实Harness字段与OS隔离正确；`file-policy-controls-20261012-v4`四项Git/公开/私有正负控制PASS。全部零模型，账本未变，冻结检查逐一绑定部署代码哈希。
+
+v10批次20261012T070108Z保留为不完整协议样本。核验前拥有者Windows/native控制器已退出，无最终整题回执；独立查验无工作区计算进程，原因不可见，不写成模型FAIL/TIMEOUT。原始索引备份与停止核验回执均留私有audits。已完成角色原始输出限制、Sol等完成状态保留；不混进v11验收。
+
+锁内修订、原生全套检查、GitHub精确CI、新主集执行和最终P7打包以后续实际回执记状态，不由清单冻结推断通过。完整P6仍缺完整矩阵/科学来源与报告审阅及细分计时；产品Draft30人工合并与外部发布确认要求不变。
+
+锁内真实修订PASS：保留992DS请求/45订阅预留/API保守上界USD15.886371，旧账本精确SHA0808c0e915ad3d0bcf3fcfa905fdcad8f3d2a2d270ab197181f58a5b669fc3e7，未知请求仍保持原4096预留。新授权指纹a94feb46ed05718d1f694d412f374b0f21117db3693807a3e2db07803fdf1930；修订后未新增调用，旧授权不可写新账本。
+
+原生非root整套144项全PASS（16.715秒），Windows本机144项/137pass7skip（29.953秒），Node8通过，治理86ID及staged/full-history Gitleaks通过。原生回执p6-default256k-native-v1.private.json，日志SHA39584a3653b037538f6c406b06cd3ede90c0e76a60711fa091869256c05f48e9。第一次Windows整套检查在新清单冻结前发现入口与旧v10清单不符；原日志保留，v11冻结及最新入口测试绑定后整套通过，没有改写旧v10清单。

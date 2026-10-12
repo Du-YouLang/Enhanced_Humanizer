@@ -21,10 +21,20 @@ class BenchmarkTests(unittest.TestCase):
 
     def test_latest_entrypoint_bytes_match_frozen_protocol_and_packaged_lf(self):
         root=Path(__file__).resolve().parents[1]
-        latest=json.loads((root/'configs/benchmark-p6-v10-final.json').read_text())
+        latest=json.loads((root/'configs/benchmark-p6-v11.json').read_text())
         check_manifest(latest);entry=(root/'scripts/run_p6_main.py').read_bytes()
         self.assertNotIn(b'\r\n',entry)
         self.assertEqual(hashlib.sha256(entry).hexdigest(),latest['entrypoint_sha256'])
+
+    def test_new_output_cap_requires_exact_frozen_policy_without_changing_time(self):
+        root=Path(__file__).resolve().parents[1]
+        latest=json.loads((root/'configs/benchmark-p6-v11.json').read_text())
+        self.assertEqual(latest['per_request_output_tokens'],256000)
+        self.assertEqual(latest['role_timeout_seconds_by_family'],{'public':900,'scientific':1200})
+        for value in (4096,16384,256001,True):
+            changed=copy.deepcopy(latest);changed['per_request_output_tokens']=value
+            changed.pop('manifest_sha256')
+            with self.assertRaises(ValueError):freeze_manifest(changed,root/'.local-workbench/test-tmp/output-bad-manifest.json')
 
     def test_closed_smoke_refuses_paid_reentry_before_wsl_or_credential_access(self):
         root=Path(__file__).resolve().parents[1]

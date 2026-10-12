@@ -74,6 +74,10 @@ def public_test(source,hidden=False):
 
 def job(name,backend,role='builder',**kwargs):
     descriptor,env=shared.prepare_job(name,backend,role,**kwargs)
+    if shared.ACTIVE['payload']['budget'].get('output_budget_revision'):
+        from p6_output_policy import GENERATION_GUIDANCE
+        descriptor['prompt']+='\n'+GENERATION_GUIDANCE
+    env['DEEPSEEK_MAX_TOKENS']=str(shared.ACTIVE['ledger'].max_output)
     task=shared.ACTIVE['task'];path=Path(descriptor['root'])/'visible-contract.json'
     exclusive_json(path,{'argv':task['visible'],'public_overlays':{k:base64.b64encode(v).decode() for k,v in task['public_overlays'].items()}})
     descriptor['public_read_paths']=[*descriptor['public_read_paths'],str(path)]
@@ -108,7 +112,7 @@ def judge(name,pool,extra=None):
 
 def lav(name,pool):
     a=shared.ACTIVE
-    os.environ.update(DEEPSEEK_EFFORT='off',DEEPSEEK_MAX_TOKENS='4096')
+    os.environ.update(DEEPSEEK_EFFORT='off',DEEPSEEK_MAX_TOKENS=str(a['ledger'].max_output))
     import llm_verifier.fine_grained_reward as lav_module
     client=LavTransport(a['key'],a['ledger'],a['root'].name+'/'+name,min(a['deadline'],time.monotonic()+a['generation_seconds']),lav_module,a['root']/(name+'-responses'))
     try:
@@ -204,7 +208,12 @@ def run(payload):
     def interrupted(signum,frame):raise InterruptedError('Owned main controller interrupted by signal '+str(signum))
     signal.signal(signal.SIGTERM,interrupted);signal.signal(signal.SIGINT,interrupted)
     if os.getuid()==0:raise RuntimeError('No root runtime')
-    if payload['manifest'].get('protocol_version') not in (3,4,5,6,7,8,9,10):raise RuntimeError('A new frozen protocol version is required')
+    if payload['manifest'].get('protocol_version') not in (3,4,5,6,7,8,9,10,11):raise RuntimeError('A new frozen protocol version is required')
+    if payload['manifest'].get('protocol_version')==11:
+        from p6_output_policy import GENERATION_GUIDANCE
+        if (payload['manifest'].get('per_request_output_tokens')!=payload['budget'].get('per_request_output_tokens') or
+            payload['manifest'].get('generation_guidance')!=GENERATION_GUIDANCE):
+            raise RuntimeError('Output policy or shared coding guidance differs from frozen protocol')
     if payload['task']['family']=='scientific':
         sys.path.insert(0,str(BASE/'envs/science-tms-v1/lib/python3.12/site-packages'))
         from p6_science_main_linux import task as scientific_task,test as scientific_test
