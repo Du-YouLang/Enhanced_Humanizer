@@ -112,7 +112,9 @@ class BenchmarkTests(unittest.TestCase):
             family='scientific' if task['family']=='scientific' else 'public'
             task.update(role_time_cap_seconds=raw['role_timeout_seconds_by_family'][family],
                         model_activity_time_cap_seconds=raw['experiment_timeout_seconds_by_family'][family])
-        with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parents[1]/'.local-workbench/test-tmp') as folder:
+        temporary_root=Path(__file__).resolve().parents[1]/'.local-workbench/test-tmp'
+        temporary_root.mkdir(parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=temporary_root) as folder:
             new=freeze_manifest(raw,Path(folder)/'new.json');row,preparation=self.real_row()
             row.update(manifest_sha256=new['manifest_sha256'],time_cap_seconds=7200)
             validate_result(row,new,preparation)
