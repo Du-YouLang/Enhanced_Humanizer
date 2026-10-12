@@ -20,3 +20,5 @@
 开发 PR #25–#28 在各自精确 head 的 integrity/secrets/linux-budget CI 均实际成功；仍为 OPEN，以便保留产品审核提案绑定的 main 基线。开发 CI 不代替每次产品 PR 的真实人工审核。外部发布仍须用户确认项目名称、许可、平台和内容。
 
 私有证据：`deliveries/p7-v8-preview-20261012-v1/receipt.json`、`audits/p7-v8-http.private.json`、`audits/p7-v8-port-ownership.private.json`、`audits/p7-v6-old-rollback-http.private.json`、`audits/p6-p7-v8-backup.private.json`；均位于 `.local-workbench/`。
+
+后续产品真实人审/上传已在精确预算提交完成，Draft PR #30 的新 CI 三项通过；见 [产品人审验收](Product-PR-review-ui-2026-10-12.md)。这不是 P7 的外部产品发布，也不授权自动合并 Draft。上段“仍待操作”保留为打包时的历史状态。

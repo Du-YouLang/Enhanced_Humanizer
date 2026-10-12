@@ -81,7 +81,7 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real owner-approved product Draft upload PASS; GitHub human merge pending"
       ],
       "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
@@ -94,6 +94,9 @@
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
+      },
+      "acceptance_records": {
+        "PRODUCT_PR_REAL_OWNER_2026_10_12": "PASS_REAL_HUMAN_APPROVAL_AND_PRODUCT_DRAFT_UPLOAD: user approved exact1ed608718e14e501452f0b9506cbae347ed7244c, single-use consumption preceded actual Draft PR30 creation, new CI run38205876034 integrity/secrets/linux-budget SUCCESS. GitHub human merge and external release remain pending. docs/audits/Product-PR-review-ui-2026-10-12.md."
       }
     },
     {
@@ -1430,6 +1433,9 @@
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "PRODUCT_PR_REAL_OWNER_2026_10_12": "PASS_REAL_HUMAN_APPROVAL_AND_PRODUCT_DRAFT_UPLOAD: user approved exact1ed608718e14e501452f0b9506cbae347ed7244c, single-use consumption preceded actual Draft PR30 creation, new CI run38205876034 integrity/secrets/linux-budget SUCCESS. GitHub human merge and external release remain pending. docs/audits/Product-PR-review-ui-2026-10-12.md."
       }
     },
     {
@@ -1460,6 +1466,9 @@
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
+      },
+      "acceptance_records": {
+        "PRODUCT_PR_REAL_OWNER_2026_10_12": "PASS_REAL_HUMAN_APPROVAL_AND_PRODUCT_DRAFT_UPLOAD: user approved exact1ed608718e14e501452f0b9506cbae347ed7244c, single-use consumption preceded actual Draft PR30 creation, new CI run38205876034 integrity/secrets/linux-budget SUCCESS. GitHub human merge and external release remain pending. docs/audits/Product-PR-review-ui-2026-10-12.md."
       }
     },
     {
@@ -1604,7 +1613,7 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real owner-approved product Draft upload PASS; GitHub human merge pending"
       ],
       "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
@@ -1617,6 +1626,9 @@
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
+      },
+      "acceptance_records": {
+        "PRODUCT_PR_REAL_OWNER_2026_10_12": "PASS_REAL_HUMAN_APPROVAL_AND_PRODUCT_DRAFT_UPLOAD: user approved exact1ed608718e14e501452f0b9506cbae347ed7244c, single-use consumption preceded actual Draft PR30 creation, new CI run38205876034 integrity/secrets/linux-budget SUCCESS. GitHub human merge and external release remain pending. docs/audits/Product-PR-review-ui-2026-10-12.md."
       }
     },
     {
@@ -1631,7 +1643,7 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real owner-approved product Draft upload PASS; GitHub human merge pending"
       ],
       "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
@@ -1644,6 +1656,9 @@
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
+      },
+      "acceptance_records": {
+        "PRODUCT_PR_REAL_OWNER_2026_10_12": "PASS_REAL_HUMAN_APPROVAL_AND_PRODUCT_DRAFT_UPLOAD: user approved exact1ed608718e14e501452f0b9506cbae347ed7244c, single-use consumption preceded actual Draft PR30 creation, new CI run38205876034 integrity/secrets/linux-budget SUCCESS. GitHub human merge and external release remain pending. docs/audits/Product-PR-review-ui-2026-10-12.md."
       }
     },
     {
@@ -1658,7 +1673,7 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real owner-approved product Draft upload PASS; GitHub human merge pending"
       ],
       "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
@@ -1671,6 +1686,9 @@
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
+      },
+      "acceptance_records": {
+        "PRODUCT_PR_REAL_OWNER_2026_10_12": "PASS_REAL_HUMAN_APPROVAL_AND_PRODUCT_DRAFT_UPLOAD: user approved exact1ed608718e14e501452f0b9506cbae347ed7244c, single-use consumption preceded actual Draft PR30 creation, new CI run38205876034 integrity/secrets/linux-budget SUCCESS. GitHub human merge and external release remain pending. docs/audits/Product-PR-review-ui-2026-10-12.md."
       }
     },
     {
@@ -1685,7 +1703,7 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real owner-approved product Draft upload PASS; GitHub human merge pending"
       ],
       "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
@@ -1698,6 +1716,9 @@
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
+      },
+      "acceptance_records": {
+        "PRODUCT_PR_REAL_OWNER_2026_10_12": "PASS_REAL_HUMAN_APPROVAL_AND_PRODUCT_DRAFT_UPLOAD: user approved exact1ed608718e14e501452f0b9506cbae347ed7244c, single-use consumption preceded actual Draft PR30 creation, new CI run38205876034 integrity/secrets/linux-budget SUCCESS. GitHub human merge and external release remain pending. docs/audits/Product-PR-review-ui-2026-10-12.md."
       }
     },
     {
@@ -1712,7 +1733,7 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real owner-approved product Draft upload PASS; GitHub human merge pending"
       ],
       "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
@@ -1725,6 +1746,9 @@
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
+      },
+      "acceptance_records": {
+        "PRODUCT_PR_REAL_OWNER_2026_10_12": "PASS_REAL_HUMAN_APPROVAL_AND_PRODUCT_DRAFT_UPLOAD: user approved exact1ed608718e14e501452f0b9506cbae347ed7244c, single-use consumption preceded actual Draft PR30 creation, new CI run38205876034 integrity/secrets/linux-budget SUCCESS. GitHub human merge and external release remain pending. docs/audits/Product-PR-review-ui-2026-10-12.md."
       }
     },
     {
@@ -1740,7 +1764,7 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/13",
       "tests": [
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real owner-approved product Draft upload PASS; GitHub human merge pending"
       ],
       "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
@@ -1753,6 +1777,9 @@
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
+      },
+      "acceptance_records": {
+        "PRODUCT_PR_REAL_OWNER_2026_10_12": "PASS_REAL_HUMAN_APPROVAL_AND_PRODUCT_DRAFT_UPLOAD: user approved exact1ed608718e14e501452f0b9506cbae347ed7244c, single-use consumption preceded actual Draft PR30 creation, new CI run38205876034 integrity/secrets/linux-budget SUCCESS. GitHub human merge and external release remain pending. docs/audits/Product-PR-review-ui-2026-10-12.md."
       }
     },
     {
@@ -2694,7 +2721,7 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/5",
       "tests": [
         "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
-        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real product approval/publishing pending"
+        "P5-A01..A03 PASS_LOCAL_PROTOTYPE; remote development CI PASS; real owner-approved product Draft upload PASS; GitHub human merge pending"
       ],
       "implementation_status": "P5_LOCAL_CORE_VERIFIED_PRODUCT_REVIEW_PENDING",
       "relevant_adrs": [
@@ -2709,6 +2736,9 @@
         "P5": "Local prototype functional PASS with new native real-model chain, independent hidden/visible replays, actual CUA controls, fork/backup recovery. docs/audits/P5-2026-10-11.md. Full product requirements and remote delivery remain partial.",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P7_V8_2026_10_12": "Functional source d05199bd5fc3e028c9813013b454eebcac77e7de PASS_LOCAL_PREVIEW; fresh venv/HTTP/security/disabled inference and publishing/port ownership/old package rollback. docs/audits/P7-v8-local-delivery-2026-10-12.md. External release requires user confirmation."
+      },
+      "acceptance_records": {
+        "PRODUCT_PR_REAL_OWNER_2026_10_12": "PASS_REAL_HUMAN_APPROVAL_AND_PRODUCT_DRAFT_UPLOAD: user approved exact1ed608718e14e501452f0b9506cbae347ed7244c, single-use consumption preceded actual Draft PR30 creation, new CI run38205876034 integrity/secrets/linux-budget SUCCESS. GitHub human merge and external release remain pending. docs/audits/Product-PR-review-ui-2026-10-12.md."
       }
     }
   ],
@@ -2728,8 +2758,8 @@
     {
       "id": "USR-PR-01",
       "requirement": "软件产品自身每一次 PR 必须经过人工审核",
-      "status": "IMPLEMENTED_LOCAL_REAL_HUMAN_OPERATION_PENDING",
-      "checkpoint": "Every product PR requires exact-head/evidence/target-bound human review. Diff/tests/opinion/feedback fixed; actual owner approval and product Draft upload still pending. docs/audits/Product-PR-review-ui-2026-10-12.md."
+      "status": "LIVE_HUMAN_APPROVAL_AND_PRODUCT_DRAFT_UPLOAD_PASS",
+      "checkpoint": "User personally reviewed and published exact1ed608718e14e501452f0b9506cbae347ed7244c as Draft PR30; fresh GitHub CI passed. Each subsequent product PR still requires fresh human review; this Draft awaits GitHub human merge. docs/audits/Product-PR-review-ui-2026-10-12.md."
     },
     {
       "id": "USR-P7-01",

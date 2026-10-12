@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-12 产品人审→上传真实操作PASS：用户在8773实际填写意见、批准并创建Draft PR #30，head1ed608718e14e501452f0b9506cbae347ed7244c；新CI run38205876034三检查SUCCESS，事件链人审→先消费→外部创建顺序核对。见audits/Product-PR-review-ui-2026-10-12.md。Draft保持待GitHub人工合并；开发PR25–29也暂保留，避免合并包含该提交的开发分支而绕过产品Draft流程。当前本地开发分支与远程同名分支同步，main仍0abb；完整P6继续由有限batch回执验收。
+
 2026-10-12：v8 首次主集因旧 WSL 订阅 usageLimitExceeded 停止，累计357DS/7订阅/API上界USD4.2235404，未知usage不记零。用户明确授权并亲自完成当前桌面账号的 WSL 独立登录，元数据核对一致；新有限批次20261012T045212Z按原v8协议继续，旧尝试/账本不覆盖，实际状态取批次回执，P6尚未完整接受。最新功能d05199bd的P7独立安装/HTTP权限与禁用/同目录重用和跨目录端口拒绝/旧包并存回滚均PASS_LOCAL_PREVIEW；见ADR-0022及audits/P7-v8-local-delivery-2026-10-12.md。开发PR25–28 CI已通过且暂保留OPEN以维持真实产品审核的绑定基线；产品每PR人审/上传仍待实际人类操作，对外发布未授权。
 
 2026-10-12 v8正式执行前检查：补全NativeDriver max-tokens日志路径，修复Windows历史fixture反复共享替换错误（只对同一份字节有限重试，不重新模型调用）。Windows123项通过/7平台skip，native123项全部通过、Node8通过。v7仅冻结/零模型控制未启动付费任务；独立v8冻结d61c98afc1864f8e0ebd2fc62e82372c1fad2f547f49d3e90b8e69df8698a82d，将用于后续完整矩阵，实际结果取回执。
