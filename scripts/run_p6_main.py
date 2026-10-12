@@ -118,10 +118,10 @@ print('PC calibration PASS')'''
         if not isinstance(payload['key'],str) or not payload['key']:raise RuntimeError('Saved credential unavailable')
     else:payload['key']='offline-no-key'
     raw=json.dumps(payload).encode();payload['key']='';started=time.perf_counter()
-    # Bounded public task: 1200 seconds of activity plus six independent 180s
-    # acceptances and startup. Scientific entry has separate per-task deadlines.
+    # Eight potential programs: native DS + N3 + M + D/E/F. Ground truth for
+    # both judge pools is collected only after all selections are frozen.
     evaluation=config['scientific_evaluation_timeout_seconds'].get(args.task,180)
-    total=1200+6*evaluation+120
+    total=1200+8*evaluation+120
     if args.detach:
         launcher=r'''import json,sys,os,subprocess,time
 from pathlib import Path

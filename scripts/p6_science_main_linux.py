@@ -122,6 +122,9 @@ subprocess.run(COMMAND,cwd=source,check=True,timeout=30)
         r=grade(source,SCIENCE/'intake/gc',prefix)
     # Pending source/figure/report review is INDETERMINATE, never automatic PASS.
     verdict=r['verdict']
+    if kind=='tms' and verdict=='PASS':
+        r={**r,'verdict':'PASS_NUMERIC_REVIEW_PENDING','source_and_figure_review':'REQUIRED; healthy/synthetic numerical agreement does not establish clinical validity or plotted-data fidelity'}
+        verdict=r['verdict']
     if verdict=='PASS_NUMERIC_REVIEW_PENDING':verdict='INDETERMINATE'
     result={'verdict':verdict,'numeric_verdict':r['verdict'],'detail':r,'elapsed_seconds':time.perf_counter()-started}
     if verdict=='INDETERMINATE':result['reason']='Independent numerical checks passed; substantive source/report/figure review required'

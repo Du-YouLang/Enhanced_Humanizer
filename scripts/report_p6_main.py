@@ -28,8 +28,16 @@ for attempt in batch['attempts']:
   d=json.loads((root/'judgments.json').read_text());row['judgments']={k:{f:v[f] for f in ('status','pool_hash','evidence_hash','ranking','raw_selected','eligible_selected','elapsed_seconds','requests') if f in v} for k,v in d.items()}
  if (root/'merge-judgments.json').exists():
   d=json.loads((root/'merge-judgments.json').read_text());row['merge_judgments']={k:{f:v[f] for f in ('status','pool_hash','evidence_hash','ranking','raw_selected','eligible_selected','elapsed_seconds','requests') if f in v} for k,v in d.items()}
+ oracle=root/'private-candidate-acceptance.json'
+ if attempt['mode']=='sensitivity' and (root/'receipt.json').exists():
+  receipt=json.loads((root/'receipt.json').read_text());oracle=base/receipt['source_run']/'private-candidate-acceptance.json'
+ if oracle.exists():
+  row['candidate_acceptance']={cid:{'verdict':v['acceptance']['verdict'],'public_verdict':v['public_verdict'],'program_identity':v['program_identity'],
+   'worker_status':v['worker_status'],'elapsed_seconds':v['acceptance'].get('elapsed_seconds','unavailable')} for cid,v in json.loads(oracle.read_text()).items()}
+ row['role_timing']=[]
  for p in root.glob('*/controller-outcome.json'):
   w=json.loads(p.read_text())
+  row['role_timing'].append({'scope':w['scope'],'status':w['status'],'wall_seconds':w['wall_seconds']})
   for s in w.get('usage',[]):
    if s.get('session_id')=='unavailable':unknown_sessions.append({'scope':w['scope'],'usage':'unavailable'})
    else:sessions[s['session_id']]={'scope':w['scope'],'model_id':s['model_id'],'usage':s['usage']}
@@ -42,9 +50,40 @@ if ledger.exists():
   'deepseek_known_output_tokens':sum(r['usage']['output_tokens'] for r in settled),'deepseek_known_cache_read_tokens':sum(r['usage']['cache_read_input_tokens'] for r in settled),
   'api_upper_bound_usd':v['cash_bound_nano']/1e9,'api_cash_usd':'unavailable','subscription_turns':len(v['codex_turns']),
   'subscription_cost_usd':'unavailable','subscription_sessions':list(sessions.values()),'unknown_subscription_sessions':unknown_sessions,
+  'api_request_timing':[{'scope':r['experiment'],'elapsed_seconds':r.get('elapsed_seconds','unavailable'),'first_delta_seconds':r.get('first_delta_seconds','unavailable'),'usage_status':r['status']} for r in requests],
   'scope':'Actual phase ledger, including preserved failures and both sensitivity pools; per-arm costs reuse components and must not be summed as phase expenditure'}
 print(json.dumps({'runs':runs,'accounting':accounting}))
 '''
+
+
+def comparisons(entry):
+    truth=entry.get('candidate_acceptance',{});result={}
+    for group in ('judgments','merge_judgments'):
+        judges=entry.get(group,{})
+        if not judges:continue
+        values={}
+        for name,j in judges.items():
+            row={'status':j['status'],'pool_hash':j['pool_hash']}
+            for choice in ('raw_selected','eligible_selected'):
+                selected=j.get(choice);verdict=truth.get(selected,{}).get('verdict')
+                row[choice]=selected
+                row[choice+'_accepted']=verdict=='PASS' if verdict in ('PASS','FAIL','TIMEOUT') else 'unavailable'
+                row[choice+'_oracle_verdict']=verdict or 'unavailable'
+            values[name]=row
+        pairs=[]
+        from itertools import combinations
+        complete={k:v for k,v in judges.items() if v['status']=='COMPLETED'}
+        for (left,a),(right,b) in combinations(complete.items(),2):
+            if a['pool_hash']!=b['pool_hash'] or set(a['ranking'])!=set(b['ranking']):raise ValueError('Judge ranking comparison changed pool')
+            ids=a['ranking'];pa={v:i for i,v in enumerate(ids)};pb={v:i for i,v in enumerate(b['ranking'])}
+            orders=[(pa[x]<pa[y])==(pb[x]<pb[y]) for x,y in combinations(ids,2)]
+            pairs.append({'judges':[left,right],'pairwise_order_agreement':sum(orders)/len(orders) if orders else 'unavailable'})
+        result[group]={'selection':values,'ranking_agreement':pairs}
+    if 'M' in truth:
+        result['merge']={'M_independent_verdict':truth['M']['verdict'],
+            'all_originals_failed_public':all(truth[cid]['public_verdict']!='PASS' for cid in 'ABC'),
+            'all_originals_failed_independent':all(truth[cid]['verdict']=='FAIL' for cid in 'ABC')}
+    return result
 
 
 def main():
@@ -68,7 +107,7 @@ def main():
             if r['outcome']=='NOT_RUN':r['reason']='No accepted arm receipt; preserved controller status '+entry['status']
     rows=list(rows.values());report={'status':'EXPLORATORY_MAIN_REPORT_NOT_PHASE_ACCEPTANCE','batch_status':batch['status'],
         'manifest_sha256':manifest['manifest_sha256'],'rows':rows,'summary':summarize(rows),'phase_accounting':evidence['accounting'],
-        'judge_and_merge_comparisons':[{k:v for k,v in e.items() if k!='arms'} for e in evidence['runs']],
+        'judge_and_merge_comparisons':[{**{k:v for k,v in e.items() if k!='arms'},'comparison_metrics':comparisons(e)} for e in evidence['runs']],
         'limitations':['Selected convenience tasks; not representative or equal in difficulty','One seed/repetition; no efficacy significance claim',
                       'Scientific numerical passes still need substantive review','Unknown usage/cash/subscription cost is unavailable, not zero',
                       'Private data/oracle/raw trajectories are excluded','Development chat usage and hardware electricity cost are unavailable and excluded from benchmark role ledger']}

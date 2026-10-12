@@ -126,14 +126,16 @@ def record(arm,chosen,scopes,elapsed,hidden=None):
     a=shared.ACTIVE;task=a['task'];prep=a['preparation']
     accepted=hidden or {'verdict':'NOT_RUN'}
     outcome=accepted['verdict']
-    if chosen is None:outcome='INDETERMINATE'
+    if chosen is None:outcome='FAIL'
     elif chosen['worker_status']!='COMPLETED':outcome='TIMEOUT' if chosen['worker_status']=='TIMEOUT' else 'INFRA_FAIL'
     elif chosen['verdict']!='PASS':outcome='FAIL'
     if outcome not in ('PASS','FAIL','TIMEOUT','INFRA_FAIL','INDETERMINATE'):outcome='INDETERMINATE'
     incomplete_judge=arm in ('C','F') and a.get('enhancement_judge_incomplete',False)
     if incomplete_judge:outcome='INDETERMINATE'
+    failure_class='REQUIRED_JUDGE_INCOMPLETE' if incomplete_judge else 'NO_ELIGIBLE_PUBLIC_CANDIDATE' if chosen is None else 'ROLE_TIMEOUT' if chosen['worker_status']=='TIMEOUT' else 'ROLE_INFRASTRUCTURE' if chosen['worker_status']!='COMPLETED' else 'PUBLIC_HARD_GATE_FAILED' if chosen['verdict']!='PASS' else 'PRIVATE_ACCEPTANCE_FAILED' if accepted['verdict']=='FAIL' else 'INDEPENDENT_REVIEW_PENDING' if accepted['verdict']=='INDETERMINATE' else 'NONE'
     row={'task_id':task['id'],'arm':arm,'seed':42,'repetition':0,'manifest_sha256':a['payload']['manifest']['manifest_sha256'],
          'outcome':outcome,'reason':'Required enhancement judge incomplete; downstream output is diagnostic only' if incomplete_judge else 'Uniform main protocol; selection frozen before private acceptance',
+         'failure_class':failure_class,
          'model_identity':ARMS[arm][0],'harness':ARMS[arm][1],'evidence_kind':'REAL_MODEL','time_cap_seconds':1200,
          'independent_acceptance':accepted['verdict'],'head_commit':chosen.get('head_commit','unavailable') if chosen else 'unavailable',
          'metrics':shared.metrics(scopes,elapsed),'run_contract_sha256':a['contract_sha256'],
@@ -276,17 +278,28 @@ def run(payload):
         active=time.perf_counter()-started
         # All model work is now finished; long independent acceptance has its own
         # recorded watchdog and is not presented as free model activity.
-        shared.ACTIVE['key']='';accepted={};results=[]
+        shared.ACTIVE['key']='';accepted={};results=[];truth={};oracle_started=time.perf_counter()
+        all_candidates={c['id']:c for c in [raw,*pool_rows,m,*[c for c in selections.values() if c is not None]]}
+        for cid,c in all_candidates.items():
+            identity=digest({'patch':c.get('patch'),'source':c.get('source')})
+            if c['verdict']!='PASS' or c['worker_status']!='COMPLETED':
+                checked={'verdict':'FAIL','private_execution':'NOT_RUN_PUBLIC_HARD_GATE_FAILED','elapsed_seconds':0,
+                         'reason':'Completion, clean commit, protected files and public checks are mandatory before numerical acceptance'}
+            else:
+                if identity not in accepted:
+                    try:accepted[identity]=tester(Path(c['root'])/'code',True)
+                    except (ValueError,OSError,KeyError,TypeError) as error:
+                        accepted[identity]={'verdict':'FAIL','error_type':type(error).__name__,'reason':str(error)[:500],'elapsed_seconds':0}
+                checked=accepted[identity]
+            truth[cid]={'program_identity':identity,'worker_status':c['worker_status'],'public_verdict':c['verdict'],'acceptance':checked}
+            exclusive_json(root/('private-acceptance-'+cid+'.json'),truth[cid])
+        exclusive_json(root/'private-candidate-acceptance.json',truth)
         for arm,c in selections.items():
-            identity=digest({'patch':c.get('patch'),'source':c.get('source')}) if c else None
-            if c and identity not in accepted:
-                try:accepted[identity]=tester(Path(c['root'])/'code',True)
-                except (ValueError,OSError,KeyError,TypeError) as error:
-                    accepted[identity]={'verdict':'FAIL','error_type':type(error).__name__,'reason':str(error)[:500],'elapsed_seconds':0}
-            results.append(record(arm,c,scopes[arm],timings[arm],accepted.get(identity)))
+            results.append(record(arm,c,scopes[arm],timings[arm],truth[c['id']]['acceptance'] if c else None))
         receipt={'status':'MAIN_TASK_COMPLETED','task_id':task['id'],'run_id':root.name,'results':results,
                  'model_activity_seconds':active,'controller_end_to_end_seconds':time.perf_counter()-started,
                  'common_generation_timeout_seconds':115,'judgments':{k:v['status'] for k,v in judgments.items()},
+                 'benchmark_oracle_audit_seconds':time.perf_counter()-oracle_started,'private_unique_program_evaluations':len(accepted),
                  'full_tool_trace_sensitivity':'PENDING_SEPARATE_SAME_POOL_REVIEW','failures_preserved':True,'api_cash_usd':'unavailable'}
         exclusive_json(root/'receipt.json',receipt)
         return {k:v for k,v in receipt.items() if k!='results'}|{'arms':{r['arm']:r['outcome'] for r in results}}
