@@ -56,6 +56,7 @@ def fenced_git(work,*args):
 def clone(source,target,branch,trusted=False):
     target=Path(target)
     if not trusted:
+        validate_source_links(source)
         transfer=Path(source).parent/('git-tmp/transfer-'+uuid.uuid4().hex+'.bundle')
         fenced_git(source,'bundle','create',str(transfer),'--all')
     # A shallow bundle omits the shallow-boundary marker. Start from the immutable
@@ -138,7 +139,11 @@ def prepare_job(name,backend,role='builder',source=None,view=None,prompt=None,mo
     clone(source or task['base'],work,'run/'+ACTIVE['root'].name+'/'+name,trusted=source is None)
     env=candidate_env(root);env.update(GIT_CONFIG_GLOBAL='/dev/null',GIT_CONFIG_NOSYSTEM='1')
     env['PATH']=task['prefix']+'/bin:/opt/workbench/tools/bubblewrap/0.9.0-1build1/unpacked/usr/bin:'+env['PATH'];env['PYTHONHASHSEED']='42'
-    if ACTIVE.get('fixture_url'):env.update(HTTPBIN_URL=ACTIVE['fixture_url'],REQUESTS_CA_BUNDLE='/etc/ssl/certs/ca-certificates.crt')
+    if ACTIVE.get('main_phase') and task.get('gpu_coding'):
+        env.update(LD_LIBRARY_PATH='/usr/lib/wsl/lib',CUPY_CACHE_DIR=str(root/'tmp/cupy'),
+                   CUDA_CACHE_PATH=str(root/'tmp/cuda'),JAX_COMPILATION_CACHE_DIR=str(root/'tmp/jax'),
+                   XLA_PYTHON_CLIENT_PREALLOCATE='false')
+    if ACTIVE.get('fixture_url'):env.update(HTTPBIN_URL=ACTIVE['fixture_url'],REQUESTS_CA_BUNDLE=task.get('fixture_ca','/etc/ssl/certs/ca-certificates.crt'))
     if backend=='codex':
         codex=Path(env['HOME'])/'.codex';codex.mkdir();(codex/'auth.json').symlink_to('/opt/workbench/state/codex/auth.json')
         env['CODEX_HOME']=str(codex)
@@ -154,13 +159,17 @@ def prepare_job(name,backend,role='builder',source=None,view=None,prompt=None,mo
          'prompt':prompt or task['prompt'],'fixture_url':ACTIVE.get('fixture_url'),
          'parent_namespace':os.readlink('/proc/self/ns/pid'),'denied_paths':[str(p) for p in denied],
          'role_seconds':min(600,max(1,int(ACTIVE['deadline']-time.monotonic()))),'offline_control':offline}
+    if ACTIVE.get('main_phase'):
+        job.update(phase='P6_MAIN_LOCAL_20261011',budget=ACTIVE['payload']['budget'],
+                   role_seconds=min(115,max(1,int(ACTIVE['deadline']-time.monotonic()))),
+                   public_read_paths=task.get('public_read_paths',[]),gpu_coding=task.get('gpu_coding',False))
     return job,env
 
 
 def launch(job,env):
     root=Path(job['root']);tick=time.perf_counter();broker=None
     if job['backend']=='dsh' and not job.get('offline_control'):
-        broker=Broker(ACTIVE['key'],ScopedLedger(ACTIVE['ledger'],job['scope'],request_cap=20,cash_cap=1_000_000_000),
+        broker=Broker(ACTIVE['key'],ScopedLedger(ACTIVE['ledger'],job['scope'],request_cap=20,cash_cap=None if ACTIVE.get('main_phase') else 1_000_000_000),
                       job['scope'],min(ACTIVE['deadline'],time.monotonic()+job['role_seconds']))
         broker.start();job=dict(job,capability=broker.capability,broker_url=broker.url)
     elif job['backend']=='dsh':job=dict(job,capability='offline-control',broker_url='http://offline.invalid')
@@ -169,17 +178,40 @@ def launch(job,env):
             p=subprocess.Popen(namespace_command([sys.executable,'-B','/opt/workbench/source/p6_worker_linux.py']),
                                cwd=job['work'],env=env,stdin=subprocess.PIPE,stdout=out,stderr=err,start_new_session=True)
             p.stdin.write(json.dumps(job).encode());p.stdin.close()
-            try:p.wait(timeout=min(job['role_seconds'],max(.01,ACTIVE['deadline']-time.monotonic())))
-            except subprocess.TimeoutExpired:
+            peak={'rss_kib':0,'processes':0,'threads':0};stop_reason=None
+            try:
+                if ACTIVE.get('main_phase'):
+                    from p6_science_sandbox import process_usage
+                    stop=min(time.monotonic()+job['role_seconds'],ACTIVE['deadline'])
+                    while p.poll() is None:
+                        usage=process_usage(p.pid);peak={k:max(peak[k],v) for k,v in usage.items()}
+                        if usage['rss_kib']>8192*1024 or usage['processes']>64 or usage['threads']>512:
+                            raise subprocess.TimeoutExpired('MAIN_ROLE_RESOURCE_LIMIT',job['role_seconds'])
+                        if time.monotonic()>=stop:raise subprocess.TimeoutExpired('MAIN_ROLE_DEADLINE',job['role_seconds'])
+                        time.sleep(.1)
+                else:p.wait(timeout=min(job['role_seconds'],max(.01,ACTIVE['deadline']-time.monotonic())))
+            except subprocess.TimeoutExpired as error:
+                stop_reason=str(error.cmd)
                 os.killpg(p.pid,signal.SIGTERM)
                 try:p.wait(timeout=3)
                 except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait()
         saved=root/'worker.json';worker=json.loads(saved.read_text()) if saved.exists() else {'status':'TIMEOUT' if p.returncode<0 else 'INFRA_FAIL','turns':[],'usage':collect(root)}
         worker.update(root=str(root),work=job['work'],wall_seconds=time.perf_counter()-tick,scope=job['scope'])
+        if ACTIVE.get('main_phase'):
+            worker.update(controller_peak_process_tree=peak,controller_rss_limit_mib=8192,controller_process_limit=64,controller_thread_limit=512,controller_stop_reason=stop_reason)
+            if stop_reason:worker['status']='TIMEOUT'
         if broker:worker['broker_denials']=broker.denials
         exclusive_json(root/'controller-outcome.json',worker)
         return worker
     finally:
+        if 'p' in locals() and p.poll() is None:
+            try:os.killpg(p.pid,signal.SIGTERM)
+            except ProcessLookupError:pass
+            try:p.wait(timeout=3)
+            except subprocess.TimeoutExpired:
+                try:os.killpg(p.pid,signal.SIGKILL)
+                except ProcessLookupError:pass
+                p.wait(timeout=5)
         if broker:broker.close()
 
 
@@ -198,6 +230,7 @@ def candidate(name,worker):
         row['patch'],row['source']=program_evidence(work,task['base_commit'])
         changed=fenced_git(work,'diff','--name-only',task['base_commit']).splitlines()
         protected=[p for p in changed if (p.startswith(('tests/','testing/','test_')) or Path(p).name in {'pyproject.toml','setup.py','requirements.txt','setup.cfg'}) and (Path(task['base'])/p).exists()]
+        protected.extend(p for p in changed if p in task.get('protected_paths',()) and p not in protected)
         test=test_source(work);raw=(Path(test['evidence_root'])/'test.private.log').read_text()
         row['test_report']={k:test[k] for k in ('verdict','exit_code','tests_observed','elapsed_seconds','private_log_sha256')}
         row['test_report']['log']=raw if len(raw.encode())<=400_000 else 'Public raw test output exceeds handoff bound; see isolated trace hash'
@@ -205,7 +238,8 @@ def candidate(name,worker):
         if protected or row['working_tree'] or row['head_commit']==task['base_commit'] or not patch:row['verdict']='FAIL' if worker['status']=='COMPLETED' else worker['status']
         row.update(protected_paths_modified=protected)
         if row['verdict']!='PASS':row['known_failures'].append('Visible tests or completion/clean-commit gate did not pass')
-        row['hidden_acceptance']=test_source(work,hidden=True)  # Kept separately; never included in public pool.
+        row['hidden_acceptance']=({'verdict':'NOT_RUN','reason':'Main protocol defers private acceptance until public selection is frozen'}
+                                  if ACTIVE.get('defer_hidden') else test_source(work,hidden=True))
         bundle=root/'git-tmp/candidate.bundle';fenced_git(work,'bundle','create',str(bundle),'--all')
         row.update(bundle_file=str(bundle),bundle_sha256=digest(bundle.read_bytes()))
         row['partial_patch']=fenced_git(work,'diff','--no-ext-diff','--no-textconv','HEAD')

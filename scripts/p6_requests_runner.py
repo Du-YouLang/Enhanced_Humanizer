@@ -30,7 +30,10 @@ def route_main_transport():
         return original_lookup(host,target_port,*args,**kwargs)
     def connect(sock,address):
         if isinstance(address,tuple) and len(address)==2 and address[0].startswith('127.') and address[1] in targets:
-            host=targets[address[1]];port=address[1]
+            # TLS retains httpbin.org as its logical/certificate hostname, but
+            # its raw bytes go to the same local dual-protocol fixture. No WAN
+            # HTTPBIN dependency or certificate verification bypass is needed.
+            host=fixture.hostname;port=fixture.port
             original_connect(sock,('127.0.0.1',proxy.port))
             sock.sendall(f'CONNECT {host}:{port} HTTP/1.1\r\nHost: {host}:{port}\r\n\r\n'.encode())
             header=b''

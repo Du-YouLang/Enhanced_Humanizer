@@ -96,7 +96,7 @@ def prepare(task,bip=None,swe=None,attempt=None):
         kwargs={'expected_tests':expected,'test_patch':test_patch,'test_framework':framework,'writable_fixture_paths':writable}
         if url:
             from p6_requests_main_fixture import CA
-            kwargs.update(fixture_url=url,tls_regressions=True,fixture_ca=CA)
+            kwargs.update(fixture_url=url,tls_regressions=True,fixture_ca=CA,local_tls_only=True)
             # Session.send in Requests 2.3 does not merge REQUESTS_CA_BUNDLE.
             # Its bundled trust data needs the same scoped fixture certificate.
             # Apply this public data overlay equally to buggy/gold/candidate copies.
