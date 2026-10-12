@@ -42,5 +42,14 @@ class TraceEvidenceTests(unittest.TestCase):
         self.write([{'type':'tool/result','data':{'result':'x'*2000}}])
         with self.assertRaisesRegex(ValueError,'no truncation'):tool_trace(self.root,max_bytes=1000)
 
+    def test_environment_and_header_capabilities_are_removed_recursively(self):
+        token='local-only-'+'Q'*32
+        self.write([{'type':'tool/result','data':{'result':'DEEPSEEK_API_KEY='+token+'\nAuthorization: Bearer '+token,
+                                               'nested':[{'x-api-key':token}],'public':'complete diagnostic retained'}}])
+        value=tool_trace(self.root)
+        self.assertEqual(value['credential_redactions'],3)
+        self.assertNotIn(token,json.dumps(value))
+        self.assertIn('complete diagnostic retained',json.dumps(value))
+
 
 if __name__=='__main__':unittest.main()

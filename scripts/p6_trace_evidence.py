@@ -9,6 +9,29 @@ from pathlib import Path
 import re
 
 
+def redact(value):
+    """Also remove local broker capabilities if a tool prints its environment."""
+    count=0
+    if isinstance(value,dict):
+        cleaned={}
+        for key,item in value.items():
+            if isinstance(item,str) and re.search(r'(?i)(?:api[_-]?key|authorization|capability|access[_-]?token)$',key):
+                cleaned[key]='[REDACTED_CREDENTIAL]';count+=1
+            else:
+                cleaned[key],number=redact(item);count+=number
+        return cleaned,count
+    if isinstance(value,list):
+        cleaned=[]
+        for item in value:
+            item,number=redact(item);cleaned.append(item);count+=number
+        return cleaned,count
+    if not isinstance(value,str):return value,0
+    value,number=re.subn(r'(?i)\b(?:sk-[a-z0-9_-]{16,}|gh[pousr]_[a-z0-9]{20,}|github_pat_[a-z0-9_]{20,}|eyJ[a-z0-9_-]{15,}\.[a-z0-9_-]{15,}\.[a-z0-9_-]{15,})','[REDACTED_CREDENTIAL]',value);count+=number
+    value,number=re.subn(r'(?i)(\bBearer\s+)[a-z0-9._~+/-]{16,}',r'\1[REDACTED_CREDENTIAL]',value);count+=number
+    value,number=re.subn(r'''(?i)((?:[a-z0-9_]*API_KEY|x-api-key|capability)\s*["']?\s*[:=]\s*["']?)[a-z0-9._~+/-]{16,}''',r'\1[REDACTED_CREDENTIAL]',value);count+=number
+    return value,count
+
+
 def tool_trace(root,*,max_bytes=2_000_000):
     files=sorted(Path(root).glob('humanize/epics/*/*/sessions/dsh/sessions/*/*/session.v3.jsonl'))
     if not files:raise ValueError('Native DSH tool trace is unavailable')
@@ -19,10 +42,8 @@ def tool_trace(root,*,max_bytes=2_000_000):
         for line in raw.decode('utf-8').splitlines():
             row=json.loads(line)
             if row.get('type') not in ('tool/call','tool/result'):continue
-            text=json.dumps(row,ensure_ascii=False)
-            text,count=re.subn(r'(?i)\b(?:sk-[a-z0-9_-]{16,}|gh[pousr]_[a-z0-9]{20,}|github_pat_[a-z0-9_]{20,}|eyJ[a-z0-9_-]{15,}\.[a-z0-9_-]{15,}\.[a-z0-9_-]{15,})',
-                               '[REDACTED_CREDENTIAL]',text)
-            redactions+=count;records.append(json.loads(text))
+            row,count=redact(row)
+            redactions+=count;records.append(row)
     value={'kind':'COMPLETE_NATIVE_TOOL_CALLS_AND_RESULTS','records':records,'origin_hashes':origins,
            'tool_calls':sum(r['type']=='tool/call' for r in records),'tool_results':sum(r['type']=='tool/result' for r in records),
            'credential_redactions':redactions,'private_reasoning':'EXCLUDED','provider_headers':'EXCLUDED','truncated':False}
