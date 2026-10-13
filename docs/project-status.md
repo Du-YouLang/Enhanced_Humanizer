@@ -1,5 +1,9 @@
 # 项目交接状态
 
+2026-10-13 10:11：USD200交接功能6ad28626498d04f2a0f186f9b0db534b38e639d3及精确CI38335232310三SUCCESS，PR39/Issue38。新无窗口后台42840/HKCU登录恢复已实际安装并独立核对，30秒状态OLD_COHORT/OBSERVE_ACCEPTANCE_CONTINUATION；原本机359/360数值验收、输入和账本逐字不变。入口 `.local-workbench/recovery/p6-cash200-bridge-v1/config.private.json`，旧子监控v8-oldcash，后继在隔离cash checkout的v9-cash200。巡检显示已批准200与旧协议当前执行100，原PC验收/同池评分完成且拥有者退出后自动封存并修订账本，再启动未开始3题；实际200激活回执尚不存在。45分钟巡检ACTIVE，旧结果/Black-5待重试/Draft30人合并及外部发布确认保留。
+
+2026-10-13：用户把DeepSeek API Token累计预算提高至USD200，包含已有用量；10000次请求及原角色/请求/输出/数值门禁不变。独立checkout已准备v6现金授权与后继清单，当前PC验收仍需旧账本/源码逐字一致；自动交接在原PC验收及轨迹评分结束后封存旧账本并保留所有记录。批准快照USD85.7703858是无缓存折扣的保守上界；已知usage按当前缓存价格估算USD5.191966404–10.383932808，排除29次未知请求，实付unavailable。见ADR-0030与P6-cash-budget审计。实际预算激活、精确CI、恢复安装及新任务成果以独立回执为准；完整P6/Pi/外部发布仍未验收。
+
 2026-10-13 人工关机暂停后已明确继续：v12-final2 的11题主流程与11次轨迹敏感性已完成（包含FAIL，不等于11题PASS）。PC-ALM全部模型/选择已冻结，5份完成验收复用；D在停机后写出的精确signal15 InterruptedError原样保留并排除模型失败，另存验收续跑。实际09:33:40本机启动验收专用拥有者359/360，原输入/账本逐字未变；v7监控30秒、HKCU用户登录恢复和45分钟巡检ACTIVE。真实冻结候选/六臂schema/GPU cuda:0与隔离HTTPS200零模型控制通过；功能2617d425c7bb32eca78f36d32d749b86abd7e150、精确CI38332589366三SUCCESS。累计4899DS/154订阅/API上界USD85.7703858，实付unavailable；剩余USD14.2296142/5101请求，预算不重置。验收结束后仅串行推进缺失PC敏感性与未开始的STROKE/EGL/GRANGER；Black-5仍INFRA_RETRY_PENDING，禁止整题重放。原丢失墙钟区间unavailable，完整P6/Pi、新P7包及外部发布尚未接受，Draft30仍待人合并。见ADR-0029与P6-shutdown-resume审计。
 
 2026-10-12 v12-final2首题Black-2真实A–F六分支全部独立验收PASS，完整主流程1838.856秒，receipt SHA c3e0e206e6ef2f6f580772a8d71478e290184b18130fab6a6415c5dab3d66a84；共享N3池，不是六独立随机样本。完整trace敏感性run20261012T132738Z仍执行，有限batch继续其它题；最新快照1811DS/68订阅/API上界USD30.742602，实付unavailable。20条LAV settlement缺request timeout字段，不填0；源代码600s recover与字段缺口分开记，不修改活动冻结源码。见P6-v12-final2-first-task审计；完整P6/Pi仍未接受，旧账本和样本保持。
