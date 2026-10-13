@@ -1,5 +1,9 @@
 # 项目交接状态
 
+2026-10-13：GRANGER 验收环境及检查器误判已修复，8 份冻结候选、原选择的 A–F 六臂全部 PASS。复用现有 threadpoolctl、C 的完整 GPU 输出及六份已完成数值检查，只补未完成验收；原失败、中间 INDETERMINATE、59 份原生源码和旧批次索引保留。最终补充回执为原运行的 `control/granger-reviewed-acceptance.json`，独立证据在 `.local-workbench/audits/GRANGER-acceptance-20261013.private.json`。新增模型调用零，累计5557DS/178订阅/USD99.7752408保守上界账本逐字一致；实付和原模型墙钟区间 unavailable。代码位于本地 `codex/granger-acceptance-repair` checkout，GitHub继续按用户要求暂缓。详见 ADR-0031 与 GRANGER 验收审计；完整P6/Pi/新P7/外部发布仍未接受。
+
+本次功能提交49f7bf0e4e102854efb9bbfd0fab951b171e5fab保存在独立阶段分支，主目录仅同步交接记录；原生冻结源码未替换，远程交付仍暂缓。当前30秒只读监控为p6-readonly-observer-v3，拥有者35212/HKCU登录恢复已核对，45分钟巡检维持。15题主流程完成包含FAIL，14次敏感性完成；GC敏感性待办和旧Black-5中断现场保留。
+
 2026-10-13 10:11：USD200交接功能6ad28626498d04f2a0f186f9b0db534b38e639d3及精确CI38335232310三SUCCESS，PR39/Issue38。新无窗口后台42840/HKCU登录恢复已实际安装并独立核对，30秒状态OLD_COHORT/OBSERVE_ACCEPTANCE_CONTINUATION；原本机359/360数值验收、输入和账本逐字不变。入口 `.local-workbench/recovery/p6-cash200-bridge-v1/config.private.json`，旧子监控v8-oldcash，后继在隔离cash checkout的v9-cash200。巡检显示已批准200与旧协议当前执行100，原PC验收/同池评分完成且拥有者退出后自动封存并修订账本，再启动未开始3题；实际200激活回执尚不存在。45分钟巡检ACTIVE，旧结果/Black-5待重试/Draft30人合并及外部发布确认保留。
 
 2026-10-13：用户把DeepSeek API Token累计预算提高至USD200，包含已有用量；10000次请求及原角色/请求/输出/数值门禁不变。独立checkout已准备v6现金授权与后继清单，当前PC验收仍需旧账本/源码逐字一致；自动交接在原PC验收及轨迹评分结束后封存旧账本并保留所有记录。批准快照USD85.7703858是无缓存折扣的保守上界；已知usage按当前缓存价格估算USD5.191966404–10.383932808，排除29次未知请求，实付unavailable。见ADR-0030与P6-cash-budget审计。实际预算激活、精确CI、恢复安装及新任务成果以独立回执为准；完整P6/Pi/外部发布仍未验收。
