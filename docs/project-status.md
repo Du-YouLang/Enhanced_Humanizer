@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-13 23:24：本机23:12重启后原只读监控进程已不在，最后心跳18:08；独立检查确认实验现场和精确账本未变。已恢复现有无窗口30秒observer v3，当前拥有者34020，创建时间/命令/原HKCU启动项均核对；配置和源码pins不改，原状态另存，启动项未执行的具体原因尚未证实。恢复回执 `.local-workbench/audits/followup-20261013T152205-verified.private.json`。仍为15题主流程完成（含FAIL）、14次敏感性完成，GC敏感性及Black-5中断现场待办保留；累计5557DS/178订阅/API上界USD99.7752408，剩余4443次/USD100.2247592保守空间，实付unavailable。本次新增模型调用零，GitHub继续暂缓，完整P6/Pi/新P7仍未接受。
+
 2026-10-13：GRANGER 验收环境及检查器误判已修复，8 份冻结候选、原选择的 A–F 六臂全部 PASS。复用现有 threadpoolctl、C 的完整 GPU 输出及六份已完成数值检查，只补未完成验收；原失败、中间 INDETERMINATE、59 份原生源码和旧批次索引保留。最终补充回执为原运行的 `control/granger-reviewed-acceptance.json`，独立证据在 `.local-workbench/audits/GRANGER-acceptance-20261013.private.json`。新增模型调用零，累计5557DS/178订阅/USD99.7752408保守上界账本逐字一致；实付和原模型墙钟区间 unavailable。代码位于本地 `codex/granger-acceptance-repair` checkout，GitHub继续按用户要求暂缓。详见 ADR-0031 与 GRANGER 验收审计；完整P6/Pi/新P7/外部发布仍未接受。
 
 本次功能提交49f7bf0e4e102854efb9bbfd0fab951b171e5fab保存在独立阶段分支，主目录仅同步交接记录；原生冻结源码未替换，远程交付仍暂缓。当前30秒只读监控为p6-readonly-observer-v3，拥有者35212/HKCU登录恢复已核对，45分钟巡检维持。15题主流程完成包含FAIL，14次敏感性完成；GC敏感性待办和旧Black-5中断现场保留。
