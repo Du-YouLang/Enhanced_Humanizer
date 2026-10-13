@@ -1,5 +1,7 @@
 # 项目交接状态
 
+2026-10-13 人工关机暂停后已明确继续：v12-final2 的11题主流程与11次轨迹敏感性已完成（包含FAIL，不等于11题PASS）。PC-ALM全部模型/选择已冻结，5份完成验收复用；D在停机后写出的精确signal15 InterruptedError原样保留并排除模型失败，另存验收续跑。实际09:33:40本机启动验收专用拥有者359/360，原输入/账本逐字未变；v7监控30秒、HKCU用户登录恢复和45分钟巡检ACTIVE。真实冻结候选/六臂schema/GPU cuda:0与隔离HTTPS200零模型控制通过；功能2617d425c7bb32eca78f36d32d749b86abd7e150、精确CI38332589366三SUCCESS。累计4899DS/154订阅/API上界USD85.7703858，实付unavailable；剩余USD14.2296142/5101请求，预算不重置。验收结束后仅串行推进缺失PC敏感性与未开始的STROKE/EGL/GRANGER；Black-5仍INFRA_RETRY_PENDING，禁止整题重放。原丢失墙钟区间unavailable，完整P6/Pi、新P7包及外部发布尚未接受，Draft30仍待人合并。见ADR-0029与P6-shutdown-resume审计。
+
 2026-10-12 用户明确要求继续网络中断工作后：真实隔离零模型连接200/PASS、无残留native进程。旧batch20261012T125458Z保留5题完整execute/sensitivity与Black-5候选池INFRA_RETRY_PENDING（model_failure=false），不整题重放。新有限batch20261012T155227Z以相同v12-final2协议只启动尚未开始的10题，首项Black-6已有真实请求；快照3035DS/API上界USD53.4246795，账本不重置。恢复注册升级p6-boot-v6观察新精确Windows拥有者，仍覆盖原16题/原起始时刻，完整保留v5事件链和旧批次hash；状态OBSERVE_ORIGINAL、服务自身launch intent零。弹窗功能8d95fe4精确CI38272394644三SUCCESS，旧主集源码保持96d32ee且干净。P6完整验收/Black-5中断恢复/Pi正式任务比较仍待完成；见本机私有p6-network-continuation-accepted回执。
 
 2026-10-12 恢复监控控制台弹窗修复：Windows子进程统一CREATE_NO_WINDOW，实际无控制台/stdout控制及恢复30项、治理7项通过。已升级独立p6-boot-v5并保留v4完整事件链与累计状态，无模型重跑或实验进程重启。原batch在此之前已因网络INFRA_RETRY_PENDING停止，窗口修复不构成新实验续跑授权/结果；冻结主集源码/清单/账本不改，精确CI/安装heartbeat以本次回执为准。
