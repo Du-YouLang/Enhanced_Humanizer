@@ -1,5 +1,7 @@
 # Project instructions
 
+- 2026-10-13 人工关机暂停后已明确继续：v12-final2 的11题主流程与11次轨迹敏感性已完成（包含FAIL，不等于11题PASS）。PC-ALM全部模型/选择已冻结，5份完成验收复用；D在停机后写出的精确signal15 InterruptedError原样保留并排除模型失败，另存验收续跑。实际09:33:40本机启动验收专用拥有者359/360，原输入/账本逐字未变；v7监控30秒、HKCU用户登录恢复和45分钟巡检ACTIVE。真实冻结候选/六臂schema/GPU cuda:0与隔离HTTPS200零模型控制通过；功能2617d425c7bb32eca78f36d32d749b86abd7e150、精确CI38332589366三SUCCESS。累计4899DS/154订阅/API上界USD85.7703858，实付unavailable；剩余USD14.2296142/5101请求，预算不重置。验收结束后仅串行推进缺失PC敏感性与未开始的STROKE/EGL/GRANGER；Black-5仍INFRA_RETRY_PENDING，禁止整题重放。原丢失墙钟区间unavailable，完整P6/Pi、新P7包及外部发布尚未接受，Draft30仍待人合并。见ADR-0029与P6-shutdown-resume审计。
+
 - 2026-10-12 v12-final2首题Black-2真实A–F六分支全部独立验收PASS，完整主流程1838.856秒，receipt SHA c3e0e206e6ef2f6f580772a8d71478e290184b18130fab6a6415c5dab3d66a84；共享N3池，不是六独立随机样本。完整trace敏感性run20261012T132738Z仍执行，有限batch继续其它题；最新快照1811DS/68订阅/API上界USD30.742602，实付unavailable。20条LAV settlement缺request timeout字段，不填0；源代码600s recover与字段缺口分开记，不修改活动冻结源码。见P6-v12-final2-first-task审计；完整P6/Pi仍未接受，旧账本和样本保持。
 
 - 2026-10-12 SDK增量功能fba8a127642fa9a74fd225562230a06a5c36be80已同步远程，精确CI38254622384三SUCCESS；新P7包ed1adb38a7dd8146f7d56605b73e1414e152f5e3bf258b547412863e270eca56独立安装/HTTP9项/端口/旧ef085回滚PASS_LOCAL_PREVIEW，回执p7-sdk-gate-fba8a12-accepted.private.json；全refs私有bundle验证通过。P6 v12-final2仍在Black-2角色链执行，非整题PASS；Pi SDK正负控制和真实入口Windows/native拒绝PASS，实际Pi工具/任务对照仍须串行验证。旧账本/结果、Draft30待人合并及外部发布确认继续保留。
