@@ -106,6 +106,13 @@ def next_step(config, state, inventory, *, original_alive, boot_changed):
     if original_alive: return {'action': 'OBSERVE_ORIGINAL'}
     if inventory['unowned_main_pids']: return {'action': 'BLOCK_UNOWNED_NATIVE'}
     if inventory['active_main_runs']: return {'action': 'ADOPT_NATIVE'}
+    acceptance = inventory.get('acceptance_continuation')
+    if acceptance and acceptance['status'] == 'ACTIVE':
+        return {'action': 'OBSERVE_ACCEPTANCE_CONTINUATION', 'run_id': acceptance['run_id']}
+    if acceptance and acceptance['status'] == 'FAILED_REQUIRES_INSPECTION':
+        return {'action': 'BLOCK_ACCEPTANCE_FAILURE', 'run_id': acceptance['run_id']}
+    if acceptance and acceptance['status'] == 'READY':
+        return {'action': 'CONTINUE_ACCEPTANCE_ONLY', 'run_id': acceptance['run_id']}
     runs = inventory['runs']; used = state.get('launches', [])
     pending = []
     for task in config['tasks']:
@@ -132,7 +139,7 @@ def next_step(config, state, inventory, *, original_alive, boot_changed):
             # Any unassigned native launch makes attributing a new request unsafe.
             if any(r['status'] == 'LAUNCH_UNCERTAIN' for r in runs):
                 return {'action': 'BLOCK_LAUNCH_GAP', 'pending': pending}
-            if not boot_changed:
+            if not boot_changed and not config.get('manual_continuation_authorized', False):
                 return {'action': 'WAIT_FOR_REBOOT_OR_MANUAL_RECOVERY', 'pending': pending}
             return {'action': 'LAUNCH_UNSTARTED', 'task': task, 'mode': mode,
                     'source_run': source, 'pending': pending}
@@ -195,6 +202,39 @@ def validate_sources(config):
     return budget
 
 
+def continue_acceptance(config, folder, journal):
+    """Detached zero-model job; completed candidate receipts survive another boot."""
+    guard = config['acceptance_continuation']
+    intent = {'id': uuid.uuid4().hex, 'source_run': guard['folder'], 'model_calls': 0}
+    journal.append('ACCEPTANCE_ONLY_LAUNCH_INTENT', intent)
+    code = r'''import json,sys,subprocess,time,os
+from pathlib import Path
+v=json.load(sys.stdin);folder=Path(v['folder']);script=Path(v['script'])
+import hashlib
+if hashlib.sha256(script.read_bytes()).hexdigest()!=v['script_sha256']:raise ValueError('Supplement changed')
+for name,expected in v.get('support_sha256',{}).items():
+ if hashlib.sha256((script.parent/name).read_bytes()).hexdigest()!=expected:raise ValueError('Acceptance support changed')
+launches=folder/'launches';launches.mkdir(exist_ok=True)
+boot=Path('/proc/sys/kernel/random/boot_id').read_text().strip()
+with (launches/(v['id']+'.intent.json')).open('x') as f:json.dump({'native_boot_id':boot,'model_calls':0},f);f.flush();os.fsync(f.fileno())
+with (launches/(v['id']+'.private.log')).open('xb') as log:
+ p=subprocess.Popen(['timeout','--signal=TERM','--kill-after=8s','57720s',sys.executable,'-B',str(script),'execute','--folder',str(folder)],stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
+value={'pid':p.pid,'process_start_ticks':Path('/proc/'+str(p.pid)+'/stat').read_text().rsplit(')',1)[1].split()[19],
+       'native_boot_id':boot,'started_unix':time.time(),'model_calls':0}
+with (launches/(v['id']+'.json')).open('x') as f:json.dump(value,f);f.flush();os.fsync(f.fileno())
+print(json.dumps(value))'''
+    result = subprocess.run(['wsl.exe', '-d', 'EnhancedHumanizer-P0', '-u', 'workbench', '--cd', '/opt/workbench',
+                             '--exec', '/opt/workbench/.venv-linux/bin/python', '-B', '-c', code],
+                            input=canonical(dict(guard, id=intent['id'])), capture_output=True, timeout=30,
+                            env=dict(os.environ, WSLENV='', WSL_UTF8='1'), **background_process_options())
+    with (folder / (intent['id'] + '.acceptance-launch.private.log')).open('xb') as file:
+        file.write(result.stdout + result.stderr)
+    if result.returncode: raise RuntimeError('Acceptance-only launch refused; inspect before continuation')
+    value = json.loads(result.stdout)
+    journal.append('ACCEPTANCE_ONLY_LAUNCHED', dict(intent, **value))
+    return value
+
+
 def supervise(config_path, *, execute=False, once=False):
     config_path = Path(config_path).resolve(); config = json.loads(config_path.read_bytes())
     project = Path(config['project']).resolve(); folder = config_path.parent
@@ -255,7 +295,17 @@ def supervise(config_path, *, execute=False, once=False):
                     journal.append('DECISION', {'decision': decision, 'ledger': inv['ledger']})
                     state['last_event_decision'] = decision
                 atomic(state_path, state)
-                if decision['action'] == 'LAUNCH_UNSTARTED' and execute:
+                if decision['action'] == 'CONTINUE_ACCEPTANCE_ONLY' and execute:
+                    continue_acceptance(config, folder, journal)
+                    if once:
+                        print(json.dumps({'status': 'ACCEPTANCE_ONLY_STARTED', 'model_calls': 0})); return
+                elif decision['action'] == 'LAUNCH_UNSTARTED' and execute:
+                    if config.get('paid_continuation_gate'):
+                        gate = config['paid_continuation_gate']
+                        proof = json.loads(contained(project, gate['receipt']).read_bytes())
+                        if proof.get('commit') != gate['commit'] or proof.get('checks') != {
+                                'integrity': 'SUCCESS', 'secrets': 'SUCCESS', 'linux-budget': 'SUCCESS'}:
+                            raise ValueError('Exact continuation CI gate not yet passed')
                     if len(inv['runs']) and any(r['alive'] for r in inv['runs']): raise ValueError('Concurrent native controller')
                     if inv['ledger']['requests'] >= budget['deepseek_inference_requests'] or inv['ledger']['cash_bound_nano'] >= int(budget['api_cash_usd'] * 1_000_000_000):
                         raise ValueError('Cumulative model budget exhausted')

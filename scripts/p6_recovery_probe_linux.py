@@ -13,6 +13,67 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def acceptance_inventory(config):
+    guard = config.get('acceptance_continuation')
+    if not guard:
+        return None
+    folder = Path(guard['folder']); script = Path(guard['script'])
+    if (not folder.resolve().is_relative_to(Path('/opt/workbench/recovery')) or
+            sha((folder / 'plan.json').read_bytes()) != guard['plan_sha256'] or
+            sha(script.read_bytes()) != guard['script_sha256']):
+        raise ValueError('Acceptance continuation binding changed')
+    for name, expected in guard.get('support_sha256', {}).items():
+        if sha((script.parent / name).read_bytes()) != expected:
+            raise ValueError('Acceptance support source changed')
+    plan = json.loads((folder / 'plan.json').read_bytes())
+    root = Path(plan['source_run'])
+    if root.parent != BASE / 'main-runs' or plan['manifest_sha256'] != config['manifest_sha256']:
+        raise ValueError('Acceptance continuation changed frozen task')
+    boot = (PROC / 'sys/kernel/random/boot_id').read_text().strip()
+    active = []
+    launched = [p for p in (folder / 'launches').glob('*.json') if '.' not in p.stem]
+    for file in launched:
+        value = json.loads(file.read_bytes()); stat = PROC / str(value['pid']) / 'stat'
+        if value['native_boot_id'] != boot or not stat.exists():
+            continue
+        fields = stat.read_text().rsplit(')', 1)[1].split()
+        if fields[0] != 'Z' and fields[19] == value['process_start_ticks']:
+            argv = (stat.parent / 'cmdline').read_bytes().split(b'\0')
+            if str(script).encode() not in argv or str(folder).encode() not in argv:
+                raise ValueError('Acceptance controller command mismatch')
+            active.append(value)
+    if len(active) > 1:
+        raise ValueError('Concurrent acceptance controllers')
+    known = {v['pid'] for v in active}
+    for proc in PROC.iterdir():
+        if not proc.name.isdigit(): continue
+        try:
+            argv = (proc / 'cmdline').read_bytes().split(b'\0')
+            if str(script).encode() not in argv or str(folder).encode() not in argv: continue
+            ancestor = int(proc.name)
+            for _ in range(8):
+                if ancestor in known: break
+                ancestor = int((PROC / str(ancestor) / 'stat').read_text().rsplit(')', 1)[1].split()[1])
+                if ancestor in (0, 1): raise ValueError('Unowned acceptance process blocks all launches')
+            else: raise ValueError('Unowned acceptance process blocks all launches')
+        except OSError: pass
+    # A receipt is insufficient to resume paid work until its controller exits.
+    complete = (root / 'receipt.json').exists()
+    status = 'ACTIVE' if active else 'COMPLETE' if complete else 'READY'
+    if not active and not complete:
+        # An ordinary evaluation/controller failure cannot be silently retried.
+        for file in launched:
+            launch = json.loads(file.read_bytes())
+            if launch['native_boot_id'] == boot and launch['started_unix'] >= config.get('manual_continuation_unix', 0):
+                status = 'FAILED_REQUIRES_INSPECTION'
+        for intent in (folder / 'launches').glob('*.intent.json'):
+            if not intent.with_name(intent.name.replace('.intent.json', '.json')).exists():
+                if json.loads(intent.read_bytes())['native_boot_id'] == boot:
+                    status = 'FAILED_REQUIRES_INSPECTION'
+    return {'status': status, 'run_id': root.name, 'active': active,
+            'folder': str(folder), 'completed_acceptances': sorted(p.name for p in root.glob('private-acceptance-*.json'))}
+
+
 def inventory(config):
     boot = (PROC / 'sys/kernel/random/boot_id').read_text().strip()
     ledger_bytes = LEDGER.read_bytes()
@@ -106,7 +167,8 @@ def inventory(config):
                 if not known: unowned.append(int(proc.name))
         except (OSError, ProcessLookupError): pass
     return {'native_boot_id': boot, 'ledger': ledger_view, 'runs': runs,
-            'active_main_runs': active, 'unowned_main_pids': unowned}
+            'active_main_runs': active, 'unowned_main_pids': unowned,
+            'acceptance_continuation': acceptance_inventory(config)}
 
 
 if __name__ == '__main__':

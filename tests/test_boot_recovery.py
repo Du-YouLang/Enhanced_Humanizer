@@ -66,6 +66,23 @@ class BootRecoveryTests(unittest.TestCase):
         self.assertEqual('OBSERVE_ORIGINAL', self.decide(owner=True)['action'])
         self.assertEqual(before, (self.config, self.state, self.inv))
 
+    def test_acceptance_continuation_serializes_before_paid_work(self):
+        self.inv['acceptance_continuation'] = {'status': 'ACTIVE', 'run_id': 'pc'}
+        self.assertEqual('OBSERVE_ACCEPTANCE_CONTINUATION', self.decide()['action'])
+        self.inv['acceptance_continuation']['status'] = 'READY'
+        self.assertEqual('CONTINUE_ACCEPTANCE_ONLY', self.decide()['action'])
+        self.inv['acceptance_continuation']['status'] = 'FAILED_REQUIRES_INSPECTION'
+        self.assertEqual('BLOCK_ACCEPTANCE_FAILURE', self.decide()['action'])
+
+    def test_finished_acceptance_selects_only_missing_sensitivity(self):
+        self.completed()
+        self.inv['acceptance_continuation'] = {'status': 'COMPLETE', 'run_id': 'one-execute'}
+        self.assertEqual('sensitivity', self.decide()['mode'])
+
+    def test_explicit_human_continue_permits_unstarted_slots_in_same_boot(self):
+        self.config['manual_continuation_authorized'] = True
+        self.assertEqual('LAUNCH_UNSTARTED', self.decide(boot=False)['action'])
+
     def test_same_boot_exit_not_automatically_replayed(self):
         self.assertEqual('WAIT_FOR_REBOOT_OR_MANUAL_RECOVERY', self.decide(boot=False)['action'])
 
