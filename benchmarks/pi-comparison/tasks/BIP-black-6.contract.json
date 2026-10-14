@@ -1,0 +1,16 @@
+{
+  "task_id": "BIP-black-6",
+  "family": "BugsInPy",
+  "base_commit": "8c8adedc2a74a494c24f93e405b6418ac32f54cd",
+  "material_sha256": "9504645757d4a64f0f6726207fcf7328bca4f6c7272c039a5ec165e3ab0e0306",
+  "preparation_status": "READY",
+  "environment_sha256": null,
+  "private_acceptance_binding": "Use exact main preparation; no private paths or gold values in this view",
+  "public_contract_status": "BIND_EXISTING_PREPARATION_BEFORE_LIVE",
+  "grader_authority": "Existing private P6 evaluator, never passed to Pi",
+  "task_role_seconds": 900,
+  "per_request_seconds": 120,
+  "max_output_tokens": 256000,
+  "compute_policy": "LOCAL_ONLY_CPU_PROTOCOLS_PRESERVED_GPU_TASKS_SINGLE_LOCAL_GPU",
+  "independent_acceptance": "NOT_RUN"
+}

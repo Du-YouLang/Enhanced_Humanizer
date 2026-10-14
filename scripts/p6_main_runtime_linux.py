@@ -15,12 +15,13 @@ import sys
 import time
 
 import p6_runtime_linux as shared
-from p6_main_budget import MainLedger,authorization,PHASE
+from p6_main_budget import MainLedger,authorization,PHASE,task_limits
 from p6_prepare_linux import BASE,seal_environment
 from p6_evaluate_linux import evaluate
 from p2_candidates import exclusive_json,digest
 from p2_judges import J0,J1,J2,J3,LavTransport,blocked,evidence
 from p6_main_contract import enhanced_selection
+from p6_gate_policy import GENERATION_RULES
 
 LEDGER=Path('/opt/workbench/state/p6-main-local-20261011/ledger.json')
 
@@ -48,7 +49,7 @@ def public_task(payload):
         context=fixture();ca=str(CA);public['requests/cacert.pem']=CA.read_bytes()
     elif 'pytest-' in tid:
         public['src/_pytest/_version.py']=(prefix/'lib/python3.9/site-packages/_pytest/_version.py').read_bytes()
-    prompt=r['prompt']+'\nUse the frozen task environment. Preserve existing tests and dependency configuration; add regression tests when useful. No installs, subagents, external repositories, credentials or previous run state. Commit a clean real change. Private acceptance is withheld.\n'
+    prompt=r['prompt']+'\nUse the frozen task environment. '+GENERATION_RULES+' No installs, subagents, external repositories, credentials or previous run state. Private acceptance is withheld.\n'
     prompt+='Public checks (a scratch copy receives the frozen public build/trust data): '+str(prefix/'bin/python')+' -B /opt/workbench/source/p6_public_visible.py --contract {public_contract}\n'
     return {'id':tid,'base':str(base),'base_commit':task['base_commit'],'prefix':str(prefix),'seal':seal,
             'prompt':prompt,'visible':r['visible'],'visible_expected':r.get('visible_expected'),
@@ -73,6 +74,10 @@ def public_test(source,hidden=False):
 
 def job(name,backend,role='builder',**kwargs):
     descriptor,env=shared.prepare_job(name,backend,role,**kwargs)
+    if shared.ACTIVE['payload']['budget'].get('output_budget_revision'):
+        from p6_output_policy import GENERATION_GUIDANCE
+        descriptor['prompt']+='\n'+GENERATION_GUIDANCE
+    env['DEEPSEEK_MAX_TOKENS']=str(shared.ACTIVE['ledger'].max_output)
     task=shared.ACTIVE['task'];path=Path(descriptor['root'])/'visible-contract.json'
     exclusive_json(path,{'argv':task['visible'],'public_overlays':{k:base64.b64encode(v).decode() for k,v in task['public_overlays'].items()}})
     descriptor['public_read_paths']=[*descriptor['public_read_paths'],str(path)]
@@ -87,6 +92,9 @@ def launch(name,backend,role='builder',**kwargs):
     if time.monotonic()>=shared.ACTIVE['deadline']:raise TimeoutError('Main experiment activity cap')
     d,env=job(name,backend,role,**kwargs);w=shared.launch(d,env)
     shared.ACTIVE['workers'][name]=w
+    if w['status']=='INFRA_RETRY_PENDING':
+        from p6_network_policy import NetworkRetryPending
+        raise NetworkRetryPending('Role network recovery pending: '+name)
     if w['status']=='INFRA_FAIL':
         raise RuntimeError('Role infrastructure failed; preserved without automatic retry: '+name)
     return w
@@ -107,14 +115,18 @@ def judge(name,pool,extra=None):
 
 def lav(name,pool):
     a=shared.ACTIVE
-    os.environ.update(DEEPSEEK_EFFORT='off',DEEPSEEK_MAX_TOKENS='4096')
+    os.environ.update(DEEPSEEK_EFFORT='off',DEEPSEEK_MAX_TOKENS=str(a['ledger'].max_output))
     import llm_verifier.fine_grained_reward as lav_module
-    client=LavTransport(a['key'],a['ledger'],a['root'].name+'/'+name,min(a['deadline'],time.monotonic()+115),lav_module,a['root']/(name+'-responses'))
+    client=LavTransport(a['key'],a['ledger'],a['root'].name+'/'+name,min(a['deadline'],time.monotonic()+a['generation_seconds']),lav_module,a['root']/(name+'-responses'))
     try:
         value=J1(client,'/opt/workbench/upstreams/lav',a['root']/(name+'-cache')).judge(pool)
         value['note']='Original LAV K1; exact frozen pool and full public evidence retained'
         return value
-    except Exception as error:return blocked(pool,'J1','BLOCKED_LOGPROBS' if 'LOGPROBS' in str(error) else 'INFRA_FAIL',type(error).__name__)
+    except Exception as error:
+        from p6_network_policy import NetworkCheckRequired,NetworkRetryPending
+        if isinstance(error,(NetworkCheckRequired,NetworkRetryPending)):
+            raise
+        return blocked(pool,'J1','BLOCKED_LOGPROBS' if 'LOGPROBS' in str(error) else 'INFRA_FAIL',type(error).__name__)
 
 
 def region_blocked(pool):
@@ -136,10 +148,12 @@ def record(arm,chosen,scopes,elapsed,hidden=None):
     failure_class='REQUIRED_JUDGE_INCOMPLETE' if incomplete_judge else 'NO_ELIGIBLE_PUBLIC_CANDIDATE' if chosen is None else 'ROLE_TIMEOUT' if chosen['worker_status']=='TIMEOUT' else 'ROLE_INFRASTRUCTURE' if chosen['worker_status']!='COMPLETED' else 'PUBLIC_HARD_GATE_FAILED' if chosen['verdict']!='PASS' else 'PRIVATE_ACCEPTANCE_FAILED' if accepted['verdict']=='FAIL' else 'INDEPENDENT_REVIEW_PENDING' if accepted['verdict']=='INDETERMINATE' else 'NONE'
     if not incomplete_judge and chosen and chosen['worker_status']=='BUDGET_EXHAUSTED':failure_class='ROLE_REQUEST_CAP'
     if not incomplete_judge and chosen and chosen['worker_status']=='OUTPUT_LIMIT':failure_class='ROLE_OUTPUT_TOKEN_LIMIT'
+    if not incomplete_judge and chosen and chosen['worker_status']=='COMPLETED' and chosen.get('protected_paths_modified'):
+        failure_class='PUBLIC_FILE_POLICY_VIOLATION'
     row={'task_id':task['id'],'arm':arm,'seed':42,'repetition':0,'manifest_sha256':a['payload']['manifest']['manifest_sha256'],
          'outcome':outcome,'reason':'Required enhancement judge incomplete; downstream output is diagnostic only' if incomplete_judge else 'Uniform main protocol; selection frozen before private acceptance',
          'failure_class':failure_class,
-         'model_identity':ARMS[arm][0],'harness':ARMS[arm][1],'evidence_kind':'REAL_MODEL','time_cap_seconds':1200,
+         'model_identity':ARMS[arm][0],'harness':ARMS[arm][1],'evidence_kind':'REAL_MODEL','time_cap_seconds':a['active_seconds'],
          'independent_acceptance':accepted['verdict'],'head_commit':chosen.get('head_commit','unavailable') if chosen else 'unavailable',
          'metrics':shared.metrics(scopes,elapsed),'run_contract_sha256':a['contract_sha256'],
          **{k:prep[k] for k in ('env_sha256','hardware_sha256','permissions_sha256','base_commit','hidden_suite_sha256')}}
@@ -190,16 +204,28 @@ def sensitivity(payload):
 def run(payload):
     from p1_broker import protect_memory
     from workbench.benchmark import check_manifest
-    protect_memory();authorization(payload['budget']);check_manifest(payload['manifest'])
+    protect_memory();_,budget_sha=authorization(payload['budget']);check_manifest(payload['manifest'])
+    limits=task_limits(payload['budget'],payload['task'])
+    if payload['manifest'].get('protocol_version',0)>=10:
+        if (payload['manifest'].get('budget_authorization_sha256')!=budget_sha or
+            payload['task'].get('role_time_cap_seconds')!=limits['role_seconds'] or
+            payload['task'].get('model_activity_time_cap_seconds')!=limits['active_seconds']):
+            raise RuntimeError('Frozen task and actual authorized time allocation differ')
     import signal
     def interrupted(signum,frame):raise InterruptedError('Owned main controller interrupted by signal '+str(signum))
     signal.signal(signal.SIGTERM,interrupted);signal.signal(signal.SIGINT,interrupted)
     if os.getuid()==0:raise RuntimeError('No root runtime')
-    if payload['manifest'].get('protocol_version') not in (3,4,5):raise RuntimeError('A new frozen protocol version is required')
+    if payload['manifest'].get('protocol_version') not in (3,4,5,6,7,8,9,10,11,12):raise RuntimeError('A new frozen protocol version is required')
+    if payload['manifest'].get('protocol_version') in (11,12):
+        from p6_output_policy import GENERATION_GUIDANCE
+        if (payload['manifest'].get('per_request_output_tokens')!=payload['budget'].get('per_request_output_tokens') or
+            payload['manifest'].get('generation_guidance')!=GENERATION_GUIDANCE):
+            raise RuntimeError('Output policy or shared coding guidance differs from frozen protocol')
     if payload['task']['family']=='scientific':
         sys.path.insert(0,str(BASE/'envs/science-tms-v1/lib/python3.12/site-packages'))
         from p6_science_main_linux import task as scientific_task,test as scientific_test
         task=scientific_task(payload);tester=scientific_test
+        task['prompt']+='\n'+GENERATION_RULES
     else:task=public_task(payload);tester=public_test
     root=BASE/'private/main-runs'/payload['run_id'];root.mkdir(parents=True)
     (root/'control').mkdir();(root/'control/canary').write_text('withheld controller state')
@@ -207,12 +233,12 @@ def run(payload):
     exclusive_json(root/'control/run-contract.json',contract)
     hardware={'kernel':platform.release(),'machine':platform.machine(),'cpu':next(l for l in Path('/proc/cpuinfo').read_text().splitlines() if l.startswith('model name')),'threads':os.cpu_count()}
     prep={'status':'READY','task_id':task['id'],'env_sha256':task['seal']['env_sha256'],'base_commit':task['base_commit'],
-          'hardware_sha256':digest(hardware),'permissions_sha256':digest({'version':3,'common_generation_seconds':115,'non_root':True,'private_namespaces':True,'hidden_excluded':True,
+          'hardware_sha256':digest(hardware),'permissions_sha256':digest({'version':4 if payload['manifest'].get('protocol_version',0)>=10 else 3,'common_generation_seconds':limits['role_seconds'],'non_root':True,'private_namespaces':True,'hidden_excluded':True,
               'public_read_paths':task['public_read_paths'],'gpu_coding':task.get('gpu_coding',False),'requests_fixture':'LOCAL_TLS_V2' if task['fixture_ca'] else None,
               'role_rss_limit_mib':8192,'role_process_limit':64,'role_thread_limit':512}),
           'hidden_suite_sha256':task['hidden_suite_sha256']}
     shared.ACTIVE.clear();shared.ACTIVE.update(root=root,task=task,payload=payload,key=payload.pop('key'),ledger=MainLedger(LEDGER,payload['budget']),
-            deadline=time.monotonic()+1200,started_monotonic=time.monotonic(),workers={},contract_sha256=digest(contract),preparation=prep,main_phase=True,defer_hidden=True)
+            deadline=time.monotonic()+limits['active_seconds'],generation_seconds=limits['role_seconds'],active_seconds=limits['active_seconds'],started_monotonic=time.monotonic(),workers={},contract_sha256=digest(contract),preparation=prep,main_phase=True,defer_hidden=True)
     shared.LEDGER_PATH=LEDGER;shared.test_source=tester
     exclusive_json(root/'preparation.json',prep)
     with task['fixture_context'] as url:
@@ -246,6 +272,9 @@ def run(payload):
         for cid,w in zip(('A','B','C'),workers):
             shared.ACTIVE['workers']['pool-'+cid]=w;pool_rows.append(shared.candidate(cid,w))
         pool=shared.public_pool(pool_rows);exclusive_json(root/'frozen-public-pool.json',pool)
+        if any(w['status']=='INFRA_RETRY_PENDING' for w in workers):
+            from p6_network_policy import NetworkRetryPending
+            raise NetworkRetryPending('Pool network recovery pending; partial programs preserved')
         if any(w['status']=='INFRA_FAIL' for w in workers):
             raise RuntimeError('Pool infrastructure failure retained; no automatic model retry')
         judgments={'J0':J0().judge(pool),'J2':region_blocked(pool)}
@@ -301,7 +330,7 @@ def run(payload):
             results.append(record(arm,c,scopes[arm],timings[arm],truth[c['id']]['acceptance'] if c else None))
         receipt={'status':'MAIN_TASK_COMPLETED','task_id':task['id'],'run_id':root.name,'results':results,
                  'model_activity_seconds':active,'controller_end_to_end_seconds':time.perf_counter()-started,
-                 'common_generation_timeout_seconds':115,'judgments':{k:v['status'] for k,v in judgments.items()},
+                 'common_generation_timeout_seconds':limits['role_seconds'],'model_activity_time_cap_seconds':limits['active_seconds'],'judgments':{k:v['status'] for k,v in judgments.items()},
                  'benchmark_oracle_audit_seconds':time.perf_counter()-oracle_started,'private_unique_program_evaluations':len(accepted),
                  'full_tool_trace_sensitivity':'PENDING_SEPARATE_SAME_POOL_REVIEW','failures_preserved':True,'api_cash_usd':'unavailable'}
         exclusive_json(root/'receipt.json',receipt)
@@ -315,7 +344,10 @@ if __name__=='__main__':
         if value.get('status')=='FAIL':raise SystemExit(1)
     except Exception as error:
         import traceback
+        from p6_network_policy import NetworkCheckRequired,NetworkRetryPending
+        pending=isinstance(error,(NetworkCheckRequired,NetworkRetryPending))
+        status='INFRA_RETRY_PENDING' if pending else 'INFRA_FAIL'
         if shared.ACTIVE.get('root'):
-            exclusive_json(shared.ACTIVE['root']/'failure.json',{'status':'INFRA_FAIL','error_type':type(error).__name__,'traceback':traceback.format_exc(),
+            exclusive_json(shared.ACTIVE['root']/'failure.json',{'status':status,'model_failure':False if pending else 'unavailable','error_type':type(error).__name__,'traceback':traceback.format_exc(),
                 'completed_arms':[p.name for p in shared.ACTIVE['root'].glob('arm-*.json')]})
-        print(json.dumps({'status':'INFRA_FAIL','error_type':type(error).__name__}),flush=True);raise
+        print(json.dumps({'status':status,'error_type':type(error).__name__}),flush=True);raise

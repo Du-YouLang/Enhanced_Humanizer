@@ -1,0 +1,14 @@
+{
+  "status": "TEMPLATE_NOT_LIVE_AUTHORITY",
+  "requested_model": "deepseek-flash",
+  "max_output_tokens": 256000,
+  "reasoning_effort": "low",
+  "transport": "Existing metered broker only; never pass the real provider key to Pi",
+  "context_tokens": 1048576,
+  "request_seconds": 120,
+  "per_role_requests": 100,
+  "cumulative_requests": 10000,
+  "cumulative_api_usd": 100,
+  "api_wire_compatibility": "UNVERIFIED_IN_PI",
+  "do_not_bypass_meter_to_probe": true
+}

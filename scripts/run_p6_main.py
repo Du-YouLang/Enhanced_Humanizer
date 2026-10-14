@@ -10,7 +10,7 @@ import sys
 import time
 
 from wsl_project import ROOT,run
-from p6_main_budget import authorization
+from p6_main_budget import authorization,task_limits
 
 
 def deploy():
@@ -61,11 +61,17 @@ def main():
     p.add_argument('mode',choices=('deploy','offline','execute','sensitivity'))
     p.add_argument('--reuse-run')
     p.add_argument('--detach',action='store_true',help='Finite owned Linux controller, independent of the chat command lifetime')
-    p.add_argument('--task',default='BIP-black-2');p.add_argument('--manifest',default='configs/benchmark-p6-v5.json')
-    args=p.parse_args();config,_=authorization(ROOT/'configs/budget-p6-main-v2-approved.json')
+    p.add_argument('--task',default='BIP-black-2');p.add_argument('--manifest',default='configs/benchmark-p6-v12-final2.json')
+    p.add_argument('--budget',help='Must match the frozen manifest authorization')
+    args=p.parse_args()
+    manifest_path=ROOT/args.manifest
+    frozen=json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
+    budget_path=args.budget or frozen.get('budget_config') or 'configs/budget-p6-main-v5-network-approved.json'
+    config,config_hash=authorization(ROOT/budget_path)
+    if args.mode in ('execute','sensitivity') and frozen.get('budget_authorization_sha256')!=config_hash:
+        raise RuntimeError('Budget authorization differs from the frozen manifest; no deployment or spending')
     source=deploy()
     if args.mode=='deploy':print(json.dumps({'status':'DEPLOYED','model_requests':0}));return 0
-    manifest_path=ROOT/args.manifest
     if args.mode=='offline' and not manifest_path.exists():
         # An offline control is not a frozen main model result.
         manifest=json.loads((ROOT/'configs/benchmark-p6-v2.json').read_text());manifest.pop('manifest_sha256')
@@ -86,6 +92,13 @@ if v['status']!='PASS_LOCAL_CALIBRATION' or not v['calibration']['tolerances_fro
 print('PC calibration PASS')'''
         r=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',gate])
         if r.returncode:raise RuntimeError('User requested PC calibration before main execution')
+    network=None
+    if args.mode in ('execute','sensitivity') and manifest.get('protocol_version',0)>=6:
+        probe_name='reconnect_probe' if manifest.get('protocol_version',0)>=12 else 'probe'
+        r=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',"import json,sys;sys.path.insert(0,'/opt/workbench/source');from p6_connection_probe import "+probe_name+" as probe;print(json.dumps(probe()))"],timeout=120 if probe_name=='reconnect_probe' else 25)
+        if r.returncode:raise RuntimeError('Fenced zero-model connectivity probe failed before credential access or spending')
+        network=json.loads(r.stdout)
+        if network['verdict']!='PASS':raise RuntimeError('Codex routing unavailable; no model launch or automatic retry')
     run_id='p6-main-'+args.mode+'-'+args.task+'-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     prep=preparation(args.task)
     if args.mode=='offline' and args.task.startswith('SCI-'):
@@ -100,6 +113,7 @@ print('PC calibration PASS')'''
              'entrypoint_sha256':hashlib.sha256(entry).hexdigest(),
              'development_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
              'run_id':run_id,'source_sha256':source,'gold':prep['gold'],'control_receipt_sha256':prep['control_receipt_sha256']}
+    if network is not None:payload['network_preflight']=network
     if args.mode=='sensitivity':payload['reuse_run']=args.reuse_run
     snapshot=ROOT/'.local-workbench/benchmark/source-snapshots'/run_id;snapshot.mkdir(parents=True)
     (snapshot/'scripts').mkdir();(snapshot/'scripts/run_p6_main.py').write_bytes(entry)
@@ -121,7 +135,7 @@ print('PC calibration PASS')'''
     # Eight potential programs: native DS + N3 + M + D/E/F. Ground truth for
     # both judge pools is collected only after all selections are frozen.
     evaluation=config['scientific_evaluation_timeout_seconds'].get(args.task,180)
-    total=1200+8*evaluation+120
+    total=task_limits(config,task)['active_seconds']+8*evaluation+120
     if args.detach:
         launcher=r'''import json,sys,os,subprocess,time
 from pathlib import Path

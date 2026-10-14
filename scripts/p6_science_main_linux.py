@@ -63,8 +63,19 @@ def task(payload):
     if fingerprint(base)!=r['public_fingerprint'] or seal['env_sha256']!=r['environment']['env_sha256']:
         raise RuntimeError('Scientific source or environment changed')
     if r['base_commit']!=payload['task']['base_commit']:raise RuntimeError('Science base differs from frozen manifest')
-    prompt=(base/card).read_text()+'\nProject execution contract: coding is limited to 115 seconds per independent role. Implement and test the public submission interface, commit cleanly. Full numerical acceptance is performed later by a separate controller; do not wait for full training while coding. Preserve provided input data, official training/configuration files and original tests. No installs, external repositories, credentials, subagents or historical outputs. All compute is local.\n'
+    if kind=='gc':
+        from p6_gc_dependencies import ensure_gc_threadpool
+        ensure_gc_threadpool(prefix)
+    role_seconds=115
+    if payload.get('budget'):
+        from p6_main_budget import task_limits
+        role_seconds=task_limits(payload['budget'],payload['task'])['role_seconds']
+    prompt=(base/card).read_text()+f'\nProject execution contract: coding is limited to {role_seconds} seconds per independent role. Implement and test the public submission interface, commit cleanly. Full numerical acceptance is performed later by a separate controller; do not wait for full training while coding. Preserve provided input data, official training/configuration files and original tests. No installs, external repositories, credentials, subagents or historical outputs. All compute is local.\n'
     if kind=='pc-alm':prompt+='Offline public data directory: '+str(SCIENCE/'intake/pc-alm/inputs')+'\n'
+    if kind=='pc-alm':
+        prompt+='Acceptance metadata clarification v2: numerical evaluation copies a read-only source snapshot without .git. The trusted parent attests its exact source tree; do not require git rev-parse to succeed in the evaluation copy or invent a commit. Record measured python, packages, data_sha256 and gate_elapsed_seconds (smoke/anchor/grid, positive seconds) in run_manifest.json. Hardware/driver fields unavailable inside the fence must say unavailable; trusted controller provenance remains separate. Full grid, source fidelity, calibrated tolerances and independent two-cell replay are unchanged.\n'
+    if kind=='egl':
+        prompt+='Acceptance schema clarification v2: normal CLI SystemExit(0)/None is supported; nonzero exits and missing training use fail. summary.json uses groups [{n,algorithm,mean_test_accuracy_pct,std_test_accuracy_pct}], sample ddof=1, and eg_minus_gd_mean_pp keyed by dimension. Equivalent paired_differences with complete three-seed values/mean/sample std is accepted only after recomputation. run_manifest.json records files_sha256, python, dependencies, device, dtype, threads, seeds, command, elapsed_seconds, peak_rss_kib (unit explicit). The submitted EG implementation must be used in all nine 600-update EG trainings.\n'
     # A public syntax/entrypoint check is deliberately weak. It never claims
     # hidden scientific correctness, and does not load any private reference.
     code="import pathlib; files=FILES; [compile(pathlib.Path(p).read_bytes(),p,'exec') for p in files]; print('Public syntax check PASS; full scientific acceptance is separate')"

@@ -107,15 +107,25 @@ def main():
     if main_phase:
         from p6_main_budget import MainLedger
         ledger=MainLedger('/opt/workbench/state/p6-main-local-20261011/ledger.json',job['budget'])
+        if job['backend']=='dsh' and job['budget'].get('output_budget_revision'):
+            # Official profile configuration in this independent role's DSH
+            # HOME. The outer broker enforces the same cap independently.
+            home=Path(os.environ['DSH_HOME'])
+            if not home.resolve().is_relative_to(Path(job['root']).resolve()):
+                raise RuntimeError('Only this role DSH HOME may be configured')
+            with (home/'settings.yaml').open('x',encoding='utf-8') as handle:
+                json.dump({'llm-deepseek':{'maxTokens':ledger.max_output}},handle)
     else:
         ledger=Ledger('/opt/workbench/state/p6-budget/ledger.json',phase='P6',requests=200,codex_turns=32,cash_nano=5_000_000_000)
     label='verifier' if role=='verifier' else 'reviewer' if role=='reviewer' else 'builder'
     model='deepseek-flash' if job['backend']=='dsh' else 'gpt-6.1-sol'
     driver=MeteredDriver(f'{label}={job["backend"]}/{model}:low',RoleLedger(ledger),job['scope'],turns,1,
-                         115 if main_phase else (600 if job['backend']=='dsh' else 115),permission=permission,fence_transform=task_fence(job),
-                         external_readonly=role=='verifier')
+                         job['role_seconds'] if main_phase else (600 if job['backend']=='dsh' else 115),permission=permission,fence_transform=task_fence(job),
+                         external_readonly=role=='verifier',turn_seconds_ceiling=job['role_seconds'] if main_phase else 600)
     value={'kind':'REAL_MODEL_EXPERIMENT','status':'RUNNING','turns':turns,'scope':job['scope'],
-           'role':role,'execution_mode':job['execution_mode'],'input_sha256':job['input_sha256']}
+           'role':role,'execution_mode':job['execution_mode'],'input_sha256':job['input_sha256'],
+           'configured_role_seconds':job['role_seconds'],'effective_harness_turn_seconds':driver.turn_seconds}
+    if main_phase:value['configured_request_output_tokens']=ledger.max_output
     try:
         if job.get('offline_control'):
             value['kind']='ZERO_MODEL_CONTROL'

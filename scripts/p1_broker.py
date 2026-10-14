@@ -24,6 +24,9 @@ class Broker:
         self.capability=secrets.token_urlsafe(32)
         self.serial=threading.Lock()
         self.denials=[]
+        self.max_output=getattr(ledger,'max_output',MAX_OUTPUT)
+        if type(self.max_output) is not int or self.max_output not in (4096,256000):
+            raise BudgetDenied('Unsupported explicit transport output policy')
         broker=self
         class Handler(BaseHTTPRequestHandler):
             def log_message(self,*args):
@@ -45,15 +48,16 @@ class Broker:
                     body=json.loads(self.rfile.read(length))
                     if body.get('model')!='deepseek-flash' or body.get('stream') is not True:
                         raise BudgetDenied('Fixed model and streaming mode required')
-                    body['max_tokens']=min(body.get('max_tokens',MAX_OUTPUT),MAX_OUTPUT)
-                    if type(body['max_tokens']) is not int or body['max_tokens']<=0:raise BudgetDenied('Invalid output cap')
+                    requested=body.get('max_tokens',broker.max_output)
+                    if type(requested) is not int or requested<=0:raise BudgetDenied('Invalid output cap')
+                    body['max_tokens']=min(requested,broker.max_output)
                     # Drop unknown provider extensions, including possible billed server tools.
                     allowed={'model','stream','messages','max_tokens','thinking','reasoning_effort','temperature','stop','tools','tool_choice','stream_options','dsh_plugin_packages'}
                     if set(body)-allowed:raise BudgetDenied('Unsupported request extension')
                     if body.get('stream_options')!={'include_usage':True}:raise BudgetDenied('Exact usage reporting required')
                     if any(tool.get('type')!='function' for tool in body.get('tools',[])):
                         raise BudgetDenied('Billed server tools are not authorized')
-                    index=broker.ledger.reserve_request(broker.experiment)
+                    index=broker.reserve_request()
                     asyncio.run(broker.forward(self,body,index))
                 except BudgetDenied as error:
                     broker.denials.append({'reason':str(error),'observed_monotonic':time.monotonic()})
@@ -82,6 +86,9 @@ class Broker:
 
     def start(self):
         threading.Thread(target=self.server.serve_forever,daemon=True).start()
+
+    def reserve_request(self):
+        return self.ledger.reserve_request(self.experiment)
 
     async def forward(self,handler,body,index):
         # Offline governance imports must not require the live transport package.
@@ -117,6 +124,7 @@ class Broker:
                                                   'elapsed_seconds':round(time.perf_counter()-tick,6),
                                                   'first_delta_seconds':'unavailable' if first is None else round(first,6),
                                                   'protocol':'chat-completions','cache_creation_accounting':'not_applicable_in_protocol',
+                                                  'effective_max_output_tokens':body['max_tokens'],
                                                   'bill_cash_usd':'unavailable'})
 
     def close(self):

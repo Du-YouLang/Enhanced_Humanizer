@@ -9,6 +9,7 @@ from p6_output_data import bounded_json
 from p6_pc_validation import validate_bundle,run_artifacts
 from p6_pc_statistics import read_rows
 from p6_science_sandbox import execute
+from p6_science_contracts import source_identity
 
 
 def grade(source,reference,prefix,official,*,timeout=7200):
@@ -20,13 +21,16 @@ def grade(source,reference,prefix,official,*,timeout=7200):
             return {'verdict':'FAIL','reason':'Frozen official source modified: '+name,'model_requests':0}
     input_root=official.parent.parent/'inputs'
     inputs={str(p.relative_to(input_root)):p.read_bytes() for p in input_root.rglob('*.gz')}
+    provenance=source_identity(source)
+    inputs['workbench-source-provenance.json']=json.dumps(provenance,sort_keys=True).encode()
     worker='''import subprocess,sys,time,json
 from pathlib import Path
 source,inputs,output=map(Path,sys.argv[1:4]);tick=time.perf_counter()
 subprocess.run([sys.executable,'-B',str(source/'run_benchmark.py'),'--data-dir',str(inputs),'--output-dir',str(output/'result')],cwd=source,check=True,timeout=6800)
 (output/'controller.json').write_text(json.dumps({'wall_seconds':time.perf_counter()-tick}))
 '''
-    result={'verdict':'FAIL','model_requests':0,'source_and_report_review':'REQUIRED_FOR_EXECUTION_FIDELITY'}
+    result={'verdict':'FAIL','model_requests':0,'source_and_report_review':'REQUIRED_FOR_EXECUTION_FIDELITY',
+            'trusted_source_provenance':provenance}
     execution=execute(source,prefix,worker,inputs=inputs,timeout=timeout-360,gpu=True,rss_limit_mib=10240,cpu_threads=8)
     result['execution']=execution
     if execution['status']!='COMPLETED_UNGRADED':return result
@@ -34,8 +38,8 @@ subprocess.run([sys.executable,'-B',str(source/'run_benchmark.py'),'--data-dir',
     try:
         with (official/'configs/eta_best_by_cell.csv').open() as stream:
             eta={(int(r['N']),int(r['L'])):float(r['eta_best_1_over_lambda_median']) for r in csv.DictReader(stream) if r['dataset']=='fashion_mnist' and r['activation']=='relu'}
-        checked=validate_bundle(root,eta,{'C1':.04,'C2':.10,'C3':.10,'C4':.05,'C5':.15})
-        manifest=bounded_json(root/'run_manifest.json')
+        checked=validate_bundle(root,eta,{'C1':.04,'C2':.10,'C3':.10,'C4':.05,'C5':.15},source=source)
+        manifest=checked['manifest_checked']
         if manifest['data_sha256']!=calibration['data_fingerprint']:raise ValueError('Input data manifest differs from frozen files')
         actual=read_rows(root/'grid/cells.csv');gold=read_rows(reference/'reference/grid/cells.csv')
         gold={(r['width'],r['depth'],r['method']):r for r in gold}

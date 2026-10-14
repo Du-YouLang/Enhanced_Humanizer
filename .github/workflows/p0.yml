@@ -22,10 +22,13 @@ jobs:
           python-version: '3.13.14'
       - run: python scripts/check_repository.py
       - run: python -m unittest discover -s tests -v
-      - run: node --test tests/test_p0_api_budget.mjs
+      - run: node --test tests/test_p0_api_budget.mjs tests/test_workbench_review_ui.mjs
       - run: node --check scripts/probe_deepseek_api.mjs
       - run: node --check src/workbench/web/app.js
       - run: python -m compileall -q scripts tests src
+      - run: python -m compileall -q benchmarks/pi-comparison/runners
+      - run: node --check benchmarks/pi-comparison/runners/resource_probe.mjs
+      - run: node --check benchmarks/pi-comparison/runners/sdk_tool_probe.mjs
       - name: Parse PowerShell setup scripts without executing them
         shell: pwsh
         run: |
@@ -68,8 +71,13 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_memory.py' -v
       - run: python -m unittest discover -s tests -p 'test_ui.py' -v
       - run: python -m unittest discover -s tests -p 'test_benchmark.py' -v
+      - run: python -m unittest discover -s tests -p 'test_pi_comparison.py' -v
       - run: python -m unittest discover -s tests -p 'test_p6_main_budget.py' -v
+      - run: python -m unittest discover -s tests -p 'test_cash*.py' -v
       - run: python -m unittest discover -s tests -p 'test_p6_main_contract.py' -v
+      - run: python -m unittest discover -s tests -p 'test_p6_network_recovery.py' -v
+      - run: python -m unittest discover -s tests -p 'test_boot_recovery.py' -v
+      - run: python -m unittest discover -s tests -p 'test_acceptance_continuation.py' -v
       - run: python -m unittest discover -s tests -p 'test_science.py' -v
       - run: python -m unittest discover -s tests -p 'test_publish.py' -v
       - run: python -m unittest discover -s tests -p 'test_pc*.py' -v

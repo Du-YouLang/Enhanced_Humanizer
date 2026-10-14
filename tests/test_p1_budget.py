@@ -7,9 +7,11 @@ import sys
 import tempfile
 import unittest
 from concurrent.futures import ThreadPoolExecutor
+import subprocess
+from unittest.mock import patch
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from p1_budget import BudgetDenied, ChatUsage, Ledger, MessagesUsage, REQUEST_RESERVE
+from p1_budget import BudgetDenied, ChatUsage, Ledger, MessagesUsage, REQUEST_RESERVE,replace_ledger
 
 
 class P1BudgetTests(unittest.TestCase):
@@ -19,6 +21,36 @@ class P1BudgetTests(unittest.TestCase):
         self.directory=tempfile.TemporaryDirectory(dir=scratch)
         self.addCleanup(self.directory.cleanup)
         self.path=Path(self.directory.name)/'ledger.json'
+
+    def test_separate_processes_do_not_lose_settled_reservations(self):
+        script=Path(__file__).resolve().parents[1]/'scripts'
+        code='import sys;sys.path.insert(0,sys.argv[1]);from p1_budget import Ledger;ledger=Ledger(sys.argv[2],phase="P2",cash_nano=2_000_000_000);' \
+             'usage=dict(input_tokens=1,cache_read_input_tokens=0,cache_creation_input_tokens=0,output_tokens=1);' \
+             '[(lambda i:ledger.settle(i,usage,{}))(ledger.reserve_request(sys.argv[3])) for _ in range(5)]'
+        children=[subprocess.Popen([sys.executable,'-c',code,str(script),str(self.path),str(i)],stdout=subprocess.PIPE,stderr=subprocess.PIPE) for i in range(4)]
+        outcomes=[(child.returncode,error) for child in children for _,error in [child.communicate(timeout=30)]]
+        for code,error in outcomes:self.assertEqual(code,0,error.decode(errors='replace'))
+        rows=json.loads(self.path.read_text())
+        self.assertEqual([r['index'] for r in rows['requests']],list(range(1,21)))
+        self.assertTrue(all(r['status']=='SETTLED_USAGE_UPPER_BOUND' for r in rows['requests']))
+        self.assertEqual(rows['cash_bound_nano'],30000)
+
+    def test_windows_sharing_retry_replaces_exact_bytes_once_and_exhaustion_preserves_old(self):
+        self.path.write_text('old');temporary=self.path.with_suffix('.tmp');temporary.write_text('new')
+        error=PermissionError('fixture sharing violation');error.winerror=32
+        real_replace=os.replace;calls=[]
+        def transient(source,dest):
+            calls.append((source,dest))
+            if len(calls)<3:raise error
+            real_replace(source,dest)
+        with patch('p1_budget.os.name','nt'),patch('p1_budget.os.replace',side_effect=transient),patch('p1_budget.time.sleep'):
+            replace_ledger(temporary,self.path)
+        self.assertEqual(self.path.read_text(),'new');self.assertEqual(len(calls),3)
+        temporary.write_text('next')
+        with patch('p1_budget.os.name','nt'),patch('p1_budget.os.replace',side_effect=error) as replacement,patch('p1_budget.time.sleep'):
+            with self.assertRaises(PermissionError):replace_ledger(temporary,self.path)
+        self.assertEqual(replacement.call_count,6)
+        self.assertEqual(self.path.read_text(),'new');self.assertEqual(temporary.read_text(),'next')
 
     def test_unknown_requests_retain_peak_cash_after_restart(self):
         ledger=Ledger(self.path)

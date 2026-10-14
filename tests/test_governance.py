@@ -14,11 +14,12 @@ from generate_traceability import restore_progress
 class GovernanceTests(unittest.TestCase):
     def test_regeneration_keeps_acceptance_and_cannot_rewrite_contract(self):
         rows=[{'id':'WF-01','requirement':'baseline','tags':['C'],'implementation_status':'PLANNED'}]
-        restore_progress(rows, {'WF-01':{'requirement':'tampered','tags':['F'],'implementation_status':'VERIFIED','phase_evidence':{'P0':'real evidence'}}})
+        restore_progress(rows, {'WF-01':{'requirement':'tampered','tags':['F'],'implementation_status':'VERIFIED','phase_evidence':{'P0':'real evidence'},'acceptance_records':{'P0':'immutable receipt'}}})
         self.assertEqual(rows[0]['requirement'],'baseline')
         self.assertEqual(rows[0]['tags'],['C'])
         self.assertEqual(rows[0]['implementation_status'],'VERIFIED')
         self.assertEqual(rows[0]['phase_evidence'],{'P0':'real evidence'})
+        self.assertEqual(rows[0]['acceptance_records'],{'P0':'immutable receipt'})
 
     def test_private_material_cannot_be_tracked(self):
         for name in [".local-workbench/run.json", ".venv/pyvenv.cfg", ".venv-probe/token.txt", "docs/.env.production", "data/patient.csv", "cache/runtime.vhdx", "auth.json", "backup.credentials.yaml", "trace.jsonl"]:

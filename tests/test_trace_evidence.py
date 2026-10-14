@@ -4,9 +4,11 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+import sqlite3
+from contextlib import closing
 
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from p6_trace_evidence import tool_trace
+from p6_trace_evidence import tool_trace,codex_routing_failure,dsh_terminal_reason
 
 
 class TraceEvidenceTests(unittest.TestCase):
@@ -63,6 +65,42 @@ class TraceEvidenceTests(unittest.TestCase):
         self.assertEqual((value['tool_calls'],value['tool_results']),(1,1))
         self.assertIn('complete failure',json.dumps(value))
         self.assertNotIn('private reasoning',json.dumps(value))
+
+    def test_routing_logs_are_readonly_hashed_and_successful_generation_prevents_excuse(self):
+        database=self.root/'home/.codex/logs_2.sqlite';database.parent.mkdir(parents=True)
+        with closing(sqlite3.connect(database)) as db,db:
+            db.execute('CREATE TABLE logs (target TEXT, feedback_log_body TEXT)')
+            db.execute('INSERT INTO logs VALUES (?,?)',('candidate_text','sampling_error=workspace routing discovery timed out'))
+        self.assertIsNone(codex_routing_failure(self.root))
+        with closing(sqlite3.connect(database)) as db,db:
+            db.execute('INSERT INTO logs VALUES (?,?)',('codex_core::responses_retry','sampling_error=workspace routing discovery timed out'))
+        before=database.read_bytes();proof=codex_routing_failure(self.root)
+        self.assertEqual(proof['matching_retry_records'],1)
+        self.assertEqual(len(proof['source_sha256']),64)
+        self.assertEqual(database.read_bytes(),before)
+        rollout=database.parent/'sessions/rollout-example.jsonl';rollout.parent.mkdir()
+        rollout.write_text(json.dumps({'type':'response_item','payload':{'type':'message','role':'assistant','content':'actual generation'}})+'\n')
+        self.assertIsNone(codex_routing_failure(self.root))
+
+    def test_unicode_line_separators_do_not_split_jsonl_records(self):
+        self.trace=self.root/'dsh/sessions/project/session/session.v3.jsonl';self.trace.parent.mkdir(parents=True)
+        rows=[{'type':'tool/call','seq':1,'data':{'arguments':'before\u2028after\u0085tail'}},
+              {'type':'tool/result','seq':2,'data':{'result':'result\u2029end'}}]
+        self.trace.write_text(''.join(json.dumps(r,ensure_ascii=False)+'\n' for r in rows),encoding='utf-8')
+        value=tool_trace(self.root)
+        self.assertEqual((value['tool_calls'],value['tool_results']),(1,1))
+        self.assertEqual(value['records'][1]['data']['result'],'result\u2029end')
+
+    def test_native_driver_terminal_and_complete_tools_use_official_direct_state(self):
+        self.trace=self.root/'dsh/sessions/project/session/session.v3.jsonl';self.trace.parent.mkdir(parents=True)
+        self.write([{'type':'tool/call','seq':1,'data':{'arguments':'full native call'}},
+                    {'type':'tool/result','seq':2,'data':{'result':'full native result'}},
+                    {'type':'turn/end','seq':3,'data':{'turn':1,'reason':{'kind':'max-tokens'}}}])
+        proof=dsh_terminal_reason(self.root);self.assertEqual(proof['kind'],'max-tokens')
+        self.assertEqual(len(proof['source_sha256']),64)
+        evidence=tool_trace(self.root)
+        self.assertEqual((evidence['tool_calls'],evidence['tool_results']),(1,1))
+        self.assertIn('full native result',str(evidence))
 
 
 if __name__=='__main__':unittest.main()

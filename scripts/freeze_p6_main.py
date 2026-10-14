@@ -9,7 +9,7 @@ from wsl_project import ROOT,run
 sys.path.insert(0,str(ROOT/'src'))
 from workbench.benchmark import freeze_manifest
 
-COLLECT=r'''import json,hashlib
+COLLECT=r'''import json,hashlib,sys
 from pathlib import Path
 b=Path('/opt/workbench/benchmark/science');private=b/'private'
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -53,15 +53,50 @@ public=private/'public-main-controls-frozen-v2.json';v=json.loads(public.read_te
 for r in v['tasks']:
  p=Path(r['receipt']);d=json.loads(p.read_text())
  if sha(p)!=r['receipt_sha256'] or d['results']['buggy']['verdict']!='FAIL' or d['results']['gold']['verdict']!='PASS':raise RuntimeError('Public controls invalid')
-print(json.dumps({'scientific':tasks,'public_controls_sha256':sha(public)}))
+proof={'scientific':tasks,'public_controls_sha256':sha(public)}
+if int(sys.argv[1])>=9:
+ revision='v6' if int(sys.argv[1])>=12 else 'v4' if int(sys.argv[1])>=11 else 'v3' if int(sys.argv[1])>=10 else 'v2'
+ p=Path('/opt/workbench/benchmark/private/file-policy-controls-20261012-'+revision+'/receipt.json');r=json.loads(p.read_text())
+ expected={'original-preserved':'PASS','new-regression-file':'PASS','existing-test-appended':'FAIL','unchanged-baseline':'FAIL'}
+ if r['status']!='PASS' or r['model_requests']!=0 or r['uid']==0 or r['ledger_sha256_before']!=r['ledger_sha256_after']:raise RuntimeError('File-policy control failed')
+ if any(r['results'][k]['candidate_verdict']!=v for k,v in expected.items()) or any(r['results'][k]['private_verdict']!='PASS' for k in ('original-preserved','new-regression-file')):raise RuntimeError('File-policy positive/negative controls invalid')
+ for name,expected_sha in {**r['source_sha256'],'p6_file_policy_control_linux.py':r['control_script_sha256']}.items():
+  if sha(Path('/opt/workbench/source')/name)!=expected_sha:raise RuntimeError('File-policy control source changed')
+ proof['file_policy_control_receipt_sha256']=sha(p)
+if int(sys.argv[1])>=10:
+ revision='v6' if int(sys.argv[1])>=12 else 'v4' if int(sys.argv[1])>=11 else 'v3'
+ p=Path('/opt/workbench/benchmark/private/time-controls-20261012-'+revision+'/receipt.json');r=json.loads(p.read_text())
+ if r['status']!='PASS' or r['model_requests']!=0 or r['uid']==0 or r['ledger_sha256_before']!=r['ledger_sha256_after']:raise RuntimeError('Actual Harness time control failed')
+ for name,expected_sha in r['source_sha256'].items():
+  if sha(Path('/opt/workbench/source')/name)!=expected_sha:raise RuntimeError('Time control executable source changed')
+ for tid,v in r['results'].items():
+  expected={'role_seconds':1200,'active_seconds':10800} if tid.startswith('SCI-') else {'role_seconds':900,'active_seconds':7200}
+  if v['limits']!=expected or not v['remaining_deadline_clamped'] or any(role['status']!='PASS' or role['effective_harness_seconds']!=expected['role_seconds'] for role in v['roles'].values()):raise RuntimeError('Time control family allocation failed')
+ proof['time_control_receipt_sha256']=sha(p);proof['time_control_budget_sha256']=r['budget_authorization_sha256']
+if int(sys.argv[1])>=11:
+ revision='v4' if int(sys.argv[1])>=12 else 'v2'
+ p=Path('/opt/workbench/benchmark/private/output-controls-20261012-'+revision+'/receipt.json');r=json.loads(p.read_text())
+ if r['status']!='PASS' or r['provider_requests']!=0 or r['uid']==0 or r['ledger_sha256_before']!=r['ledger_sha256_after']:raise RuntimeError('Output control failed')
+ if r['cases']['old4096']['finish_reason']!='max-tokens' or r['cases']['new256000']['finish_reason']!='completed' or r['cases']['new256000']['settled_output_tokens']!=[5001]:raise RuntimeError('Official output control invalid')
+ for name,expected_sha in r['source_sha256'].items():
+  if sha(Path('/opt/workbench/source')/name)!=expected_sha:raise RuntimeError('Output control source changed')
+ proof['output_control_receipt_sha256']=sha(p)
+if int(sys.argv[1])>=12:
+ p=Path('/opt/workbench/benchmark/private/network-controls-20261012-v5/receipt.json');r=json.loads(p.read_text())
+ if r['status']!='PASS' or r['provider_requests']!=0 or r['uid']==0 or r['ledger_sha256_before']!=r['ledger_sha256_after']:raise RuntimeError('Network recovery control failed')
+ for name,expected_sha in r['source_sha256'].items():
+  if sha(Path('/opt/workbench/source')/name)!=expected_sha:raise RuntimeError('Network recovery executable source changed')
+ proof['network_control_receipt_sha256']=sha(p)
+print(json.dumps(proof))
 '''
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--version',type=int,default=5)
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--version',type=int,default=12)
+    parser.add_argument('--output',type=Path,help='Fresh separately named manifest; never overwrite an earlier freeze')
     args=parser.parse_args()
-    if args.version not in (3,4,5):raise ValueError('Explicit supported new protocol required')
-    result=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',COLLECT],timeout=60)
+    if args.version not in (3,4,5,6,7,8,9,10,11,12):raise ValueError('Explicit supported new protocol required')
+    result=run(['/opt/workbench/.venv-linux/bin/python','-B','-c',COLLECT,str(args.version)],timeout=60)
     if result.returncode:
         raise RuntimeError('Main freeze blocked by local controls: '+result.stderr.decode(errors='replace')[-1000:])
     proof=json.loads(result.stdout)
@@ -76,12 +111,53 @@ def main():
                 runner_source_sha256=runner,entrypoint_sha256=hashlib.sha256((ROOT/'scripts/run_p6_main.py').read_bytes()).hexdigest())
     if args.version>=4:
         body['operational_cap_policy']='Trusted local role-request-cap exhaustion is BUDGET_EXHAUSTED/arm FAIL, not infrastructure; no upstream HTTP-code inference or retry. Caps unchanged. Preserve first v3 attempt separately.'
-    config=json.loads((ROOT/('configs/budget-p6-main-v2-approved.json' if args.version>=5 else 'configs/budget-p6-main-approved.json')).read_text())
+    budget_path='configs/budget-p6-main-v5-network-approved.json' if args.version>=12 else 'configs/budget-p6-main-v4-default256k-approved.json' if args.version>=11 else 'configs/budget-p6-main-v3-time-approved.json' if args.version>=10 else ('configs/budget-p6-main-v2-approved.json' if args.version>=5 else 'configs/budget-p6-main-approved.json')
+    config=json.loads((ROOT/budget_path).read_text())
     if args.version>=5:
         from p6_main_budget import authorization
         body.update(budget_authorization_sha256=authorization(config)[1],
                     aggregate_api_requests=10000,aggregate_api_cash_usd=100,per_role_api_requests=100,
                     operational_output_policy='Structured native DSH max-tokens terminal proof is OUTPUT_LIMIT/arm FAIL; retain original error and trace hash; no automatic retry')
+    if args.version>=6:
+        body['network_infrastructure_policy']='Before spending, zero-model fenced ChatGPT HTTPS probe must return 200. Failed Codex role with exact CLI routing-discovery retries and no generated response is INFRA_FAIL; stop batch, preserve raw status/log hashes and usage. Ordinary timeouts remain model outcomes. User enabled host TUN; fence and role limits unchanged.'
+    if args.version>=7:
+        body['native_terminal_evidence_policy']='Read both official DSH NativeDriver state and Humanize Flow state; structured max-tokens is OUTPUT_LIMIT/arm FAIL in both. Complete raw transcripts preserved; no inferred output limit from error text and no limit relaxation.'
+    if args.version>=8:
+        body['windows_ledger_io_policy']='Bounded sharing-violation retry for exact atomic replacement only; no transaction/model replay, count reset or POSIX locking change. Exhaustion preserves original bytes and fails closed.'
+    if args.version>=9:
+        from p6_gate_policy import GENERATION_RULES
+        body['public_file_policy']=GENERATION_RULES
+        body['file_policy_revision']='Original tests/fixtures protected at every path depth; new regression files allowed. Same explicit instruction for all coding roles, including Reviewer. Preserve v8 failures as protocol investigation, never mix them with v9 results.'
+        body['file_policy_control_receipt_sha256']=proof['file_policy_control_receipt_sha256']
+    if args.version>=10:
+        if proof['time_control_budget_sha256']!=authorization(config)[1]:raise RuntimeError('Time control used a different budget authorization')
+        body.update(budget_config=budget_path,
+                    common_generation_timeout_seconds=config['common_generation_timeout_seconds'],
+                    candidate_time_cap_seconds=config['per_candidate_timeout_seconds'],
+                    task_time_cap_seconds=config['per_experiment_active_timeout_seconds'],
+                    role_timeout_seconds_by_family=config['role_timeout_seconds_by_family'],
+                    experiment_timeout_seconds_by_family=config['experiment_timeout_seconds_by_family'],
+                    time_budget_revision=config['time_budget_revision'],
+                    time_control_receipt_sha256=proof['time_control_receipt_sha256'],
+                    generation_scope='Human approved public900s/scientific1200s for every coding/scoring role in a task; outer model activity public7200s/scientific10800s. Single request120s and role100 requests remain.',
+                    time_comparison_policy='New prospective family limits; preserve v9 short-cap outcomes and human-paused partial run separately. No relabeling, same-task A-F equality, no acceptance relaxation or automatic retries.')
+    if args.version>=11:
+        from p6_output_policy import GENERATION_GUIDANCE
+        body.update(output_budget_revision=config['output_budget_revision'],
+                    per_request_output_tokens=config['per_request_output_tokens'],
+                    generation_guidance=GENERATION_GUIDANCE,
+                    output_control_receipt_sha256=proof['output_control_receipt_sha256'],
+                    operational_output_policy='Explicit human DSH default256000 in role-private profile and outer broker. Request-sized reservations preserve all legacy4096 rows and unknown costs. Structured max-tokens still OUTPUT_LIMIT/arm FAIL, no automatic continuation or retry.',
+                    native_terminal_evidence_policy='Preserve both native and Flow original traces. New cap does not relabel previous max-tokens. Same chunked-generation guidance for every coding role; partial v10 preserved separately.')
+    if args.version>=12:
+        from p6_network_policy import POLICY
+        body.update(network_recovery_revision=config['network_recovery_revision'],
+                    network_consecutive_failure_limit=5,per_role_api_requests=1000,request_time_cap_seconds=600,
+                    network_control_receipt_sha256=proof['network_control_receipt_sha256'],
+                    network_recovery_policy=POLICY,
+                    generation_scope='Public900s/scientific1200s per role; task7200s/10800s. DS wire request600s, output256000, role1000 attempts; each reconnect counts against aggregate10000/USD100. Codex native wire retries are separately configured and not exact-meterable.',
+                    network_infrastructure_policy='Fixed allowed DS provider request: first four transient failures SHOULD_RETRY; fifth NETWORK_CHECK_REQUIRED. Same complete buffered response reaches the existing Harness once. Role/budget exhaustion during recovery stays INFRA_RETRY_PENDING. No permission-fence bypass, whole-task replay, or unknown-usage refund. Fenced pre-spend HTTPS reconnects up to five attempts.',
+                    operational_cap_policy='Role1000 and aggregate10000/USD100 apply before every upstream attempt, including reconnects; old caps/results stay immutable. Model output limits and ordinary role timeouts retain their classifications.')
     descriptions={
         'SCI-PC-ALM':('SakanaAI PC-ALM official frozen implementation and owner v1.1 task',
             {'accuracy_pp':.25,'gradient_cosine_abs':.02},
@@ -97,13 +173,23 @@ def main():
             ['27_numeric_cases','13_invalid_cases','10_repeat_outputs','rawkernel_used','no_CPU_download','3_warmups_5_timed_runs','local_GPU_performance_not_biology_claim'])}
     for task in body['tasks']:
         task['preparation_status']='READY'
+        if args.version>=10:
+            from p6_main_budget import task_limits
+            limits=task_limits(config,task)
+            task.update(role_time_cap_seconds=limits['role_seconds'],model_activity_time_cap_seconds=limits['active_seconds'])
         if task['family']=='scientific':
             tid=task['task_id'];paper,tolerances,invariants=descriptions[tid]
             task.update(proof['scientific'][tid],paper=paper,tolerances=tolerances,invariants=invariants,
                         license='Private authorized local evaluation; retain source notices; no research-material redistribution',
                         independent_evaluation_timeout_seconds=config['scientific_evaluation_timeout_seconds'][tid])
-    path=ROOT/('configs/benchmark-p6-v'+str(args.version)+'.json');frozen=freeze_manifest(body,path)
-    (ROOT/('.local-workbench/audits/p6-main-frozen-controls-v'+str(args.version)+'.private.json')).write_text(json.dumps(proof,indent=2),encoding='utf-8')
+    path=args.output.resolve() if args.output else ROOT/('configs/benchmark-p6-v'+str(args.version)+'.json')
+    if not path.is_relative_to((ROOT/'configs').resolve()):raise ValueError('Frozen manifest must stay in project configs')
+    frozen=freeze_manifest(body,path)
+    proof_path=ROOT/('.local-workbench/audits/'+path.stem+'-frozen-controls.private.json')
+    if proof_path.exists():
+        if json.loads(proof_path.read_text())!=proof:raise ValueError('Existing frozen control proof is immutable')
+    else:
+        with proof_path.open('x',encoding='utf-8') as file:json.dump(proof,file,indent=2)
     print(json.dumps({'status':'FROZEN','manifest_sha256':frozen['manifest_sha256'],'tasks':16,'planned_arms':96,'model_requests':0}))
 
 

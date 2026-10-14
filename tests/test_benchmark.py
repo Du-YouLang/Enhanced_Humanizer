@@ -6,6 +6,7 @@ import sys
 import tempfile
 import unittest
 import subprocess
+import hashlib
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/'src'))
 from workbench.benchmark import (ARMS, REQUIRED_METRICS, check_manifest, digest,
@@ -17,6 +18,39 @@ from p6_evaluate_linux import validate_source_links, task_path
 class BenchmarkTests(unittest.TestCase):
     def setUp(self):
         self.manifest = json.loads((Path(__file__).resolve().parents[1]/'configs/benchmark-p6-v2.json').read_text())
+
+    def test_latest_entrypoint_bytes_match_frozen_protocol_and_packaged_lf(self):
+        root=Path(__file__).resolve().parents[1]
+        latest=json.loads((root/'configs/benchmark-p6-v12-final2.json').read_text())
+        check_manifest(latest);entry=(root/'scripts/run_p6_main.py').read_bytes()
+        self.assertNotIn(b'\r\n',entry)
+        self.assertEqual(hashlib.sha256(entry).hexdigest(),latest['entrypoint_sha256'])
+
+    def test_new_output_cap_requires_exact_frozen_policy_without_changing_time(self):
+        root=Path(__file__).resolve().parents[1]
+        latest=json.loads((root/'configs/benchmark-p6-v11.json').read_text())
+        self.assertEqual(latest['per_request_output_tokens'],256000)
+        self.assertEqual(latest['role_timeout_seconds_by_family'],{'public':900,'scientific':1200})
+        for value in (4096,16384,256001,True):
+            changed=copy.deepcopy(latest);changed['per_request_output_tokens']=value
+            changed.pop('manifest_sha256')
+            with self.assertRaises(ValueError):freeze_manifest(changed,root/'.local-workbench/test-tmp/output-bad-manifest.json')
+
+    def test_wrong_budget_is_refused_before_paid_entry(self):
+        root=Path(__file__).resolve().parents[1]
+        p=subprocess.run([sys.executable,'scripts/run_p6_main.py','execute','--manifest','configs/benchmark-p6-v12.json',
+            '--budget','configs/budget-p6-main-v4-default256k-approved.json'],cwd=root,capture_output=True,text=True,timeout=10)
+        self.assertNotEqual(p.returncode,0)
+        self.assertIn('no deployment or spending',p.stderr)
+
+    def test_new_request_policy_keeps_same_family_time_and_private_gates(self):
+        root=Path(__file__).resolve().parents[1]
+        latest=json.loads((root/'configs/benchmark-p6-v12.json').read_text());check_manifest(latest)
+        self.assertEqual((latest['per_role_api_requests'],latest['request_time_cap_seconds'],latest['per_request_output_tokens']),(1000,600,256000))
+        prior=json.loads((root/'configs/benchmark-p6-v11.json').read_text())
+        for new,old in zip(latest['tasks'],prior['tasks']):
+            for key in ('task_id','base_commit','gold_sha256','tolerances','invariants','role_time_cap_seconds','model_activity_time_cap_seconds'):
+                self.assertEqual(new.get(key),old.get(key))
 
     def test_closed_smoke_refuses_paid_reentry_before_wsl_or_credential_access(self):
         root=Path(__file__).resolve().parents[1]
@@ -94,6 +128,28 @@ class BenchmarkTests(unittest.TestCase):
         self.assertEqual(result['metrics']['end_to_end_seconds']['total'], 'unavailable')
         self.assertEqual(result['api_cash_per_success'], 'unavailable')
         with self.assertRaises(ValueError): summarize([row, row])
+
+    def test_new_family_limits_bind_each_task_and_every_arm_without_changing_old_manifest(self):
+        original=copy.deepcopy(self.manifest);raw=copy.deepcopy(check_manifest(self.manifest))
+        raw.update(protocol_version=10,candidate_time_cap_seconds=1200,task_time_cap_seconds=10800,
+                   role_timeout_seconds_by_family={'public':900,'scientific':1200},
+                   experiment_timeout_seconds_by_family={'public':7200,'scientific':10800})
+        for task in raw['tasks']:
+            family='scientific' if task['family']=='scientific' else 'public'
+            task.update(role_time_cap_seconds=raw['role_timeout_seconds_by_family'][family],
+                        model_activity_time_cap_seconds=raw['experiment_timeout_seconds_by_family'][family])
+        temporary_root=Path(__file__).resolve().parents[1]/'.local-workbench/test-tmp'
+        temporary_root.mkdir(parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=temporary_root) as folder:
+            new=freeze_manifest(raw,Path(folder)/'new.json');row,preparation=self.real_row()
+            row.update(manifest_sha256=new['manifest_sha256'],time_cap_seconds=7200)
+            validate_result(row,new,preparation)
+            row['time_cap_seconds']=10800
+            with self.assertRaises(ValueError):validate_result(row,new,preparation)
+            for field,bad in [('role_time_cap_seconds',901),('role_time_cap_seconds',900.0),('model_activity_time_cap_seconds',1200)]:
+                changed=copy.deepcopy(raw);changed['tasks'][0][field]=bad
+                with self.assertRaises(ValueError):freeze_manifest(changed,Path(folder)/('bad-'+field+'.json'))
+        self.assertEqual(self.manifest,original)
 
     def test_judge_and_merge_comparisons_bind_the_same_public_pool(self):
         one = dict(pool_sha256='a'*64, rubric_sha256='b'*64, public_evidence_sha256='c'*64)

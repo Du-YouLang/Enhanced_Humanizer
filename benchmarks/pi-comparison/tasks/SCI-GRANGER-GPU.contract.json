@@ -1,0 +1,16 @@
+{
+  "task_id": "SCI-GRANGER-GPU",
+  "family": "scientific",
+  "base_commit": "649dcfa0e9d1867f8cc1462a0828def1420f9bf3",
+  "material_sha256": "f96b8417af1497c0c5797b35403eb59255fd319774044dcc806c68f87a68619a",
+  "preparation_status": "READY",
+  "environment_sha256": "f2fa80284539cac0809ea0d2081ba9f72ade97d706174c279496e952046ae3f6",
+  "private_acceptance_binding": "Use exact main preparation; no private paths or gold values in this view",
+  "public_contract_status": "BIND_EXISTING_PREPARATION_BEFORE_LIVE",
+  "grader_authority": "Existing private P6 evaluator, never passed to Pi",
+  "task_role_seconds": 1200,
+  "per_request_seconds": 120,
+  "max_output_tokens": 256000,
+  "compute_policy": "LOCAL_ONLY_CPU_PROTOCOLS_PRESERVED_GPU_TASKS_SINGLE_LOCAL_GPU",
+  "independent_acceptance": "NOT_RUN"
+}

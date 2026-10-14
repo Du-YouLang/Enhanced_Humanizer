@@ -18,7 +18,9 @@ class PlannedTurnLimit(RuntimeError):
 
 
 class MeteredDriver:
-    def __init__(self,spec,ledger,experiment,turns,max_turns=2,turn_seconds=115,permission=STRICT,fence_auditor=None,fence_transform=None,external_readonly=False):
+    def __init__(self,spec,ledger,experiment,turns,max_turns=2,turn_seconds=115,permission=STRICT,fence_auditor=None,fence_transform=None,external_readonly=False,turn_seconds_ceiling=600):
+        if type(turn_seconds_ceiling) is not int or not 1<=turn_seconds_ceiling<=1200:
+            raise ValueError('Explicit finite Harness turn ceiling required')
         self.inner=open_agent(parse_agents([spec])[0])
         if external_readonly and str(self.inner.harness)!='codex':raise RuntimeError('External readonly mode is Codex-specific')
         if str(self.inner.harness)=='dsh':
@@ -60,7 +62,7 @@ class MeteredDriver:
         self.experiment=experiment
         self.turns=turns
         self.max_turns=max_turns
-        self.turn_seconds=min(turn_seconds,600)
+        self.turn_seconds=min(turn_seconds,turn_seconds_ceiling)
         self.permission=permission
 
     def __getattr__(self,key):return getattr(self.inner,key)

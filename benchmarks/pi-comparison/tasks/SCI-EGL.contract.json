@@ -1,0 +1,16 @@
+{
+  "task_id": "SCI-EGL",
+  "family": "scientific",
+  "base_commit": "653e67cc279a4856628e3c116d308006eea91d47",
+  "material_sha256": "ad17313e937e8250baddd011ed3e97385b97e6d3d725b07a78293e0a64004450",
+  "preparation_status": "READY",
+  "environment_sha256": "60d9919880556ed366e6916aa5690880c27b26fafd7347c5bce739587371411c",
+  "private_acceptance_binding": "Use exact main preparation; no private paths or gold values in this view",
+  "public_contract_status": "BIND_EXISTING_PREPARATION_BEFORE_LIVE",
+  "grader_authority": "Existing private P6 evaluator, never passed to Pi",
+  "task_role_seconds": 1200,
+  "per_request_seconds": 120,
+  "max_output_tokens": 256000,
+  "compute_policy": "LOCAL_ONLY_CPU_PROTOCOLS_PRESERVED_GPU_TASKS_SINGLE_LOCAL_GPU",
+  "independent_acceptance": "NOT_RUN"
+}

@@ -1,0 +1,702 @@
+{
+  "schema_version": 1,
+  "protocol": "PI_FORMAL_20261014_V1",
+  "source_sha256": {
+    "/opt/workbench/pi-comparison/controller-formal-af9ecefd4829ad19/pi_session.mjs": "4866e70e1e3216f5909494463ec87c02dfddf36d72f91c759e105937189489b9",
+    "/opt/workbench/pi-comparison/controller-formal-af9ecefd4829ad19/pi_formal_linux.py": "d8bdacef531c7faf810d47165e439bae766e52424023643cad2f15c17636e32e",
+    "/opt/workbench/pi-comparison/controller-formal-af9ecefd4829ad19/events.py": "519edba732ab5be356696559140c44738a68fec56ae69b146da388637b464ce3",
+    "/opt/workbench/pi-comparison/controller-formal-af9ecefd4829ad19/pi_protocol.py": "84ee6a66ba50c2f053d8221fb8dee9d77892a160d6ab071a49fec161310c215f",
+    "/opt/workbench/pi-comparison/controller-formal-af9ecefd4829ad19/p6_checkpoint_recovery.py": "0eba10f4a71cd852d10639af7b6779b4540f3c65b9b1dd8f675ee65c95196694",
+    "/opt/workbench/pi-comparison/controller-formal-af9ecefd4829ad19/p6_gc_adjudication.py": "01f1c2088c217917845fb6838e889e3c097b55e2c5f6b5c7eefa89fb543a0a64",
+    "/opt/workbench/pi-comparison/controller-formal-af9ecefd4829ad19/p6_gc_dependencies.py": "13b89f5011e6c460938a31784959a304e0eb50d273abc94329b7710d0901843f",
+    "/opt/workbench/pi-comparison/controller-formal-af9ecefd4829ad19/p6_gc_grader.py": "85a0a40eb4cc80b63f71dd9ee7af9ad62a17179bb49c9f50ea1fd300fcfd7379",
+    "/opt/workbench/pi-comparison/controller-formal-af9ecefd4829ad19/p6_gc_source_policy.py": "c9cf582bbc05aba14aab059ad0afb972b380006a751cda17b070690c74ef90f6",
+    "/opt/workbench/pi-comparison/controller-formal-af9ecefd4829ad19/p6_science_main_linux.py": "3a9583446c440e11eb3c781d4635d8df6ae48604b48429003e461abc2b472533",
+    "/opt/workbench/pi-comparison/controller-formal-af9ecefd4829ad19/p6_gc_worker.py": "d906f44b881c81144e1b7d123ea8741f9278de4ff8345acf18dfe8e2e6da596d"
+  },
+  "entrypoint_sha256": "e1ac804bca0d16a22708b65c778fb8c421d38546ec4e3a96b6f0c14efdaf79d2",
+  "budget_authorization_sha256": "fc8038759fd08c023fb92cce83236266de4b95996a8b4e368dadb5ca87d0cb29",
+  "cash_aggregation": "Original cumulative USD200/10000 requests; no new allowance",
+  "main_manifest": {
+    "schema_version": 1,
+    "phase": "P6",
+    "seed": 42,
+    "repetitions": 1,
+    "n_candidates": 3,
+    "task_time_cap_seconds": 10800,
+    "candidate_time_cap_seconds": 1200,
+    "request_time_cap_seconds": 600,
+    "selection_policy": "Metadata-only low setup cost: black IDs 1..6; requests first 2, pytest 8.0 first 2, SymPy first 2 in the pinned test split. No model outcomes used. Convenience selection, not representative.",
+    "smoke_tasks": [
+      "BIP-black-2",
+      "SWEL-psf__requests-1963"
+    ],
+    "baseline_environment_policy": "Project-local Conda task environments; one immutable environment/permissions/hardware receipt per task for every arm. Prepare and validate buggy versus gold before any model execution.",
+    "protocol_version": 12,
+    "model_identity_policy": "Keep the previously verified deepseek-flash and gpt-6.1-sol requested identities. Preserve returned model/version metadata per new run. Prior P1/P2 reports describe V4.1 Flash; an alias does not authorize silently changing the underlying model.",
+    "judges": {
+      "J0": "automatic visible test ordering",
+      "J1": "original LAV logprobs",
+      "J2": "BLOCKED_REGION_REPORTED_BY_USER",
+      "J3": "independent gpt-6.1-sol structured judge"
+    },
+    "merge_ablation": "Same frozen input pool: best-of-N versus best-of-N + Reviewer M, including all-failed pools. Hidden evaluator excluded from public handoffs.",
+    "tasks": [
+      {
+        "task_id": "BIP-black-1",
+        "family": "BugsInPy",
+        "upstream_instance": "black:1",
+        "repository": "psf/black",
+        "base_commit": "26c9465a22c732ab1e17b0dec578fa3432e9b558",
+        "source_revision": "11c5f1eea954a42132cfd06bf257766a7963e0fd",
+        "material_sha256": "7233642daf114712890eaf7a211700119cfaca183abb106ce43734a40e01ea6e",
+        "original_python": "3.8.3",
+        "source_url": "https://github.com/soarsmu/BugsInPy/tree/11c5f1eea954a42132cfd06bf257766a7963e0fd/projects/black/bugs/1",
+        "preparation_status": "READY",
+        "license_status": "BugsInPy framework license unresolved; raw materials private; task project MIT",
+        "role_time_cap_seconds": 900,
+        "model_activity_time_cap_seconds": 7200
+      },
+      {
+        "task_id": "BIP-black-2",
+        "family": "BugsInPy",
+        "upstream_instance": "black:2",
+        "repository": "psf/black",
+        "base_commit": "c8ca6b2b9ff3510bee12129824cebfc2fc51e5b2",
+        "source_revision": "11c5f1eea954a42132cfd06bf257766a7963e0fd",
+        "material_sha256": "a08e91da843bbb545f303157184c86389e7260abf094e535438cd0dedf9c082c",
+        "original_python": "3.8.3",
+        "source_url": "https://github.com/soarsmu/BugsInPy/tree/11c5f1eea954a42132cfd06bf257766a7963e0fd/projects/black/bugs/2",
+        "preparation_status": "READY",
+        "license_status": "BugsInPy framework license unresolved; raw materials private; task project MIT",
+        "role_time_cap_seconds": 900,
+        "model_activity_time_cap_seconds": 7200
+      },
+      {
+        "task_id": "BIP-black-3",
+        "family": "BugsInPy",
+        "upstream_instance": "black:3",
+        "repository": "psf/black",
+        "base_commit": "8126b4f6a9342290de4655e6a8a78cd288ce7daa",
+        "source_revision": "11c5f1eea954a42132cfd06bf257766a7963e0fd",
+        "material_sha256": "17c789beffa1b197d5d7f4d719c9a7726a6a5b0ebb5ed98571b4c4c61373f7e3",
+        "original_python": "3.8.3",
+        "source_url": "https://github.com/soarsmu/BugsInPy/tree/11c5f1eea954a42132cfd06bf257766a7963e0fd/projects/black/bugs/3",
+        "preparation_status": "READY",
+        "license_status": "BugsInPy framework license unresolved; raw materials private; task project MIT",
+        "role_time_cap_seconds": 900,
+        "model_activity_time_cap_seconds": 7200
+      },
+      {
+        "task_id": "BIP-black-4",
+        "family": "BugsInPy",
+        "upstream_instance": "black:4",
+        "repository": "psf/black",
+        "base_commit": "65ea568e3301951f26e0e3b98f6d5dc80132e917",
+        "source_revision": "11c5f1eea954a42132cfd06bf257766a7963e0fd",
+        "material_sha256": "3c971d46cea153e4b8ef8e5385b865ece25f9fbd6f4435ee7c0bdfe86e4865ee",
+        "original_python": "3.8.3",
+        "source_url": "https://github.com/soarsmu/BugsInPy/tree/11c5f1eea954a42132cfd06bf257766a7963e0fd/projects/black/bugs/4",
+        "preparation_status": "READY",
+        "license_status": "BugsInPy framework license unresolved; raw materials private; task project MIT",
+        "role_time_cap_seconds": 900,
+        "model_activity_time_cap_seconds": 7200
+      },
+      {
+        "task_id": "BIP-black-5",
+        "family": "BugsInPy",
+        "upstream_instance": "black:5",
+        "repository": "psf/black",
+        "base_commit": "1bbb01b854d168d76ebe4bf78961c2152ae075d9",
+        "source_revision": "11c5f1eea954a42132cfd06bf257766a7963e0fd",
+        "material_sha256": "843907113cf23c3946c4f907af2e0c7efc149e25b75ec6690b095ab2394a6357",
+        "original_python": "3.8.3",
+        "source_url": "https://github.com/soarsmu/BugsInPy/tree/11c5f1eea954a42132cfd06bf257766a7963e0fd/projects/black/bugs/5",
+        "preparation_status": "READY",
+        "license_status": "BugsInPy framework license unresolved; raw materials private; task project MIT",
+        "role_time_cap_seconds": 900,
+        "model_activity_time_cap_seconds": 7200
+      },
+      {
+        "task_id": "BIP-black-6",
+        "family": "BugsInPy",
+        "upstream_instance": "black:6",
+        "repository": "psf/black",
+        "base_commit": "8c8adedc2a74a494c24f93e405b6418ac32f54cd",
+        "source_revision": "11c5f1eea954a42132cfd06bf257766a7963e0fd",
+        "material_sha256": "9504645757d4a64f0f6726207fcf7328bca4f6c7272c039a5ec165e3ab0e0306",
+        "original_python": "3.8.3",
+        "source_url": "https://github.com/soarsmu/BugsInPy/tree/11c5f1eea954a42132cfd06bf257766a7963e0fd/projects/black/bugs/6",
+        "preparation_status": "READY",
+        "license_status": "BugsInPy framework license unresolved; raw materials private; task project MIT",
+        "role_time_cap_seconds": 900,
+        "model_activity_time_cap_seconds": 7200
+      },
+      {
+        "task_id": "SWEL-psf__requests-1963",
+        "family": "SWE-bench Lite",
+        "upstream_instance": "psf__requests-1963",
+        "repository": "psf/requests",
+        "base_commit": "110048f9837f8441ea536804115e80b69f400277",
+        "source_revision": "6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2",
+        "material_sha256": "cee29107d124ae88a1572a53636bef7710d122e9df31ba0925ee291d757a8196",
+        "dataset_sha256": "7a21f37b8bc179c7db5beeb14e88ac538ba283455c776e6b2535bbfb6e3551b4",
+        "project_version": "2.3",
+        "environment_setup_commit": "3eb69be879063de4803f7f0152b83738a1c95ca4",
+        "source_url": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite/tree/6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2",
+        "preparation_status": "READY",
+        "license_status": "Dataset/project notices must be retained in private prepared checkouts; redistribution pending audit",
+        "role_time_cap_seconds": 900,
+        "model_activity_time_cap_seconds": 7200
+      },
+      {
+        "task_id": "SWEL-psf__requests-2148",
+        "family": "SWE-bench Lite",
+        "upstream_instance": "psf__requests-2148",
+        "repository": "psf/requests",
+        "base_commit": "fe693c492242ae532211e0c173324f09ca8cf227",
+        "source_revision": "6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2",
+        "material_sha256": "83f5f4ac322f76b417b43794ec012550dab85b279860d0b77802ed6a8f300e1b",
+        "dataset_sha256": "7a21f37b8bc179c7db5beeb14e88ac538ba283455c776e6b2535bbfb6e3551b4",
+        "project_version": "2.3",
+        "environment_setup_commit": "3eb69be879063de4803f7f0152b83738a1c95ca4",
+        "source_url": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite/tree/6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2",
+        "preparation_status": "READY",
+        "license_status": "Dataset/project notices must be retained in private prepared checkouts; redistribution pending audit",
+        "role_time_cap_seconds": 900,
+        "model_activity_time_cap_seconds": 7200
+      },
+      {
+        "task_id": "SWEL-pytest-dev__pytest-11143",
+        "family": "SWE-bench Lite",
+        "upstream_instance": "pytest-dev__pytest-11143",
+        "repository": "pytest-dev/pytest",
+        "base_commit": "6995257cf470d2143ad1683824962de4071c0eb7",
+        "source_revision": "6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2",
+        "material_sha256": "0a29b6c2063fcb556ad6ae20de6a6a8ecc07680df01bddb605585aff823e1c7c",
+        "dataset_sha256": "7a21f37b8bc179c7db5beeb14e88ac538ba283455c776e6b2535bbfb6e3551b4",
+        "project_version": "8.0",
+        "environment_setup_commit": "10056865d2a4784934ce043908a0e78d0578f677",
+        "source_url": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite/tree/6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2",
+        "preparation_status": "READY",
+        "license_status": "Dataset/project notices must be retained in private prepared checkouts; redistribution pending audit",
+        "role_time_cap_seconds": 900,
+        "model_activity_time_cap_seconds": 7200
+      },
+      {
+        "task_id": "SWEL-pytest-dev__pytest-11148",
+        "family": "SWE-bench Lite",
+        "upstream_instance": "pytest-dev__pytest-11148",
+        "repository": "pytest-dev/pytest",
+        "base_commit": "2f7415cfbc4b6ca62f9013f1abd27136f46b9653",
+        "source_revision": "6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2",
+        "material_sha256": "7e74dffb5f15e20cbc25e24c73fe85174ee4adcbb6b17f915e2e945142c3286c",
+        "dataset_sha256": "7a21f37b8bc179c7db5beeb14e88ac538ba283455c776e6b2535bbfb6e3551b4",
+        "project_version": "8.0",
+        "environment_setup_commit": "10056865d2a4784934ce043908a0e78d0578f677",
+        "source_url": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite/tree/6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2",
+        "preparation_status": "READY",
+        "license_status": "Dataset/project notices must be retained in private prepared checkouts; redistribution pending audit",
+        "role_time_cap_seconds": 900,
+        "model_activity_time_cap_seconds": 7200
+      },
+      {
+        "task_id": "SWEL-sympy__sympy-11400",
+        "family": "SWE-bench Lite",
+        "upstream_instance": "sympy__sympy-11400",
+        "repository": "sympy/sympy",
+        "base_commit": "8dcb12a6cf500e8738d6729ab954a261758f49ca",
+        "source_revision": "6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2",
+        "material_sha256": "7a5bcca051e4025b6e65207adb8b6ff8c51c04464307f36a8eff70f19a360429",
+        "dataset_sha256": "7a21f37b8bc179c7db5beeb14e88ac538ba283455c776e6b2535bbfb6e3551b4",
+        "project_version": "1.0",
+        "environment_setup_commit": "50b81f9f6be151014501ffac44e5dc6b2416938f",
+        "source_url": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite/tree/6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2",
+        "preparation_status": "READY",
+        "license_status": "Dataset/project notices must be retained in private prepared checkouts; redistribution pending audit",
+        "role_time_cap_seconds": 900,
+        "model_activity_time_cap_seconds": 7200
+      },
+      {
+        "task_id": "SWEL-sympy__sympy-11870",
+        "family": "SWE-bench Lite",
+        "upstream_instance": "sympy__sympy-11870",
+        "repository": "sympy/sympy",
+        "base_commit": "5c2e1f96a7ff562d4a778f4ca9ffc9c81557197e",
+        "source_revision": "6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2",
+        "material_sha256": "4e1a984c4ce66b15dd4c19034b8771305b6c2bb52c55162da16329a67adda1a2",
+        "dataset_sha256": "7a21f37b8bc179c7db5beeb14e88ac538ba283455c776e6b2535bbfb6e3551b4",
+        "project_version": "1.1",
+        "environment_setup_commit": "ec9e3c0436fbff934fa84e22bf07f1b3ef5bfac3",
+        "source_url": "https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite/tree/6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2",
+        "preparation_status": "READY",
+        "license_status": "Dataset/project notices must be retained in private prepared checkouts; redistribution pending audit",
+        "role_time_cap_seconds": 900,
+        "model_activity_time_cap_seconds": 7200
+      },
+      {
+        "task_id": "SCI-PC-ALM",
+        "family": "scientific",
+        "title": "PC_ALM lightweight reproduction",
+        "requires_gpu": false,
+        "preparation_status": "READY",
+        "paper": "SakanaAI PC-ALM official frozen implementation and owner v1.1 task",
+        "data_sha256": "29a904977bdd555abf854653e21bbcde1a10160de8f72e75001bee34cb59a495",
+        "gold_sha256": "ae5dda63515bd595d9bcefc5de41218b97640061952fa5ea3a6eec3ddbc8645d",
+        "license": "Private authorized local evaluation; retain source notices; no research-material redistribution",
+        "tolerances": {
+          "accuracy_pp": 0.25,
+          "gradient_cosine_abs": 0.02
+        },
+        "invariants": [
+          "official_source_unchanged",
+          "smoke_and_public_anchor",
+          "exact_75_native_artifacts",
+          "fixed_four_deep_narrow_cells",
+          "same_environment_reference",
+          "independent_two_cell_replay",
+          "science_C1_C5_separate"
+        ],
+        "required_materials": [
+          "exact paper/reference code",
+          "input data and license",
+          "base commit",
+          "numerical gold",
+          "tolerances and invariants",
+          "seed/precision protocol"
+        ],
+        "role_time_cap_seconds": 1200,
+        "model_activity_time_cap_seconds": 10800,
+        "base_commit": "3488eadc9e1d9acd477c5eaf4132e817b4658346",
+        "data_contract": {
+          "frozen_input_inventory_sha256": "de51c0cd1301561f74442715d5009da82f616cbc17bced1f9b8635b871d864ee"
+        },
+        "public_material_sha256": "4d3f9e708a51077dbf229074a0119f92fb1cdde7d61a6a63f6e8d79a5e008ba4",
+        "control_receipts": {
+          "pc-submission-controls-v1/positive.json": {
+            "sha256": "5b69165e931c15be4ba21782ebead8090f6b83c333f6d0e8021d9985df9437ad",
+            "verdict": "PASS_NUMERIC_REVIEW_PENDING"
+          },
+          "pc-submission-controls-v1/negative.json": {
+            "sha256": "0ccfeba61849a12adbc95f66b4f0a78095bc6bbbc3b394710f301a6281db1c36",
+            "verdict": "FAIL"
+          }
+        },
+        "preparation_receipt_sha256": "a7912f918d414bee8cc3419d560a1fea3dea99e9d7f2ac37bcd53c39d61138b6",
+        "environment_sha256": "2ea892ca12a4f92e8bf80bc26d4221181a57040b5a0f285930d417209a8a9a18",
+        "independent_evaluation_timeout_seconds": 7200
+      },
+      {
+        "task_id": "SCI-STROKE",
+        "family": "scientific",
+        "title": "User-selected stroke paper tables and figures",
+        "requires_gpu": false,
+        "preparation_status": "READY",
+        "paper": "Tscherpel et al. sensor-level TMS-EEG numerical protocols, 2020/2024 owner task",
+        "data_sha256": "94badade06feffb7c825f6e348b30ece6476a915062beca9ac4496c10e7f3bb6",
+        "gold_sha256": "8e0b63fe1d07225e6140c45d74104a66b2df774e51a34cd5412209f58e8a4d1a",
+        "license": "Private authorized local evaluation; retain source notices; no research-material redistribution",
+        "tolerances": {
+          "policy": "Owner-frozen per-field tolerances in exact private judge inventory; no relaxation"
+        },
+        "invariants": [
+          "14_numeric_cases",
+          "7_boundary_cases",
+          "single_cpu_protocol",
+          "healthy_or_synthetic_not_clinical_claim"
+        ],
+        "required_materials": [
+          "exact paper/reference code",
+          "input data and license",
+          "base commit",
+          "numerical gold",
+          "tolerances and invariants",
+          "seed/precision protocol"
+        ],
+        "role_time_cap_seconds": 1200,
+        "model_activity_time_cap_seconds": 10800,
+        "base_commit": "d5df0c335cf37bbc4e54e49e19c9b48dbab9dda2",
+        "data_contract": {
+          "frozen_input_inventory_sha256": "9d134e4afb67277958f97bab344eb430836cec35ef20314d62bc3bb98160154e"
+        },
+        "public_material_sha256": "aa2af5aeba5be46dbc9a8dc34e5509378040bf907bcbe137ab4125818360d793",
+        "control_receipts": {
+          "tms-production-adapter-control-v2.json": {
+            "sha256": "4d54bfad6c556d739fc6e674dc4938c063a182751e5570a3de99394d484c2ba8",
+            "verdict": "PASS"
+          },
+          "tms-local-controls-v1/negative-wrong-lmfp.json": {
+            "sha256": "6d95a64aff0764c4baba731b7d4b7af8c7dba718bc32a4f7a6d52358ccfa972e",
+            "verdict": "FAIL"
+          }
+        },
+        "preparation_receipt_sha256": "db73fa60a501ae445f934df29b45d59d299aa359a1366b3a2954a7b63c34fa41",
+        "environment_sha256": "c060ab1965e829d297a661473b698a5a7672eb8b7ec41d4e97c3bb9b3ccecd54",
+        "independent_evaluation_timeout_seconds": 600
+      },
+      {
+        "task_id": "SCI-EGL",
+        "family": "scientific",
+        "title": "Exponential Gradient Learning tables and figures",
+        "requires_gpu": false,
+        "preparation_status": "READY",
+        "paper": "Cornford et al. Exponentiated gradient learning; Figure4B r-of-k; owner A1",
+        "data_sha256": "50dce5ca994b1ac865f7c637a81af734c45f1d0d4908f7100e5ee575e5babd86",
+        "gold_sha256": "6dda4f6c20921a8c50eaf4722f032853380625635a0f9fd833f64536b4010d67",
+        "license": "Private authorized local evaluation; retain source notices; no research-material redistribution",
+        "tolerances": {
+          "curve_rmse_pp": 1.0,
+          "per_seed_endpoint_pp": 1.0,
+          "group_mean_pp": 0.5,
+          "optimizer_float32": 2e-06,
+          "optimizer_float64": 1e-12
+        },
+        "invariants": [
+          "18_frozen_CPU_runs",
+          "signed_optimizer_50_probes",
+          "optimizer_training_use",
+          "18_saved_weight_replays",
+          "31_curve_points",
+          "mean_sample_ddof1",
+          "source_report_figure_review",
+          "local_v2_reference_old_remote_mismatch_preserved"
+        ],
+        "required_materials": [
+          "exact paper/reference code",
+          "input data and license",
+          "base commit",
+          "numerical gold",
+          "tolerances and invariants",
+          "seed/precision protocol"
+        ],
+        "role_time_cap_seconds": 1200,
+        "model_activity_time_cap_seconds": 10800,
+        "base_commit": "653e67cc279a4856628e3c116d308006eea91d47",
+        "data_contract": {
+          "public_material_sha256": "e82b8dfa4ca6babc0fc3c2168ab71f527910a2e8a4ce7ff5320f1be1688b7a5e",
+          "independent_generator_sha256": "98adf081086e6db1ed3f23875458861d866439a6763285afdf23c427702e1e07",
+          "synthetic_protocol": {
+            "n": [
+              200,
+              2000,
+              20000
+            ],
+            "k": 100,
+            "r": 50,
+            "seeds": [
+              1,
+              2,
+              3
+            ],
+            "train": 10000,
+            "validation": 1000,
+            "test": 1000,
+            "precision": "float32"
+          }
+        },
+        "public_material_sha256": "ad17313e937e8250baddd011ed3e97385b97e6d3d725b07a78293e0a64004450",
+        "control_receipts": {
+          "egl-positive-v3-control-v2.json": {
+            "sha256": "0905fac9cd61062e1052b673403e6d36177091d71b07cc3dae409ec16aea3de8",
+            "verdict": "PASS_NUMERIC_REVIEW_PENDING"
+          },
+          "egl-negative-sign-v1-control.json": {
+            "sha256": "715fb56f828e4197b3921daedef4a5d663d6cb71a7b750a48f19c4682d194da7",
+            "verdict": "FAIL"
+          }
+        },
+        "preparation_receipt_sha256": "fdf79e99ab7c3891fcb0b5ff8f8dec7c78318bccba8146f017123d98e8344e0c",
+        "environment_sha256": "60d9919880556ed366e6916aa5690880c27b26fafd7347c5bce739587371411c",
+        "independent_evaluation_timeout_seconds": 1800
+      },
+      {
+        "task_id": "SCI-GRANGER-GPU",
+        "family": "scientific",
+        "title": "CPU Granger Causality to CuPy precision and performance",
+        "requires_gpu": true,
+        "preparation_status": "READY",
+        "paper": "Owner-frozen ridge target-equation Granger Causality CPU-to-CuPy port",
+        "data_sha256": "b4d55ed49455f3029d6e76736d397c98888db11eb89c88f00903513b482a3bfa",
+        "gold_sha256": "40c7847669d8d218edeb7d9cc15134bb2474b11bd2c9f5e391b9808abd65aee3",
+        "license": "Private authorized local evaluation; retain source notices; no research-material redistribution",
+        "tolerances": {
+          "absolute": 1e-07,
+          "relative": 1e-05
+        },
+        "invariants": [
+          "27_numeric_cases",
+          "13_invalid_cases",
+          "10_repeat_outputs",
+          "rawkernel_used",
+          "no_CPU_download",
+          "3_warmups_5_timed_runs",
+          "local_GPU_performance_not_biology_claim"
+        ],
+        "required_materials": [
+          "exact paper/reference code",
+          "input data and license",
+          "base commit",
+          "numerical gold",
+          "tolerances and invariants",
+          "seed/precision protocol"
+        ],
+        "role_time_cap_seconds": 1200,
+        "model_activity_time_cap_seconds": 10800,
+        "base_commit": "649dcfa0e9d1867f8cc1462a0828def1420f9bf3",
+        "data_contract": {
+          "frozen_input_inventory_sha256": "4c9936a0e24f8ec0dbc35d170face835263f1ad98132df5e53890b1fb7fb8c86"
+        },
+        "public_material_sha256": "f96b8417af1497c0c5797b35403eb59255fd319774044dcc806c68f87a68619a",
+        "control_receipts": {
+          "gc-local-controls-v1/positive.json": {
+            "sha256": "412e76bf0522d293f10dad6b13402fb74b8c99dfa3a073c1bbd1f6eb3479f613",
+            "verdict": "PASS_NUMERIC_REVIEW_PENDING"
+          },
+          "gc-local-controls-v1/negative-wrong-number.json": {
+            "sha256": "02a2c85ea1d935eca7fa670f0f667bfb09ed91d49e1905566708951de569eac0",
+            "verdict": "FAIL"
+          },
+          "gc-local-controls-v1/negative-cpu-download.json": {
+            "sha256": "9692c66c402f21746fcd3ef503ac8d87fe445255c884aa6f90da751383928a01",
+            "verdict": "REFUSED"
+          }
+        },
+        "preparation_receipt_sha256": "e0016c94e0a5fa1a4e477dca82aa9330e8fdb90f261165d28ac327247f4ad4ea",
+        "environment_sha256": "f2fa80284539cac0809ea0d2081ba9f72ade97d706174c279496e952046ae3f6",
+        "independent_evaluation_timeout_seconds": 180
+      }
+    ],
+    "common_generation_timeout_seconds": 900,
+    "generation_scope": "Public900s/scientific1200s per role; task7200s/10800s. DS wire request600s, output256000, role1000 attempts; each reconnect counts against aggregate10000/USD100. Codex native wire retries are separately configured and not exact-meterable.",
+    "private_acceptance_policy": "Freeze all selections first; separate finite independent acceptance and substantive science review",
+    "full_tool_trace_policy": "Separate metered same-program review; complete calls/results or refuse; explicitly different evidence hash",
+    "public_controls_sha256": "623ac07c1e800660f412784eb55bcb23a9e2d4727ffe3ccb4663161f9ad6133d",
+    "compute_policy": "LOCAL_ONLY_CPU_PROTOCOLS_PRESERVED_GPU_TASKS_SINGLE_LOCAL_GPU",
+    "runner_source_sha256": {
+      "/opt/workbench/source/export_codex_usage.py": "866e5261b6a34ce59a6a520bd6c42c27bb40d4e3f0a82703ead0fd421c878ddc",
+      "/opt/workbench/source/p1_broker.py": "a76a35abf42bf38b97f6ab9d79f594f1359b7ca93be7cba3e54b42b3b42a41ca",
+      "/opt/workbench/source/p1_budget.py": "5ee25e050edc2b0f5fb311b4d8978b516024152c82eca1ddfef395fcce9de359",
+      "/opt/workbench/source/p1_drivers.py": "39d5a001451f763520d6c43313f42e6a668006956fe0e3f50c09f9426bd752f9",
+      "/opt/workbench/source/p2_candidates.py": "716a10066ae1cb8399b527360e779c3e3635cb4f47bc0a28c46a196a226cd0dd",
+      "/opt/workbench/source/p2_experiment_linux.py": "bbae436eb1d88af275a8378016b625f28208e209e8fcde5876112ea69b951c15",
+      "/opt/workbench/source/p2_judges.py": "5325da97efb0640c1e449a51b3975a1a3128ce2a785065d4d09dd2c35f0e1d92",
+      "/opt/workbench/source/p3_worker_linux.py": "8ceb93308cc3096413819c37ff43a46bb5aafe5294f45b2c01cf76bb19e92cc3",
+      "/opt/workbench/source/p6_acquire.py": "814ae8c04bd2406306b1fc182eec269e922bb45da7eb4a402f9caf357c9c2c8a",
+      "/opt/workbench/source/p6_connection_probe.py": "feaf090631c4452d24aaae6443ef6e874df9b94e9ab63e8b615873b070f64cef",
+      "/opt/workbench/source/p6_egl_grader.py": "d54f631cbf2f47bade0e907e68636958d9f6d4d0c0c15d288de1bbca3f71ae42",
+      "/opt/workbench/source/p6_egl_replay.py": "98adf081086e6db1ed3f23875458861d866439a6763285afdf23c427702e1e07",
+      "/opt/workbench/source/p6_egl_worker.py": "ddfe5a6c75a0f31525a76f233e1721bfd4bb7ec1973c8a3dd350dbe5151cc48e",
+      "/opt/workbench/source/p6_evaluate_linux.py": "2f7940b96428bb6584d5325a96259b06de703f56f95c037c134e0d10c57bb9d4",
+      "/opt/workbench/source/p6_file_policy_control_linux.py": "a5a5b41bae6345ee2a9c2eb2cc97299983668d45f656c37a32c7bd3e00c9df46",
+      "/opt/workbench/source/p6_freeze.py": "33b9fee01a2e204ff7fbf237bbd476b427eafc6b7f28864369d942c3eac81a2d",
+      "/opt/workbench/source/p6_gate_policy.py": "1aeef940ef8aace345e49aaaf5e45e2c57ca3c47fd630a99a46e5f50759e6354",
+      "/opt/workbench/source/p6_gc_grader.py": "ae5b077ea5d46dfed01551f1d941f0f1660c8a866bfb3b2d29db06e0cf457d78",
+      "/opt/workbench/source/p6_gc_worker.py": "d906f44b881c81144e1b7d123ea8741f9278de4ff8345acf18dfe8e2e6da596d",
+      "/opt/workbench/source/p6_httpbin_linux.py": "d4e8b2e27d994d4538aa206597db845c204c6f3412fbf4d1dec6e54bf402e459",
+      "/opt/workbench/source/p6_httpbin_tls_linux.py": "13099ccbf4cf4250285374c683502891fe525c29f2c2b3b850be87261454d6b0",
+      "/opt/workbench/source/p6_main_budget.py": "c57d20a245effe52466e55c2a9070b2424a077e418d783a0bb1485c0f85cc86e",
+      "/opt/workbench/source/p6_main_contract.py": "43fa4dd62e5aa12a0259bc1fb396f0a6f45cc844ed5ea8b25f29eeeed2ffbf81",
+      "/opt/workbench/source/p6_main_runtime_linux.py": "5437c8e912b00029823b091fb84099537da9210590fbd0805f197d3edb7c0dab",
+      "/opt/workbench/source/p6_network_control_linux.py": "34112737bd5c312e7c10ea096d29b06b6765aaaadb2118f1fe018e06c69c7255",
+      "/opt/workbench/source/p6_network_policy.py": "3ed33a08b4b78c31f510be15f8a6911ec768cc13cdef58b360010b99ccf1398a",
+      "/opt/workbench/source/p6_network_recovery.py": "0df1d6f86e9fc26abd959d8786c5d3ba9aea31d9b81418c5fe56c24fd6458c35",
+      "/opt/workbench/source/p6_output_control_linux.py": "b7ab5578bc534350c4f404429bf4188512153e0e65ff8a4e621392bee77c75ff",
+      "/opt/workbench/source/p6_output_data.py": "2c70ecc1a19b589ba055bedcb8c9597c050187799fcf15af1c6dcb805a5e2d64",
+      "/opt/workbench/source/p6_output_policy.py": "acc32ca7056dbc22959ea0261c590ec1628363f44851875e1118ea664e7d01ea",
+      "/opt/workbench/source/p6_pc_calibrate_linux.py": "d985ddc6806897d736b23a232db33d4c2de0dee814755058f65b4a219b61a71f",
+      "/opt/workbench/source/p6_pc_grader.py": "ba61596fc8e07d1e978b1a8bb44f1718ff5cd1b345e182d445ab01d5e0d7b127",
+      "/opt/workbench/source/p6_pc_statistics.py": "78fb56c96f70eccc29d4f7564b06f2a512b4617c3b996b1f5de2025311937c19",
+      "/opt/workbench/source/p6_pc_validation.py": "411a344b156ad04d3de8c3cd42bb37eafca95075b8cccd294d97f61aa50fdc5b",
+      "/opt/workbench/source/p6_prepare_linux.py": "c7f1dae475b5ac45e449c34ce18ec21ea6ecde6fe5504f9ebad994fd65a0b491",
+      "/opt/workbench/source/p6_public_prepare_linux.py": "3818da260d08935ebda0cf87400a1c72e08ce7a84235189f39037973e97ed475",
+      "/opt/workbench/source/p6_public_visible.py": "970db9d11539154416a08a45aef37384eb8ce64fe90e2a4a30f64c8f6d33c6b7",
+      "/opt/workbench/source/p6_pytest_runner.py": "3e7fd6ec6caf1b594334178513d0382ddc08973c80330db6817b4f5ef118ad77",
+      "/opt/workbench/source/p6_report.py": "bb2f6b5b0a00e4ef2837c1b670d450f6bb3dd1826c0f3ffa397bdf8282ab2dd2",
+      "/opt/workbench/source/p6_requests_linux.py": "552f61239e7b09c638ab65778c5339a09ad7abc4bbc19494e78a2a2fbabbc1c9",
+      "/opt/workbench/source/p6_requests_main_fixture.py": "8ad355db6597317f456d7cbe6833e208ce11d32bec621f214e1d515c9e989dd8",
+      "/opt/workbench/source/p6_requests_runner.py": "ddd1f38b4257ff3320259aab3e29322cea816864aaac44779ed75a2f9e3a8c68",
+      "/opt/workbench/source/p6_runtime_linux.py": "09e569d793caa2299f54822473b10b0a7ccf79d8f4b6c6142cc1e13ccec17d4a",
+      "/opt/workbench/source/p6_science_main_linux.py": "1d6ecd3cb5a98a2b6e44f64bc232383b5b7c827213846936944131f44c93941d",
+      "/opt/workbench/source/p6_science_sandbox.py": "02236869ff508a8a2a8480725c2d9943177563dff485db17ff3be08edd1bf84e",
+      "/opt/workbench/source/p6_sympy_runner.py": "ac4ffe92daba2591787760ea0a0b5abdd55bc30713e5e8a3709b051c0bbb5bd1",
+      "/opt/workbench/source/p6_time_control_linux.py": "87cd77f2ba21c6c2cc02c5da8a35d87286fe94d3afd6da2040d5360c5b9089a0",
+      "/opt/workbench/source/p6_tms_grader.py": "853dfaea0754db35eba0f32e4311fd36ef56b1a642d55cd28db9c28393a2cd8f",
+      "/opt/workbench/source/p6_trace_evidence.py": "92b20d5f11ff4c38ae5494412398fffdcbb3583e68248c15ffe3fcf0cfb3419a",
+      "/opt/workbench/source/p6_worker_linux.py": "04c0789ee5bcc2476c05c8b9ba3b5ef4dbd69c095afcd584043a40170766d3f5",
+      "/opt/workbench/source/flows/p0_coding_demo/__init__.py": "68475065d9163e3b879e6c342c32e78b630c18f5eb4ef2afb93d00b123c1e766",
+      "/opt/workbench/source/flows/sol_synthesis/__init__.py": "4bb151dfc23fd178ff09c0217baa049c20c5092c4b795895999997338f7f0c2d",
+      "/opt/workbench/source/flows/sol_judge/__init__.py": "7297078e32d83387672b8a78c0c5d8928226b6062624b143234e7dd20cc32d2e",
+      "/opt/workbench/source/flows/benchmark_candidates/__init__.py": "b31e8c137681ef301f98399bc455459e3aef9d6c562312ab36a954c9f8e500ee",
+      "/opt/workbench/source/src/workbench/__init__.py": "3ce6e634eb00e91fa2520b0d212e16db3110ebea3a68bcbaaa7a7dd99a4c657c",
+      "/opt/workbench/source/src/workbench/benchmark.py": "5181cc3d0fdf8553cc75a15196da3101639bd6e36b5550f9fe90a1b866f1649a",
+      "/opt/workbench/source/src/workbench/science.py": "385e8294448a9bbf1ab532aaa3079af46482f6dc6adb36fb2dc8e9045d27f436",
+      "/opt/workbench/source/p6_boot_recovery.py": "20c3ec12a7a45829a2ce61b4de32383ee21b9723717d0561385b1b1a87d28b44",
+      "/opt/workbench/source/p6_recovery_probe_linux.py": "01e4b23cc2535def2ed414201556372c11c345a469cb96f546719984391a0694"
+    },
+    "entrypoint_sha256": "f188533bf0faa2270cab2d0794d63435619c7df39bb78fad76648b5a0272851d",
+    "operational_cap_policy": "Role1000 and aggregate10000/USD100 apply before every upstream attempt, including reconnects; old caps/results stay immutable. Model output limits and ordinary role timeouts retain their classifications.",
+    "budget_authorization_sha256": "fc8038759fd08c023fb92cce83236266de4b95996a8b4e368dadb5ca87d0cb29",
+    "aggregate_api_requests": 10000,
+    "aggregate_api_cash_usd": 100,
+    "per_role_api_requests": 1000,
+    "operational_output_policy": "Explicit human DSH default256000 in role-private profile and outer broker. Request-sized reservations preserve all legacy4096 rows and unknown costs. Structured max-tokens still OUTPUT_LIMIT/arm FAIL, no automatic continuation or retry.",
+    "network_infrastructure_policy": "Fixed allowed DS provider request: first four transient failures SHOULD_RETRY; fifth NETWORK_CHECK_REQUIRED. Same complete buffered response reaches the existing Harness once. Role/budget exhaustion during recovery stays INFRA_RETRY_PENDING. No permission-fence bypass, whole-task replay, or unknown-usage refund. Fenced pre-spend HTTPS reconnects up to five attempts.",
+    "native_terminal_evidence_policy": "Preserve both native and Flow original traces. New cap does not relabel previous max-tokens. Same chunked-generation guidance for every coding role; partial v10 preserved separately.",
+    "windows_ledger_io_policy": "Bounded sharing-violation retry for exact atomic replacement only; no transaction/model replay, count reset or POSIX locking change. Exhaustion preserves original bytes and fails closed.",
+    "public_file_policy": "Existing test and fixture files are immutable, including test_*.py, *_test.py, conftest.py and files anywhere under tests/ or testing/. Do not append tests to an existing file, even if its original tests are preserved. Add regression tests only in a NEW file; existing dependency configuration is also immutable. A passing test run does not override these file rules. Commit the implementation and any new test files, leaving a clean worktree.",
+    "file_policy_revision": "Original tests/fixtures protected at every path depth; new regression files allowed. Same explicit instruction for all coding roles, including Reviewer. Preserve v8 failures as protocol investigation, never mix them with v9 results.",
+    "file_policy_control_receipt_sha256": "bc7e09a36153e2c3868be31b2ecd94a7375bc2603a938a4ef49a9410e4efb97e",
+    "budget_config": "configs/budget-p6-main-v6-cash200-approved.json",
+    "role_timeout_seconds_by_family": {
+      "public": 900,
+      "scientific": 1200
+    },
+    "experiment_timeout_seconds_by_family": {
+      "public": 7200,
+      "scientific": 10800
+    },
+    "time_budget_revision": "USER_APPROVED_2026-10-12_PUBLIC15_SCIENCE20",
+    "time_control_receipt_sha256": "093ff64bb5ab26f83e8505a0b680b3aeafae3f8fe2708bc1bc9d058e0867f454",
+    "time_comparison_policy": "New prospective family limits; preserve v9 short-cap outcomes and human-paused partial run separately. No relabeling, same-task A-F equality, no acceptance relaxation or automatic retries.",
+    "output_budget_revision": "USER_APPROVED_2026-10-12_DSH_DEFAULT256000",
+    "per_request_output_tokens": 256000,
+    "generation_guidance": "Work in small independently verifiable steps. Keep each model reply and tool argument small; do not generate a large complete file in a single call. Use small targeted patches or write a large NEW file in checked chunks. Persist completed work in the workspace after each step, and verify files after writing them. Inspect the current workspace before proceeding, including any inherited partial work; do not repeat completed steps. Run relevant public checks and commit the implementation with a clean worktree. Finish with a short summary, file paths and unresolved issues. These instructions never authorize changing protected original tests, fixtures, dependencies or hidden acceptance criteria.",
+    "output_control_receipt_sha256": "76dc7057c1bd647424e69bbb5c278b2393c424d64681c075ffd2a227991f3135",
+    "network_recovery_revision": "USER_APPROVED_2026-10-12_ROLE1000_REQUEST600_NETWORK5",
+    "network_consecutive_failure_limit": 5,
+    "network_control_receipt_sha256": "3d1cf2c4037e562276b4da3c8009c24d5aa33184d034c85cc2145044016a7dc6",
+    "network_recovery_policy": {
+      "network_recovery_revision": "USER_APPROVED_2026-10-12_ROLE1000_REQUEST600_NETWORK5",
+      "per_role_inference_requests": 1000,
+      "per_request_timeout_seconds": 600,
+      "network_consecutive_failure_limit": 5,
+      "network_retry_backoff_seconds": [
+        1,
+        2,
+        4,
+        8
+      ],
+      "automatic_retry_after_infrastructure_failure": true,
+      "network_retry_scope": "FIXED_ALLOWED_PROVIDER_REQUEST_ONLY",
+      "network_partial_stream_policy": "BUFFER_UNTIL_COMPLETE_NO_DUPLICATE_TOOLS"
+    },
+    "cash_budget_revision": "USER_APPROVED_2026-10-13_CUMULATIVE_USD200",
+    "cash_only_successor": {
+      "parent_manifest_sha256": "b751822058b84512f8755676881e38eb691081ae8fa58456737824803bffc454",
+      "execution_scope": [
+        "SCI-STROKE",
+        "SCI-EGL",
+        "SCI-GRANGER-GPU"
+      ],
+      "preserve_parent_completed_and_interrupted_runs": true,
+      "old_pc_sensitivity_must_finish_before_activation": true,
+      "protocol_controls_unchanged_except_cumulative_cash_ceiling": true
+    },
+    "manifest_sha256": "36bf44f8b5502019a982310717b7dafdf1098904289109eaa8c05bf5479774d1"
+  },
+  "bulk_256_enabled": false,
+  "external_release_authorized": false,
+  "cells": [
+    {
+      "task_id": "BIP-black-2",
+      "profile": "P0",
+      "provider": "deepseek",
+      "repetition": 0
+    },
+    {
+      "task_id": "BIP-black-2",
+      "profile": "P1",
+      "provider": "deepseek",
+      "repetition": 0
+    },
+    {
+      "task_id": "BIP-black-2",
+      "profile": "P2",
+      "provider": "deepseek",
+      "repetition": 0
+    },
+    {
+      "task_id": "BIP-black-2",
+      "profile": "P3",
+      "provider": "deepseek",
+      "repetition": 0
+    },
+    {
+      "task_id": "BIP-black-2",
+      "profile": "P0",
+      "provider": "subscription",
+      "repetition": 0
+    },
+    {
+      "task_id": "BIP-black-2",
+      "profile": "P1",
+      "provider": "subscription",
+      "repetition": 0
+    },
+    {
+      "task_id": "BIP-black-2",
+      "profile": "P2",
+      "provider": "subscription",
+      "repetition": 0
+    },
+    {
+      "task_id": "BIP-black-2",
+      "profile": "P3",
+      "provider": "subscription",
+      "repetition": 0
+    },
+    {
+      "task_id": "SCI-GRANGER-GPU",
+      "profile": "P0",
+      "provider": "deepseek",
+      "repetition": 0
+    },
+    {
+      "task_id": "SCI-GRANGER-GPU",
+      "profile": "P1",
+      "provider": "deepseek",
+      "repetition": 0
+    },
+    {
+      "task_id": "SCI-GRANGER-GPU",
+      "profile": "P2",
+      "provider": "deepseek",
+      "repetition": 0
+    },
+    {
+      "task_id": "SCI-GRANGER-GPU",
+      "profile": "P3",
+      "provider": "deepseek",
+      "repetition": 0
+    },
+    {
+      "task_id": "SCI-GRANGER-GPU",
+      "profile": "P0",
+      "provider": "subscription",
+      "repetition": 0
+    },
+    {
+      "task_id": "SCI-GRANGER-GPU",
+      "profile": "P1",
+      "provider": "subscription",
+      "repetition": 0
+    },
+    {
+      "task_id": "SCI-GRANGER-GPU",
+      "profile": "P2",
+      "provider": "subscription",
+      "repetition": 0
+    },
+    {
+      "task_id": "SCI-GRANGER-GPU",
+      "profile": "P3",
+      "provider": "subscription",
+      "repetition": 0
+    }
+  ],
+  "independent_acceptance": "Original P6 oracle plus explicit GC source review; numerical thresholds unchanged",
+  "subscription_measurement_limit": "SDK dispatches verified, provider-internal wire count unavailable",
+  "reasoning": "Requested low on both models; DeepSeek wire enabled/low matches actual zero-model DSH control",
+  "recovery": "Preserve completed rows and started uncertain stages, no automatic model replay",
+  "plan_sha256": "c167450c9e72cb3d4df22a6e76b959b9f3c323bf0e583015403a0c8731aff8ec"
+}

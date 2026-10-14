@@ -161,7 +161,7 @@ def prepare_job(name,backend,role='builder',source=None,view=None,prompt=None,mo
          'role_seconds':min(600,max(1,int(ACTIVE['deadline']-time.monotonic()))),'offline_control':offline}
     if ACTIVE.get('main_phase'):
         job.update(phase='P6_MAIN_LOCAL_20261011',budget=ACTIVE['payload']['budget'],
-                   role_seconds=min(115,max(1,int(ACTIVE['deadline']-time.monotonic()))),
+                   role_seconds=min(ACTIVE.get('generation_seconds',115),max(1,int(ACTIVE['deadline']-time.monotonic()))),
                    public_read_paths=task.get('public_read_paths',[]),gpu_coding=task.get('gpu_coding',False))
     return job,env
 
@@ -169,8 +169,10 @@ def prepare_job(name,backend,role='builder',source=None,view=None,prompt=None,mo
 def launch(job,env):
     root=Path(job['root']);tick=time.perf_counter();broker=None
     if job['backend']=='dsh' and not job.get('offline_control'):
-        broker=Broker(ACTIVE['key'],ScopedLedger(ACTIVE['ledger'],job['scope'],request_cap=ACTIVE['payload']['budget']['per_role_inference_requests'] if ACTIVE.get('main_phase') else 20,cash_cap=None if ACTIVE.get('main_phase') else 1_000_000_000),
-                      job['scope'],min(ACTIVE['deadline'],time.monotonic()+job['role_seconds']))
+        from p6_network_recovery import broker as make_broker
+        broker=make_broker(ACTIVE['key'],ScopedLedger(ACTIVE['ledger'],job['scope'],request_cap=ACTIVE['payload']['budget']['per_role_inference_requests'] if ACTIVE.get('main_phase') else 20,cash_cap=None if ACTIVE.get('main_phase') else 1_000_000_000),
+                      job['scope'],min(ACTIVE['deadline'],time.monotonic()+job['role_seconds']),
+                      ACTIVE['payload']['budget'] if ACTIVE.get('main_phase') else {})
         broker.start();job=dict(job,capability=broker.capability,broker_url=broker.url)
     elif job['backend']=='dsh':job=dict(job,capability='offline-control',broker_url='http://offline.invalid')
     try:
@@ -200,14 +202,24 @@ def launch(job,env):
         if ACTIVE.get('main_phase'):
             worker.update(controller_peak_process_tree=peak,controller_rss_limit_mib=8192,controller_process_limit=64,controller_thread_limit=512,controller_stop_reason=stop_reason)
             if stop_reason:worker['status']='TIMEOUT'
-        if broker:worker['broker_denials']=broker.denials
+        if broker:
+            worker['broker_denials']=broker.denials
+            if hasattr(broker,'network_events'):
+                # Stop outstanding forwards before freezing the outcome and usage.
+                broker.close()
+                worker['network_recovery_events']=list(broker.network_events)
+                broker=None
         if ACTIVE.get('main_phase') and ACTIVE['payload']['manifest'].get('protocol_version',0)>=4:
             from p6_main_contract import classify_role_completion
             terminal=None
             if ACTIVE['payload']['manifest'].get('protocol_version',0)>=5 and job['backend']=='dsh' and worker['status']=='INFRA_FAIL':
                 from p6_trace_evidence import dsh_terminal_reason
                 terminal=dsh_terminal_reason(root)
-            worker=classify_role_completion(worker,terminal)
+            transport=None
+            if ACTIVE['payload']['manifest'].get('protocol_version',0)>=6 and job['backend']=='codex' and worker['status'] in ('TIMEOUT','INFRA_FAIL'):
+                from p6_trace_evidence import codex_routing_failure
+                transport=codex_routing_failure(root)
+            worker=classify_role_completion(worker,terminal,transport)
         exclusive_json(root/'controller-outcome.json',worker)
         return worker
     finally:
@@ -236,15 +248,24 @@ def candidate(name,worker):
         row['committed_patch_sha256']=digest(patch.encode())
         row['patch'],row['source']=program_evidence(work,task['base_commit'])
         changed=fenced_git(work,'diff','--name-only',task['base_commit']).splitlines()
-        protected=[p for p in changed if (p.startswith(('tests/','testing/','test_')) or Path(p).name in {'pyproject.toml','setup.py','requirements.txt','setup.cfg'}) and (Path(task['base'])/p).exists()]
-        protected.extend(p for p in changed if p in task.get('protected_paths',()) and p not in protected)
+        if ACTIVE.get('main_phase'):
+            from p6_gate_policy import protected_changes
+            protected=protected_changes(changed,task['base'],task.get('protected_paths',()))
+        else:
+            protected=[p for p in changed if (p.startswith(('tests/','testing/','test_')) or Path(p).name in {'pyproject.toml','setup.py','requirements.txt','setup.cfg'}) and (Path(task['base'])/p).exists()]
+            protected.extend(p for p in changed if p in task.get('protected_paths',()) and p not in protected)
         test=test_source(work);raw=(Path(test['evidence_root'])/'test.private.log').read_text()
         row['test_report']={k:test[k] for k in ('verdict','exit_code','tests_observed','elapsed_seconds','private_log_sha256')}
         row['test_report']['log']=raw if len(raw.encode())<=400_000 else 'Public raw test output exceeds handoff bound; see isolated trace hash'
         row['verdict']=test['verdict'] if worker['status']=='COMPLETED' else worker['status']
         if protected or row['working_tree'] or row['head_commit']==task['base_commit'] or not patch:row['verdict']='FAIL' if worker['status']=='COMPLETED' else worker['status']
         row.update(protected_paths_modified=protected)
-        if row['verdict']!='PASS':row['known_failures'].append('Visible tests or completion/clean-commit gate did not pass')
+        if row['verdict']!='PASS':
+            if protected:row['known_failures'].append('Immutable existing test/fixture/dependency files modified: '+', '.join(protected))
+            if row['working_tree']:row['known_failures'].append('Worktree is not clean')
+            if row['head_commit']==task['base_commit'] or not patch:row['known_failures'].append('No committed implementation change')
+            if test['verdict']!='PASS':row['known_failures'].append('Independent public tests did not pass')
+            if worker['status']!='COMPLETED':row['known_failures'].append('Role did not complete: '+worker['status'])
         row['hidden_acceptance']=({'verdict':'NOT_RUN','reason':'Main protocol defers private acceptance until public selection is frozen'}
                                   if ACTIVE.get('defer_hidden') else test_source(work,hidden=True))
         bundle=root/'git-tmp/candidate.bundle';fenced_git(work,'bundle','create',str(bundle),'--all')

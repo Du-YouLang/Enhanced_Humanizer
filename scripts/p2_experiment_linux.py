@@ -14,6 +14,8 @@ from p2_candidates import prepare,freeze,finalize,exclusive_json,candidate_env,d
 
 class ScopedLedger:
     def __init__(self,ledger,scope,request_cap=12,cash_cap=500_000_000):self.ledger,self.scope,self.request_cap,self.cash_cap=ledger,scope,request_cap,cash_cap
+    @property
+    def max_output(self):return getattr(self.ledger,'max_output',4096)
     def reserve_request(self,_):return self.ledger.reserve_request(self.scope,scope_requests=self.request_cap,scope_cash_nano=self.cash_cap)
     def settle(self,*args):return self.ledger.settle(*args)
 

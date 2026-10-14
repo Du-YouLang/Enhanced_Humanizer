@@ -38,6 +38,19 @@ class MainContractTests(unittest.TestCase):
         raw['broker_denials']=[{'reason':'Main request/cash cap exhausted'}]
         self.assertEqual(classify_role_completion(raw,proof),raw)
 
+    def test_routing_infrastructure_needs_native_log_proof_and_no_generation(self):
+        raw={'status':'TIMEOUT','error':'workspace routing discovery timed out'}
+        self.assertEqual(classify_role_completion(raw),raw)
+        proof={'kind':'CLI_ROUTING_DISCOVERY_TIMEOUT','generated_response_items':0,'matching_retry_records':3,'source_sha256':'a'*64}
+        classified=classify_role_completion(raw,transport=proof)
+        self.assertEqual(classified['status'],'INFRA_FAIL')
+        self.assertEqual(classified['raw_worker_status'],'TIMEOUT')
+        self.assertEqual(raw['status'],'TIMEOUT')
+        for bad in (proof|{'generated_response_items':1},proof|{'matching_retry_records':0},proof|{'source_sha256':''}):
+            self.assertEqual(classify_role_completion(raw,transport=bad),raw)
+        completed={'status':'COMPLETED'}
+        self.assertEqual(classify_role_completion(completed,transport=proof),completed)
+
     def setup_pools(self):
         original=pool();expanded=copy.deepcopy(original);expanded.pop('pool_hash')
         m=copy.deepcopy(expanded['candidates'][0]);m.update(id='M',head_commit='9'*40)

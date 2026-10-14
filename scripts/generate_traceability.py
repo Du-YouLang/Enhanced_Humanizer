@@ -27,7 +27,7 @@ TESTS = {"P0": "P0-A01..A08", "P1": "P1-A01..A04", "P2": "P2-A01..A04", "P3": "P
 def restore_progress(rows, previous):
     for row in rows:
         old = previous.get(row['id'], {})
-        for key in ('issue', 'tests', 'implementation_status', 'relevant_adrs', 'phase_evidence'):
+        for key in ('issue', 'tests', 'implementation_status', 'relevant_adrs', 'phase_evidence', 'acceptance_records'):
             if key in old:
                 row[key] = old[key]
 

@@ -1,5 +1,4 @@
 """Independent numeric GC grading; candidate imports happen only in the OS fence."""
-import ast
 import hashlib
 import importlib.util
 import json
@@ -9,6 +8,8 @@ import time
 
 from p6_output_data import bounded_json,bounded_npz
 from p6_science_sandbox import execute
+from p6_gc_dependencies import ensure_gc_threadpool
+from p6_gc_source_policy import validate_gc_source,checked_source_review
 
 
 def material(root,name):
@@ -20,17 +21,13 @@ def material(root,name):
     return path
 
 
-def grade(source,root,prefix,*,timeout=180):
+def grade(source,root,prefix,*,timeout=180,source_review=None):
     import numpy as np
     root=Path(root);source=Path(source)
-    tree=ast.parse((source/'gc_cupy.py').read_text())
-    for node in ast.walk(tree):
-        modules=[]
-        if isinstance(node,ast.Import):modules=[n.name.split('.')[0] for n in node.names]
-        elif isinstance(node,ast.ImportFrom):modules=[(node.module or '').split('.')[0]]
-        if {'torch','scipy','subprocess','ctypes'} & set(modules):raise ValueError('Forbidden regression dependency')
-        if isinstance(node,ast.Call) and isinstance(node.func,ast.Attribute) and node.func.attr in ('get','asnumpy','tofile'):
-            raise ValueError('Device-to-host regression route requires source review; refused')
+    text=(source/'gc_cupy.py').read_text()
+    if source_review is None:validate_gc_source(text)
+    else:checked_source_review(text,source_review)
+    threadpool_limits=ensure_gc_threadpool(prefix).threadpool_limits
     manifest=json.loads((root/'judge_private/manifest.json').read_text())
     oracle_path=root/'judge_private/cpu_oracle_frozen.py'
     if hashlib.sha256(oracle_path.read_bytes()).hexdigest()!=manifest['reference_sha256']:
@@ -72,7 +69,6 @@ def grade(source,root,prefix,*,timeout=180):
         # CPU timing uses the trusted oracle only, outside candidate execution.
         data=bounded_npz(performance[0]);kwargs={n:(int(data[n]) if n=='lag' else float(data[n])) for n in ('lag','ridge','eps')}
         cpu=[]
-        from threadpoolctl import threadpool_limits
         with threadpool_limits(limits=1):
             for _ in range(3):
                 tick=time.perf_counter();value=oracle.compute_gc_cpu(data['signals'],data['pairs'],data['windows'],**kwargs)
@@ -85,8 +81,9 @@ def grade(source,root,prefix,*,timeout=180):
         timings={'cpu_single_thread_ms':cpu,**{k:report[k] for k in ('gpu_cuda_event_ms','gpu_resident_wall_ms','gpu_transfer_inclusive_ms')}}
         timings.update(same_machine_resident_speedup=statistics.median(cpu)/statistics.median(timings['gpu_resident_wall_ms']),
                        same_machine_transfer_speedup=statistics.median(cpu)/statistics.median(timings['gpu_transfer_inclusive_ms']))
-        result.update(verdict='PASS_NUMERIC_REVIEW_PENDING',numeric_cases=len(cases)+1,repeat_outputs=10,
+        result.update(verdict='PASS' if source_review else 'PASS_NUMERIC_REVIEW_PENDING',numeric_cases=len(cases)+1,repeat_outputs=10,
                       errors=errors,worker_advisory=report,timings=timings)
+        if source_review:result.update(source_review='INDEPENDENT_SOURCE_REVIEW_PASSED',source_review_evidence=source_review)
     except (ValueError,KeyError,TypeError,OSError) as error:
         result.update(reason=str(error)[:500],error_type=type(error).__name__)
     return result

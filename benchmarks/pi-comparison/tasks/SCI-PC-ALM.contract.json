@@ -1,0 +1,16 @@
+{
+  "task_id": "SCI-PC-ALM",
+  "family": "scientific",
+  "base_commit": "3488eadc9e1d9acd477c5eaf4132e817b4658346",
+  "material_sha256": "4d3f9e708a51077dbf229074a0119f92fb1cdde7d61a6a63f6e8d79a5e008ba4",
+  "preparation_status": "READY",
+  "environment_sha256": "2ea892ca12a4f92e8bf80bc26d4221181a57040b5a0f285930d417209a8a9a18",
+  "private_acceptance_binding": "Use exact main preparation; no private paths or gold values in this view",
+  "public_contract_status": "BIND_EXISTING_PREPARATION_BEFORE_LIVE",
+  "grader_authority": "Existing private P6 evaluator, never passed to Pi",
+  "task_role_seconds": 1200,
+  "per_request_seconds": 120,
+  "max_output_tokens": 256000,
+  "compute_policy": "LOCAL_ONLY_CPU_PROTOCOLS_PRESERVED_GPU_TASKS_SINGLE_LOCAL_GPU",
+  "independent_acceptance": "NOT_RUN"
+}

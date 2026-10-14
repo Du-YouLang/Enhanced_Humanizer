@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "status": "PINNED_INSTALLED_ZERO_PROVIDER_CONTROLS",
+  "guide_sha256": "57cf23e6469a4dcaf03a17c71dd3ab7140874f111901b298e89224faf35031fb",
+  "node": {
+    "version": "24.19.0",
+    "sha256": "14b342e71204f811bde6153be8e04b62aef63c236fef92b55f9c83154b409647",
+    "url": "https://nodejs.org/dist/v24.19.0/node-v24.19.0-linux-x64.tar.xz"
+  },
+  "pi": {
+    "name": "@earendil-works/pi-coding-agent",
+    "version": "1.1.0",
+    "license": "MIT",
+    "dist": {
+      "shasum": "0ebd064bf1342f812f9676dde85b2f0b3e02b7e6",
+      "tarball": "https://registry.npmjs.org/@earendil-works/pi-coding-agent/-/pi-coding-agent-1.1.0.tgz",
+      "fileCount": 1254,
+      "integrity": "sha512-SeEi/4hdcHNgA9UWlefZl7ZZpm3dzi2OoxNjDHsBJ9o298LNOtbL4DGKgitlEj6uCTccvtw6f2hlCkTPVJ2RXg==",
+      "signatures": [
+        {
+          "sig": "MEUCIQCqte7GUgr/3sfyBV+TJzIABHeMLOI5Oj7cfmFeD+HNGQIgI+cWG/Lr8050v+vA00izBD++Rzni4kxZtbZZWLh1rIQ=",
+          "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+        },
+        {
+          "sig": "MEUCIQDbWUenUYEOxJM3aoosgkTZJOOaWqAHljyrghl2pukcIwIgS8pp9Ce4LZMfJYakmRk1y0jMS1AITfRzwak3WeSjUGQ=",
+          "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+        }
+      ],
+      "attestations": {
+        "url": "https://registry.npmjs.org/-/npm/v1/attestations/@earendil-works%2fpi-coding-agent@1.1.0",
+        "provenance": {
+          "predicateType": "https://slsa.dev/provenance/v1"
+        }
+      },
+      "unpackedSize": 22924895
+    },
+    "repository": {
+      "url": "git+https://github.com/earendil-works/pi.git",
+      "type": "git",
+      "directory": "packages/coding-agent"
+    }
+  },
+  "pi_scientific_skills": {
+    "name": "pi-scientific-skills",
+    "version": "1.7.0",
+    "license": "MIT",
+    "dist": {
+      "shasum": "56eec4d0233786105f6ab9e65ac1e2fa970d908b",
+      "tarball": "https://registry.npmjs.org/pi-scientific-skills/-/pi-scientific-skills-1.7.0.tgz",
+      "fileCount": 1902,
+      "integrity": "sha512-qNRmW2L4b/U3l7q/QrssJ/L20qHDRLcNFYlX7j2d2CE3bmodf1S6uKW2f/rvPXaeUVR15A9XiNLLRn+IKX0ZZg==",
+      "signatures": [
+        {
+          "sig": "MEYCIQDo25on+KuKXeBLSCtSfIJGLz0mzfj20jdLUEtEVGH5RgIhAIYiJafaUVtWyFIpwu9gB47V6jMlP5K845hQ0hk1m5LK",
+          "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+        },
+        {
+          "sig": "MEQCIHOkmUPKmNwakRtsukNsG3b0/lyKs824sVKLaK9I5cfZAiBTloi/2rC7Pn0DM+PY0/DzCHdBI+RRsee1eWNuah0IRQ==",
+          "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+        }
+      ],
+      "unpackedSize": 21969401
+    },
+    "repository": {
+      "url": "git+https://github.com/danieldoesbio/pi-scientific-skills.git",
+      "type": "git"
+    }
+  },
+  "pi_research_loop": {
+    "name": "pi-research-loop",
+    "version": "0.6.3",
+    "license": "MIT",
+    "dist": {
+      "shasum": "21ac0ac3a020e929adf9801308207f7e79762506",
+      "tarball": "https://registry.npmjs.org/pi-research-loop/-/pi-research-loop-0.6.3.tgz",
+      "fileCount": 29,
+      "integrity": "sha512-i064JOVkyLcYN0SK5+TYb/UjzhScUTehcQustSr7G8kIZg947mhgOhSbQV5vUCkGPIstDUt5qBygVwgs9AhveA==",
+      "signatures": [
+        {
+          "sig": "MEUCIEilFomZ1Z/yOPnf7XRFSYZxF77H+JK7lAugTbg+BKENAiEAzWBM/gyEcPOr4QSh5iErYxFvImjStO3faBqi6yGm/Z8=",
+          "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+        }
+      ],
+      "unpackedSize": 409444
+    },
+    "repository": {
+      "url": "git+https://github.com/kuan-er/pi-research-loop.git",
+      "type": "git"
+    }
+  },
+  "neuroforge_skills": {
+    "commit": "8f589b47f1c95ae3c736f2dfd12d9f42a8bc7be4",
+    "url": "https://github.com/HughYau/neuroforge-skills",
+    "observed_commit_time": "2026-02-24T23:10:43Z",
+    "archive_sha256": "a52d6e6b5dd844b965113da98a581048b8dda58712f08b8d50c5765cfa7318f7",
+    "source": "upstream GitHub fixed commit archive",
+    "lifecycle_scripts": false
+  },
+  "runtime_npm_lock_sha256": "80b9e4c54e300b1d015547bd8f6dcc3a466183ca483ac9e764b42abde5b89eda",
+  "actual_resource_control_receipt_sha256": "8ce86facd0c27027e13a911e34d833920cc8d7dbf353e176e2fb8548cf912420",
+  "lifecycle_scripts_executed": false,
+  "model_calls_for_preparation": 0
+}

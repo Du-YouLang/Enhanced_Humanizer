@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import threading
+import time
 
 CONTEXT_TOKENS = 1_048_576
 MAX_OUTPUT = 4096
@@ -15,8 +16,38 @@ OUTPUT_NANO = 1200
 REQUEST_RESERVE = CONTEXT_TOKENS * INPUT_NANO + MAX_OUTPUT * OUTPUT_NANO
 
 
+def replace_ledger(temporary,destination):
+    """Bounded Windows sharing retry; never rerun the reservation transaction."""
+    for attempt in range(6):
+        try:
+            os.replace(temporary,destination)
+            return
+        except PermissionError as error:
+            if os.name!='nt' or getattr(error,'winerror',None) not in (5,32,33) or attempt==5:raise
+            time.sleep(.02*(attempt+1))
+
+
 class BudgetDenied(RuntimeError):
     pass
+
+
+@contextmanager
+def process_lock(path):
+    """Serialize reservations across processes on both supported platforms."""
+    with Path(path).open('a+b') as handle:
+        if os.name=='posix':
+            import fcntl
+            fcntl.flock(handle,fcntl.LOCK_EX)
+        elif os.name=='nt':
+            import msvcrt
+            # Windows permits locking beyond EOF. Writing an initialization
+            # byte here races a second process that already holds this region.
+            handle.seek(0);msvcrt.locking(handle.fileno(),msvcrt.LK_LOCK,1)
+        else:raise BudgetDenied('No supported interprocess ledger lock')
+        try:yield
+        finally:
+            if os.name=='nt':
+                handle.seek(0);msvcrt.locking(handle.fileno(),msvcrt.LK_UNLCK,1)
 
 
 class Ledger:
@@ -35,10 +66,7 @@ class Ledger:
     def transaction(self):
         self.path.parent.mkdir(parents=True,exist_ok=True)
         with self.lock:
-            with self.path.with_suffix('.lock').open('a+b') as lock:
-                if os.name=='posix':
-                    import fcntl
-                    fcntl.flock(lock,fcntl.LOCK_EX)
+            with process_lock(self.path.with_suffix('.lock')):
                 value=json.loads(self.path.read_text()) if self.path.exists() else {
                     'schema_version':1,'phase':self.phase,'requests':[],'codex_turns':[],'cash_bound_nano':0}
                 if value.get('phase')!=self.phase or not isinstance(value.get('requests'),list) or not isinstance(value.get('codex_turns'),list):
@@ -50,7 +78,7 @@ class Ledger:
                 temporary=self.path.with_suffix('.tmp')
                 with temporary.open('w') as handle:
                     handle.write(json.dumps(value,indent=2)+'\n');handle.flush();os.fsync(handle.fileno())
-                os.replace(temporary,self.path)
+                replace_ledger(temporary,self.path)
 
     def reserve_request(self, experiment, *, scope_requests=None, scope_cash_nano=None):
         with self.transaction() as value:
