@@ -19,7 +19,7 @@ from workbench.benchmark import freeze_manifest,digest,check_manifest
 
 FOLDER='/opt/workbench/recovery/black5-continuation-v1'
 NAMES=('p6_checkpoint_recovery.py','resume_p6_pool_linux.py')
-MANIFEST=ROOT/'configs/benchmark-p6-black5-continuation-v1.json'
+MANIFEST=ROOT/'configs/benchmark-p6-black5-continuation-v2.json'
 ORIGINAL='p6-main-execute-BIP-black-5-20261012T151835Z'
 
 
@@ -29,6 +29,12 @@ def call(code, data=None, timeout=60):
     if r.returncode:
         raise RuntimeError('Native continuation operation failed: '+r.stderr.decode(errors='replace')[-1800:])
     return json.loads(r.stdout)
+
+
+def load_frozen(path):
+    body=json.loads(Path(path).read_bytes())
+    check_manifest(body)
+    return body
 
 
 def main():
@@ -76,7 +82,7 @@ print(json.dumps({'source_sha256':{**current['source_sha256'],**{name:sha(name) 
         value=freeze_manifest(body,MANIFEST)
         print(json.dumps({'status':'FROZEN_NO_MODELS','manifest_sha256':value['manifest_sha256'],'bounds':meta['continuation_limits']}))
         return 0
-    body=check_manifest(json.loads(MANIFEST.read_bytes()))
+    body=load_frozen(MANIFEST)
     if (body['runner_source_sha256']!=meta['source_sha256'] or body['entrypoint_sha256']!=entry_sha
             or body['budget_authorization_sha256']!=budget_sha
             or body['continuation']['original_inventory_sha256']!=meta['original_inventory_sha256']

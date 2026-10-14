@@ -42,5 +42,10 @@ class RecoveryTests(unittest.TestCase):
             with self.assertRaises(InterruptedError):s.run('interrupted',interrupted)
             with self.assertRaises(FileExistsError):s.run('interrupted',lambda:self.fail('replayed'))
 
+    def test_native_payload_retains_the_frozen_manifest_hash(self):
+        from resume_p6_pool import load_frozen
+        p=Path(__file__).resolve().parents[1]/'configs/benchmark-p6-v12-cash200.json'
+        self.assertEqual(load_frozen(p),json.loads(p.read_bytes()))
+
 
 if __name__=='__main__':unittest.main()
