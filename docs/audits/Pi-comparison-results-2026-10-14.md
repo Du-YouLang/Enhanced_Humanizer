@@ -1,5 +1,7 @@
 # Pi 16格对照阶段结果
 
+后续源码核验补充：原16格表保留，不覆盖以下历史INDETERMINATE。新回执0ec0442f对GRANGER源码给出7个冻结范围PASS和1个源码FAIL：DS/P0/P2异常传播疑虑排除，DS/P3同步缺陷确认；额外小ridge压力精度失败另列，不能据冻结测试PASS声称一般鲁棒性。[P6完整分析](P6-analysis-2026-10-14.md)汇总原成绩、补充裁决及限制；本次API0/整题重放0。
+
 本轮是两个预选任务、四个profile、两条模型通道、每格一次的便利样本。16格已收束；Black-2原7项PASS和1项过载基础设施失败，后者经独立检查点恢复通过；GRANGER原8项数值通过，补充源码复核目前5 PASS、3 INDETERMINATE。不能据此宣布某个扩展/Harness整体优胜，或代替原Humanize/DSH/Codex的A–F对照。
 
 P0为原生Pi，P1为Scientific Skills，P2为NeuroForge，P3为Research Loop。使用固定官方Pi1.1.0 SDK；DeepSeek为官方API，另一通道为独立ChatGPT订阅授权。订阅SDK调用数可见，服务商内部wire数及现金成本不可见。
