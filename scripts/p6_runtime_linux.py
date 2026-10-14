@@ -169,7 +169,7 @@ def prepare_job(name,backend,role='builder',source=None,view=None,prompt=None,mo
 def launch(job,env):
     root=Path(job['root']);tick=time.perf_counter();broker=None
     if job['backend']=='dsh' and not job.get('offline_control'):
-        broker=Broker(ACTIVE['key'],ScopedLedger(ACTIVE['ledger'],job['scope'],request_cap=20,cash_cap=None if ACTIVE.get('main_phase') else 1_000_000_000),
+        broker=Broker(ACTIVE['key'],ScopedLedger(ACTIVE['ledger'],job['scope'],request_cap=ACTIVE['payload']['budget']['per_role_inference_requests'] if ACTIVE.get('main_phase') else 20,cash_cap=None if ACTIVE.get('main_phase') else 1_000_000_000),
                       job['scope'],min(ACTIVE['deadline'],time.monotonic()+job['role_seconds']))
         broker.start();job=dict(job,capability=broker.capability,broker_url=broker.url)
     elif job['backend']=='dsh':job=dict(job,capability='offline-control',broker_url='http://offline.invalid')
@@ -203,7 +203,11 @@ def launch(job,env):
         if broker:worker['broker_denials']=broker.denials
         if ACTIVE.get('main_phase') and ACTIVE['payload']['manifest'].get('protocol_version',0)>=4:
             from p6_main_contract import classify_role_completion
-            worker=classify_role_completion(worker)
+            terminal=None
+            if ACTIVE['payload']['manifest'].get('protocol_version',0)>=5 and job['backend']=='dsh' and worker['status']=='INFRA_FAIL':
+                from p6_trace_evidence import dsh_terminal_reason
+                terminal=dsh_terminal_reason(root)
+            worker=classify_role_completion(worker,terminal)
         exclusive_json(root/'controller-outcome.json',worker)
         return worker
     finally:

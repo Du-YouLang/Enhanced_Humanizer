@@ -9,6 +9,22 @@ from pathlib import Path
 import re
 
 
+def dsh_terminal_reason(root):
+    """Structured terminal proof; never infer a model limit from error text."""
+    files=sorted(Path(root).glob('humanize/epics/*/*/sessions/dsh/sessions/*/*/session.v3.jsonl'))
+    reasons=[]
+    for file in files:
+        if file.is_symlink() or file.stat().st_size>20_000_000:raise ValueError('Invalid native terminal trace')
+        raw=file.read_bytes()
+        for line in raw.decode('utf-8').splitlines():
+            row=json.loads(line)
+            if row.get('type')=='turn/end':
+                reason=row.get('data',{}).get('reason',{})
+                reasons.append({'kind':reason.get('kind'),'source_sha256':hashlib.sha256(raw).hexdigest(),
+                                'turn':row.get('data',{}).get('turn'),'seq':row.get('seq')})
+    return reasons[-1] if reasons else None
+
+
 def redact(value):
     """Also remove local broker capabilities if a tool prints its environment."""
     count=0

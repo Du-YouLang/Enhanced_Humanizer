@@ -7,6 +7,7 @@ from contextlib import contextmanager
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
 import threading
 
@@ -32,6 +33,10 @@ def authorization(config):
         'external_product_release_authorized': False,
         'requires_frozen_task_controls_before_models': True,
     }
+    if value.get('authorization_status')=='APPROVED_BY_USER_2026-10-12':
+        required.update(authorization_status='APPROVED_BY_USER_2026-10-12',
+                        aggregate_limit_policy='USER_FINITE_CEILING',api_cash_usd=100,
+                        deepseek_inference_requests=10000,per_role_inference_requests=100)
     if not value.get('authorization_reference') or any(
         key not in value or type(value[key]) is not type(expected) or value[key] != expected
         for key, expected in required.items()
@@ -45,14 +50,19 @@ class MainLedger(Ledger):
         self.config, self.authorization_sha256 = authorization(config)
         self.path = Path(path)
         self.phase = PHASE
-        self.requests = self.codex_turns = self.cash_nano = None
+        self.requests=self.config['deepseek_inference_requests']
+        self.cash_nano=None if self.config['api_cash_usd'] is None else self.config['api_cash_usd']*1_000_000_000
+        self.codex_turns=None
+        self.role_requests=self.config['per_role_inference_requests']
         self.lock = threading.Lock()
 
+    def caps(self):return {'requests':self.requests,'codex_turns':self.codex_turns,'cash_nano':self.cash_nano}
+
     def validate(self, value):
-        if value.get('authorization_sha256') != self.authorization_sha256 or value.get('aggregate_caps') != {
-            'requests': None, 'codex_turns': None, 'cash_nano': None,
-        }:
+        if value.get('authorization_sha256') != self.authorization_sha256 or value.get('aggregate_caps') != self.caps():
             raise BudgetDenied('Ledger is bound to a different authorization')
+        if (self.requests is not None and len(value['requests'])>self.requests) or (self.cash_nano is not None and value['cash_bound_nano']>self.cash_nano):
+            raise BudgetDenied('Corrupt aggregate cap')
         for index, row in enumerate(value['requests'], 1):
             if (type(row.get('index')) is not int or row.get('index') != index or type(row.get('charge_bound_nano')) is not int
                     or not 0 <= row['charge_bound_nano'] <= REQUEST_RESERVE
@@ -72,7 +82,7 @@ class MainLedger(Ledger):
         for row in value['codex_turns']:
             if row.get('model') != 'gpt-6.1-sol' or not isinstance(row.get('experiment'), str) or not row['experiment']:
                 raise BudgetDenied('Corrupt subscription reservation')
-        for rows, cap in ((value['requests'], 20), (value['codex_turns'], 1)):
+        for rows, cap in ((value['requests'], self.role_requests), (value['codex_turns'], 1)):
             counts = {}
             for row in rows:
                 counts[row['experiment']] = counts.get(row['experiment'], 0) + 1
@@ -84,10 +94,39 @@ class MainLedger(Ledger):
         with super().transaction() as value:
             if not self.path.exists():
                 value.update(authorization_sha256=self.authorization_sha256,
-                             aggregate_caps={'requests': None, 'codex_turns': None, 'cash_nano': None})
+                             aggregate_caps=self.caps())
             self.validate(value)
             yield value
             self.validate(value)
+
+    def amend_authorization(self,previous_config,archive):
+        """Explicit human amendment, under the same lock; no request is reset.
+
+        The old exact bytes are archived before atomic replacement. A different
+        fingerprint still cannot be silently rebound by ordinary execution.
+        """
+        previous=MainLedger(self.path,previous_config)
+        if self.config['authorization_status']!='APPROVED_BY_USER_2026-10-12' or previous.config['authorization_status']!='APPROVED_BY_USER_2026-10-11':
+            raise BudgetDenied('Only the explicit recorded finite-ceiling amendment is supported')
+        if not self.path.exists():raise BudgetDenied('No existing ledger to amend')
+        archive=Path(archive)
+        with Ledger.transaction(self) as value:
+            previous.validate(value)
+            before=self.path.read_bytes();snapshot=hashlib.sha256(before).hexdigest()
+            retained=json.dumps({k:value[k] for k in ('requests','codex_turns','cash_bound_nano')},sort_keys=True)
+            value.setdefault('authorization_history',[]).append({'previous_authorization_sha256':previous.authorization_sha256,
+                'previous_aggregate_caps':previous.caps(),'before_ledger_sha256':snapshot,
+                'amended_at':datetime.now(timezone.utc).isoformat(),'requests_retained':len(value['requests']),
+                'cash_bound_nano_retained':value['cash_bound_nano']})
+            value.update(authorization_sha256=self.authorization_sha256,aggregate_caps=self.caps())
+            self.validate(value)
+            if json.dumps({k:value[k] for k in ('requests','codex_turns','cash_bound_nano')},sort_keys=True)!=retained:
+                raise BudgetDenied('Amendment must preserve every request and reservation')
+            archive.parent.mkdir(parents=True,exist_ok=True)
+            with archive.open('xb') as file:file.write(before);file.flush();os.fsync(file.fileno())
+        return {'status':'AMENDED_WITHOUT_RESET','before_ledger_sha256':snapshot,
+                'authorization_sha256':self.authorization_sha256,'requests_retained':len(value['requests']),
+                'cash_bound_nano_retained':value['cash_bound_nano'],'aggregate_caps':self.caps()}
 
     @staticmethod
     def scope(experiment):
@@ -96,10 +135,12 @@ class MainLedger(Ledger):
 
     def reserve_request(self, experiment, *, scope_requests=None, scope_cash_nano=None):
         self.scope(experiment)
-        cap = 20 if scope_requests is None else min(20, scope_requests)
+        cap = self.role_requests if scope_requests is None else min(self.role_requests, scope_requests)
         if type(cap) is not int or cap <= 0:
             raise BudgetDenied('Invalid role request cap')
         with self.transaction() as value:
+            if (self.requests is not None and len(value['requests'])>=self.requests) or (self.cash_nano is not None and value['cash_bound_nano']+REQUEST_RESERVE>self.cash_nano):
+                raise BudgetDenied('Main request/cash cap exhausted')
             scoped = [r for r in value['requests'] if r['experiment'] == experiment]
             if len(scoped) >= cap:
                 raise BudgetDenied('Role request cap exhausted')
