@@ -650,7 +650,8 @@
       "tests": [
         "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
         "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
       "relevant_adrs": [
@@ -666,7 +667,8 @@
         "ADR-0021",
         "ADR-0022",
         "ADR-0023",
-        "ADR-0036"
+        "ADR-0036",
+        "ADR-0037"
       ],
       "source_line": 81,
       "phase_evidence": {
@@ -675,7 +677,8 @@
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending.",
-        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub."
+        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub.",
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
@@ -1826,7 +1829,8 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -1842,14 +1846,16 @@
         "ADR-0021",
         "ADR-0022",
         "ADR-0023",
-        "ADR-0036"
+        "ADR-0036",
+        "ADR-0037"
       ],
       "source_line": 167,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending.",
-        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub."
+        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub.",
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
@@ -1870,7 +1876,8 @@
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
         "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
-        "2026-10-14 GRANGER same-pool full-trace sensitivity accepted independently; candidate/numeric replays zero; full P6 pending."
+        "2026-10-14 GRANGER same-pool full-trace sensitivity accepted independently; candidate/numeric replays zero; full P6 pending.",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -1888,7 +1895,8 @@
         "ADR-0023",
         "ADR-0031",
         "ADR-0032",
-        "ADR-0036"
+        "ADR-0036",
+        "ADR-0037"
       ],
       "source_line": 169,
       "phase_evidence": {
@@ -1896,7 +1904,8 @@
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending.",
         "P6_GRANGER_2026_10_13": "Eight frozen candidate numeric/source checks and A-F6 PASS; original failures/intermediate receipts retained, exact supplemental acceptance, no whole-task replay or budget change. Original wall times unavailable. docs/audits/GRANGER-acceptance-2026-10-13.md; full P6 remains unaccepted.",
-        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub."
+        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub.",
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
@@ -1917,7 +1926,8 @@
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
         "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
-        "2026-10-14 trace contract/source59/manifest match original; operational observer version separated from frozen experiment code."
+        "2026-10-14 trace contract/source59/manifest match original; operational observer version separated from frozen experiment code.",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -1935,7 +1945,8 @@
         "ADR-0023",
         "ADR-0031",
         "ADR-0032",
-        "ADR-0036"
+        "ADR-0036",
+        "ADR-0037"
       ],
       "source_line": 171,
       "phase_evidence": {
@@ -1943,7 +1954,8 @@
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending.",
         "P6_GRANGER_2026_10_13": "Eight frozen candidate numeric/source checks and A-F6 PASS; original failures/intermediate receipts retained, exact supplemental acceptance, no whole-task replay or budget change. Original wall times unavailable. docs/audits/GRANGER-acceptance-2026-10-13.md; full P6 remains unaccepted.",
-        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub."
+        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub.",
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
@@ -1964,7 +1976,8 @@
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
         "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
-        "tests/test_p6_final_analysis.py (offline report integrity/unknowns/ledger/explicit supplement guards)"
+        "tests/test_p6_final_analysis.py (offline report integrity/unknowns/ledger/explicit supplement guards)",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -1978,14 +1991,16 @@
         "ADR-0021",
         "ADR-0022",
         "ADR-0023",
-        "ADR-0036"
+        "ADR-0036",
+        "ADR-0037"
       ],
       "source_line": 173,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending.",
-        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub."
+        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub.",
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
@@ -2006,7 +2021,8 @@
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
         "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
-        "tests/test_p6_final_analysis.py (offline report integrity/unknowns/ledger/explicit supplement guards)"
+        "tests/test_p6_final_analysis.py (offline report integrity/unknowns/ledger/explicit supplement guards)",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -2020,14 +2036,16 @@
         "ADR-0021",
         "ADR-0022",
         "ADR-0023",
-        "ADR-0036"
+        "ADR-0036",
+        "ADR-0037"
       ],
       "source_line": 175,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending.",
-        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub."
+        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub.",
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
@@ -2048,7 +2066,8 @@
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
         "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
-        "2026-10-14 GRANGER trace: 335.299s, 10 DS requests/2 subscription turns, USD0.4504548 API bound; visible usage recorded; actual cash unavailable."
+        "2026-10-14 GRANGER trace: 335.299s, 10 DS requests/2 subscription turns, USD0.4504548 API bound; visible usage recorded; actual cash unavailable.",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -2064,7 +2083,8 @@
         "ADR-0023",
         "ADR-0031",
         "ADR-0032",
-        "ADR-0036"
+        "ADR-0036",
+        "ADR-0037"
       ],
       "source_line": 177,
       "phase_evidence": {
@@ -2072,7 +2092,8 @@
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending.",
         "P6_GRANGER_2026_10_13": "Eight frozen candidate numeric/source checks and A-F6 PASS; original failures/intermediate receipts retained, exact supplemental acceptance, no whole-task replay or budget change. Original wall times unavailable. docs/audits/GRANGER-acceptance-2026-10-13.md; full P6 remains unaccepted.",
-        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub."
+        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub.",
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
@@ -2093,7 +2114,8 @@
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
         "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
-        "tests/test_p6_final_analysis.py (offline report integrity/unknowns/ledger/explicit supplement guards)"
+        "tests/test_p6_final_analysis.py (offline report integrity/unknowns/ledger/explicit supplement guards)",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -2107,14 +2129,16 @@
         "ADR-0021",
         "ADR-0022",
         "ADR-0023",
-        "ADR-0036"
+        "ADR-0036",
+        "ADR-0037"
       ],
       "source_line": 179,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending.",
-        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub."
+        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub.",
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
@@ -2135,7 +2159,8 @@
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
         "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
-        "2026-10-14 original GRANGER numerical acceptance preserved; supplementary trace scoring does not replace or relax the scientific oracle."
+        "2026-10-14 original GRANGER numerical acceptance preserved; supplementary trace scoring does not replace or relax the scientific oracle.",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -2153,7 +2178,8 @@
         "ADR-0023",
         "ADR-0031",
         "ADR-0032",
-        "ADR-0036"
+        "ADR-0036",
+        "ADR-0037"
       ],
       "source_line": 181,
       "phase_evidence": {
@@ -2161,7 +2187,8 @@
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending.",
         "P6_GRANGER_2026_10_13": "Eight frozen candidate numeric/source checks and A-F6 PASS; original failures/intermediate receipts retained, exact supplemental acceptance, no whole-task replay or budget change. Original wall times unavailable. docs/audits/GRANGER-acceptance-2026-10-13.md; full P6 remains unaccepted.",
-        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub."
+        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub.",
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
@@ -2183,7 +2210,8 @@
       "tests": [
         "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
         "ADR-0032: exact post-reboot owner supplement corrects historical false EXIT_WITHOUT_RECEIPT; original monitor/protocol/failure receipts preserved.",
-        "tests/test_p6_final_analysis.py (offline report integrity/unknowns/ledger/explicit supplement guards)"
+        "tests/test_p6_final_analysis.py (offline report integrity/unknowns/ledger/explicit supplement guards)",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -2201,7 +2229,8 @@
         "ADR-0023",
         "ADR-0031",
         "ADR-0032",
-        "ADR-0036"
+        "ADR-0036",
+        "ADR-0037"
       ],
       "source_line": 183,
       "phase_evidence": {
@@ -2209,7 +2238,8 @@
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
         "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending.",
         "P6_GRANGER_2026_10_13": "Eight frozen candidate numeric/source checks and A-F6 PASS; original failures/intermediate receipts retained, exact supplemental acceptance, no whole-task replay or budget change. Original wall times unavailable. docs/audits/GRANGER-acceptance-2026-10-13.md; full P6 remains unaccepted.",
-        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub."
+        "P6_ANALYSIS_2026_10_14": "96 frozen A-F cells and 16 same-pool trace sensitivities analyzed; original 53PASS/38FAIL/5INDETERMINATE preserved, existing GC supplement yields59PASS/37FAIL. Token/cache/API-bound/subscription and unavailable timing/human measures separated. Judge/Merge and Pi source closure0ec0442f documented; EGL/PC evaluator/contracts, stress failures and fairness gaps prevent full scientific acceptance. docs/audits/P6-analysis-2026-10-14.md; ADR-0036. No new API/whole-task replay/GitHub.",
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
@@ -2229,7 +2259,8 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -2244,13 +2275,15 @@
         "ADR-0020",
         "ADR-0021",
         "ADR-0022",
-        "ADR-0023"
+        "ADR-0023",
+        "ADR-0037"
       ],
       "source_line": 185,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md Latest 2026-10-11: all 12 public gold/buggy controls validated; science interfaces/reference controls prepared, PC full local calibration pending; owner v1.1 reviewed and artifact checks added. Full main models and trace sensitivity NOT_RUN. docs/audits/P6-local-main-preparation-2026-10-11.md; docs/audits/PC-ALM-v1.1-review-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
-        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending.",
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
@@ -2270,7 +2303,8 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -2283,13 +2317,15 @@
         "ADR-0020",
         "ADR-0021",
         "ADR-0022",
-        "ADR-0023"
+        "ADR-0023",
+        "ADR-0037"
       ],
       "source_line": 187,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
-        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending.",
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",
@@ -2309,14 +2345,19 @@
       ],
       "issue": "PLANNED:FUTURE",
       "tests": [
-        "后续立项 (计划；不能视为已通过)"
+        "后续立项 (计划；不能视为已通过)",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "DEFERRED_FUTURE",
       "relevant_adrs": [
         "ADR-0001",
-        "ADR-0002"
+        "ADR-0002",
+        "ADR-0037"
       ],
-      "source_line": 189
+      "source_line": 189,
+      "phase_evidence": {
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
+      }
     },
     {
       "id": "OP-01",
@@ -2652,7 +2693,8 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/15",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "tests/test_science_contracts.py + test_pi_gc_sync_repair.py; native9 and fenced CLI7; original artifacts retained"
       ],
       "implementation_status": "PLANNED_STUDY_OR_OPTION",
       "relevant_adrs": [
@@ -2665,13 +2707,15 @@
         "ADR-0020",
         "ADR-0021",
         "ADR-0022",
-        "ADR-0023"
+        "ADR-0023",
+        "ADR-0037"
       ],
       "source_line": 213,
       "phase_evidence": {
         "P6": "Two frozen public smoke tasks A-F completed (7/12 PASS), separate real J0/J1/J3 complete worktree-evidence audit; operational limits/recovery/early source omissions prevent full P6 acceptance. Main matrix and full-tool-trace sensitivity NOT_RUN, four science slots deferred by user. docs/audits/P6-smoke-2026-10-11.md",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending.",
-        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending."
+        "P6_MAIN_2026_10_12": "16 frozen tasks / 96 arms prepared, public and scientific positive/negative controls plus PC local calibration passed. Actual main partial attempts preserved separately; completed matrix, trace sensitivity, detailed latency coverage and substantive scientific candidate review remain pending.",
+        "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
       },
       "acceptance_records": {
         "P6_MAIN_2026_10_12": "PC local calibration PASS (75 reference/60 repeats), uniform main runtime and 12 public zero-model controls PASS; full real-model main and trace sensitivity not yet run. ADR-0018; docs/audits/P6-main-preparation-2026-10-12.md. Latest user authorization supersedes historical deferrals.",

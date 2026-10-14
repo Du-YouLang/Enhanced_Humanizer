@@ -28,7 +28,13 @@ def main():
     def counted(*args,**kwargs):calls[0]+=1;return original(*args,**kwargs)
     optimizer.eg_step=counted
     sys.argv=[str(source/'candidate.py'),'--out',str(output/'result')]
-    runpy.run_path(str(source/'candidate.py'),run_name='__main__')
+    try:
+        runpy.run_path(str(source/'candidate.py'),run_name='__main__')
+    except SystemExit as error:
+        # A normal CLI exit must not skip the trusted usage guard. Other
+        # exits and exceptions still fail; no telemetry is inferred later.
+        if error.code is not None and not (isinstance(error.code,int) and error.code==0):
+            raise
     if calls[0]<5400:raise ValueError('The submitted EG interface was not used for all nine 600-update training runs')
     (output/'optimizer_usage.json').write_text(json.dumps({'training_eg_step_calls':calls[0],'probe_cases':len(probes)}))
 

@@ -12,6 +12,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'src'))
 from workbench.science import claim_checks,grid_summary
 from p6_output_data import bounded_json
 from p6_pc_statistics import DEEP_NARROW,read_rows
+from p6_science_contracts import pc_manifest
 
 
 def regular(root,relative):
@@ -75,7 +76,7 @@ def validate_grid(folder,eta,*,widths=(8,16,32,64,128),depths=(8,16,32,64,128),s
     return stats
 
 
-def validate_bundle(root,eta,thresholds):
+def validate_bundle(root,eta,thresholds,*,source=None):
     root=Path(root)
     stats=validate_grid(root/'grid',eta)
     smoke=bounded_json(regular(root,'smoke/summary.json'))
@@ -94,10 +95,13 @@ def validate_bundle(root,eta,thresholds):
         if abs(row['final_test_acc']-accuracy)>.01 or abs(row['grad_cos_to_bp']-cosine)>.05:
             raise ValueError('Public anchor tolerance exceeded')
     manifest=bounded_json(regular(root,'run_manifest.json'))
-    for name in ('git_commit','python','packages','gpu','driver','data_sha256','gate_elapsed_seconds'):
+    if source is not None:
+        manifest=pc_manifest(manifest,source)
+    for name in (('git_commit','python','packages','gpu','driver','data_sha256','gate_elapsed_seconds') if source is None else
+                 ('python','packages','data_sha256','gate_elapsed_seconds','source_provenance')):
         if not manifest.get(name):raise ValueError('Run manifest incomplete: '+name)
-    commit=manifest['git_commit']
-    if not isinstance(commit,str) or len(commit)!=40 or any(c not in '0123456789abcdef' for c in commit):
+    commit=manifest.get('git_commit')
+    if source is None and (not isinstance(commit,str) or len(commit)!=40 or any(c not in '0123456789abcdef' for c in commit)):
         raise ValueError('Exact source commit required')
     for name in ('smoke','anchor','grid'):
         elapsed=manifest['gate_elapsed_seconds'].get(name)
@@ -105,5 +109,5 @@ def validate_bundle(root,eta,thresholds):
             raise ValueError('Positive measured time for every gate required')
     return {'implementation_gate':'ARTIFACTS_AND_PUBLIC_ANCHOR_PASS_REPLAY_PENDING',
             'independent_replay':'REQUIRED_SAME_ENVIRONMENT_TWO_COMMIT_SELECTED_CELLS',
-            'source_and_manifest_attestation':'REVIEW_REQUIRED',
+            'source_and_manifest_attestation':'REVIEW_REQUIRED','manifest_checked':manifest,
             'science_gate':claim_checks(stats,thresholds),'statistics':stats}

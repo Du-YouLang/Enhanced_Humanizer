@@ -10,14 +10,16 @@ import time
 
 from p6_output_data import bounded_json,bounded_npy,bounded_npz
 from p6_science_sandbox import execute
+from p6_science_contracts import alias,egl_manifest,egl_summary
 
 
-def grade(source,reference,prefix,*,timeout=1800):
+def grade(source,reference,prefix,*,timeout=1800,retained_execution=None,retained_replay=None,reviewed_manifest_units=None):
     import numpy as np
     from p6_prepare_linux import BASE
     if type(timeout) is not int or not 30<=timeout<=1800:raise ValueError('Finite total EGL evaluation deadline required')
     started=time.perf_counter()
     source,reference,prefix=map(Path,(source,reference,prefix))
+    if reviewed_manifest_units and retained_execution is None:raise ValueError('Legacy unit review is only for retained historical artifacts')
     rng=np.random.default_rng(20261011);probes=[];data={};expected={}
     for dtype in (np.float32,np.float64):
         for index in range(25):
@@ -26,22 +28,28 @@ def grade(source,reference,prefix,*,timeout=1800):
             data['w'+str(number)]=weight;data['g'+str(number)]=gradient;probes.append({'lr':lr})
             expected['p'+str(number)]=weight*np.exp(-lr*np.sign(weight)*gradient)
     stream=io.BytesIO();np.savez(stream,**data)
-    execution=execute(source,prefix,Path(__file__).with_name('p6_egl_worker.py').read_text(),
+    execution=retained_execution if retained_execution is not None else execute(source,prefix,Path(__file__).with_name('p6_egl_worker.py').read_text(),
                       inputs={'probes.json':json.dumps(probes).encode(),'probes.npz':stream.getvalue()},
                       timeout=timeout-min(180,timeout//5)-5,gpu=False,rss_limit_mib=10240,cpu_threads=8)
     result={'verdict':'FAIL','execution':execution,'model_requests':0,
             'source_and_figure_review':'REQUIRED; numerical output alone cannot prove algorithm use or plotted data'}
     if execution['status']!='COMPLETED_UNGRADED':return result
     folder=Path(execution['output']);out=folder/'result';weights={};metrics={};rows=[]
+    result['retained_artifacts_only']=retained_execution is not None
+    missing_usage=not (folder/'optimizer_usage.json').is_file()
     try:
         actual=bounded_npz(folder/'optimizer_actual.npz',expected_keys=expected)
         for name,value in expected.items():
             limit=2e-6 if value.dtype==np.float32 else 1e-12
             if actual[name].dtype!=value.dtype or actual[name].shape!=value.shape or not np.allclose(actual[name],value,rtol=limit,atol=limit):
                 raise ValueError('Signed/zero optimizer probe failed')
-        usage=bounded_json(folder/'optimizer_usage.json')
-        if usage['probe_cases']!=50 or type(usage['training_eg_step_calls']) is not int or usage['training_eg_step_calls']<5400:
-            raise ValueError('Submitted optimizer was not used in the full training protocol')
+        result['training_usage']='unavailable' if missing_usage else bounded_json(folder/'optimizer_usage.json')
+        if missing_usage and retained_execution is None:raise ValueError('Training optimizer telemetry missing')
+        if not missing_usage:
+            usage=result['training_usage']
+            if usage['probe_cases']!=50 or type(usage['training_eg_step_calls']) is not int or usage['training_eg_step_calls']<5400:
+                raise ValueError('Submitted optimizer was not used in the full training protocol')
+        result['check_stage']='curves_and_weights'
         for n in (200,2000,20000):
             for seed in (1,2,3):
                 for alg in ('eg','gd'):
@@ -70,9 +78,10 @@ def grade(source,reference,prefix,*,timeout=1800):
         empty=BASE/'science/private/trusted-egl-replay-empty';empty.mkdir(exist_ok=True)
         remaining=int(timeout-(time.perf_counter()-started))-5
         if remaining<1:raise ValueError('Total EGL evaluation deadline reached before independent replay')
-        replay=execute(empty,prefix,Path(__file__).with_name('p6_egl_replay.py').read_text(),inputs=weights,
+        replay=retained_replay if retained_replay is not None else execute(empty,prefix,Path(__file__).with_name('p6_egl_replay.py').read_text(),inputs=weights,
                        timeout=min(180,remaining),gpu=False,rss_limit_mib=10240,cpu_threads=8)
         result['independent_weight_replay']=replay
+        result['reused_weight_replay']=retained_replay is not None
         if replay['status']!='COMPLETED_UNGRADED':raise ValueError('Independent weight replay could not complete')
         for row in bounded_json(Path(replay['output'])/'replay.json'):
             point=metrics[row['n'],row['seed'],row['algorithm']]['curves'][-1]
@@ -89,21 +98,19 @@ def grade(source,reference,prefix,*,timeout=1800):
                 groups.append({'n':n,'algorithm':alg,'mean_test_accuracy_pct':means[alg],'std_test_accuracy_pct':statistics.stdev(values)})
             gains[str(n)]=means['eg']-means['gd']
         claim=gains['2000']>=15 and gains['20000']>=35
+        result['check_stage']='summary_and_manifest'
         summary=bounded_json(out/'summary.json')
-        if len(summary['groups'])!=6:raise ValueError('Missing grouped summary')
-        for expected_group in groups:
-            matches=[g for g in summary['groups'] if (g['n'],g['algorithm'])==(expected_group['n'],expected_group['algorithm'])]
-            if len(matches)!=1 or any(abs(matches[0][k]-v)>1e-8 for k,v in expected_group.items() if k not in ('n','algorithm')):
-                raise ValueError('Summary mean/sample standard deviation inconsistent')
-        if set(summary['eg_minus_gd_mean_pp'])!=set(gains) or any(abs(summary['eg_minus_gd_mean_pp'][k]-v)>1e-8 for k,v in gains.items()):raise ValueError('Paired group statistics inconsistent')
+        egl_summary(summary,groups,gains,metrics)
         csv_path=out/'per_seed.csv'
         if csv_path.stat().st_size>100000:raise ValueError('CSV size limit')
         csv_rows=list(csv.DictReader(csv_path.open(newline='')))
         if len(csv_rows)!=18:raise ValueError('CSV must cover all 18 runs')
         for row in rows:
             matches=[r for r in csv_rows if (int(r['n']),int(r['seed']),r['algorithm'])==(row['n'],row['seed'],row['algorithm'])]
-            if len(matches)!=1 or abs(float(matches[0]['test_accuracy_pct'])-row['test_accuracy_pct'])>1e-8:raise ValueError('CSV differs from run records')
-        manifest=bounded_json(out/'run_manifest.json')
+            if len(matches)!=1:raise ValueError('CSV run duplicate/missing')
+            value=float(alias(matches[0],('test_accuracy_pct','final_test_accuracy_pct'),'CSV final accuracy'))
+            if not np.isfinite(value) or abs(value-row['test_accuracy_pct'])>1e-8:raise ValueError('CSV differs from run records')
+        manifest=egl_manifest(bounded_json(out/'run_manifest.json'),reviewed_units=reviewed_manifest_units)
         if manifest.get('device')!='cpu' or manifest.get('dtype')!='float32' or manifest.get('threads')!=8 or manifest.get('seeds')!=[1,2,3]:raise ValueError('Manifest does not attest the frozen execution protocol')
         for name in ('candidate.py','candidate_optimizer.py'):
             if manifest.get('files_sha256',{}).get(name)!=hashlib.sha256((source/name).read_bytes()).hexdigest():raise ValueError('Manifest code hash mismatch')
@@ -118,7 +125,7 @@ def grade(source,reference,prefix,*,timeout=1800):
         report=(out/'REPORT.md').read_text()
         if not 250<=len(report)<=100000:raise ValueError('Scientific report incomplete or oversized')
         if time.perf_counter()-started>timeout:raise ValueError('Total EGL evaluation deadline exceeded')
-        result.update(verdict='PASS_NUMERIC_REVIEW_PENDING',runs=rows,groups=groups,gains_pp=gains,
+        result.update(verdict='INDETERMINATE_TRAINING_USAGE' if missing_usage else 'PASS_NUMERIC_REVIEW_PENDING',runs=rows,groups=groups,gains_pp=gains,
                       scientific_claim_supported=claim,implementation_fidelity='NUMERIC_PASS',plot_review='PENDING',
                       elapsed_seconds=execution['elapsed_seconds']+replay['elapsed_seconds'],
                       controller_wall_seconds=time.perf_counter()-started,total_timeout_seconds=timeout)
