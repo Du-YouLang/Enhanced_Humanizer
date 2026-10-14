@@ -69,7 +69,8 @@
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "V-03",
@@ -167,7 +168,8 @@
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "WF-01",
@@ -196,7 +198,8 @@
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "WF-02",
@@ -224,7 +227,8 @@
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "WF-03",
@@ -253,7 +257,8 @@
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "WF-04",
@@ -279,7 +284,8 @@
       "source_line": 53,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "WF-05",
@@ -304,7 +310,8 @@
       "source_line": 55,
       "phase_evidence": {
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "WF-06",
@@ -334,7 +341,8 @@
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "WF-07",
@@ -352,7 +360,8 @@
       "tests": [
         "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
         "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING",
-        "tests/test_pi_overload_recovery.py; tests/test_pi_retry_policy.mjs; official SDK zero-provider overload/fork controls"
+        "tests/test_pi_overload_recovery.py; tests/test_pi_retry_policy.mjs; official SDK zero-provider overload/fork controls",
+        "tests/test_boot_recovery.py"
       ],
       "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
@@ -360,14 +369,16 @@
         "ADR-0002",
         "ADR-0007",
         "ADR-0010",
-        "ADR-0035"
+        "ADR-0035",
+        "ADR-0028"
       ],
       "source_line": 59,
       "phase_evidence": {
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "WF-08",
@@ -388,7 +399,9 @@
         "ADR-0001",
         "ADR-0002"
       ],
-      "source_line": 61
+      "source_line": 61,
+      "phase_evidence": {},
+      "acceptance_records": {}
     },
     {
       "id": "DS-01",
@@ -413,7 +426,8 @@
       "source_line": 65,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "DS-02",
@@ -438,7 +452,8 @@
       "source_line": 67,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "DS-03",
@@ -463,7 +478,8 @@
       "source_line": 69,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "DS-04",
@@ -488,7 +504,8 @@
       "source_line": 71,
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "DS-05",
@@ -604,7 +621,8 @@
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "DS-08",
@@ -633,7 +651,8 @@
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "DS-09",
@@ -846,7 +865,8 @@
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "JR-04",
@@ -871,7 +891,8 @@
       "source_line": 93,
       "phase_evidence": {
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "JR-05",
@@ -896,7 +917,8 @@
       "source_line": 95,
       "phase_evidence": {
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "JR-06",
@@ -921,7 +943,8 @@
       "source_line": 97,
       "phase_evidence": {
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "JR-07",
@@ -995,7 +1018,8 @@
       "phase_evidence": {
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "JR-09",
@@ -1017,7 +1041,9 @@
         "ADR-0001",
         "ADR-0002"
       ],
-      "source_line": 103
+      "source_line": 103,
+      "phase_evidence": {},
+      "acceptance_records": {}
     },
     {
       "id": "HR-01",
@@ -1047,7 +1073,8 @@
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "HR-02",
@@ -1077,7 +1104,8 @@
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P1": "P1-A01..A04 功能 PASS；docs/audits/P1-2026-10-10.md；仅基础双 Builder/编排/预算/合成任务证据，不代表完整多阶段需求实现",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "HR-03",
@@ -1102,7 +1130,8 @@
       "source_line": 111,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "HR-04",
@@ -1123,7 +1152,9 @@
         "ADR-0001",
         "ADR-0003"
       ],
-      "source_line": 113
+      "source_line": 113,
+      "phase_evidence": {},
+      "acceptance_records": {}
     },
     {
       "id": "HR-05",
@@ -1189,7 +1220,9 @@
         "ADR-0001",
         "ADR-0003"
       ],
-      "source_line": 117
+      "source_line": 117,
+      "phase_evidence": {},
+      "acceptance_records": {}
     },
     {
       "id": "HR-07",
@@ -1206,20 +1239,23 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
       "tests": [
         "P0-A01..A08 (计划；不能视为已通过)",
-        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)"
+        "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
+        "tests/test_boot_recovery.py"
       ],
       "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0003",
         "ADR-0006",
-        "ADR-0008"
+        "ADR-0008",
+        "ADR-0028"
       ],
       "source_line": 119,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "CX-01",
@@ -1233,19 +1269,22 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
-        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING",
+        "tests/test_boot_recovery.py"
       ],
       "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
-        "ADR-0010"
+        "ADR-0010",
+        "ADR-0028"
       ],
       "source_line": 123,
       "phase_evidence": {
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "CX-02",
@@ -1279,7 +1318,8 @@
         "P3": "P3-A01..A04 真实机制与16个冻结独立复验 PASS；docs/audits/P3-2026-10-10.md。全失败恢复、矛盾拒绝、Sol重设计→DS回接2成功1预算停止；只覆盖固定合成任务，非科学增益结论，完整需求仍可能跨阶段。",
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "CX-03",
@@ -1306,7 +1346,8 @@
       "phase_evidence": {
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "CX-04",
@@ -1332,7 +1373,8 @@
       "phase_evidence": {
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "CX-05",
@@ -1358,7 +1400,8 @@
       "phase_evidence": {
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "CX-06",
@@ -1435,7 +1478,8 @@
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "GC-02",
@@ -1537,7 +1581,8 @@
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "GC-05",
@@ -1570,7 +1615,8 @@
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "GC-06",
@@ -1603,7 +1649,8 @@
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance",
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "GC-07",
@@ -1634,7 +1681,8 @@
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P4": "P4-A01..A04 local independent PASS; 28-node recovery/full traces/private backup restore; remote delivery deferred by user; full cross-phase requirement partial",
         "GitHub_delivery_2026_10_11": "P4/P5/P6 smoke/P7 preview PR #12/#14/#16/#18 merged after actual integrity/secrets/linux-budget CI; docs/audits/P4-P7-GitHub-delivery-2026-10-11.md. Full P6 and real product PR acceptance remain pending."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "UI-01",
@@ -2357,7 +2405,8 @@
       "source_line": 189,
       "phase_evidence": {
         "P6_SCI_REPAIR_2026_10_14": "EGL exit/schema repair: D supplementalPASS, four historical telemetry INDETERMINATE, three numericFAIL; PC7 supplementalPASS/F numericFAIL after14 missing single-cell checks; separate manual Pi barrier23+8 diagnostic PASS, original matrices/ledger unchanged, API0. ADR-0037; docs/audits/Scientific-acceptance-repair-2026-10-14.md. Full P6 validity remains limited; GitHub deferred."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "OP-01",
@@ -2373,7 +2422,8 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/7",
       "tests": [
         "P2-A01..A04 PASS (J2 credential blocked; efficacy/P3/P6 not claimed)",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "tests/test_boot_recovery.py"
       ],
       "implementation_status": "P2_PARTIAL_ACCEPTED_LATER_WORK_PENDING",
       "relevant_adrs": [
@@ -2387,7 +2437,8 @@
         "ADR-0020",
         "ADR-0021",
         "ADR-0022",
-        "ADR-0023"
+        "ADR-0023",
+        "ADR-0028"
       ],
       "source_line": 193,
       "phase_evidence": {
@@ -2551,7 +2602,8 @@
       "source_line": 201,
       "phase_evidence": {
         "P6": "Partial preparation only: pinned public identities + four missing science slots, isolated Black positive/negative controls, immutable protocol/result checks and unavailable-value reports. No P6 model runs or efficacy conclusions. docs/audits/P6-preparation-2026-10-11.md; all full P6 gates pending."
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "SG-01",
@@ -2580,7 +2632,8 @@
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md",
         "P2": "P2-A01..A04 independent PASS; J0/J1/J3 real; J2 BLOCKED_CREDENTIAL; docs/audits/P2-2026-10-10.md; Git delivery requires actual phase PR CI/private acceptance"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "SG-02",
@@ -2605,7 +2658,8 @@
       "source_line": 207,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "SG-03",
@@ -2630,7 +2684,8 @@
       "source_line": 209,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "SG-04",
@@ -2752,7 +2807,8 @@
       "source_line": 239,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "O-02",
@@ -2777,7 +2833,8 @@
       "source_line": 240,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "O-03",
@@ -2802,7 +2859,8 @@
       "source_line": 241,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "O-04",
@@ -2827,7 +2885,8 @@
       "source_line": 242,
       "phase_evidence": {
         "P0": "独立验收 PASS；PR #4 实际 integrity/secrets CI 成功；docs/audits/P0-Linux-2026-10-10.md"
-      }
+      },
+      "acceptance_records": {}
     },
     {
       "id": "O-05",
