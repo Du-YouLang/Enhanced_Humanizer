@@ -1,6 +1,21 @@
 """Authorize only unfinished provider-overload checkpoints, never fresh trials."""
 import math
 import re
+import shutil
+from pathlib import Path
+
+
+def copy_checkpoint(source, destination):
+    """Retain the generated baseline; copy into an absent path, never overlay Git."""
+    source=Path(source);destination=Path(destination)
+    retained=destination.with_name(destination.name+'-baseline-before-checkpoint')
+    if retained.exists() or not destination.is_dir() or destination.is_symlink():
+        raise ValueError('Fresh real baseline directory required')
+    if source.resolve()==destination.resolve() or source.resolve().is_relative_to(destination.resolve()):
+        raise ValueError('Checkpoint aliases destination')
+    destination.rename(retained)
+    shutil.copytree(source,destination,symlinks=True)
+    return retained
 
 
 def overload_bounds(worker, role_seconds, previous_recoveries=()):

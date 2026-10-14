@@ -6,7 +6,7 @@ from p1_broker import protect_memory
 from p2_candidates import exclusive_json,digest
 from p6_checkpoint_recovery import inventory,Stages,sha
 from p6_evaluate_linux import validate_source_links
-from pi_recovery_policy import overload_bounds,is_overload_message
+from pi_recovery_policy import overload_bounds,is_overload_message,copy_checkpoint
 from pi_formal_linux import execute,read,RUNS,LEDGER,main,shared,quiet
 
 ORIGINAL='formal-compare-20261014T071703Z'
@@ -109,7 +109,7 @@ def recover(payload):
         descriptor,_=main.job(name,'pi');dest=Path(descriptor['root']);work=Path(descriptor['work'])
         validate_source_links(original/'code')
         # Full byte-preserved program/Git checkpoint; no HOME, global auth or peers.
-        shutil.copytree(original/'code',work,dirs_exist_ok=True,symlinks=True)
+        copy_checkpoint(original/'code',work)
         checkpoint=dest/'prior-session.private.jsonl';shutil.copyfile(target['session_file'],checkpoint)
         if sha(checkpoint)!=target['session_sha256']:raise ValueError('Official session copy changed')
         recovery={**limit,'authorization':AUTH,'prior_consecutive_failures':1,'session_file':str(checkpoint),

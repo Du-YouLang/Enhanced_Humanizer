@@ -8,12 +8,13 @@ from wsl_project import run
 from p6_main_budget import authorization
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('mode',choices=('controls','prepare','recover'));p.add_argument('--detach',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('mode',choices=('controls','prepare','recover'));p.add_argument('--detach',action='store_true');p.add_argument('--plan',type=Path,default=ROOT/'benchmarks/pi-comparison/overload-recovery-v1.json');a=p.parse_args()
     budget,budget_sha=authorization(ROOT/'configs/budget-p6-main-v6-cash200-approved.json')
     folder,sources=deploy();dest=ROOT/'.local-workbench/pi-comparison/intake';dest.mkdir(exist_ok=True)
     name='formal-overload-'+a.mode+'-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
     payload={'mode':'intake' if a.mode=='prepare' else a.mode,'run_id':name,'budget':budget,'source_sha256':sources}
-    plan_path=ROOT/'benchmarks/pi-comparison/overload-recovery-v1.json'
+    plan_path=a.plan.resolve()
+    if not plan_path.is_relative_to((ROOT/'benchmarks/pi-comparison').resolve()):raise ValueError('Plan must remain in the project comparator directory')
     if a.mode=='prepare':
         r=run(['/opt/workbench/.venv-linux/bin/python','-B',folder+'/pi_overload_recovery_linux.py'],input_bytes=json.dumps(payload).encode(),timeout=45)
         if r.returncode:raise RuntimeError('Cannot verify overload checkpoints')

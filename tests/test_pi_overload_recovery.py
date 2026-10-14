@@ -1,11 +1,24 @@
 import importlib.util
 from pathlib import Path
 import unittest
+import tempfile
+import os
 
 p=Path(__file__).resolve().parents[1]/'benchmarks/pi-comparison/runners/pi_recovery_policy.py'
 s=importlib.util.spec_from_file_location('pi_recovery_policy',p);m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
 
 class PiOverloadRecoveryTests(unittest.TestCase):
+    def test_copy_retains_readonly_baseline_and_preserves_internal_links(self):
+        cache=Path(__file__).resolve().parents[1]/'.local-workbench/tests/pi-recovery';cache.mkdir(parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=cache) as tmp:
+            root=Path(tmp);source=root/'source';dest=root/'code';source.mkdir();dest.mkdir()
+            (source/'pack').write_text('checkpoint');(dest/'pack').write_text('baseline');(dest/'pack').chmod(0o444)
+            if os.name!='nt':(source/'doc-link').symlink_to('missing-document')
+            retained=m.copy_checkpoint(source,dest)
+            self.assertEqual((dest/'pack').read_text(),'checkpoint');self.assertEqual((retained/'pack').read_text(),'baseline')
+            self.assertEqual((source/'pack').read_text(),'checkpoint')
+            if os.name!='nt':self.assertEqual(os.readlink(dest/'doc-link'),'missing-document')
+            (retained/'pack').chmod(0o644)
     def test_original_allowances_are_debited_without_rounding_up(self):
         w={'status':'INFRA_FAIL','wall_seconds':252.364191531,'elapsed_seconds':252.364191531,'sdk_dispatches':21}
         b=m.overload_bounds(w,900)
