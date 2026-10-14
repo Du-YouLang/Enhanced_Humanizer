@@ -63,6 +63,9 @@ def task(payload):
     if fingerprint(base)!=r['public_fingerprint'] or seal['env_sha256']!=r['environment']['env_sha256']:
         raise RuntimeError('Scientific source or environment changed')
     if r['base_commit']!=payload['task']['base_commit']:raise RuntimeError('Science base differs from frozen manifest')
+    if kind=='gc':
+        from p6_gc_dependencies import ensure_gc_threadpool
+        ensure_gc_threadpool(prefix)
     role_seconds=115
     if payload.get('budget'):
         from p6_main_budget import task_limits
