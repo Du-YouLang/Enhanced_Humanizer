@@ -4,6 +4,12 @@
 
 针对用户继续完整补测的既有授权，独立续行仅选剩余99个未开始格，计划d3874ecf、原执行器controller-add321ab完全不动，免费实际绑定/无重放控制通过；该次INFRA格不在续行清单内。详见[ADR-0041](../decisions/ADR-0041.md)。实际启动、监控、CI与新格验收另取后续回执，不以准备冒充运行。
 
+实际续行于北京时间01:19:31启动：`formal-full-compare-20261014T171931Z`，包装器continue-unstarted-36338b5de57db4bc/计划d3874ecf，原生389/boot a5e89acb/startticks786862/command eaf39b69独立核验通过，第一格Black-3/P1/订阅。原失败格没有再次进入清单。入口的真实正控和四项负控（旧格重放、缺格、结果摘要改变、源码pin改变）均在模型前拒绝，原账本保持；原13格/阶段/轨迹/冻结程序等144个证据pin通过。
+
+功能78b3657cac5fcdb6a89e50d284489e01b8ba7d01的Windows250（7skip）、原生250（3skip）、Node8通过，精确CI38605271616三SUCCESS后[PR45](https://github.com/Du-YouLang/Enhanced_Humanizer/pull/45)合并8a065ab1c9cc01eec27ed2220b955572d8fef29e。新运行首份独立账本6377DS/204订阅/USD112.1334462保守上界，旧6377/203行前缀保持；API实付不可见。
+
+监控现为v12，配置e3bfdad0514d6df9019bcfb507e54bb83ef4fd00dbe1c90ef551a0adea004298、inspector46f7127a11f910677ae455939f23ae54f16cf8c6af43619766afb78398f4f36b。新心跳实际PID40668、READ_ONLY_NO_DISPATCH、同时显示旧批次pending和新批次active；没有编造Windows命令行回读。原v11状态、配置及路由备份保留禁用，原登录/每分钟观察器恢复维持；本次未强制重启验证。45分钟巡检enhanced-humanizer-pi-45已更新新目标，Luna实际只读核验owner/账本后按分钟观察，Sol负责故障/科学/代码。新99格实际结果不能算成原112格全部成功，原1格INFRA仍待单独处理。
+
 用户要求补全此前未运行的14题，并明确Luna监控、Sol科学核验/改代码。旧两题16格完整保留，新112格单独冻结；合计覆盖16题128格，每配置/模型/题目仅一轮。见[ADR-0040](../decisions/ADR-0040.md)。
 
 初始账本6042次DeepSeek/198次订阅预留/USD108.4555581保守上界，实付不可见；旧16题主集96行、16次轨迹敏感性、旧Pi16行和账本b54271dd在本轮入口独立核对不变。上限仍累计10000次且USD200，无新额度。
