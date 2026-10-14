@@ -56,6 +56,8 @@ def summarize(raw):
             'tool_errors':tool_errors,'provider_retries':retries,'context_compactions':compactions,
             'duplicate_assistant_events':len(duplicates),'agent_settled':settled,
             'terminal_errors_observed':len(errors),'hidden_grade':'NOT_RUN',
+            'historical_assistant_errors_observed':len(errors),
+            'last_assistant_stop_reason':messages[-1].get('stopReason') if messages else None,
             'api_cost_usd_actual_or_reconciled':None,
             'cost_missing_reason':'Pi estimated cost is not an authoritative supplier bill; broker ledger required',
             'ttft_seconds':None,'first_patch_seconds':None,'first_test_pass_seconds':None,

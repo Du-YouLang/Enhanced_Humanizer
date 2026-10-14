@@ -82,6 +82,7 @@ async def recover(call, reserve, deadline, config, events, *, first_index=None):
 
 class RecoveryBroker(Broker):
     provider_endpoint='https://api.deepseek.com/chat/completions'
+    transient_passthrough=False  # Explicitly enabled only by zero-provider SDK controls.
     def __init__(self,key,ledger,experiment,deadline,config):
         self.config=validate(config)
         self.network_events=[]
@@ -101,7 +102,7 @@ class RecoveryBroker(Broker):
         async with httpx.AsyncClient(trust_env=False,follow_redirects=False,timeout=seconds) as client:
             async with client.stream('POST',self.provider_endpoint,json=body,
                     headers={'Authorization':'Bearer '+self.key,'accept':'text/event-stream'}) as response:
-                if response.status_code in TRANSIENT_HTTP:
+                if response.status_code in TRANSIENT_HTTP and not self.transient_passthrough:
                     raise TransientNetworkError('Transient upstream HTTP status '+str(response.status_code))
                 if response.status_code!=200:
                     return {'status':response.status_code,'chunks':[]}

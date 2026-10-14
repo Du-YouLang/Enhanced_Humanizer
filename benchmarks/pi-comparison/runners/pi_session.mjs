@@ -3,19 +3,24 @@
 // memory. Refreshes leave on a dedicated controller pipe, never the model trace.
 import fs from 'node:fs';
 import {pathToFileURL} from 'node:url';
+import {recoveryGuard} from './pi_retry_policy.mjs';
 
 const spec=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));
 const incoming=JSON.parse(fs.readFileSync(0,'utf8'));
 const base='/opt/workbench/pi-comparison';
 if(!spec.root.startsWith('/opt/workbench/benchmark/private/pi-comparison/formal-')||spec.root.includes('..'))throw new Error('Fresh project-private formal directory required');
-if(![900,1200].includes(spec.role_seconds)||spec.request_seconds!==600||spec.role_requests!==1000)
+if(![900,1200].includes(spec.authorized_role_seconds??spec.role_seconds)||spec.request_seconds!==600||
+  !(spec.role_seconds>0&&spec.role_seconds<=(spec.authorized_role_seconds??spec.role_seconds))||
+  !(spec.role_requests>0&&spec.role_requests<=1000)||(!spec.recovery&&spec.role_requests!==1000))
   throw new Error('Frozen role/request limits required');
 const sdk=await import(pathToFileURL(base+'/runtime/node_modules/@earendil-works/pi-coding-agent/dist/index.js').href);
 const {AuthStorage}=await import(pathToFileURL(base+'/runtime/node_modules/@earendil-works/pi-coding-agent/dist/core/auth-storage.js').href);
 const storage=AuthStorage.inMemory(incoming.credentials??{});
 const emit=r=>process.stdout.write(JSON.stringify(r)+'\n');
 const tick=performance.now();
-const settings=sdk.SettingsManager.inMemory({retry:{enabled:false,provider:{maxRetries:0,timeoutMs:600000}},
+const retryEnabled=Boolean(spec.recovery&&(spec.subscription||spec.recovery.fixture_agent_retry));
+const guard=recoveryGuard(spec.recovery?.prior_consecutive_failures??0);
+const settings=sdk.SettingsManager.inMemory({retry:{enabled:retryEnabled,maxRetries:4,baseDelayMs:1000,maxAgentDelayMs:600000,provider:{maxRetries:0,timeoutMs:600000}},
   compaction:{enabled:false},cacheWarming:'off',transport:'sse',enableAnalytics:false,enableInstallTelemetry:false});
 const loader=new sdk.DefaultResourceLoader({cwd:spec.work,agentDir:spec.root+'/agent',settingsManager:settings,
   noExtensions:true,noSkills:true,noPromptTemplates:true,noThemes:true,noContextFiles:true,disabledBuiltinExtensions:['mcp'],
@@ -95,14 +100,24 @@ try {
     };
     ({session}=await sdk.createAgentSession({cwd:spec.work,agentDir:spec.root+'/agent',modelRuntime:runtime,model,
       thinkingLevel:'low',tools:['read','bash','edit','write',...loaded.extensions.flatMap(e=>[...e.tools.keys()])],resourceLoader:loader,settingsManager:settings,
-      sessionManager:sdk.SessionManager.create(spec.work,spec.root+'/agent/sessions')}));
+      sessionManager:spec.recovery?.session_file?
+        sdk.SessionManager.forkFrom(spec.recovery.session_file,spec.work,spec.root+'/agent/sessions'):
+        sdk.SessionManager.create(spec.work,spec.root+'/agent/sessions')}));
     emit({type:'session_bound',session_id:session.sessionId??session.sessionManager?.getSessionId?.()??null,
       requested_thinking_level:'low',active_tools:session.getActiveToolNames()});
     session.subscribe(emit);
+    if(retryEnabled)session.subscribe(event=>{
+      if(event.type==='message_end'&&event.message?.role==='assistant') {
+        const decision=guard.observe(event.message);
+        settings.setRetryEnabled(decision.retry);
+        emit({type:'provider_recovery_decision',...decision});
+      }
+    });
     stop=setTimeout(()=>{void session.abort();},spec.role_seconds*1000);
     await session.prompt(spec.prompt);
     emit({type:'formal_finished',transport_dispatches:dispatches,wire_policies:wirePolicies,
-      elapsed_seconds:(performance.now()-tick)/1000,subscription:spec.subscription});
+      elapsed_seconds:(performance.now()-tick)/1000,subscription:spec.subscription,
+      consecutive_provider_failures:guard.failures(),official_sdk_retry_enabled:retryEnabled});
   }
 } catch(e) {
   emit({type:'formal_error',error_type:e?.name??'Error',transport_dispatches:dispatches,

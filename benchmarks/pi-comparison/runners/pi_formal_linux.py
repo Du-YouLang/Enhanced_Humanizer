@@ -61,18 +61,23 @@ def resources(profile):
 
 
 def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=None,
-            mode='task',fixture_fault=None,prefix=None,public_reads=(),gpu=False,denied=()):
+            mode='task',fixture_fault=None,prefix=None,public_reads=(),gpu=False,denied=(),recovery=None):
     """One bounded official SDK session. Auth is only passed over private pipes."""
     r=resources(profile)
     for name in ('home','agent','tmp','cache'):(root/name).mkdir(exist_ok=True)
-    scope='PI_FORMAL/'+root.parent.name+'/'+root.name
+    if recovery:
+        from pi_recovery_policy import validate_runtime_recovery
+        validate_runtime_recovery(recovery,role_seconds)
+    scope=recovery.get('scope') if recovery and recovery.get('scope') else 'PI_FORMAL/'+root.parent.name+'/'+root.name
     ledger=MainLedger(root/'fixture-ledger.json' if provider=='fixture' else LEDGER,budget)
     ledger_before=read(LEDGER)
     ledger.validate(ledger_before)
+    ledger_start=len(read(ledger.path)['requests']) if ledger.path.exists() else 0
     broker=None;server=None;seen=[];policies=[]
     deadline=time.monotonic()+role_seconds
     if mode not in ('auth-control','prl-control'):
         if provider=='fixture':
+            fixture_failures=[]
             steps=[('write',{'path':'probe_value.py','content':'def answer():\n    return 42\n'}),
                    ('bash',{'command':'python3 -c "from probe_value import answer; assert answer()==42"'}),
                    ('bash',{'command':'git add probe_value.py'}),('bash',{'command':'git commit -m pi-tool-control'})]
@@ -80,8 +85,15 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
                 def log_message(self,*args):pass
                 def do_POST(self):
                     body=json.loads(self.rfile.read(int(self.headers['Content-Length'])))
-                    i=len(seen);seen.append({'max_tokens':body.get('max_tokens'),'thinking':body.get('thinking'),'reasoning_effort':body.get('reasoning_effort'),
+                    i=sum(m.get('role')=='tool' for m in body.get('messages',[]))
+                    seen.append({'max_tokens':body.get('max_tokens'),'thinking':body.get('thinking'),'reasoning_effort':body.get('reasoning_effort'),
                                             'message_roles':[m.get('role') for m in body.get('messages',[])]})
+                    failure_cap=5 if fixture_fault=='agent-overload-five' else 1
+                    if fixture_fault in ('agent-overload','agent-overload-five','agent-quota','broker-overload') and i==2 and len(fixture_failures)<failure_cap:
+                        fixture_failures.append(i)
+                        self.send_response(402 if fixture_fault=='agent-quota' else 503)
+                        self.send_header('Content-Type','application/json');self.send_header('Retry-After','0');self.end_headers()
+                        self.wfile.write(json.dumps({'error':{'code':'insufficient_quota' if fixture_fault=='agent-quota' else 'server_is_overloaded'}}).encode());return
                     if i>len(steps):self.send_error(429);return
                     delta={'role':'assistant'};reason='stop'
                     if i<len(steps):
@@ -98,6 +110,7 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
             threading.Thread(target=server.serve_forever,daemon=True).start()
         if provider in ('fixture','deepseek'):
             class Metered(RecoveryBroker):
+                transient_passthrough=provider=='fixture' and str(fixture_fault).startswith('agent-')
                 async def exchange(self,body,index,seconds):
                     policy={k:body.get(k) for k in ('max_tokens','thinking','reasoning_effort','model')}
                     policies.append(policy)
@@ -118,17 +131,20 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
                 'samplingParams':{'max_tokens':256000},'cost':{'input':0,'output':0,'cacheRead':0,'cacheWrite':0},
                 'compat':{'maxTokensField':'max_tokens','supportsStore':False,'thinkingFormat':'deepseek',
                           'supportsDeveloperRole':fixture_fault=='developer'}}]}}})
-    spec={'root':str(root),'work':str(work),'profile':profile,'mode':mode,'role_seconds':role_seconds,'request_seconds':600,'role_requests':1000,
+    spec={'root':str(root),'work':str(work),'profile':profile,'mode':mode,'role_seconds':role_seconds,'request_seconds':600,
+          'authorized_role_seconds':recovery['authorized_role_seconds'] if recovery else role_seconds,
+          'role_requests':recovery['role_requests_remaining'] if recovery else 1000,'recovery':recovery,
           'parent_namespace':os.readlink('/proc/self/ns/pid'),
           'provider':'openai' if subscription else 'workbench-bridge','model':'gpt-6.1-sol' if subscription else 'deepseek-flash',
           'models_path':None if subscription or mode in ('auth-control','prl-control') else str(models),'subscription':subscription,
           **{k:r[k] for k in ('extensions','skills','prompts')},'tool_names':['read','bash','edit','write',*(['sci_find'] if profile=='P1' else ['prl_*'] if profile=='P3' else [])],
           'prompt':prompt,'denied':[str(LOGIN),'/opt/workbench/state/codex/auth.json',*map(str,denied),*r['other_packages']]}
     path=root/'spec.private.json';exclusive_json(path,spec)
-    reads=[BASE/'runtime',BASE/'tools/node-v24.19.0-linux-x64',driver,path,*public_reads]
+    reads=[BASE/'runtime',BASE/'tools/node-v24.19.0-linux-x64',driver,driver.with_name('pi_retry_policy.mjs'),path,*public_reads]
     if r['package']:reads.append(r['package'])
     if prefix:reads.append(prefix)
     if gpu:reads.append('/usr/lib/wsl')
+    if recovery and recovery.get('session_file'):reads.append(recovery['session_file'])
     writes=[root/'home',root/'agent',root/'cache']+(['/dev/dxg'] if gpu else [])
     hosts=('chatgpt.com','auth.openai.com','api.openai.com') if subscription else (broker.host_port,) if broker else ()
     fence=replace(Fence.of(local='all',user='none',system='none',online=False,workdir=work,home=root/'home',
@@ -171,7 +187,7 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
         if broker:broker.close()
         if server:server.shutdown();server.server_close()
     reader.join(timeout=5)
-    auth_pipe_ok=bool(refresh and len(refresh[0])<=1_000_000)
+    auth_pipe_ok=bool(refresh and refresh[0] and len(refresh[0])<=1_000_000)
     if auth_pipe_ok:
         updated=json.loads(refresh[0]);auth_pipe_ok=set(updated)=={'openai'}
         if subscription and updated['openai'] is not None:
@@ -196,14 +212,19 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
         status='PASS_AUTH_MEMORY_AND_RESOURCE_CONTROL' if passed else 'CONTROL_FAILED'
     else:
         passed=child.returncode==0 and bool(finish) and isolated and auth_pipe_ok and summary.get('agent_settled') and not summary.get('terminal_errors_observed')
+        if recovery and summary.get('historical_assistant_errors_observed'):
+            passed=child.returncode==0 and bool(finish) and isolated and auth_pipe_ok and summary.get('agent_settled') and summary.get('last_assistant_stop_reason') not in ('error','aborted',None)
         passed=passed and summary.get('model_ids_observed')==[{'provider':spec['provider'],'id':spec['model']}]
         status='COMPLETED' if passed else 'TIMEOUT' if stopped else 'INFRA_FAIL'
-    rows=[r for r in read(ledger.path)['requests'] if r['experiment']==scope] if ledger.path.exists() else []
+    rows=[r for r in read(ledger.path)['requests'][ledger_start:] if r['experiment']==scope] if ledger.path.exists() else []
     settled=[r for r in rows if 'usage' in r]
     usage_match=settled_usage_match(summary,rows)
     if mode=='task' and provider in ('deepseek','fixture') and status=='COMPLETED' and not usage_match:status='INFRA_FAIL'
     if any(e['type']=='message_end' and e.get('message',{}).get('role')=='assistant' and e['message'].get('stopReason')=='length' for e in events):status='OUTPUT_LIMIT'
     if broker and any(e.get('state') in ('NETWORK_CHECK_REQUIRED','RETRY_PENDING') for e in broker.network_events):status='INFRA_RETRY_PENDING'
+    decisions=[e for e in events if e['type']=='provider_recovery_decision']
+    if decisions and decisions[-1]['state'] in ('NETWORK_CHECK_REQUIRED','SHOULD_RETRY'):
+        status='INFRA_RETRY_PENDING'
     worker={'status':status,'root':str(root),'work':str(work),'scope':scope,'wall_seconds':time.perf_counter()-tick,
         'elapsed_seconds':time.perf_counter()-tick,'usage':[],'provider':provider,'profile':profile,'summary':summary,
         'sdk_dispatches':finish.get('transport_dispatches') if finish else 'unavailable',
@@ -216,6 +237,7 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
         'network_recovery_events':broker.network_events if broker else [],'broker_denials':broker.denials if broker else [],
         'api_cash_actual':'unavailable' if provider=='deepseek' else 0,'model_identity':spec['model'],
         'resource_observations':[e for e in events if e['type'] in ('resources_observed','session_bound')],
+        'provider_recovery_decisions':decisions,'overload_continuation':recovery,
         'prl_control':[e for e in events if e['type']=='prl_control_pass'],
         'evidence_kind':'ZERO_MODEL_CONTROL' if provider=='fixture' or mode=='auth-control' else 'REAL_MODEL'}
     from p6_main_contract import classify_role_completion

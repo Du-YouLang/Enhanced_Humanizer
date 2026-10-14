@@ -15,9 +15,9 @@ from p6_main_budget import authorization
 
 
 def deploy():
-    paths=[Path(__file__).with_name(n) for n in ('pi_session.mjs','pi_formal_linux.py','events.py','pi_protocol.py')]
+    paths=[Path(__file__).with_name(n) for n in ('pi_session.mjs','pi_formal_linux.py','events.py','pi_protocol.py','pi_retry_policy.mjs','pi_recovery_policy.py','pi_overload_recovery_linux.py')]
     paths += [ROOT/'scripts'/n for n in ('p6_checkpoint_recovery.py','p6_gc_adjudication.py','p6_gc_dependencies.py',
-              'p6_gc_grader.py','p6_gc_source_policy.py','p6_science_main_linux.py','p6_gc_worker.py')]
+              'p6_gc_grader.py','p6_gc_source_policy.py','p6_science_main_linux.py','p6_gc_worker.py','p6_network_recovery.py')]
     sources={p.name:p.read_text(encoding='utf-8') for p in paths}
     hashes={name:hashlib.sha256(raw.encode()).hexdigest() for name,raw in sources.items()}
     tag=hashlib.sha256(json.dumps(hashes,sort_keys=True).encode()).hexdigest()[:16]

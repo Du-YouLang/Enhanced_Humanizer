@@ -351,14 +351,16 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
         "P1-A01..A04 PASS（基础范围；完整需求仍可能跨阶段）",
-        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING"
+        "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING",
+        "tests/test_pi_overload_recovery.py; tests/test_pi_retry_policy.mjs; official SDK zero-provider overload/fork controls"
       ],
       "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
         "ADR-0001",
         "ADR-0002",
         "ADR-0007",
-        "ADR-0010"
+        "ADR-0010",
+        "ADR-0035"
       ],
       "source_line": 59,
       "phase_evidence": {
