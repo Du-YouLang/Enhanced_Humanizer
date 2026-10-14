@@ -18,7 +18,7 @@ const {AuthStorage}=await import(pathToFileURL(base+'/runtime/node_modules/@eare
 const storage=AuthStorage.inMemory(incoming.credentials??{});
 const emit=r=>process.stdout.write(JSON.stringify(r)+'\n');
 const tick=performance.now();
-const retryEnabled=Boolean(spec.recovery&&(spec.subscription||spec.recovery.fixture_agent_retry));
+const retryEnabled=Boolean(spec.prospective_transient_retry||spec.recovery&&(spec.subscription||spec.recovery.fixture_agent_retry));
 const guard=recoveryGuard(spec.recovery?.prior_consecutive_failures??0);
 const settings=sdk.SettingsManager.inMemory({retry:{enabled:retryEnabled,maxRetries:4,baseDelayMs:1000,maxAgentDelayMs:600000,provider:{maxRetries:0,timeoutMs:600000}},
   compaction:{enabled:false},cacheWarming:'off',transport:'sse',enableAnalytics:false,enableInstallTelemetry:false});

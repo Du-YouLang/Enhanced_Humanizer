@@ -19,7 +19,9 @@ runpy.run_path(str(source/'main.py'),run_name='__main__')
 '''
 
 
-def grade(source,root,prefix,*,timeout=600,fail_fast=False):
+def grade(source,root,prefix,*,timeout=600,fail_fast=False,per_call_timeout=60,rss_limit_mib=1024):
+    if per_call_timeout not in (60,180) or rss_limit_mib not in (1024,4096):
+        raise ValueError('Explicit frozen legacy or owner-public resource limits required')
     from p6_prepare_linux import BASE
     root=Path(root);prefix=Path(prefix);source=Path(source)
     folder=BASE/'science/private/tms-grading'/uuid.uuid4().hex;folder.mkdir(parents=True)
@@ -31,7 +33,7 @@ def grade(source,root,prefix,*,timeout=600,fail_fast=False):
     executions=[]
     def isolated(args,inp,profile,out,allow,workspace):
         result=execute(source,prefix,WORKER,inputs={'input.npz':inp.read_bytes(),'profile.json':profile.read_bytes()},
-                       timeout=max(1,min(60,int(args.timeout))),rss_limit_mib=1024,cpu_threads=1,pin_one_cpu=True,
+                       timeout=max(1,min(per_call_timeout,int(args.timeout))),rss_limit_mib=rss_limit_mib,cpu_threads=1,pin_one_cpu=True,
                        arguments=('true' if allow else 'false',))
         executions.append(result);current=Path(result['output'])/'result';invalid_output=None
         if current.exists():
@@ -49,7 +51,7 @@ def grade(source,root,prefix,*,timeout=600,fail_fast=False):
     previous=sys.argv
     try:
         sys.argv=['owner-tms-judge','--submission',str(source),'--python',str(prefix/'bin/python'),
-                  '--report',str(folder/'numeric.private.json'),'--timeout','60','--total-timeout',str(timeout),'--memory-mb','1024']
+                  '--report',str(folder/'numeric.private.json'),'--timeout',str(per_call_timeout),'--total-timeout',str(timeout),'--memory-mb',str(rss_limit_mib)]
         if fail_fast:sys.argv.append('--fail-fast')
         try:judge.main()
         except SystemExit as error:

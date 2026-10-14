@@ -61,7 +61,8 @@ def resources(profile):
 
 
 def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=None,
-            mode='task',fixture_fault=None,prefix=None,public_reads=(),gpu=False,denied=(),recovery=None):
+            mode='task',fixture_fault=None,prefix=None,public_reads=(),gpu=False,denied=(),recovery=None,
+            prospective_retry=False,fixture_url=None,fixture_ca=None,fixture_steps=None):
     """One bounded official SDK session. Auth is only passed over private pipes."""
     r=resources(profile)
     for name in ('home','agent','tmp','cache'):(root/name).mkdir(exist_ok=True)
@@ -81,6 +82,7 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
             steps=[('write',{'path':'probe_value.py','content':'def answer():\n    return 42\n'}),
                    ('bash',{'command':'python3 -c "from probe_value import answer; assert answer()==42"'}),
                    ('bash',{'command':'git add probe_value.py'}),('bash',{'command':'git commit -m pi-tool-control'})]
+            if fixture_steps is not None:steps=fixture_steps
             class Handler(BaseHTTPRequestHandler):
                 def log_message(self,*args):pass
                 def do_POST(self):
@@ -134,6 +136,7 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
     spec={'root':str(root),'work':str(work),'profile':profile,'mode':mode,'role_seconds':role_seconds,'request_seconds':600,
           'authorized_role_seconds':recovery['authorized_role_seconds'] if recovery else role_seconds,
           'role_requests':recovery['role_requests_remaining'] if recovery else 1000,'recovery':recovery,
+          'prospective_transient_retry':bool(prospective_retry),
           'parent_namespace':os.readlink('/proc/self/ns/pid'),
           'provider':'openai' if subscription else 'workbench-bridge','model':'gpt-6.1-sol' if subscription else 'deepseek-flash',
           'models_path':None if subscription or mode in ('auth-control','prl-control') else str(models),'subscription':subscription,
@@ -141,17 +144,31 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
           'prompt':prompt,'denied':[str(LOGIN),'/opt/workbench/state/codex/auth.json',*map(str,denied),*r['other_packages']]}
     path=root/'spec.private.json';exclusive_json(path,spec)
     reads=[BASE/'runtime',BASE/'tools/node-v24.19.0-linux-x64',driver,driver.with_name('pi_retry_policy.mjs'),path,*public_reads]
+    if Path('/etc/mime.types').is_file():reads.append('/etc/mime.types')
     if r['package']:reads.append(r['package'])
     if prefix:reads.append(prefix)
     if gpu:reads.append('/usr/lib/wsl')
     if recovery and recovery.get('session_file'):reads.append(recovery['session_file'])
     writes=[root/'home',root/'agent',root/'cache']+(['/dev/dxg'] if gpu else [])
     hosts=('chatgpt.com','auth.openai.com','api.openai.com') if subscription else (broker.host_port,) if broker else ()
+    if fixture_url:
+        from urllib.parse import urlsplit
+        import socket
+        parsed=urlsplit(fixture_url)
+        if (parsed.scheme!='http' or parsed.hostname!=socket.gethostname().lower()
+                or not parsed.port or parsed.path not in ('','/')):
+            raise ValueError('Only the existing trusted local HTTPBIN fixture is permitted')
+        if not fixture_ca or not Path(fixture_ca).resolve().is_relative_to(main.BASE/'public-fixtures'):
+            raise ValueError('Benchmark-scoped fixture CA required')
+        hosts=(*hosts,parsed.netloc)
+        reads.extend((fixture_ca,'/etc/mime.types','/etc/ssl/certs/ca-certificates.crt',
+                      '/opt/workbench/source/p6_requests_runner.py'))
     fence=replace(Fence.of(local='all',user='none',system='none',online=False,workdir=work,home=root/'home',
         read=tuple(reads),write=tuple(writes),hosts=hosts),tmp=str(root/'tmp'))
     env={'PATH':(str(prefix)+'/bin:' if prefix else '')+str(NODE.parent)+':/usr/bin:/bin','HOME':str(root/'home'),'LANG':'C.UTF-8',
          'TMPDIR':str(root/'tmp'),'XDG_CACHE_HOME':str(root/'cache'),'PI_CODING_AGENT_DIR':str(root/'agent'),'PI_OFFLINE':'1',
          'GIT_CONFIG_GLOBAL':'/dev/null','GIT_CONFIG_NOSYSTEM':'1','GIT_TERMINAL_PROMPT':'0','PYTHONHASHSEED':'42','HUMANIZE_SENTRY':'off'}
+    if fixture_url:env.update(HTTPBIN_URL=fixture_url,REQUESTS_CA_BUNDLE=str(fixture_ca))
     if gpu:env.update(LD_LIBRARY_PATH='/usr/lib/wsl/lib',CUPY_CACHE_DIR=str(root/'cache/cupy'),CUDA_CACHE_PATH=str(root/'cache/cuda'))
     auth=read(LOGIN) if subscription else {'openai':{'type':'api_key','key':'NONSECRET_PIPE_CONTROL'}} if mode in ('auth-control','prl-control') else {}
     auth_source_sha256=sha(LOGIN) if subscription else None
@@ -216,7 +233,7 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
         status='PASS_AUTH_MEMORY_AND_RESOURCE_CONTROL' if passed else 'CONTROL_FAILED'
     else:
         passed=child.returncode==0 and bool(finish) and isolated and auth_pipe_ok and summary.get('agent_settled') and not summary.get('terminal_errors_observed')
-        if recovery and summary.get('historical_assistant_errors_observed'):
+        if (recovery or prospective_retry) and summary.get('historical_assistant_errors_observed'):
             passed=child.returncode==0 and bool(finish) and isolated and auth_pipe_ok and summary.get('agent_settled') and summary.get('last_assistant_stop_reason') not in ('error','aborted',None)
         passed=passed and summary.get('model_ids_observed')==[{'provider':spec['provider'],'id':spec['model']}]
         status='COMPLETED' if passed else 'TIMEOUT' if stopped else 'INFRA_FAIL'

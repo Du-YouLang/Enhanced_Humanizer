@@ -1,5 +1,7 @@
 # Pi 对照增量工作包
 
+2026-10-15用户直接授权补全16题：新入口`runners/run_pi_full_main.py`与`full-main-plan-v3.json`只分发此前未执行的14题112格，原Black-2/GRANGER16格及其补充记录保留。沿用同一累计10000次/USD200账本；Luna负责只读监控，Sol负责科学核验/代码。11题实际公开工具和3题科研环境绑定、SDK/重连正负门禁已零provider通过，正式模型进度取实际新批次回执。见[补测审计](../../docs/audits/Pi-full-main-2026-10-15.md)。下文两题/256次提案/100美元为历史范围，不覆盖本条；不启用额外重复轮次或外部发布。
+
 2026-10-14最新授权及门禁：用户批准在Black-5之后推进预选16格正式对照，累计上限沿用USD200/10000次，无第二份额度，GitHub继续暂缓。新的官方SDK适配已通过四profile内存认证/真实OS隔离、五wire工具计量与错误usage/developer负对照、Research Loop后台/Git检查点/跨owner拒绝及Black-2/GRANGER私有裁判实际正负重放。订阅凭据只经私有管道进入官方AuthStorage内存，不把认证文件授予模型工具。实际执行采用单独`formal-plan-v3.json`，旧准备与首次真实工具HTTP422失败保留；真实provider工具门禁、任务结果及科研源代码复核仍以独立回执为准。见[正式对照审计](../../docs/audits/Pi-formal-2026-10-14.md)。下文“未授权/100美元/关闭”描述历史准备，不覆盖本条。
 
 状态：真实安装、四组资源/OS隔离、CLI和合成工具链控制通过；真实供应商工具探针与正式两题smoke尚未执行。保留Humanize/DSH/Codex和原A–F，Pi只是新增对照，不替代项目Harness。
