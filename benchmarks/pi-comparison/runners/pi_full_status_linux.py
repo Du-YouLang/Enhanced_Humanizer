@@ -32,10 +32,16 @@ def inspect(run_id):
     outcomes={}
     for p in completed:
         value=json.loads(p.read_bytes())['value'];key=value['outcome'];outcomes[key]=outcomes.get(key,0)+1
+    continuation=read_continuation(root)
+    combined=dict(outcomes)
+    for key,count in continuation['prior_outcomes'].items():combined[key]=combined.get(key,0)+count
     active=any(r['alive_exact_boot_ticks'] and r['command_hash_verified'] for r in owners)
     failures=[{'path':str(p),'error_type':json.loads(p.read_bytes()).get('error_type')} for p in root.glob('failure-*.json')]
     return {'run_id':run_id,'root':str(root),'status':receipt.get('status') if receipt and not active else 'RUNNING' if active else 'EXIT_WITHOUT_RECEIPT',
-            'completed_new_cells':len(completed),'total_new_cells':112,'outcomes':outcomes,'active_or_uncertain_stages':uncertain,
+            'completed_new_cells':len(completed),'total_new_cells':continuation['total_here'],'outcomes':outcomes,
+            'completed_missing_cohort_cells':len(completed)+continuation['prior_cells'],
+            'total_missing_cohort_cells':112,'combined_missing_cohort_outcomes':combined,
+            'retained_prior_cells':continuation['prior_cells'],'active_or_uncertain_stages':uncertain,
             'owners':owners,'failures':failures,'last_receipt':str(receipts[-1]) if receipts else None,
             'ledger':{'deepseek_requests':len(ledger['requests']),'subscription_reservations':len(ledger['codex_turns']),
                       'api_conservative_bound_usd':ledger['cash_bound_nano']/1e9,'api_cash_actual':'unavailable',
@@ -43,6 +49,18 @@ def inspect(run_id):
                       'remaining_conservative_usd':200-ledger['cash_bound_nano']/1e9,
                       'sha256':hashlib.sha256(ledger_path.read_bytes()).hexdigest()},
             'models_started_by_inspector':0,'ledger_writes':0,'checked_unix':time.time()}
+
+
+def read_continuation(root):
+    path=root/'continuation-plan.json'
+    if not path.exists():return {'total_here':112,'prior_cells':0,'prior_outcomes':{}}
+    plan=json.loads(path.read_bytes());prior=Path(plan['original_root'])/'receipt.json'
+    if hashlib.sha256(prior.read_bytes()).hexdigest()!=plan['retained_sha256'][str(prior)]:
+        raise ValueError('Original retained receipt changed')
+    rows=json.loads(prior.read_bytes())['results'];outcomes={}
+    if len(rows)!=plan['retained_cells']:raise ValueError('Retained cell count differs')
+    for row in rows:outcomes[row['outcome']]=outcomes.get(row['outcome'],0)+1
+    return {'total_here':len(plan['remaining_cells']),'prior_cells':len(rows),'prior_outcomes':outcomes}
 
 
 if __name__=='__main__':print(json.dumps(inspect(sys.argv[1]),ensure_ascii=False))
