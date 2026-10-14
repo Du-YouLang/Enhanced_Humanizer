@@ -18,6 +18,13 @@ def copy_checkpoint(source, destination):
     return retained
 
 
+def subscription_retry_scope(original_scope, attempt):
+    """A new turn is charged separately; the original failed turn is retained."""
+    if not re.fullmatch(r'[A-Za-z0-9/_-]{1,180}',original_scope) or not re.fullmatch(r'formal-overload-recover-[0-9TZ]+',attempt):
+        raise ValueError('Bound original scope and recovery attempt required')
+    return original_scope+'/overload-'+attempt
+
+
 def overload_bounds(worker, role_seconds, previous_recoveries=()):
     if worker.get('status') not in ('INFRA_FAIL','INFRA_RETRY_PENDING'):
         raise ValueError('Only an infrastructure failure can be supplemented')

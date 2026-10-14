@@ -160,8 +160,12 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
         with os.fdopen(refresh_read,'rb') as f:refresh.append(f.read(1_000_001))
     reader=threading.Thread(target=drain,daemon=True);reader.start()
     tick=time.perf_counter();peak={'rss_kib':0,'processes':0,'threads':0};stopped=None
+    reservation_scope=scope
+    if subscription and recovery:
+        from pi_recovery_policy import subscription_retry_scope
+        reservation_scope=subscription_retry_scope(scope,root.parent.name)
     try:
-        if subscription:ledger.reserve_codex_turn(scope,'gpt-6.1-sol')
+        if subscription:ledger.reserve_codex_turn(reservation_scope,'gpt-6.1-sol')
         with (root/'events.private.jsonl').open('xb') as out,(root/'stderr.private.log').open('xb') as err:
             child=subprocess.Popen(namespace_command([*wrapper(fence),str(NODE),str(driver),str(path)]),cwd=work,env=env,
                 stdin=subprocess.PIPE,stdout=out,stderr=err,pass_fds=(refresh_write,),start_new_session=True)
@@ -238,6 +242,7 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
         'api_cash_actual':'unavailable' if provider=='deepseek' else 0,'model_identity':spec['model'],
         'resource_observations':[e for e in events if e['type'] in ('resources_observed','session_bound')],
         'provider_recovery_decisions':decisions,'overload_continuation':recovery,
+        'subscription_reservation_scope':reservation_scope if subscription else None,
         'prl_control':[e for e in events if e['type']=='prl_control_pass'],
         'evidence_kind':'ZERO_MODEL_CONTROL' if provider=='fixture' or mode=='auth-control' else 'REAL_MODEL'}
     from p6_main_contract import classify_role_completion

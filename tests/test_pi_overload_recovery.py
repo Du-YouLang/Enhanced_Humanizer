@@ -3,11 +3,27 @@ from pathlib import Path
 import unittest
 import tempfile
 import os
+import json
+import sys
 
 p=Path(__file__).resolve().parents[1]/'benchmarks/pi-comparison/runners/pi_recovery_policy.py'
 s=importlib.util.spec_from_file_location('pi_recovery_policy',p);m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
 
 class PiOverloadRecoveryTests(unittest.TestCase):
+    def test_recovery_reserves_a_new_turn_without_refunding_the_old_one(self):
+        root=Path(__file__).resolve().parents[1];sys.path.insert(0,str(root/'scripts'))
+        from p6_main_budget import MainLedger
+        from p1_budget import BudgetDenied
+        cache=root/'.local-workbench/tests/pi-recovery';cache.mkdir(parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=cache) as tmp:
+            ledger=MainLedger(Path(tmp)/'ledger.json',json.loads((root/'configs/budget-p6-main-v6-cash200-approved.json').read_text()))
+            scope='PI_FORMAL/original/role';ledger.reserve_codex_turn(scope,'gpt-6.1-sol')
+            before=json.loads(ledger.path.read_bytes())['codex_turns']
+            with self.assertRaises(BudgetDenied):ledger.reserve_codex_turn(scope,'gpt-6.1-sol')
+            retry=m.subscription_retry_scope(scope,'formal-overload-recover-20261014T090000Z')
+            ledger.reserve_codex_turn(retry,'gpt-6.1-sol')
+            after=json.loads(ledger.path.read_bytes())['codex_turns']
+            self.assertEqual(len(after),2);self.assertEqual(after[:1],before)
     def test_copy_retains_readonly_baseline_and_preserves_internal_links(self):
         cache=Path(__file__).resolve().parents[1]/'.local-workbench/tests/pi-recovery';cache.mkdir(parents=True,exist_ok=True)
         with tempfile.TemporaryDirectory(dir=cache) as tmp:
