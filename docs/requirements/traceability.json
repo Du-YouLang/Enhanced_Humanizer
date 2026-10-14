@@ -1128,7 +1128,8 @@
       ],
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/15",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "ADR-0032: pinned existing read-only runtime reused; login task runs Limited, no candidate environment changes."
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -1144,7 +1145,8 @@
         "ADR-0021",
         "ADR-0022",
         "ADR-0023",
-        "ADR-0031"
+        "ADR-0031",
+        "ADR-0032"
       ],
       "source_line": 115,
       "phase_evidence": {
@@ -1859,7 +1861,8 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "2026-10-14 GRANGER same-pool full-trace sensitivity accepted independently; candidate/numeric replays zero; full P6 pending."
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -1875,7 +1878,8 @@
         "ADR-0021",
         "ADR-0022",
         "ADR-0023",
-        "ADR-0031"
+        "ADR-0031",
+        "ADR-0032"
       ],
       "source_line": 169,
       "phase_evidence": {
@@ -1902,7 +1906,8 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "2026-10-14 trace contract/source59/manifest match original; operational observer version separated from frozen experiment code."
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -1918,7 +1923,8 @@
         "ADR-0021",
         "ADR-0022",
         "ADR-0023",
-        "ADR-0031"
+        "ADR-0031",
+        "ADR-0032"
       ],
       "source_line": 171,
       "phase_evidence": {
@@ -2023,7 +2029,8 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "2026-10-14 GRANGER trace: 335.299s, 10 DS requests/2 subscription turns, USD0.4504548 API bound; visible usage recorded; actual cash unavailable."
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -2037,7 +2044,8 @@
         "ADR-0021",
         "ADR-0022",
         "ADR-0023",
-        "ADR-0031"
+        "ADR-0031",
+        "ADR-0032"
       ],
       "source_line": 177,
       "phase_evidence": {
@@ -2103,7 +2111,8 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "2026-10-14 original GRANGER numerical acceptance preserved; supplementary trace scoring does not replace or relax the scientific oracle."
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -2119,7 +2128,8 @@
         "ADR-0021",
         "ADR-0022",
         "ADR-0023",
-        "ADR-0031"
+        "ADR-0031",
+        "ADR-0032"
       ],
       "source_line": 181,
       "phase_evidence": {
@@ -2146,7 +2156,8 @@
       ],
       "issue": "LOCAL_DRAFT:docs/issues/P6.md_REMOTE_DEFERRED",
       "tests": [
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "ADR-0032: exact post-reboot owner supplement corrects historical false EXIT_WITHOUT_RECEIPT; original monitor/protocol/failure receipts preserved."
       ],
       "implementation_status": "P6_MAIN_STARTED_PARTIAL_NOT_ACCEPTED",
       "relevant_adrs": [
@@ -2162,7 +2173,8 @@
         "ADR-0021",
         "ADR-0022",
         "ADR-0023",
-        "ADR-0031"
+        "ADR-0031",
+        "ADR-0032"
       ],
       "source_line": 183,
       "phase_evidence": {
@@ -2565,7 +2577,8 @@
       "issue": "https://github.com/Du-YouLang/Enhanced_Humanizer/issues/11",
       "tests": [
         "P4-A01..A04 LOCAL_PASS_REMOTE_PENDING",
-        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending"
+        "P6 two-public-smoke REAL_MODEL_PARTIAL; main started, full P6-A01..A04 pending",
+        "2026-10-14 original5557DS/178subscription identity prefixes verified; current5567/180/USD100.2256956 bound, cap200/10000 retained; no reset or unknown-usage refund."
       ],
       "implementation_status": "P4_LOCAL_VERIFIED_FULL_REQUIREMENT_PARTIAL_REMOTE_PENDING",
       "relevant_adrs": [
@@ -2582,7 +2595,8 @@
         "ADR-0021",
         "ADR-0022",
         "ADR-0023",
-        "ADR-0031"
+        "ADR-0031",
+        "ADR-0032"
       ],
       "source_line": 211,
       "phase_evidence": {

@@ -1,5 +1,9 @@
 # 项目交接状态
 
+2026-10-14：GRANGER 原候选同池完整轨迹敏感性完成，独立核验59份源码/原选择/完整轨迹/四项付费评分均通过，原候选和数值验收不重跑。当前15题主流程、15次敏感性收束（含FAIL），Black-5原Pool-A网络中断仍保留；完整P6/Pi/新P7继续待验。新增10次DS/2订阅，335.299秒/API保守上界USD0.4504548；累计5567DS/180订阅/USD100.2256956上界，实际扣款unavailable，剩余4433次/USD99.7743044。最终账本与审计私有快照已保存，见ADR-0032及audits/P6-followup-2026-10-14.md。
+
+用户亲自以管理员身份安装计划任务成功，任务运行权限Limited，隐藏窗口、登录触发及每分钟恢复；现观察器v4每30秒只读巡检，由 `.local-workbench/recovery/p6-observer-watchdog-v1/config.private.json` 解析当前配置。实际退出控制后，恢复启用28.154秒自动产生新拥有者6880；启动事件/创建时间/当前用户/源码与配置相互核对，当前令牌无法读取计划任务子进程CommandLine，已记unavailable。旧v3停用并完整保留，原HKCU项保留，45分钟巡检不变。v4补充本次原生boot/PID/ticks/命令哈希/启动回执/合同绑定，纠正旧监控对重启后活动控制器的误报，未改冻结59份实验源码。下次真实登录触发尚待现场回执，没有为此重启。GitHub继续暂缓，产品Draft30仍待人合并，对外发布未授权。
+
 2026-10-13 23:24：本机23:12重启后原只读监控进程已不在，最后心跳18:08；独立检查确认实验现场和精确账本未变。已恢复现有无窗口30秒observer v3，当前拥有者34020，创建时间/命令/原HKCU启动项均核对；配置和源码pins不改，原状态另存，启动项未执行的具体原因尚未证实。恢复回执 `.local-workbench/audits/followup-20261013T152205-verified.private.json`。仍为15题主流程完成（含FAIL）、14次敏感性完成，GC敏感性及Black-5中断现场待办保留；累计5557DS/178订阅/API上界USD99.7752408，剩余4443次/USD100.2247592保守空间，实付unavailable。本次新增模型调用零，GitHub继续暂缓，完整P6/Pi/新P7仍未接受。
 
 2026-10-13：GRANGER 验收环境及检查器误判已修复，8 份冻结候选、原选择的 A–F 六臂全部 PASS。复用现有 threadpoolctl、C 的完整 GPU 输出及六份已完成数值检查，只补未完成验收；原失败、中间 INDETERMINATE、59 份原生源码和旧批次索引保留。最终补充回执为原运行的 `control/granger-reviewed-acceptance.json`，独立证据在 `.local-workbench/audits/GRANGER-acceptance-20261013.private.json`。新增模型调用零，累计5557DS/178订阅/USD99.7752408保守上界账本逐字一致；实付和原模型墙钟区间 unavailable。代码位于本地 `codex/granger-acceptance-repair` checkout，GitHub继续按用户要求暂缓。详见 ADR-0031 与 GRANGER 验收审计；完整P6/Pi/新P7/外部发布仍未接受。
