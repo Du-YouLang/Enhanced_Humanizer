@@ -25,6 +25,13 @@ def settled_usage_match(summary,rows):
     return bool(known) and all(summary.get('usage',{}).get(k)==sum(r['usage'][v] for r in known) for k,v in fields.items())
 
 
+def validate_deepseek_roles(body):
+    roles=[m.get('role') for m in body.get('messages',[])]
+    if not roles or any(r not in ('system','user','assistant','tool') for r in roles):
+        raise ValueError('DeepSeek requires the pinned system/user/assistant/tool message schema')
+    return roles
+
+
 def zero_numeric_returns(text,function):
     """An actual wrong-number negative control; refuse a misspelled target."""
     changed=[]

@@ -26,7 +26,7 @@ from p6_main_budget import MainLedger,task_limits
 from p6_network_recovery import RecoveryBroker
 from p6_checkpoint_recovery import Stages,sha
 from events import summarize,records
-from pi_protocol import validate_plan,settled_usage_match,zero_numeric_returns
+from pi_protocol import validate_plan,settled_usage_match,zero_numeric_returns,validate_deepseek_roles
 import p6_main_runtime_linux as main
 import p6_runtime_linux as shared
 
@@ -80,7 +80,8 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
                 def log_message(self,*args):pass
                 def do_POST(self):
                     body=json.loads(self.rfile.read(int(self.headers['Content-Length'])))
-                    i=len(seen);seen.append({'max_tokens':body.get('max_tokens'),'thinking':body.get('thinking'),'reasoning_effort':body.get('reasoning_effort')})
+                    i=len(seen);seen.append({'max_tokens':body.get('max_tokens'),'thinking':body.get('thinking'),'reasoning_effort':body.get('reasoning_effort'),
+                                            'message_roles':[m.get('role') for m in body.get('messages',[])]})
                     if i>len(steps):self.send_error(429);return
                     delta={'role':'assistant'};reason='stop'
                     if i<len(steps):
@@ -100,6 +101,7 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
                 async def exchange(self,body,index,seconds):
                     policy={k:body.get(k) for k in ('max_tokens','thinking','reasoning_effort','model')}
                     policies.append(policy)
+                    validate_deepseek_roles(body)
                     if policy!={'max_tokens':256000,'thinking':{'type':'enabled'},'reasoning_effort':'low','model':'deepseek-flash'}:
                         raise ValueError('Prospective DeepSeek model/output/reasoning wire gate failed before provider access')
                     return await super().exchange(body,index,seconds)
@@ -114,7 +116,8 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
             'models':[{'id':'deepseek-flash','name':'Explicit metered DeepSeek' if provider=='deepseek' else 'ZERO_PROVIDER_SYNTHETIC',
                 'reasoning':True,'input':['text'],'contextWindow':1048576,'maxTokens':256000,
                 'samplingParams':{'max_tokens':256000},'cost':{'input':0,'output':0,'cacheRead':0,'cacheWrite':0},
-                'compat':{'maxTokensField':'max_tokens','supportsStore':False,'thinkingFormat':'deepseek'}}]}}})
+                'compat':{'maxTokensField':'max_tokens','supportsStore':False,'thinkingFormat':'deepseek',
+                          'supportsDeveloperRole':fixture_fault=='developer'}}]}}})
     spec={'root':str(root),'work':str(work),'profile':profile,'mode':mode,'role_seconds':role_seconds,'request_seconds':600,'role_requests':1000,
           'parent_namespace':os.readlink('/proc/self/ns/pid'),
           'provider':'openai' if subscription else 'workbench-bridge','model':'gpt-6.1-sol' if subscription else 'deepseek-flash',
@@ -228,7 +231,7 @@ def fixture_controls(payload):
         dest=root/(profile+'-auth');dest.mkdir();(dest/'code').mkdir()
         results[profile]=execute(dest,dest/'code',profile,'fixture',payload['budget'],'No models.',900,driver,
                                 mode='auth-control',denied=[canary])
-    for label,fault in [('positive',None),('negative-usage','usage')]:
+    for label,fault in [('positive',None),('negative-usage','usage'),('negative-developer','developer')]:
         dest=root/label;dest.mkdir();work=dest/'code';work.mkdir()
         shared.trusted_git(work,'init','-q')
         shared.trusted_git(work,'config','user.name','Pi control');shared.trusted_git(work,'config','user.email','control@example.invalid')
@@ -244,9 +247,12 @@ def fixture_controls(payload):
                                      mode='prl-control',denied=[canary])
     oracles=oracle_controls(root,payload)
     positive=results['positive'];negative=results['negative-usage']
+    developer=results['negative-developer']
     good=(all(results[p]['status']=='PASS_AUTH_MEMORY_AND_RESOURCE_CONTROL' for p in ('P0','P1','P2','P3'))
           and positive['status']=='COMPLETED' and positive['wire_count']==5 and positive['summary']['total_tool_calls']==4
           and negative['status']!='COMPLETED' and negative['wire_count']==1 and not negative['summary'].get('total_tool_calls')
+          and developer['status']!='COMPLETED' and developer['wire_count']==1 and not developer['summary'].get('total_tool_calls')
+          and developer['fixture_http']==[]
           and results['P3-background']['status']=='PASS_AUTH_MEMORY_AND_RESOURCE_CONTROL' and bool(results['P3-background']['prl_control'])
           and oracles['status']=='PASS_PUBLIC_PRIVATE_ORACLES'
           and all(r['status']=='RESERVED_UNKNOWN_USAGE' for r in read(root/'negative-usage/fixture-ledger.json')['requests']))

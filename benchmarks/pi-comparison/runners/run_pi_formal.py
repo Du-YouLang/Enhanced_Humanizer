@@ -40,7 +40,7 @@ def main():
     p.add_argument('mode',choices=('controls','prepare','tools','compare'));p.add_argument('--detach',action='store_true');a=p.parse_args()
     budget,budget_sha=authorization(ROOT/'configs/budget-p6-main-v6-cash200-approved.json')
     folder,source=deploy()
-    plan_path=ROOT/'benchmarks/pi-comparison/formal-plan-v2.json'
+    plan_path=ROOT/'benchmarks/pi-comparison/formal-plan-v3.json'
     if a.mode=='prepare':
         sys.path.insert(0,str(ROOT/'src'))
         from workbench.benchmark import digest,check_manifest

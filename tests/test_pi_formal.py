@@ -41,5 +41,9 @@ class FormalPiTests(unittest.TestCase):
         self.assertEqual(ns['compute_gc'](5),0)
         with self.assertRaises(ValueError):policy.zero_numeric_returns(source,'compute_gc_gpu')
 
+    def test_provider_roles_are_checked_before_forwarding(self):
+        self.assertEqual(policy.validate_deepseek_roles({'messages':[{'role':'system'},{'role':'user'}]}),['system','user'])
+        with self.assertRaises(ValueError):policy.validate_deepseek_roles({'messages':[{'role':'developer'},{'role':'user'}]})
+
 
 if __name__=='__main__':unittest.main()
