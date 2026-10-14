@@ -2,7 +2,7 @@
 
 版本 `0.1.0-preview.1`，P7 范围为安装打包和交付准备。包以一个精确 Git commit 为来源；并非已发布产品，完整 P6 尚待验收。本机验证平台为 Windows + PowerShell + Python 3.12 及以上 + Git。没有重新实现或捆绑 Coding Harness。
 
-本机 P7-A01..A04 已通过，见 [验收记录](audits/P7-2026-10-11.md)。最终包目录为 `D:\Desktop\Enhanced_Humanizer\.local-workbench\deliveries\p7-final-20261011`，从其中 `receipt.json` 读取实际 ZIP 文件名与独立 SHA，不凭文件名猜测版本。完整运行仍使用原开发工作区；安装预览默认拒绝真实推理。
+本机最新 P7-A01..A04 已通过，见 [2026-10-14 验收记录](audits/P7-2026-10-14.md)。精确功能提交8d5c38e的新包目录为 `.local-workbench/worktrees/p7-black5-pi-20261014/.local-workbench/deliveries/p7-v3-8d5c38e`，从其中 `receipt.json` 读取实际 ZIP 文件名与独立 SHA，不凭文件名猜测版本。新安装预览在 `http://127.0.0.1:8786`；旧包与[此前验收记录](audits/P7-2026-10-11.md)保留。完整运行仍使用原开发工作区；安装预览默认拒绝真实推理。
 
 源码包包含已提交源码、保留的需求基线、公开审计、固定依赖清单和一个离线 Git bundle。它不包含 `.local-workbench`、账号登录、模型原始记录、科研原文、数据库、Python/Conda 安装或 WSL VHD。完整运行状态需另行本地私有备份。原有单账号的 GitHub 连接继续暂缓，安装器不联网操作 Git。
 
@@ -50,4 +50,4 @@ python -B scripts/package_workbench.py verify --archive <ZIP> --sha256 <独立SH
 
 ## 发布前门禁
 
-发布前再次与用户确认名称、项目许可证、交付平台与公开内容；恢复 Du-YouLang 后按阶段实际跑远程 CI/PR，并核验身份。P6 公共主集、完整轨迹敏感性实验、科学材料和科研验收尚待完成或按用户明确范围继续暂缓。Jev 地区访问阻塞与未知成本明确保留。每一次产品 PR 均须新的人工审核；本地安装验证不授权发布。
+发布前再次与用户确认名称、项目许可证、交付平台与公开内容；恢复 Du-YouLang 后按阶段实际跑远程 CI/PR，并核验身份。当前P6主集及完整轨迹敏感性各16题收束（包含失败/评分阻塞），完整科学报告仍待复核，Pi正式16格对照运行中；最新进度以[交接状态](project-status.md)和实际回执为准。Jev地区访问阻塞与未知成本明确保留。每一次产品PR均须新的人工审核；本地安装验证不授权发布。
