@@ -1,5 +1,13 @@
 # Pi 全主集补测
 
+09:24:31（北京时间）实际启动第二次未开始后缀续行`formal-full-compare-20261015T012431Z`，v2计划6069a7a32fed58eb47cf7a1034c011c160a5d5a7584adb7f95cdcec6fb7593ca、包装器continue-unstarted-3d781efa7ff5637e，仍调用原冻结controller-full-add321abf76f91f0。原生PID409/boot e2b09f44-756c-4bf3-8238-395a040fca8e/startticks91108/command86eed1f3755e7ec73be23b21bb1167cddc6a0a1c6cae84003cf87fdf4252b314独立吻合。保留两批22格及其结果/阶段/账本前缀；仅跑余90格，原generic失败和临时可用量检查失败均不在清单。
+
+09:28实际新2/90均PASS（Black-4/P2、P3订阅），累计24/112=19PASS/3FAIL/1INFRA_FAIL/1INFRA_RETRY_PENDING；Black-5/P0/DeepSeek执行中。累计6615DS/210订阅预留/USD115.2652269保守上界、实际扣款不可见，保留所有原预留。该快照不是最终成绩；科学数值通过仍须独立源码/报告/图表复核。
+
+功能937c379ceff245402eba2c83d22dcfe35efecf1b：Windows251（7skip）、原生251（3skip）、Node8通过；实际绑定正控及旧格重放/缺格/保留结果篡改/源pin篡改四负控通过、零模型/账本不变。精确CI38665265505三SUCCESS后[PR47](https://github.com/Du-YouLang/Enhanced_Humanizer/pull/47)合并1be204e91bd542f41fc9e974a98a09a0155b0bb7。
+
+只读观察器当前v13由原watchdog路由：配置ad94300e877699b4b71d55f01830f79c02919973592c6e3d9d921b966a98b4ba、inspector80a49ac2b8deb8ba4774b440af8392eba52e656a9ee07d2a177dffa526773ab3；旧v12禁用但原文件保留。一次OBSERVATION_FAILED后09:25:21恢复OBSERVING_ACTIVE_WORK、独立once通过，09:28:35新心跳继续正常；具体原因未确认，没有修改活动实验或为此修代码。Windows观察器PID动态解析，不编造命令行回读。Luna只读实核原生boot/PID/ticks/commandhash、账本与两个分母；Sol负责代码和科学。45分钟巡检已更新新目标。正式启动/原结果保留/私有备份等收尾另存实际回执，不代表矩阵或P7全部完成。
+
 09时主动跟进：新鲜Luna/实际状态均确认仍停在22/112，17PASS/3FAIL/2infra，已停止而非持续编码；账本6609DS/208订阅/USD114.6357972上界不变。最新订阅报错符合官方文档的可用量检查暂不可用消息，但原轨迹没有HTTP/code，不能声称实测503或过载。Sol按官方SDK刷新原独立OAuth（只备份单文件），实际官方GET模型目录200且gpt-6.1-sol列出；receipt pi-subscription-catalog-zero-20261015为PASS_ZERO_MODEL_AUTH_AND_CATALOG、模型0/账本逐字不变。没有切换账号、模型或现金API，没有因此判任务通过。
 
 多批次续行v2计划6069a7a3按不可变两批回执串联22格，余90个严格未开始格另跑；源pin、旧目录排除、原22结果与账本前缀实际控制通过。原两个infra格不在新清单。详见[ADR-0042](../decisions/ADR-0042.md)；实际启动/CI/监控另取回执，原coreadd321ab和旧包装器保持。
