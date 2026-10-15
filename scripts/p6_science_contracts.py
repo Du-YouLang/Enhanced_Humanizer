@@ -5,6 +5,7 @@ import math
 from pathlib import Path
 import re
 import statistics
+from decimal import Decimal
 
 
 def finite(value, label, *, positive=False):
@@ -122,8 +123,7 @@ def canonical_egl_summary(summary):
 def pc_manifest(manifest, source):
     """Resolve public semantic fields; source authority stays outside submission."""
     env=manifest.get('environment',manifest.get('versions',{}))
-    python=manifest.get('python',env.get('python'))
-    if isinstance(python,dict):python=python.get('version')
+    python=pc_python_version(manifest)
     packages=manifest.get('packages',env.get('packages'))
     if not python or not isinstance(packages,dict) or not packages:raise ValueError('Python/package measurements required')
     gates=manifest.get('gate_elapsed_seconds')
@@ -146,6 +146,29 @@ def pc_manifest(manifest, source):
     return {'python':python,'packages':packages,'gate_elapsed_seconds':gates,'data_sha256':normalized[0],
             'source_provenance':source_identity(source),'gpu_measurement':manifest.get('gpu',env.get('gpu','unavailable')),
             'driver_measurement':'unavailable' if not manifest.get('driver') else manifest['driver']}
+
+
+def pc_python_version(manifest):
+    """Recognize measured version aliases, rejecting conflicting declarations."""
+    values=[]
+    for mapping in (manifest,manifest.get('environment',{}),manifest.get('versions',{})):
+        if not isinstance(mapping,dict):raise ValueError('Python measurement container must be a mapping')
+        for name in ('python','python_version'):
+            if name not in mapping:continue
+            value=mapping[name]
+            if isinstance(value,dict):value=value.get('version')
+            if not isinstance(value,str) or not value.strip():raise ValueError('Measured Python version required')
+            values.append(value)
+    if not values or any(v!=values[0] for v in values[1:]):raise ValueError('Missing or conflicting Python measurements')
+    return values[0]
+
+
+def pc_within_tolerance(actual_accuracy,reference_accuracy,actual_cosine,reference_cosine):
+    """Compare saved decimal measurements against the exact frozen boundaries."""
+    values=(actual_accuracy,reference_accuracy,actual_cosine,reference_cosine)
+    if any(type(v) not in (int,float) or not math.isfinite(v) for v in values):return False
+    a,b,c,d=(Decimal(str(v)) for v in values)
+    return 100*abs(a-b)<=Decimal('0.25') and abs(c-d)<=Decimal('0.02')
 
 
 def input_hashes(raw):

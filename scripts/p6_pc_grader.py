@@ -9,7 +9,7 @@ from p6_output_data import bounded_json
 from p6_pc_validation import validate_bundle,run_artifacts
 from p6_pc_statistics import read_rows
 from p6_science_sandbox import execute
-from p6_science_contracts import source_identity
+from p6_science_contracts import source_identity,pc_within_tolerance
 
 
 def grade(source,reference,prefix,official,*,timeout=7200):
@@ -47,7 +47,8 @@ subprocess.run([sys.executable,'-B',str(source/'run_benchmark.py'),'--data-dir',
         for row in actual:
             prior=gold[row['width'],row['depth'],row['method']]
             a=100*abs(row['final_test_acc']-prior['final_test_acc']);c=abs(row['grad_cos_to_bp']-prior['grad_cos_to_bp'])
-            if a>.25 or c>.02:raise ValueError('Frozen same-environment cell tolerance exceeded')
+            if not pc_within_tolerance(row['final_test_acc'],prior['final_test_acc'],row['grad_cos_to_bp'],prior['grad_cos_to_bp']):
+                raise ValueError('Frozen same-environment cell tolerance exceeded')
             deltas.append({'width':row['width'],'depth':row['depth'],'method':row['method'],'accuracy_delta_pp':a,'cosine_delta':c})
         report=root/'REPORT.md'
         if not report.is_file() or not 250<=report.stat().st_size<=100000:raise ValueError('Scientific report missing/oversized')
@@ -77,7 +78,7 @@ for w,d,m in cells:
         for w,d,m in selected:
             folder=Path(replay['output'])/f'fashion_mnist_relu_n{w}_l{d}_seed0_{m}'
             r=bounded_json(folder/'summary.json');run_artifacts(folder,r,eta);prior=by_key[w,d,m]
-            if 100*abs(r['final_test_acc']-prior['final_test_acc'])>.25 or abs(r['grad_cos_to_bp']-prior['grad_cos_to_bp'])>.02:
+            if not pc_within_tolerance(r['final_test_acc'],prior['final_test_acc'],r['grad_cos_to_bp'],prior['grad_cos_to_bp']):
                 raise ValueError('Independent replay disagrees with submitted cell')
         result.update(verdict='PASS_NUMERIC_REVIEW_PENDING',implementation_fidelity='ARTIFACTS_AND_ANCHORS_AND_LOCAL_REFERENCE_AND_TWO_CELL_REPLAY_PASS',
                       scientific_claim_supported=checked['science_gate']['claim_supported'],science_gate=checked['science_gate'],

@@ -8,10 +8,33 @@ import unittest
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'scripts'))
-from p6_science_contracts import egl_manifest,egl_summary,pc_manifest,source_identity
+from p6_science_contracts import egl_manifest,egl_summary,pc_manifest,source_identity,pc_within_tolerance
 
 
 class ScienceContractTests(unittest.TestCase):
+    def test_pc_exact_decimal_boundary_passes_but_any_real_excess_fails(self):
+        self.assertGreater(100*abs(.7025-.7),.25)
+        self.assertTrue(pc_within_tolerance(.7025,.7,.1,.08))
+        self.assertFalse(pc_within_tolerance(.7025001,.7,.1,.08))
+        self.assertFalse(pc_within_tolerance(.7025,.7,.1000001,.08))
+        for bad in (float('nan'),float('inf'),True,None):
+            self.assertFalse(pc_within_tolerance(bad,.7,.1,.08))
+
+    def test_pc_measured_python_version_alias_preserves_other_gates_and_rejects_conflicts(self):
+        temp=ROOT/'.local-workbench/test-temp';temp.mkdir(parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=temp) as folder:
+            source=Path(folder);(source/'run_benchmark.py').write_text('pass\n')
+            raw={'python_version':'3.11.16','packages':{'jax':'0.10.1'},'data_sha256':{'data.gz':'b'*64},
+                 'gate_elapsed_seconds':{'smoke':1.,'anchor':2.,'grid':3.}}
+            result=pc_manifest(raw,source)
+            self.assertEqual(result['python'],'3.11.16')
+            self.assertEqual(result['packages'],raw['packages']);self.assertEqual(result['data_sha256'],raw['data_sha256'])
+            self.assertEqual(result['gate_elapsed_seconds'],raw['gate_elapsed_seconds'])
+            self.assertEqual(pc_manifest(raw|{'python':{'version':'3.11.16'}},source),result)
+            for bad in (raw|{'python':'3.12'},raw|{'environment':{'python_version':'3.12'}},
+                        raw|{'python_version':None},raw|{'packages':{}},raw|{'data_sha256':{'data.gz':'invalid'}}):
+                with self.assertRaises(ValueError):pc_manifest(bad,source)
+
     def test_explicit_egl_aliases_and_memory_units(self):
         raw={'file_sha256':{'candidate.py':'a'*64},'python_version':'3.10','num_threads':8,'dtype':'float32',
              'seeds':[1,2,3],'peak_rss_bytes':2048,'torch_version':'2.5.1'}
