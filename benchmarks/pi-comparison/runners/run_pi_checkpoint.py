@@ -86,6 +86,7 @@ plan={'authorization':d['authorization'],'root':str(root),'original_wrapper':'/o
  'continuation_plan':prior,'sources':d['sources'],'recovery_root':str(root/'acceptance-recovery-20261015'),
  'completed_results_sha256':digest(rows),'cell':prior['remaining_cells'][61],'unstarted_cells':todo,
  'cache_file':str(cache_file),'cache_evaluation':str(cache_root),'reused_training_records':len(cache),'partial_trainings_preserved':skipped,
+ 'prior_acceptance_debit_seconds':1900,'prior_time_evidence':{'acceptance_started_utc':'2026-10-15T09:46:25.633939Z','first_post_interruption_EventLog6005_utc':'2026-10-15T10:17:32.035324Z','policy':'Round1866.402s observed wall-span upward to1900s; includes shutdown downtime, not claimed exact CPU time'},
  'evidence_sha256':{str(p):sha(p) for p in files},'ledger_archive':str(archive),'automatic_model_replay':False,
  'controller':d['folder'],'external_release_authorized':False}
 plan['recovery_sha256']=digest(plan);print(json.dumps(plan))

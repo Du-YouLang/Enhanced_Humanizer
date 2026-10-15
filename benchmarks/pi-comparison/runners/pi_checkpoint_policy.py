@@ -5,6 +5,11 @@ from pathlib import Path
 AUTHORIZATION='USER_APPROVED_2026-10-15_PC_ACCEPTANCE_THEN_UNSTARTED'
 
 
+def remaining_acceptance_seconds(debit):
+    if type(debit) is not int or not 0<debit<7200:raise ValueError('Conservative prior active-time debit required')
+    return 7200-debit
+
+
 def checkpoint_cells(plan,rows,interrupted):
     cells=plan['remaining_cells']
     if not rows or [r['cell'] for r in rows]!=cells[:len(rows)]:

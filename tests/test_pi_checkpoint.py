@@ -3,11 +3,15 @@ from pathlib import Path
 from unittest.mock import Mock
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'benchmarks/pi-comparison/runners'))
-from pi_checkpoint_policy import AcceptanceJournal,cached_training_runner,checkpoint_cells
+from pi_checkpoint_policy import AcceptanceJournal,cached_training_runner,checkpoint_cells,remaining_acceptance_seconds
 from pi_full_protocol import digest,exclusive,UncertainStage
 
 
 class CheckpointTests(unittest.TestCase):
+    def test_acceptance_time_carries_conservative_pre_reboot_debit(self):
+        self.assertEqual(remaining_acceptance_seconds(1900),5300)
+        for bad in (0,-1,7200,True,1.5):
+            with self.assertRaises(ValueError):remaining_acceptance_seconds(bad)
     def test_only_authorized_interruption_and_exact_unstarted_suffix(self):
         plan=json.loads((ROOT/'benchmarks/pi-comparison/full-main-plan-v4.json').read_bytes())
         cells=plan['cells'][27:];rows=[{'cell':c} for c in cells[:61]]

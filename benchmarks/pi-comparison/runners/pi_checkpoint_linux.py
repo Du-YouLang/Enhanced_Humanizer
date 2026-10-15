@@ -2,7 +2,7 @@
 import fcntl,hashlib,json,os,sys,time,traceback
 from pathlib import Path
 from unittest.mock import patch
-from pi_checkpoint_policy import AUTHORIZATION,AcceptanceJournal,checkpoint_cells,retained_value
+from pi_checkpoint_policy import AUTHORIZATION,AcceptanceJournal,checkpoint_cells,retained_value,remaining_acceptance_seconds
 
 def read(p):return json.loads(Path(p).read_bytes())
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
@@ -13,6 +13,7 @@ def bind(plan):
     core,_=previous.bind({'continuation_plan':plan['continuation_plan']})
     body=dict(plan);expected=body.pop('recovery_sha256')
     if core.digest(body)!=expected or plan['authorization']!=AUTHORIZATION:raise ValueError('Recovery authorization changed')
+    if plan.get('prior_acceptance_debit_seconds')!=1900:raise ValueError('Original acceptance time must not reset')
     for p,h in {**plan['sources'],**plan['evidence_sha256']}.items():
         if sha(p)!=h:raise ValueError('Recovery evidence changed: '+p)
     root=Path(plan['root']);rows=[]
@@ -69,7 +70,10 @@ def execute(payload):
         name='SCI-PC-ALM-P0-deepseek';journal=AcceptanceJournal(root/'control/stages',recovery/'stages',name)
         original={**plan['continuation_plan']['original_payload'],'run_id':root.name,'key':payload['key']}
         import p6_pc_grader as grader
-        real_execute=grader.execute;counter=[0]
+        real_execute=grader.execute;real_grade=grader.grade;counter=[0]
+        def bounded_grade(*args,**kwargs):
+            kwargs['timeout']=remaining_acceptance_seconds(plan['prior_acceptance_debit_seconds'])
+            return real_grade(*args,**kwargs)
         def resumed_execute(source,prefix,program,**kwargs):
             counter[0]+=1
             if counter[0]!=1:return real_execute(source,prefix,program,**kwargs)
@@ -82,7 +86,8 @@ def execute(payload):
         before=sha(core.pi.LEDGER)
         with patch.object(core.pi,'execute',side_effect=RuntimeError('Model replay forbidden during acceptance recovery')):
             with patch.object(grader,'execute',side_effect=resumed_execute):
-                row=core.run_cell(root,original,plan['cell'],journal)
+                with patch.object(grader,'grade',side_effect=bounded_grade):
+                    row=core.run_cell(root,original,plan['cell'],journal)
         if sha(core.pi.LEDGER)!=before:raise ValueError('Acceptance recovery changed model ledger')
         # Preserve the interrupted started marker; append the independently
         # audited completion and never replace an existing raw result.
