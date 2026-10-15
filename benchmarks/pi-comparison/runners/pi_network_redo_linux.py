@@ -41,7 +41,7 @@ def execute(payload):
         if not Path(plan['after_run_receipt']).is_file():raise ValueError('Prior active controller lacks a closed receipt')
         ledger=core.MainLedger(core.pi.LEDGER,plan['executor_payload']['budget'])
         state=read(core.pi.LEDGER)
-        if len(state['requests'])>=10000 or state['cash_bound_nano']+ledger.request_reserve>200_000_000_000:
+        if len(state['requests'])>=10000 or state['cash_bound_nano']+ledger.request_reserve>250_000_000_000:
             return {'status':'BLOCKED_CUMULATIVE_BUDGET','model_calls':0,'original_preserved':True,'redo_started':False}
         run_id=payload['run_id']
         if not __import__('re').fullmatch(r'formal-network-redo-[0-9TZ]+',run_id):raise ValueError('Exact supplemental run ID required')

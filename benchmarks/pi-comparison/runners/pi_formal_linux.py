@@ -78,7 +78,9 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
         from pi_recovery_policy import validate_runtime_recovery
         validate_runtime_recovery(recovery,role_seconds)
     scope=recovery.get('scope') if recovery and recovery.get('scope') else 'PI_FORMAL/'+root.parent.name+'/'+root.name
-    ledger=MainLedger(root/'fixture-ledger.json' if provider=='fixture' else LEDGER,budget)
+    if budget.get('api_cash_usd')==250:
+        ledger=MainLedger(root/'fixture-ledger.json' if provider=='fixture' else LEDGER,budget,fixture=provider=='fixture')
+    else:ledger=MainLedger(root/'fixture-ledger.json' if provider=='fixture' else LEDGER,budget)
     ledger_before=read(LEDGER)
     ledger.validate(ledger_before)
     ledger_start=len(read(ledger.path)['requests']) if ledger.path.exists() else 0

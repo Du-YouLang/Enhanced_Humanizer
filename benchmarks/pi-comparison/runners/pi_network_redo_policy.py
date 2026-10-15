@@ -11,7 +11,8 @@ def validate_redo(plan,original):
             or type(plan.get('fresh_role_seconds')) is not int or plan.get('fresh_role_requests')!=1000
             or type(plan.get('fresh_role_requests')) is not int or plan.get('maximum_new_trials')!=1
             or type(plan.get('maximum_new_trials')) is not int
-            or plan.get('cumulative_caps')!={'deepseek_requests':10000,'api_cash_usd':200}
+            or plan.get('cumulative_caps')!={'deepseek_requests':10000,'api_cash_usd':250}
+            or plan.get('cash_authorization')!='USER_APPROVED_2026-10-15_CUMULATIVE_USD250_BLACK5_P1_ONLY'
             or plan.get('original_result_preserved') is not True or plan.get('external_release_authorized') is not False):
         raise ValueError('Only the explicitly authorized Black5/P1/DeepSeek fresh trial is allowed')
     return plan

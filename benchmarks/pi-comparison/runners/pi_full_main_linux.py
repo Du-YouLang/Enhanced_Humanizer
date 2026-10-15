@@ -176,6 +176,8 @@ def verify_frozen(work,candidate,frozen):
 
 
 def run_cell(root,payload,cell,journal):
+    if payload['plan'].get('authorized_paid_cells') and cell not in payload['plan']['authorized_paid_cells']:
+        raise ValueError('Scoped budget authorizes only the named supplemental cell')
     name=cell['task_id']+'-'+cell['profile']+'-'+cell['provider']
     task_row=next(t for t in payload['plan']['main_manifest']['tasks'] if t['task_id']==cell['task_id'])
     task_payload,task,tester=make_task(payload,task_row);role=task_limits(payload['budget'],task_row)['role_seconds']
@@ -233,6 +235,8 @@ def run_cell(root,payload,cell,journal):
 
 
 def compare(payload):
+    if payload['plan'].get('authorized_paid_cells'):
+        raise ValueError('Single-cell cash authorization cannot launch a full matrix')
     pi.quiet();plan=validate_bindings(payload);control=require_controls(payload)
     root=pi.RUNS/payload['run_id'];root.mkdir(parents=True,exist_ok=True)
     if not (root/'plan.json').exists():exclusive(root/'plan.json',plan)

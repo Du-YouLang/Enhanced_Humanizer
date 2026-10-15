@@ -12,7 +12,8 @@ class NetworkRedoTests(unittest.TestCase):
     def plan(self):
         return {'authorization':m.AUTH,'cell':dict(m.CELL),'original_run':m.ORIGINAL,
             'fresh_role_seconds':900,'fresh_role_requests':1000,'maximum_new_trials':1,
-            'cumulative_caps':{'deepseek_requests':10000,'api_cash_usd':200},'original_result_preserved':True,
+            'cumulative_caps':{'deepseek_requests':10000,'api_cash_usd':250},
+            'cash_authorization':'USER_APPROVED_2026-10-15_CUMULATIVE_USD250_BLACK5_P1_ONLY','original_result_preserved':True,
             'external_release_authorized':False}
     def original(self):return {'cell':dict(m.CELL),'outcome':'INFRA_RETRY_PENDING','role_seconds':900}
     def test_only_exact_failed_cell_can_receive_one_new_trial(self):
@@ -42,7 +43,7 @@ class NetworkRedoTests(unittest.TestCase):
         import pi_network_redo_linux as runtime
         root=p.parents[3]/'.local-workbench/tests/network-redo';root.mkdir(parents=True,exist_ok=True)
         with tempfile.TemporaryDirectory(dir=root) as tmp:
-            base=Path(tmp);ledger=base/'ledger.json';ledger.write_text(json.dumps({'requests':[],'cash_bound_nano':199_900_000_000}))
+            base=Path(tmp);ledger=base/'ledger.json';ledger.write_text(json.dumps({'requests':[],'cash_bound_nano':249_900_000_000}))
             closed=base/'closed.json';closed.write_text('{}');marker=base/'once.json'
             pi=SimpleNamespace(BASE=base,LEDGER=ledger,protect_memory=lambda:None,quiet=lambda:None)
             core=SimpleNamespace(pi=pi,MainLedger=lambda *args:SimpleNamespace(request_reserve=622_000_000))
