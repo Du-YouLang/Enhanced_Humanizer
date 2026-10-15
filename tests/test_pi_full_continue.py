@@ -7,6 +7,16 @@ spec=importlib.util.spec_from_file_location('continue_policy',path);p=importlib.
 
 
 class UnstartedContinuationTests(unittest.TestCase):
+    def test_multiple_infrastructure_stops_keep_exact_prefix(self):
+        cells=[{'task_id':str(i),'profile':'P0','provider':'subscription','repetition':0} for i in range(5)]
+        first={'results':[{'cell':cells[0],'worker_status':'COMPLETED'},{'cell':cells[1],'worker_status':'INFRA_FAIL'}]}
+        second={'prior_completed_cells':2,'results':[{'cell':cells[2],'worker_status':'COMPLETED'},{'cell':cells[3],'worker_status':'INFRA_RETRY_PENDING'}]}
+        retained=p.retained_results([first,second]);self.assertEqual(p.remaining_cells({'cells':cells},retained),cells[4:])
+        self.assertEqual(retained[1]['worker_status'],'INFRA_FAIL')
+        self.assertEqual(retained[3]['worker_status'],'INFRA_RETRY_PENDING')
+        with self.assertRaises(ValueError):p.retained_results([second,first])
+        with self.assertRaises(ValueError):p.remaining_cells({'cells':cells},p.retained_results([first,first]))
+
     def test_completed_pass_fail_and_infra_all_retained(self):
         cells=[{'task_id':str(i),'profile':'P0','provider':'subscription','repetition':0} for i in range(4)]
         rows=[{'cell':c,'worker_status':s} for c,s in zip(cells,('COMPLETED','COMPLETED','INFRA_FAIL'))]
