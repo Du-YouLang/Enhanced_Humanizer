@@ -22,7 +22,7 @@ def deploy():
     files=[Path(__file__).with_name(n) for n in ('pi_session.mjs','pi_formal_linux.py','events.py','pi_protocol.py',
            'pi_retry_policy.mjs','pi_recovery_policy.py','pi_overload_recovery_linux.py','pi_full_protocol.py','pi_full_main_linux.py')]
     files += [ROOT/'scripts'/n for n in ('p6_checkpoint_recovery.py','p6_gc_adjudication.py','p6_gc_dependencies.py',
-              'p6_gc_grader.py','p6_gc_source_policy.py','p6_science_main_linux.py','p6_gc_worker.py','p6_network_recovery.py',
+              'p6_gc_grader.py','p6_gc_source_policy.py','p6_science_main_linux.py','p6_gc_worker.py','p6_network_recovery.py','p6_network_policy.py',
               'p6_pc_grader.py','p6_pc_validation.py','p6_pc_statistics.py','p6_egl_grader.py','p6_egl_worker.py',
               'p6_egl_replay.py','p6_science_contracts.py','p6_science_sandbox.py','p6_tms_grader.py','p6_output_data.py')]
     files += [ROOT/'benchmarks/pi-comparison/tasks/science-clarifications-v1.md']
@@ -46,6 +46,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('mode',choices=('prepare','controls','compare'))
     parser.add_argument('--detach',action='store_true')
+    parser.add_argument('--deepseek-network-retry10',action='store_true',help='Prospective frozen DeepSeek-only transport revision; never amend an existing run')
     parser.add_argument('--plan',default=PLAN.name,help='Immutable versioned full-main plan filename')
     parser.add_argument('--resume-run',help='Exact existing formal-full-compare run, completed steps reused; uncertain starts block')
     a=parser.parse_args();budget,budget_sha=authorization(ROOT/'configs/budget-p6-main-v6-cash200-approved.json')
@@ -87,15 +88,22 @@ print(json.dumps({'retained_original_root':str(root),'legacy_ledger':str(archive
               'analysis_policy':'Retain original two-task cohort separately; no retrospective same-protocol or equal-budget causal claim',
               'recovery':'Durable completed substeps reused; uncertain started steps require reconciliation, no whole-task replay',
               'monitoring':'Luna read-only status; Sol science and implementation',**legacy}
+        if a.deepseek_network_retry10:
+            from p6_network_policy import RETRY10_POLICY
+            plan['deepseek_transport_policy']=RETRY10_POLICY
         plan['plan_sha256']=digest(plan);validate_plan(plan)
         if plan_path.exists() and json.loads(plan_path.read_bytes())!=plan:raise ValueError('Plan immutable; use an explicitly versioned successor')
         if not plan_path.exists():exclusive(plan_path,plan)
         print(json.dumps({'status':'FROZEN_ZERO_MODELS','new_cells':112,'retained_cells':16,'plan_sha256':plan['plan_sha256']}));return 0
     plan=validate_plan(json.loads(plan_path.read_bytes()))
+    if bool(plan.get('deepseek_transport_policy'))!=a.deepseek_network_retry10:
+        raise ValueError('Exact transport flag must match frozen plan')
     if (plan['source_sha256']!=source or plan['budget_authorization_sha256']!=budget_sha
             or plan['entrypoint_sha256']!=hashlib.sha256(Path(__file__).read_text(encoding='utf-8').encode()).hexdigest()):
         raise ValueError('Frozen source/entrypoint/authorization changed')
     paid=a.mode=='compare'
+    if paid and a.deepseek_network_retry10:
+        raise ValueError('Retry10 must use a separately reconciled never-started continuation; direct matrix replay forbidden')
     if paid and subprocess.check_output(['git','diff','--name-only','HEAD'],cwd=ROOT).strip():raise RuntimeError('Commit exact source before paid launch')
     if a.resume_run and (not paid or not __import__('re').fullmatch(r'formal-full-compare-[0-9TZ]+',a.resume_run)):
         raise ValueError('Explicit exact compare run required')

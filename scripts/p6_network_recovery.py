@@ -30,7 +30,7 @@ def retryable(error):
 
 
 async def recover(call, reserve, deadline, config, events, *, first_index=None):
-    """At most five consecutive failures, with a fresh client for each attempt."""
+    """Bounded consecutive failures, with a fresh client for each attempt."""
     validate(config)
     failures=0
     for attempt in range(1, config['network_consecutive_failure_limit']+1):
@@ -69,9 +69,10 @@ async def recover(call, reserve, deadline, config, events, *, first_index=None):
                 raise
             failures+=1
             row.update(state='SHOULD_RETRY',error_type=type(error).__name__,consecutive_failures=failures)
+            if failures>=5:row['network_warning']=True
             if failures==config['network_consecutive_failure_limit']:
                 row['state']='NETWORK_CHECK_REQUIRED'
-                raise NetworkCheckRequired('Five consecutive provider connection failures') from error
+                raise NetworkCheckRequired(str(failures)+' consecutive provider connection failures') from error
             delay=config['network_retry_backoff_seconds'][attempt-1]
             if time.monotonic()+delay >= deadline:
                 events.append({'state':'RETRY_PENDING','reason':'ROLE_DEADLINE','consecutive_failures':failures})

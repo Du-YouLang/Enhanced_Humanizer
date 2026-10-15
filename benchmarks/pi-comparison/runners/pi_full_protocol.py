@@ -24,6 +24,9 @@ def cells(tasks):
 
 
 def validate_plan(value):
+    if 'deepseek_transport_policy' in value:
+        from p6_network_policy import retry10_transport
+        retry10_transport(value['deepseek_transport_policy'])
     body=dict(value);expected=body.pop('plan_sha256',None)
     wanted=cells(t for t in TASKS if t not in RETAINED_TASKS)
     if (body.get('protocol')!=PROTOCOL or digest(body)!=expected or body.get('cells')!=wanted

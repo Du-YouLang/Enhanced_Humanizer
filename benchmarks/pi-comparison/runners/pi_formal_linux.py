@@ -62,9 +62,17 @@ def resources(profile):
 
 def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=None,
             mode='task',fixture_fault=None,prefix=None,public_reads=(),gpu=False,denied=(),recovery=None,
-            prospective_retry=False,fixture_url=None,fixture_ca=None,fixture_steps=None):
+            prospective_retry=False,fixture_url=None,fixture_ca=None,fixture_steps=None,deepseek_transport=None):
     """One bounded official SDK session. Auth is only passed over private pipes."""
     r=resources(profile)
+    transport_config=budget
+    if deepseek_transport is not None:
+        from p6_network_policy import retry10_transport
+        transport_config={**budget,**retry10_transport(deepseek_transport)}
+        if provider in ('deepseek','fixture'):
+            # Only the metered broker retries this request; the SDK must not
+            # multiply bursts or retry a locally expired role as upstream 502.
+            prospective_retry=False
     for name in ('home','agent','tmp','cache'):(root/name).mkdir(exist_ok=True)
     if recovery:
         from pi_recovery_policy import validate_runtime_recovery
@@ -90,8 +98,8 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
                     i=sum(m.get('role')=='tool' for m in body.get('messages',[]))
                     seen.append({'max_tokens':body.get('max_tokens'),'thinking':body.get('thinking'),'reasoning_effort':body.get('reasoning_effort'),
                                             'message_roles':[m.get('role') for m in body.get('messages',[])]})
-                    failure_cap=5 if fixture_fault=='agent-overload-five' else 1
-                    if fixture_fault in ('agent-overload','agent-overload-five','agent-quota','broker-overload') and i==2 and len(fixture_failures)<failure_cap:
+                    failure_cap={'agent-overload-five':5,'broker-overload-nine':9,'broker-overload-ten':10}.get(fixture_fault,1)
+                    if fixture_fault in ('agent-overload','agent-overload-five','agent-quota','broker-overload','broker-overload-nine','broker-overload-ten') and i==2 and len(fixture_failures)<failure_cap:
                         fixture_failures.append(i)
                         self.send_response(402 if fixture_fault=='agent-quota' else 503)
                         self.send_header('Content-Type','application/json');self.send_header('Retry-After','0');self.end_headers()
@@ -122,7 +130,7 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
                     return await super().exchange(body,index,seconds)
             if server:Metered.provider_endpoint='http://127.0.0.1:'+str(server.server_port)+'/chat/completions'
             broker=Metered('ZERO_PROVIDER_FIXTURE' if provider=='fixture' else key,
-                ScopedLedger(ledger,scope,request_cap=1000,cash_cap=None),scope,deadline,budget)
+                ScopedLedger(ledger,scope,request_cap=1000,cash_cap=None),scope,deadline,transport_config)
             broker.start()
     subscription=provider=='subscription' and mode not in ('auth-control','prl-control')
     models=root/'agent/models.json'
@@ -260,6 +268,8 @@ def execute(root,work,profile,provider,budget,prompt,role_seconds,driver,*,key=N
         'resource_observations':[e for e in events if e['type'] in ('resources_observed','session_bound')],
         'provider_recovery_decisions':decisions,'overload_continuation':recovery,
         'subscription_reservation_scope':reservation_scope if subscription else None,
+        'deepseek_transport_policy':deepseek_transport if provider in ('deepseek','fixture') else None,
+        'request_retry_owner':'METERED_BROKER_ONLY' if deepseek_transport and provider in ('deepseek','fixture') else 'LEGACY_PROTOCOL',
         'prl_control':[e for e in events if e['type']=='prl_control_pass'],
         'evidence_kind':'ZERO_MODEL_CONTROL' if provider=='fixture' or mode=='auth-control' else 'REAL_MODEL'}
     from p6_main_contract import classify_role_completion
