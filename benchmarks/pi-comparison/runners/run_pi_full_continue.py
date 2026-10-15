@@ -66,6 +66,10 @@ roots=[*(prior.get('retained_runs',[prior['original_root']]) if prior else []),s
 if len(roots)!=len(set(roots)):raise ValueError('Receipt chain repeats a run')
 receipts=[json.loads((Path(r)/'receipt.json').read_bytes()) for r in roots];results=retained_results(receipts)
 todo=remaining_cells(p['plan'],results);files=[Path(s) for s in previous_payload['source_sha256']]
+if p['plan'].get('remaining85_budget_authorization'):
+ supplement=Path('/opt/workbench/benchmark/private/pi-comparison/formal-network-redo-20261015T023615Z')
+ files.extend([supplement/'receipt.json',*(supplement/'BIP-black-5-P1-deepseek'/n for n in ('result.json','controller-outcome.json','candidate-private.json','frozen-program.json','events.private.jsonl'))])
+ files.append(Path('/opt/workbench/pi-comparison/black5-p1-network-redo-once-20261015.started.private.json'))
 for previous,receipt in zip(roots,receipts):
  previous=Path(previous);files.extend([previous/'receipt.json',*sorted((previous/'control/stages').glob('*.completed.json'))])
  for row in receipt['results']:
@@ -81,7 +85,7 @@ plan={'protocol':'PI_UNSTARTED_SUFFIX_20261015_V'+str(d['version']),'original_pa
  'retained_results_sha256':digest(results),'retained_sha256':{str(f):sha(f) for f in files},'ledger_archive':str(archive),
  'successor_sources':d['sources'],'controls_receipt':'/opt/workbench/pi-comparison/unstarted-v'+str(d['version'])+'-controls.private.json',
  'authorization':'Existing direct full112 request, resume unstarted cells only; failed generic provider processing error retained, not claimed overload',
- 'failed_cell_retry_authorized_by_this_plan':False,'cumulative_caps':{'deepseek_requests':10000,'api_cash_usd':200},
+ 'failed_cell_retry_authorized_by_this_plan':False,'cumulative_caps':p['plan']['cumulative_caps'],
  'external_release_authorized':False}
 if d.get('successor'):plan['previous_original_payload']=previous_payload
 plan['continuation_sha256']=digest(plan);print(json.dumps(plan))

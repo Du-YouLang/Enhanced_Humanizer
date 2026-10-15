@@ -30,6 +30,10 @@ def bind(payload):
     results=retained_results([read(root+'/receipt.json') for root in roots])
     if remaining_cells(original['plan'],results)!=plan['remaining_cells']:
         raise ValueError('Unstarted cell set differs from original prefix')
+    if original['plan'].get('remaining85_budget_authorization'):
+        from p6_pi_remaining_scope import allowed_cells
+        if plan['remaining_cells']!=allowed_cells() or plan['retained_cells']!=27:
+            raise ValueError('Exact27 retained and85 never-started cells required')
     if core.digest(results)!=plan['retained_results_sha256']:raise ValueError('Retained results changed')
     # A partial model stage must never be silently reclassified as unstarted.
     for c in plan['remaining_cells']:

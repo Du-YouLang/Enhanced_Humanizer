@@ -46,7 +46,8 @@ def inspect(run_id):
             'ledger':{'deepseek_requests':len(ledger['requests']),'subscription_reservations':len(ledger['codex_turns']),
                       'api_conservative_bound_usd':ledger['cash_bound_nano']/1e9,'api_cash_actual':'unavailable',
                       'remaining_deepseek_requests':10000-len(ledger['requests']),
-                      'remaining_conservative_usd':200-ledger['cash_bound_nano']/1e9,
+                      'enforced_cash_cap_usd':ledger['aggregate_caps']['cash_nano']/1e9,
+                      'remaining_conservative_usd':ledger['aggregate_caps']['cash_nano']/1e9-ledger['cash_bound_nano']/1e9,
                       'sha256':hashlib.sha256(ledger_path.read_bytes()).hexdigest()},
             'models_started_by_inspector':0,'ledger_writes':0,'checked_unix':time.time()}
 

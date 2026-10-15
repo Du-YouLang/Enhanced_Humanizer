@@ -14,6 +14,7 @@ import threading
 from p1_budget import BudgetDenied, Ledger, REQUEST_RESERVE, INPUT_NANO, OUTPUT_NANO, CONTEXT_TOKENS, MAX_OUTPUT
 from p6_output_policy import OUTPUT_REVISION,MAIN_OUTPUT_TOKENS
 from p6_network_policy import POLICY as NETWORK_POLICY, REVISION as NETWORK_REVISION, enabled as network_enabled
+from p6_pi_remaining_scope import REVISION as PI85_REVISION,SCOPE as PI85_SCOPE,allowed_scope
 
 PHASE = 'P6_MAIN_LOCAL_20261011'
 TIME_REVISION = 'USER_APPROVED_2026-10-12_PUBLIC15_SCIENCE20'
@@ -61,13 +62,15 @@ def authorization(config):
                 raise BudgetDenied('Unknown or unbound human network revision')
             required.update(NETWORK_POLICY)
         if 'cash_budget_revision' in value:
-            if (value['cash_budget_revision'] not in (CASH_REVISION,CASH250_REVISION) or not network_enabled(value)
+            if (value['cash_budget_revision'] not in (CASH_REVISION,CASH250_REVISION,PI85_REVISION) or not network_enabled(value)
                     or value.get('output_budget_revision') != OUTPUT_REVISION
                     or value.get('time_budget_revision') != TIME_REVISION):
                 raise BudgetDenied('Unknown or unbound human cash-budget revision')
             required.update(api_cash_usd=200,cash_budget_revision=CASH_REVISION)
             if value['cash_budget_revision']==CASH250_REVISION:
                 required.update(api_cash_usd=250,cash_budget_revision=CASH250_REVISION,paid_scope_policy=CASH250_SCOPE)
+            if value['cash_budget_revision']==PI85_REVISION:
+                required.update(api_cash_usd=250,cash_budget_revision=PI85_REVISION,paid_scope_policy=PI85_SCOPE)
     elif 'cash_budget_revision' in value:
         raise BudgetDenied('Cash extension requires the existing finite authorization')
     if not value.get('authorization_reference') or any(
@@ -190,9 +193,11 @@ class MainLedger(Ledger):
         cash250_amendment=(previous.config.get('cash_budget_revision')==CASH_REVISION
                             and self.config.get('cash_budget_revision')==CASH250_REVISION
                             and previous.cash_nano==200_000_000_000 and self.cash_nano==250_000_000_000)
-        if cash_amendment or cash250_amendment:
+        pi85_amendment=(previous.config.get('cash_budget_revision')==CASH250_REVISION
+                         and self.config.get('cash_budget_revision')==PI85_REVISION and self.caps()==previous.caps())
+        if cash_amendment or cash250_amendment or pi85_amendment:
             allowed={'authorization_reference','api_cash_usd','cash_budget_revision'}
-            if cash250_amendment:allowed.add('paid_scope_policy')
+            if cash250_amendment or pi85_amendment:allowed.add('paid_scope_policy')
             if any(self.config.get(key)!=previous.config.get(key) for key in set(self.config)|set(previous.config) if key not in allowed):
                 raise BudgetDenied('Cash amendment cannot change any other authorized control')
         if network_amendment:
@@ -209,7 +214,7 @@ class MainLedger(Ledger):
                      'per_experiment_active_timeout_seconds','experiment_timeout_seconds_by_family'}
             if any(self.config.get(key)!=previous.config.get(key) for key in set(self.config)|set(previous.config) if key not in allowed):
                 raise BudgetDenied('Time amendment cannot change other authorized controls')
-        if not (finite_amendment or time_amendment or output_amendment or network_amendment or cash_amendment or cash250_amendment):
+        if not (finite_amendment or time_amendment or output_amendment or network_amendment or cash_amendment or cash250_amendment or pi85_amendment):
             raise BudgetDenied('Only the explicit finite-ceiling or human time-budget amendment is supported')
         if not self.path.exists():raise BudgetDenied('No existing ledger to amend')
         archive=Path(archive)
@@ -221,7 +226,7 @@ class MainLedger(Ledger):
                 'previous_aggregate_caps':previous.caps(),'before_ledger_sha256':snapshot,
                 'amended_at':datetime.now(timezone.utc).isoformat(),'requests_retained':len(value['requests']),
                 'subscription_turns_retained':len(value['codex_turns']),
-                'amendment_kind':CASH_REVISION if cash_amendment else NETWORK_REVISION if network_amendment else OUTPUT_REVISION if output_amendment else TIME_REVISION if time_amendment else 'USER_FINITE_CEILING',
+                'amendment_kind':PI85_REVISION if pi85_amendment else CASH250_REVISION if cash250_amendment else CASH_REVISION if cash_amendment else NETWORK_REVISION if network_amendment else OUTPUT_REVISION if output_amendment else TIME_REVISION if time_amendment else 'USER_FINITE_CEILING',
                 'cash_bound_nano_retained':value['cash_bound_nano']})
             value.update(authorization_sha256=self.authorization_sha256,aggregate_caps=self.caps())
             self.validate(value)
@@ -241,6 +246,8 @@ class MainLedger(Ledger):
 
     def reserve_request(self, experiment, *, scope_requests=None, scope_cash_nano=None):
         self.scope(experiment)
+        if self.config.get('cash_budget_revision')==PI85_REVISION and not self.fixture and not allowed_scope(experiment,'deepseek'):
+            raise BudgetDenied('Only the 85 authorized never-started Pi cells may spend the remaining USD250 budget')
         if self.config.get('cash_budget_revision')==CASH250_REVISION and not self.fixture:
             import re
             if not re.fullmatch(r'PI_FORMAL/formal-network-redo-[0-9TZ]+/BIP-black-5-P1-deepseek',experiment):
@@ -267,6 +274,8 @@ class MainLedger(Ledger):
 
     def reserve_codex_turn(self, experiment, model, *, scope_turns=None):
         self.scope(experiment)
+        if self.config.get('cash_budget_revision')==PI85_REVISION and not self.fixture and not allowed_scope(experiment,'subscription'):
+            raise BudgetDenied('Subscription scope is not in the 85 never-started Pi cells')
         if self.config.get('cash_budget_revision')==CASH250_REVISION and not self.fixture:
             raise BudgetDenied('USD250 amendment does not authorize new subscription trials')
         if model != 'gpt-6.1-sol' or (scope_turns is not None and (type(scope_turns) is not int or scope_turns < 1)):
