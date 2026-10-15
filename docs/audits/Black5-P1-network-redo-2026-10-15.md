@@ -1,0 +1,15 @@
+# Black-5/P1/DeepSeek：授权补跑验收
+
+用户明确要求对网络影响下耗尽角色时间的这一格完整补跑，并随后批准累计USD250、新增空间优先只用于该格。授权和边界见[ADR-0044](../decisions/ADR-0044.md)。
+
+实际运行`formal-network-redo-20261015T023615Z`，单格plan9a7fa802，原生owner370/boot e2b09f44/startticks507744/command2535ff5f在运行时独立吻合；完整900秒新角色、role1000/request600/output256000，DeepSeek10次连续wire策略。使用独立内容寻址redo4ff6092d/coreb019344f，原批次及其程序保持。
+
+**补跑结果FAIL。** 模型COMPLETED并自然stop，用时112.943962秒，28次SDK dispatch/30次实际wire；两次临时连接错误均RECOVERED，没有角色超时、预算停止、工具错误或最终供应商错误。公开3项测试通过、干净提交e91c50b1冻结后独立隐藏验收失败，失败类别为函数参数尾逗号的格式化回归。不能把这次失败归为先前网络中断，也不能据此反证用户先前的网络说明。没有修改模型代码或再次重跑。
+
+结果receipt SHA7d7d658fe8afb937a6190cd8eb366d40c3af92e03ba9de8ca933dd7a38e4df38；实际额外只读核验确认冻结Git/head、验收前private_results_seen=false、原证据hash及6950行账本前缀全部相符，模型/候选重放均0。原主集96行、16份敏感性及旧Pi16行也再次独立核对保留。原缺失队列27/112（19PASS/4FAIL/4infra）保持，此次是单独授权fresh trial，不当作第28个不同格或覆盖原pending。
+
+新增保守费用USD1.5442263，新增30次请求，其中2条未知用量预留保留；累计6980DS/210订阅/USD201.0724632保守上界、实际现金unavailable。原200账本79aaa77e完整封存，现金250新账本授权变更前后行/费用保留。最终ledger f4bc02e4；单次授权的started标记已经消费，不能自动再次补跑。其他85个未开始格继续暂缓，代码的cash250 scope拒绝挪用额度。
+
+功能781a3e10313fe364a49603c8ef42961729f76b13：Windows259（9平台skip）、原生259（3平台skip）、实际14任务环境/SDK/网络控制通过。精确CI38671597142三SUCCESS后[PR50](https://github.com/Du-YouLang/Enhanced_Humanizer/pull/50)合并222870a86ed708d77f933c91e5af308423c4f2ab，随后实际启动，授权/准备/执行结果分别记录。
+
+监控切换：旧v14投影链在250变更后报错，v15预检失败原样保留、未切换路由。v16独立只读投影通过后启用：配置8521d3aff081afef381618d59751929a188732c8558f86cdcedf336eb8db263b、inspector3d801cfa57d82124a07b92aced7a269a71f938b4012febfe69100b48a322a79d。v16将原16主任务/16敏感性明确标为已验证历史快照，原27格与本次单格分别新鲜读取，采用实际ledger250 cap；不虚报旧链的实时验证。新鲜心跳与独立状态、精确owner运行/退出已由Luna和Sol核对；观察器模型/账本写入0。原watchdog登录/每分钟恢复和30秒只读节奏保留，未强制重启验证；45分钟巡检改为已完成补跑/其余暂停状态。完整Pi/P6科学验收、新P7和外部发布不由此宣告完成。
