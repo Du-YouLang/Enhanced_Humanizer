@@ -93,7 +93,11 @@ def egl_summary(summary, groups, gains, metrics):
 def canonical_egl_summary(summary):
     if 'groups' in summary:
         if any(k in summary for k in ('per_n_algorithm','per_n','aggregates')):raise ValueError('Conflicting summary representations')
-        return summary
+        normalized=dict(summary)
+        if 'paired_differences' in summary:
+            if not isinstance(summary['paired_differences'],list):raise ValueError('Paired group list required')
+            normalized['paired_differences']=[canonical_egl_pair(p) for p in summary['paired_differences']]
+        return normalized
     containers=[k for k in ('per_n_algorithm','per_n','aggregates') if k in summary]
     if len(containers)!=1:raise ValueError('Explicit grouped summary required')
     container=containers[0];data=summary[container]
@@ -118,6 +122,27 @@ def canonical_egl_summary(summary):
             values,mean=row['eg_minus_gd_per_seed_pp'],row['eg_minus_gd_mean_pp'];std=statistics.stdev(values)
         pairs.append({'n':int(key),'per_seed_eg_minus_gd_pp':values,'mean_eg_minus_gd_pp':mean,'std_eg_minus_gd_pp':std})
     return {'groups':groups,'paired_differences':pairs,'std_ddof':summary.get('std_ddof',1)}
+
+
+def canonical_egl_pair(pair):
+    """Resolve explicit measured paired statistics; recomputation still grades them."""
+    if not isinstance(pair,dict):raise ValueError('Paired statistic object required')
+    result=dict(pair)
+    fields=(('per_seed_eg_minus_gd_pp','values'),
+            ('mean_eg_minus_gd_pp','mean'),('std_eg_minus_gd_pp','std'))
+    for canonical,short in fields:
+        for name in (canonical,short):
+            if name not in pair:continue
+            value=pair[name]
+            if canonical=='per_seed_eg_minus_gd_pp':
+                if (not isinstance(value,list) or len(value)!=3 or
+                        any(type(v) not in (int,float) or not math.isfinite(v) for v in value)):
+                    raise ValueError('Invalid measured paired seed values')
+            elif (type(value) not in (int,float) or not math.isfinite(value) or
+                  canonical=='std_eg_minus_gd_pp' and value<0):
+                raise ValueError('Invalid measured paired statistic')
+        result[canonical]=alias(pair,(canonical,short),'paired '+canonical)
+    return result
 
 
 def pc_manifest(manifest, source):

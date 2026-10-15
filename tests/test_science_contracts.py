@@ -1,6 +1,7 @@
 """Real schema adversaries, not benchmark model evidence."""
 import copy
 import json
+import statistics
 from pathlib import Path
 import sys
 import tempfile
@@ -73,6 +74,44 @@ class ScienceContractTests(unittest.TestCase):
             for bad in (raw|{'data_files':{'data.gz':'unknown'}},raw|{'data_sha256':{'data.gz':'c'*64}},
                         raw|{'stages':{'smoke':{'wall_seconds':0},'anchor':{'wall_seconds':1},'grid':{'wall_seconds':1}}}):
                 with self.assertRaises(ValueError):pc_manifest(bad,source)
+
+    def test_egl_short_paired_fields_recompute_each_seed_and_do_not_mutate_input(self):
+        values={'eg':(3.,4.,7.),'gd':(5.,1.,3.)};diff=[-2.,3.,4.]
+        groups=[{'n':n,'algorithm':a,'mean_test_accuracy_pct':statistics.mean(values[a]),
+                 'std_test_accuracy_pct':statistics.stdev(values[a])} for n in (200,2000,20000) for a in values]
+        metrics={(n,s,a):{'curves':[{'test_accuracy_pct':values[a][s-1]}]}
+                 for n in (200,2000,20000) for s in (1,2,3) for a in values}
+        pairs=[{'n':n,'values':diff[:],'mean':statistics.mean(diff),'std':statistics.stdev(diff)} for n in (200,2000,20000)]
+        raw={'groups':groups,'paired_differences':pairs,
+             'eg_minus_gd_mean_pp':{str(n):statistics.mean(diff) for n in (200,2000,20000)}}
+        original=copy.deepcopy(raw)
+        egl_summary(raw,groups,raw['eg_minus_gd_mean_pp'],metrics)
+        self.assertEqual(raw,original)
+        # Seed reversal and population std cannot hide behind a correct mean.
+        for field,value in [('values',list(reversed(diff))),('std',statistics.pstdev(diff)),
+                            ('values',[True,3.,4.]),('values',[-2.,3.,float('nan')]),
+                            ('std',-1.),('mean',float('inf')),('values',[-2.,3.])]:
+            bad=copy.deepcopy(raw);bad['paired_differences'][0][field]=value
+            with self.subTest(field=field,value=value),self.assertRaises(ValueError):
+                egl_summary(bad,groups,raw['eg_minus_gd_mean_pp'],metrics)
+        bad=copy.deepcopy(raw);del bad['paired_differences'][0]['std']
+        with self.assertRaises(ValueError):egl_summary(bad,groups,raw['eg_minus_gd_mean_pp'],metrics)
+
+    def test_egl_paired_aliases_reject_conflicts_and_invalid_duplicate_declarations(self):
+        groups=[{'n':n,'algorithm':a,'mean_test_accuracy_pct':10.,'std_test_accuracy_pct':0.}
+                for n in (200,2000,20000) for a in ('eg','gd')]
+        metrics={(n,s,a):{'curves':[{'test_accuracy_pct':10.}]}
+                 for n in (200,2000,20000) for s in (1,2,3) for a in ('eg','gd')}
+        pairs=[{'n':n,'values':[0.,0.,0.],'mean':0.,'std':0.,
+                'per_seed_eg_minus_gd_pp':[0.,0.,0.],'mean_eg_minus_gd_pp':0.,'std_eg_minus_gd_pp':0.}
+               for n in (200,2000,20000)]
+        raw={'groups':groups,'paired_differences':pairs};gains={str(n):0. for n in (200,2000,20000)}
+        egl_summary(raw,groups,gains,metrics)
+        for field,value in [('values',[0.,0.,1.]),('mean',1.),('std',1.),
+                            ('values',[False,0.,0.]),('mean',False),('std',False)]:
+            bad=copy.deepcopy(raw);bad['paired_differences'][0][field]=value
+            with self.subTest(field=field,value=value),self.assertRaises(ValueError):
+                egl_summary(bad,groups,gains,metrics)
 
 
 if __name__=='__main__':unittest.main()
