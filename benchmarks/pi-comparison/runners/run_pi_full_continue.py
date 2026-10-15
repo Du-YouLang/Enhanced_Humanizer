@@ -57,15 +57,15 @@ def main():
         code='''import hashlib,json,sys;from pathlib import Path
 d=json.load(sys.stdin);sys.path.insert(0,d['folder']);from pi_full_continue_policy import remaining_cells,retained_results,transport_successor
 parent=d['original'];prior=parent.get('continuation_plan');p=prior['original_payload'] if prior else parent
-previous=p
+previous_payload=p
 if d.get('successor'):
  sys.path.insert(0,str(Path(next(iter(d['successor']['source_sha256']))).parent))
- p=transport_successor(previous,d['successor'])
+ p=transport_successor(previous_payload,d['successor'])
 root=Path('/opt/workbench/benchmark/private/pi-comparison')/parent['run_id']
 roots=[*(prior.get('retained_runs',[prior['original_root']]) if prior else []),str(root)]
 if len(roots)!=len(set(roots)):raise ValueError('Receipt chain repeats a run')
 receipts=[json.loads((Path(r)/'receipt.json').read_bytes()) for r in roots];results=retained_results(receipts)
-todo=remaining_cells(p['plan'],results);files=[Path(s) for s in previous['source_sha256']]
+todo=remaining_cells(p['plan'],results);files=[Path(s) for s in previous_payload['source_sha256']]
 for previous,receipt in zip(roots,receipts):
  previous=Path(previous);files.extend([previous/'receipt.json',*sorted((previous/'control/stages').glob('*.completed.json'))])
  for row in receipt['results']:
@@ -83,7 +83,7 @@ plan={'protocol':'PI_UNSTARTED_SUFFIX_20261015_V'+str(d['version']),'original_pa
  'authorization':'Existing direct full112 request, resume unstarted cells only; failed generic provider processing error retained, not claimed overload',
  'failed_cell_retry_authorized_by_this_plan':False,'cumulative_caps':{'deepseek_requests':10000,'api_cash_usd':200},
  'external_release_authorized':False}
-if d.get('successor'):plan['previous_original_payload']=previous
+if d.get('successor'):plan['previous_original_payload']=previous_payload
 plan['continuation_sha256']=digest(plan);print(json.dumps(plan))
 '''
         plan=native(code,{'folder':folder,'sources':sources,'original':original,'version':a.version,'successor':successor})
