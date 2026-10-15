@@ -37,6 +37,10 @@ def validate_plan(value):
     scoped250=(body.get('single_cell_budget_authorization')=='USER_APPROVED_2026-10-15_CUMULATIVE_USD250_BLACK5_P1_ONLY'
         and body.get('authorized_paid_cells')==[{'task_id':'BIP-black-5','profile':'P1','provider':'deepseek','repetition':0}]
         and body.get('cumulative_caps')=={'deepseek_requests':10000,'api_cash_usd':250})
+    if body.get('remaining85_budget_authorization'):
+        from p6_pi_remaining_scope import REVISION,allowed_cells
+        scoped250=(body['remaining85_budget_authorization']==REVISION and body.get('authorized_paid_cells')==allowed_cells()
+                   and body.get('cumulative_caps')=={'deepseek_requests':10000,'api_cash_usd':250})
     if body.get('cumulative_caps')!={'deepseek_requests':10000,'api_cash_usd':200} and not scoped250:
         raise ValueError('Existing cumulative budget required')
     return value
@@ -69,4 +73,6 @@ class Journal:
 
 
 def budget_available(ledger):
-    return len(ledger['requests'])<10000 and ledger['cash_bound_nano']<200_000_000_000
+    cap=ledger.get('aggregate_caps',{}).get('cash_nano',200_000_000_000)
+    if cap not in (200_000_000_000,250_000_000_000):raise ValueError('Unknown cumulative cash cap')
+    return len(ledger['requests'])<10000 and ledger['cash_bound_nano']<cap
