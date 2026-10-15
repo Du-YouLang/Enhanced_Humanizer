@@ -59,7 +59,7 @@ d=json.load(sys.stdin);sys.path.insert(0,d['folder']);from pi_full_continue_poli
 parent=d['original'];prior=parent.get('continuation_plan');p=prior['original_payload'] if prior else parent
 previous_payload=p
 if d.get('successor'):
- sys.path.insert(0,str(Path(next(iter(d['successor']['source_sha256']))).parent))
+ sys.path[:0]=[str(Path(next(iter(d['successor']['source_sha256']))).parent),'/opt/workbench/source']
  p=transport_successor(previous_payload,d['successor'])
 root=Path('/opt/workbench/benchmark/private/pi-comparison')/parent['run_id']
 roots=[*(prior.get('retained_runs',[prior['original_root']]) if prior else []),str(root)]
