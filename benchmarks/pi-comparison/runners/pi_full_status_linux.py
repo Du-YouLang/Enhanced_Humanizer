@@ -54,10 +54,15 @@ def inspect(run_id):
 def read_continuation(root):
     path=root/'continuation-plan.json'
     if not path.exists():return {'total_here':112,'prior_cells':0,'prior_outcomes':{}}
-    plan=json.loads(path.read_bytes());prior=Path(plan['original_root'])/'receipt.json'
-    if hashlib.sha256(prior.read_bytes()).hexdigest()!=plan['retained_sha256'][str(prior)]:
-        raise ValueError('Original retained receipt changed')
-    rows=json.loads(prior.read_bytes())['results'];outcomes={}
+    plan=json.loads(path.read_bytes());rows=[];outcomes={}
+    roots=plan.get('retained_runs',[plan['original_root']])
+    if len(roots)!=len(set(roots)):raise ValueError('Duplicate prior run in status')
+    for root in roots:
+        prior=Path(root)/'receipt.json'
+        if hashlib.sha256(prior.read_bytes()).hexdigest()!=plan['retained_sha256'][str(prior)]:raise ValueError('Original retained receipt changed')
+        receipt=json.loads(prior.read_bytes())
+        if receipt.get('prior_completed_cells',len(rows))!=len(rows):raise ValueError('Broken status lineage')
+        rows.extend(receipt['results'])
     if len(rows)!=plan['retained_cells']:raise ValueError('Retained cell count differs')
     for row in rows:outcomes[row['outcome']]=outcomes.get(row['outcome'],0)+1
     return {'total_here':len(plan['remaining_cells']),'prior_cells':len(rows),'prior_outcomes':outcomes}

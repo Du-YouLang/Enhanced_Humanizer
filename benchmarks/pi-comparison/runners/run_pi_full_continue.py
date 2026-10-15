@@ -38,38 +38,48 @@ print(json.dumps({'status':'DEPLOYED_ZERO_MODELS'}))
 
 
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('mode',choices=('prepare','controls','compare'));a=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('mode',choices=('prepare','controls','compare'))
+    parser.add_argument('--parent-run',default=ORIGINAL);parser.add_argument('--version',type=int,default=1);a=parser.parse_args()
+    if not __import__('re').fullmatch(r'formal-full-compare-[0-9TZ]+',a.parent_run) or not 1<=a.version<=99:
+        raise ValueError('Exact parent run and finite plan version required')
+    plan_path=PLAN.with_name('full-unstarted-continuation-v'+str(a.version)+'.private.json')
     folder,sources=deploy()
     if a.mode=='prepare':
-        original=json.loads((ROOT/'.local-workbench/pi-comparison/intake'/(ORIGINAL+'-contract.private.json')).read_bytes())
+        original=json.loads((ROOT/'.local-workbench/pi-comparison/intake'/(a.parent_run+'-contract.private.json')).read_bytes())
         code='''import hashlib,json,sys;from pathlib import Path
-d=json.load(sys.stdin);sys.path.insert(0,d['folder']);from pi_full_continue_policy import remaining_cells
-p=d['original'];root=Path('/opt/workbench/benchmark/private/pi-comparison')/p['run_id'];r=json.loads((root/'receipt.json').read_bytes())
-todo=remaining_cells(p['plan'],r['results']);files=[root/'receipt.json',*sorted((root/'control/stages').glob('*.completed.json'))]
-for row in r['results']:
- c=row['cell'];dest=root/(c['task_id']+'-'+c['profile']+'-'+c['provider'])
- files.extend(dest/n for n in ('result.json','controller-outcome.json','candidate-private.json','frozen-program.json','events.private.jsonl'))
-ledger=Path('/opt/workbench/state/p6-main-local-20261011/ledger.json');archive=Path('/opt/workbench/pi-comparison/full-unstarted-legacy-ledger-v1.private.json')
+d=json.load(sys.stdin);sys.path.insert(0,d['folder']);from pi_full_continue_policy import remaining_cells,retained_results
+parent=d['original'];prior=parent.get('continuation_plan');p=prior['original_payload'] if prior else parent
+root=Path('/opt/workbench/benchmark/private/pi-comparison')/parent['run_id']
+roots=[*(prior.get('retained_runs',[prior['original_root']]) if prior else []),str(root)]
+if len(roots)!=len(set(roots)):raise ValueError('Receipt chain repeats a run')
+receipts=[json.loads((Path(r)/'receipt.json').read_bytes()) for r in roots];results=retained_results(receipts)
+todo=remaining_cells(p['plan'],results);files=[]
+for previous,receipt in zip(roots,receipts):
+ previous=Path(previous);files.extend([previous/'receipt.json',*sorted((previous/'control/stages').glob('*.completed.json'))])
+ for row in receipt['results']:
+  c=row['cell'];dest=previous/(c['task_id']+'-'+c['profile']+'-'+c['provider'])
+  files.extend(dest/n for n in ('result.json','controller-outcome.json','candidate-private.json','frozen-program.json','events.private.jsonl'))
+ledger=Path('/opt/workbench/state/p6-main-local-20261011/ledger.json');archive=Path('/opt/workbench/pi-comparison/full-unstarted-legacy-ledger-v'+str(d['version'])+'.private.json')
 if not archive.exists():
  with archive.open('xb') as f:f.write(ledger.read_bytes())
 files.append(archive);sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 digest=lambda v:hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
-plan={'protocol':'PI_UNSTARTED_SUFFIX_20261015_V1','original_payload':p,'original_root':str(root),
- 'original_controller':str(Path(next(iter(p['source_sha256']))).parent),'remaining_cells':todo,'retained_cells':len(r['results']),
- 'retained_results_sha256':digest(r['results']),'retained_sha256':{str(f):sha(f) for f in files},'ledger_archive':str(archive),
- 'successor_sources':d['sources'],'controls_receipt':'/opt/workbench/pi-comparison/unstarted-v1-controls.private.json',
+plan={'protocol':'PI_UNSTARTED_SUFFIX_20261015_V'+str(d['version']),'original_payload':p,'original_root':str(root),'retained_runs':roots,
+ 'original_controller':str(Path(next(iter(p['source_sha256']))).parent),'remaining_cells':todo,'retained_cells':len(results),
+ 'retained_results_sha256':digest(results),'retained_sha256':{str(f):sha(f) for f in files},'ledger_archive':str(archive),
+ 'successor_sources':d['sources'],'controls_receipt':'/opt/workbench/pi-comparison/unstarted-v'+str(d['version'])+'-controls.private.json',
  'authorization':'Existing direct full112 request, resume unstarted cells only; failed generic provider processing error retained, not claimed overload',
  'failed_cell_retry_authorized_by_this_plan':False,'cumulative_caps':{'deepseek_requests':10000,'api_cash_usd':200},
  'external_release_authorized':False}
 plan['continuation_sha256']=digest(plan);print(json.dumps(plan))
 '''
-        plan=native(code,{'folder':folder,'sources':sources,'original':original})
-        if PLAN.exists() and json.loads(PLAN.read_bytes())!=plan:raise ValueError('Existing continuation plan immutable')
-        if not PLAN.exists():
-            with PLAN.open('x',encoding='utf8') as f:json.dump(plan,f,indent=2)
+        plan=native(code,{'folder':folder,'sources':sources,'original':original,'version':a.version})
+        if plan_path.exists() and json.loads(plan_path.read_bytes())!=plan:raise ValueError('Existing continuation plan immutable')
+        if not plan_path.exists():
+            with plan_path.open('x',encoding='utf8') as f:json.dump(plan,f,indent=2)
         print(json.dumps({'status':'PREPARED_ZERO_MODELS','retained':plan['retained_cells'],'unstarted':len(plan['remaining_cells']),
                           'continuation_sha256':plan['continuation_sha256']}));return
-    plan=json.loads(PLAN.read_bytes())
+    plan=json.loads(plan_path.read_bytes())
     if plan['successor_sources']!=sources:raise ValueError('Frozen successor source changed')
     payload={'mode':a.mode,'continuation_plan':plan}
     if a.mode=='controls':

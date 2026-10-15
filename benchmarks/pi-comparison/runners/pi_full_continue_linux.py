@@ -8,7 +8,7 @@ import sys
 import time
 import traceback
 
-from pi_full_continue_policy import remaining_cells
+from pi_full_continue_policy import remaining_cells,retained_results
 
 
 def read(path):return json.loads(Path(path).read_bytes())
@@ -23,14 +23,15 @@ def bind(payload):
     for path,h in {**plan['successor_sources'],**plan['retained_sha256']}.items():
         if sha(path)!=h:raise ValueError('Pinned continuation/original evidence changed: '+path)
     original=plan['original_payload'];core.validate_bindings(original);control=core.require_controls(original)
-    receipt=read(plan['original_root']+'/receipt.json')
-    if remaining_cells(original['plan'],receipt['results'])!=plan['remaining_cells']:
+    roots=plan.get('retained_runs',[plan['original_root']])
+    results=retained_results([read(root+'/receipt.json') for root in roots])
+    if remaining_cells(original['plan'],results)!=plan['remaining_cells']:
         raise ValueError('Unstarted cell set differs from original prefix')
-    if core.digest(receipt['results'])!=plan['retained_results_sha256']:raise ValueError('Retained results changed')
+    if core.digest(results)!=plan['retained_results_sha256']:raise ValueError('Retained results changed')
     # A partial model stage must never be silently reclassified as unstarted.
     for c in plan['remaining_cells']:
         name=c['task_id']+'-'+c['profile']+'-'+c['provider']
-        if (Path(plan['original_root'])/name).exists():raise ValueError('Uncertain or existing cell cannot be replayed')
+        if any((Path(root)/name).exists() for root in roots):raise ValueError('Uncertain or existing cell cannot be replayed')
     legacy=read(plan['ledger_archive']);current=read(core.pi.LEDGER)
     if current['requests'][:len(legacy['requests'])]!=legacy['requests'] or current['codex_turns'][:len(legacy['codex_turns'])]!=legacy['codex_turns']:
         raise ValueError('Old cumulative rows changed')
