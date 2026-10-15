@@ -34,7 +34,10 @@ def validate_plan(value):
             or body.get('bulk_256_enabled') is not False or body.get('external_release_authorized') is not False
             or set(t['task_id'] for t in body['main_manifest']['tasks'])!=set(TASKS)):
         raise ValueError('Exact 112 missing cells plus 16 retained cells required; no replay/release')
-    if body.get('cumulative_caps')!={'deepseek_requests':10000,'api_cash_usd':200}:
+    scoped250=(body.get('single_cell_budget_authorization')=='USER_APPROVED_2026-10-15_CUMULATIVE_USD250_BLACK5_P1_ONLY'
+        and body.get('authorized_paid_cells')==[{'task_id':'BIP-black-5','profile':'P1','provider':'deepseek','repetition':0}]
+        and body.get('cumulative_caps')=={'deepseek_requests':10000,'api_cash_usd':250})
+    if body.get('cumulative_caps')!={'deepseek_requests':10000,'api_cash_usd':200} and not scoped250:
         raise ValueError('Existing cumulative budget required')
     return value
 

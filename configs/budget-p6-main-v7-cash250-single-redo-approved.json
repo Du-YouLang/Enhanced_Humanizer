@@ -1,0 +1,55 @@
+{
+  "phase": "P6_MAIN_LOCAL_20261011",
+  "authorization_status": "APPROVED_BY_USER_2026-10-12",
+  "authorization_reference": "User explicitly capped the ongoing P6/P7 tasks at 10000 API calls and USD100 API token fees on 2026-10-12; include all previous main-phase spending. Existing local-only compute, independent subscription accounting, fresh per-product-PR human review and no external release remain. User explicitly selected public15min and scientific20min role limits on 2026-10-12 in response to the family-budget proposal; corresponding public2h/scientific3h active experiment limits. Old115s results and paused partial run retained separately, aggregate ceilings unchanged. User explicitly required256000 output tokens per DeepSeek model request on2026-10-12. DSH role-private settings and outer broker use256000; request-sized reserves retain all legacy4096 entries and unknown costs. Same chunked generation instructions for all coding roles. No retry of failed old runs. Latest explicit human amendment: 1000 requests per role, 600 seconds per wire request, reconnect transient network failures; first four failures are SHOULD_RETRY, fifth is NETWORK_CHECK_REQUIRED. Preserve 10000/USD100 aggregate, all prior reservations, role900/1200 and private thresholds. Never change global network/fences or replay completed tasks. Every attempted request remains counted and charged conservatively. Latest explicit user approval 2026-10-13 increases cumulative DeepSeek API token ceiling from USD100 to USD200, not USD200 additional. Every prior request, subscription reservation and unknown usage remains retained; no other cap or permission changes. Direct human approval 2026-10-15: cumulative USD250, additional space first only for one fresh Black5/P1/DeepSeek network redo;10000 requests unchanged, preserve every old row and unknown reservation; no top-up or other new trials.",
+  "model_execution_enabled": true,
+  "scope": "Frozen 12 public tasks and four scientific directions after per-task positive/negative controls; A-F, independent J0/J1/J3 and trace sensitivity; product PR feature with individual human review",
+  "api_cash_usd": 250,
+  "deepseek_inference_requests": 10000,
+  "codex_subscription_turns": null,
+  "aggregate_limit_policy": "USER_FINITE_CEILING",
+  "per_request_timeout_seconds": 600,
+  "common_generation_timeout_seconds": 900,
+  "per_role_inference_requests": 1000,
+  "per_role_codex_turns": 1,
+  "per_candidate_timeout_seconds": 1200,
+  "per_experiment_active_timeout_seconds": 10800,
+  "scientific_evaluation_timeout_seconds": {
+    "SCI-PC-ALM": 7200,
+    "SCI-STROKE": 600,
+    "SCI-EGL": 1800,
+    "SCI-GRANGER-GPU": 180
+  },
+  "compute_policy": "LOCAL_ONLY_CPU_PROTOCOLS_PRESERVED_GPU_TASKS_SINGLE_LOCAL_GPU",
+  "gpu_evaluation_concurrency": 1,
+  "top_up_allowed": false,
+  "carry_over_allowed": false,
+  "automatic_retry_after_infrastructure_failure": true,
+  "legacy_ledgers_immutable": true,
+  "external_product_release_authorized": false,
+  "product_pr_requires_individual_human_review": true,
+  "requires_frozen_task_controls_before_models": true,
+  "time_budget_revision": "USER_APPROVED_2026-10-12_PUBLIC15_SCIENCE20",
+  "role_timeout_seconds_by_family": {
+    "public": 900,
+    "scientific": 1200
+  },
+  "experiment_timeout_seconds_by_family": {
+    "public": 7200,
+    "scientific": 10800
+  },
+  "output_budget_revision": "USER_APPROVED_2026-10-12_DSH_DEFAULT256000",
+  "per_request_output_tokens": 256000,
+  "network_recovery_revision": "USER_APPROVED_2026-10-12_ROLE1000_REQUEST600_NETWORK5",
+  "network_consecutive_failure_limit": 5,
+  "network_retry_backoff_seconds": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "network_retry_scope": "FIXED_ALLOWED_PROVIDER_REQUEST_ONLY",
+  "network_partial_stream_policy": "BUFFER_UNTIL_COMPLETE_NO_DUPLICATE_TOOLS",
+  "cash_budget_revision": "USER_APPROVED_2026-10-15_CUMULATIVE_USD250_BLACK5_P1_ONLY",
+  "paid_scope_policy": "ONLY_AUTHORIZED_BLACK5_P1_DEEPSEEK_NETWORK_REDO"
+}
