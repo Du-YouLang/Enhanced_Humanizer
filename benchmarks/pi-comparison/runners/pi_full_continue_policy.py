@@ -20,3 +20,15 @@ def remaining_cells(plan,results):
     if results[-1]['worker_status'] not in ('INFRA_FAIL','INFRA_RETRY_PENDING'):
         raise ValueError('This successor follows a reconciled infrastructure stop only')
     return plan['cells'][len(completed):]
+
+
+def transport_successor(original,successor):
+    """Only a prospective DeepSeek transport amendment; task/budget pins stay."""
+    from p6_network_policy import retry10_transport
+    retry10_transport(successor['plan'].get('deepseek_transport_policy',{}))
+    if original['budget']!=successor['budget']:raise ValueError('Transport cannot change ledger authorization')
+    ignored={'source_sha256','entrypoint_sha256','plan_sha256','deepseek_transport_policy'}
+    if ({k:v for k,v in original['plan'].items() if k not in ignored}
+            !={k:v for k,v in successor['plan'].items() if k not in ignored}):
+        raise ValueError('Transport cannot change frozen tasks/time/models/oracles')
+    return successor

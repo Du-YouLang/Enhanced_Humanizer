@@ -131,12 +131,28 @@ def task_controls(payload):
         w=pi.execute(dest,work,'P0','fixture',payload['budget'],'Synthetic retry control',900,
                      Path(__file__).with_name('pi_session.mjs'),fixture_fault=fault,prospective_retry=True)
         retry.append({'fault':fault,'status':w['status'],'expected':wanted,'worker':w})
+    if plan.get('deepseek_transport_policy'):
+        from unittest.mock import patch
+        async def no_wait(seconds):pass
+        for fault,wanted in (('broker-overload-nine','COMPLETED'),('broker-overload-ten','INFRA_RETRY_PENDING')):
+            dest=root/fault;dest.mkdir();work=dest/'code';work.mkdir()
+            pi.shared.trusted_git(work,'init','-q');pi.shared.trusted_git(work,'config','user.name','Pi zero-model control')
+            pi.shared.trusted_git(work,'config','user.email','control@example.invalid')
+            # Real HTTP/SDK/ledger/fence control. Backoff timing is separately
+            # checked without burning 285 seconds per synthetic failure burst.
+            with patch('p6_network_recovery.asyncio.sleep',new=no_wait):
+                w=pi.execute(dest,work,'P0','fixture',payload['budget'],'Synthetic retry10 control',900,
+                    Path(__file__).with_name('pi_session.mjs'),fixture_fault=fault,prospective_retry=True,
+                    deepseek_transport=plan['deepseek_transport_policy'])
+            retry.append({'fault':fault,'status':w['status'],'expected':wanted,'worker':w})
     okay=(sdk['status']=='PASS_FORMAL_SDK_CONTROLS' and len(rows)==14
           and all(r['status']!='CONTROL_FAILED' for r in rows) and all(r['status']==r['expected'] for r in retry)
           and sha(pi.LEDGER)==before)
     receipt={'status':'PASS_FULL_MAIN_ZERO_MODEL_CONTROLS' if okay else 'CONTROL_FAILED',
              'model_calls':0,'sdk':sdk,'tasks':rows,'retry_controls':retry,'source_sha256':payload['source_sha256'],
              'ledger_sha256_before':before,'ledger_sha256_after':sha(pi.LEDGER)}
+    if plan.get('deepseek_transport_policy'):
+        receipt['deepseek_transport_policy']=plan['deepseek_transport_policy']
     exclusive(root/'receipt.json',receipt)
     return {'status':receipt['status'],'root':str(root),'tasks':len(rows),'model_calls':0}
 
@@ -144,7 +160,8 @@ def task_controls(payload):
 def require_controls(payload):
     for path in pi.RUNS.glob('formal-full-controls-*/receipt.json'):
         r=read(path)
-        if r['status']=='PASS_FULL_MAIN_ZERO_MODEL_CONTROLS' and r['source_sha256']==payload['source_sha256']:
+        if (r['status']=='PASS_FULL_MAIN_ZERO_MODEL_CONTROLS' and r['source_sha256']==payload['source_sha256']
+                and r.get('deepseek_transport_policy')==payload['plan'].get('deepseek_transport_policy')):
             return {'path':str(path),'sha256':sha(path)}
     raise RuntimeError('Exact source requires successful full-main zero-model controls')
 
@@ -174,7 +191,8 @@ def run_cell(root,payload,cell,journal):
             return pi.execute(dest,work,cell['profile'],cell['provider'],payload['budget'],prompt,role,
                 Path(__file__).with_name('pi_session.mjs'),key=payload.get('key'),prefix=Path(task['prefix']),
                 public_reads=descriptor['public_read_paths'],gpu=task.get('gpu_coding',False),
-                denied=descriptor['denied_paths'],prospective_retry=True,fixture_url=url,fixture_ca=task['fixture_ca'])
+                denied=descriptor['denied_paths'],prospective_retry=True,fixture_url=url,fixture_ca=task['fixture_ca'],
+                deepseek_transport=payload['plan'].get('deepseek_transport_policy'))
         worker=journal.run(name+'-model',model)
         pi.shared.ACTIVE['workers'][name]=worker
         candidate=journal.run(name+'-public',lambda:pi.shared.candidate(name,worker))
@@ -206,6 +224,8 @@ def run_cell(root,payload,cell,journal):
              'evidence_kind':'REAL_MODEL','harness':'official Pi SDK 1.1.0','model_requested':worker['model_identity'],
              'scientific_review':'PENDING_SOL_REVIEW' if outcome=='INDETERMINATE' else 'NOT_APPLICABLE_OR_NUMERIC_FAIL',
              'retained_original_cells_replayed':0}
+        if payload['plan'].get('deepseek_transport_policy') and cell['provider']=='deepseek':
+            row['deepseek_transport_policy']=worker['deepseek_transport_policy']
         if (dest/'result.json').exists():
             if read(dest/'result.json')!=row:raise ValueError('Retained cell result differs')
         else:exclusive(dest/'result.json',row)

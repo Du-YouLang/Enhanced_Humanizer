@@ -39,21 +39,33 @@ print(json.dumps({'status':'DEPLOYED_ZERO_MODELS'}))
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('mode',choices=('prepare','controls','compare'))
-    parser.add_argument('--parent-run',default=ORIGINAL);parser.add_argument('--version',type=int,default=1);a=parser.parse_args()
+    parser.add_argument('--parent-run',default=ORIGINAL);parser.add_argument('--version',type=int,default=1)
+    parser.add_argument('--executor-contract',type=Path,help='Exact zero-provider contract for a prospective retry10 executor')
+    a=parser.parse_args()
     if not __import__('re').fullmatch(r'formal-full-compare-[0-9TZ]+',a.parent_run) or not 1<=a.version<=99:
         raise ValueError('Exact parent run and finite plan version required')
     plan_path=PLAN.with_name('full-unstarted-continuation-v'+str(a.version)+'.private.json')
     folder,sources=deploy()
     if a.mode=='prepare':
         original=json.loads((ROOT/'.local-workbench/pi-comparison/intake'/(a.parent_run+'-contract.private.json')).read_bytes())
+        successor=None
+        if a.executor_contract:
+            if not a.executor_contract.resolve().is_relative_to(PLAN.parent):
+                raise ValueError('Project-private executor contract required')
+            successor=json.loads(a.executor_contract.read_bytes())
+            if successor['mode']!='controls':raise ValueError('Actual zero-provider executor contract required')
         code='''import hashlib,json,sys;from pathlib import Path
-d=json.load(sys.stdin);sys.path.insert(0,d['folder']);from pi_full_continue_policy import remaining_cells,retained_results
+d=json.load(sys.stdin);sys.path.insert(0,d['folder']);from pi_full_continue_policy import remaining_cells,retained_results,transport_successor
 parent=d['original'];prior=parent.get('continuation_plan');p=prior['original_payload'] if prior else parent
+previous=p
+if d.get('successor'):
+ sys.path.insert(0,str(Path(next(iter(d['successor']['source_sha256']))).parent))
+ p=transport_successor(previous,d['successor'])
 root=Path('/opt/workbench/benchmark/private/pi-comparison')/parent['run_id']
 roots=[*(prior.get('retained_runs',[prior['original_root']]) if prior else []),str(root)]
 if len(roots)!=len(set(roots)):raise ValueError('Receipt chain repeats a run')
 receipts=[json.loads((Path(r)/'receipt.json').read_bytes()) for r in roots];results=retained_results(receipts)
-todo=remaining_cells(p['plan'],results);files=[]
+todo=remaining_cells(p['plan'],results);files=[Path(s) for s in previous['source_sha256']]
 for previous,receipt in zip(roots,receipts):
  previous=Path(previous);files.extend([previous/'receipt.json',*sorted((previous/'control/stages').glob('*.completed.json'))])
  for row in receipt['results']:
@@ -71,9 +83,10 @@ plan={'protocol':'PI_UNSTARTED_SUFFIX_20261015_V'+str(d['version']),'original_pa
  'authorization':'Existing direct full112 request, resume unstarted cells only; failed generic provider processing error retained, not claimed overload',
  'failed_cell_retry_authorized_by_this_plan':False,'cumulative_caps':{'deepseek_requests':10000,'api_cash_usd':200},
  'external_release_authorized':False}
+if d.get('successor'):plan['previous_original_payload']=previous
 plan['continuation_sha256']=digest(plan);print(json.dumps(plan))
 '''
-        plan=native(code,{'folder':folder,'sources':sources,'original':original,'version':a.version})
+        plan=native(code,{'folder':folder,'sources':sources,'original':original,'version':a.version,'successor':successor})
         if plan_path.exists() and json.loads(plan_path.read_bytes())!=plan:raise ValueError('Existing continuation plan immutable')
         if not plan_path.exists():
             with plan_path.open('x',encoding='utf8') as f:json.dump(plan,f,indent=2)

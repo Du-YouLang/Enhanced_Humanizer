@@ -8,7 +8,7 @@ import sys
 import time
 import traceback
 
-from pi_full_continue_policy import remaining_cells,retained_results
+from pi_full_continue_policy import remaining_cells,retained_results,transport_successor
 
 
 def read(path):return json.loads(Path(path).read_bytes())
@@ -22,7 +22,10 @@ def bind(payload):
     if core.digest(body)!=expected:raise ValueError('Continuation plan changed')
     for path,h in {**plan['successor_sources'],**plan['retained_sha256']}.items():
         if sha(path)!=h:raise ValueError('Pinned continuation/original evidence changed: '+path)
-    original=plan['original_payload'];core.validate_bindings(original);control=core.require_controls(original)
+    original=plan['original_payload']
+    if plan.get('previous_original_payload'):
+        transport_successor(plan['previous_original_payload'],original)
+    core.validate_bindings(original);control=core.require_controls(original)
     roots=plan.get('retained_runs',[plan['original_root']])
     results=retained_results([read(root+'/receipt.json') for root in roots])
     if remaining_cells(original['plan'],results)!=plan['remaining_cells']:
