@@ -46,6 +46,14 @@ def snapshot(value):
         store_pins={str(p):fixed.sha(p) for p in store.rglob('*') if p.is_file()}
         if any(p.is_symlink() for p in store.rglob('*')):raise ValueError('Unexpected session-store symlink')
         pins.update(store_pins)
+        guarded_attempt=fixed.BASE/'guidance-20261016T155049Z'
+        if guarded_attempt.exists():
+            guarded_receipts=list(guarded_attempt.glob('receipt-*.json'))
+            if not guarded_receipts or any(read(p)['status']!='STOPPED_PRESERVED' for p in guarded_receipts):
+                raise ValueError('Earlier zero-dispatch budget-guard attempt requires reconciliation')
+            for p in [*guarded_receipts,*guarded_attempt.glob('error-*.json'),
+                *guarded_attempt.glob('control/stages/*.json'),*guarded_attempt.glob('resumed-mentor/*.json')]:
+                pins[str(p)]=fixed.sha(p)
         programs=[];bases={t['task_id']:t['base_commit'] for t in original['plan']['manifest']['tasks']}
         for origin in (fixed.BASE/'guidance-20261016T060944Z',oldroot):
             for path in origin.glob('*/*/controller-outcome.json'):
@@ -91,10 +99,12 @@ def resume_spec(payload,dest,*,offline=False):
     if (codex/'config.toml').exists():shutil.copy2(codex/'config.toml',home/'config.toml')
     env['CODEX_HOME']=str(home)
     exclusive(dest/'session-relocation.json',relocation)
-    job=dict(old['descriptor']);job.update(root=str(dest),scope=scope(MENTOR),offline_control=offline,
+    billing_scope='GUIDANCE/'+payload['run_id']+'/'+PARTIAL_TASK+'/'+MENTOR
+    job=dict(old['descriptor']);job.update(root=str(dest),scope=billing_scope,offline_control=offline,
         parent_namespace=os.readlink('/proc/self/ns/pid'),role_seconds=details['remaining_role_seconds'],
         guidance_session_resume={k:details[k] for k in ('session_id','prior_usage','prior_seconds')})
     job['guidance_session_resume']['keeps']=str(keeps)
+    job['guidance_session_resume'].update(original_scope=scope(MENTOR),billing_scope=billing_scope)
     job['denied_paths']=list(job['denied_paths'])+[str(dest.parent/'control/canary')]
     return {'descriptor':job,'env':env}
 
@@ -104,12 +114,23 @@ def controls(payload,root):
     with task['fixture_context'] as url:
         fixed.activate(root,payload,tp,task,tester,url,offline=True)
         spec=resume_spec(payload,root/'interrupted-mentor-probe',offline=True)
+        # Exercise the actual reservation gate on a separate synthetic ledger;
+        # never amend or append to the real project ledger during controls.
+        from p6_main_budget import MainLedger,BudgetDenied
+        accounting=MainLedger(root/'control/resume-accounting-fixture.json',payload['budget'])
+        accounting.reserve_codex_turn(scope(MENTOR),'gpt-6.1-sol')
+        try:accounting.reserve_codex_turn(scope(MENTOR),'gpt-6.1-sol')
+        except BudgetDenied:pass
+        else:raise ValueError('Original subscription role replay was not denied')
+        accounting.reserve_codex_turn(spec['descriptor']['scope'],'gpt-6.1-sol')
+        if len(read(accounting.path)['codex_turns'])!=2:raise ValueError('Both linked activity reservations must remain')
         before=fixed.sha(fixed.LEDGER);worker=fixed.execute(spec)
     result=read(Path(worker['root'])/'worker.json')
     if worker['status']!='COMPLETED' or result.get('session_resume_probe',{}).get('status')!='PASS_OFFICIAL_THREAD_RESUME_ZERO_INFERENCE':
         raise ValueError('Actual read-only official thread-resume control failed')
     if fixed.sha(fixed.LEDGER)!=before:raise ValueError('Zero-inference probe changed the ledger')
-    return {'status':'PASS_OFFICIAL_RESUME_FENCE_ZERO_INFERENCE','worker':worker,'model_calls':0,'ledger_unchanged':True}
+    return {'status':'PASS_OFFICIAL_RESUME_FENCE_ZERO_INFERENCE','worker':worker,'model_calls':0,'ledger_unchanged':True,
+        'accounting_control':'PASS_LINKED_CONTINUATION_NO_OLD_SCOPE_REPLAY'}
 
 def validate(payload):
     fixed.bind(payload);details=payload['plan']['shutdown_continuation']

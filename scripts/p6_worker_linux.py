@@ -178,6 +178,8 @@ def main():
                     value['usage_accounting_basis']=basis
                     value['session_usage_total']=completed['usage']
                     value['prior_role_seconds_debited']=job['guidance_session_resume']['prior_seconds']
+                    value['original_interrupted_scope']=job['guidance_session_resume']['original_scope']
+                    value['additional_accounting_scopes']=[job['guidance_session_resume']['original_scope']]
             else:value.update(model_id='deepseek-flash',session_id=turns[0]['session_id'])
     except BaseException as error:
         status='TIMEOUT' if type(error).__name__ in ('DurationExceeded','TimeoutError') else 'INFRA_FAIL'

@@ -31,6 +31,12 @@ def main(value):
         if not allow_partial(job):raise ValueError('Completed original role replay denied')
         return saved(job,env)
     original.shared.launch=guarded;old['key']=value['key']
+    metrics=original.shared.metrics
+    def linked_metrics(scopes,elapsed):
+        # Both the original interrupted reservation and this resumed turn are
+        # real activity. Their two nonoverlapping usage segments sum once.
+        return metrics(list(dict.fromkeys([*scopes,*worker.get('additional_accounting_scopes',[])])),elapsed)
+    original.shared.metrics=linked_metrics
     result=original.task_run(root,old,PARTIAL_TASK);result['interruption']='USER_SHUTDOWN_RESUMED_SAME_SESSION'
     exclusive(value['result'],result)
     return {'status':'ORIGINAL_PARTIAL_TASK_COMPLETED_WITHOUT_REPLAY'}
