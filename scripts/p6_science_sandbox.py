@@ -62,7 +62,7 @@ def output_inventory(output):
 
 
 def execute(source, prefix, worker_program, *, inputs=None, timeout=180,
-            gpu=False, rss_limit_mib=10240, cpu_threads=8, pin_one_cpu=False, arguments=()):
+            gpu=False, rss_limit_mib=10240, cpu_threads=8, pin_one_cpu=False, arguments=(),python_hash_seed=42):
     from p1_broker import protect_memory
     from hmz.coganchor.fence import Fence,wrapper
     if os.name != 'posix' or os.getuid() == 0: raise RuntimeError('Native non-root Linux is required')
@@ -74,6 +74,8 @@ def execute(source, prefix, worker_program, *, inputs=None, timeout=180,
         raise ValueError('Finite scientific wall-clock and process-tree RSS limits required')
     if type(cpu_threads) is not int or not 1<=cpu_threads<=8 or type(pin_one_cpu) is not bool:
         raise ValueError('A frozen CPU thread/affinity protocol is required')
+    if type(python_hash_seed) is not int or python_hash_seed not in (0,42):
+        raise ValueError('Explicit original or owner-public Python hash seed required')
     validate_source_links(source)
     root=BASE/'science/private/evaluations'/uuid.uuid4().hex
     root.mkdir(parents=True)
@@ -97,11 +99,13 @@ def execute(source, prefix, worker_program, *, inputs=None, timeout=180,
         fence=replace(fence,write=tuple(p for p in fence.write if not p.startswith(('/dev/nvidia','/dev/dri','/dev/dxg'))))
     fence=replace(fence,tmp=str(scratch))
     env={'PATH':str(prefix/'bin')+':/usr/bin:/bin','HOME':str(home),'TMPDIR':str(scratch),
-         'PYTHONDONTWRITEBYTECODE':'1','PYTHONHASHSEED':'42','MPLCONFIGDIR':str(scratch/'mpl'),
+         'PYTHONDONTWRITEBYTECODE':'1','PYTHONHASHSEED':str(python_hash_seed),'MPLCONFIGDIR':str(scratch/'mpl'),
          'CUDA_CACHE_PATH':str(scratch/'cuda'),'CUPY_CACHE_DIR':str(scratch/'cupy'),
          'JAX_COMPILATION_CACHE_DIR':str(scratch/'jax'),'XLA_PYTHON_CLIENT_PREALLOCATE':'false',
          'OMP_NUM_THREADS':str(cpu_threads),'OPENBLAS_NUM_THREADS':str(cpu_threads),'MKL_NUM_THREADS':str(cpu_threads),
          'CUDA_VISIBLE_DEVICES':'0' if gpu else '', 'WANDB_MODE':'disabled'}
+    if python_hash_seed==0:
+        env.update(NUMEXPR_NUM_THREADS=str(cpu_threads),MPLBACKEND='Agg')
     if gpu:env['LD_LIBRARY_PATH']='/usr/lib/wsl/lib'
     probe='''import json,os,socket,sys
 from pathlib import Path
