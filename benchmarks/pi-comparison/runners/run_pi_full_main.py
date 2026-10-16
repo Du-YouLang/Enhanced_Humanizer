@@ -20,10 +20,10 @@ INTAKE=ROOT/'.local-workbench/pi-comparison/intake'
 
 def deploy():
     files=[Path(__file__).with_name(n) for n in ('pi_session.mjs','pi_formal_linux.py','events.py','pi_protocol.py',
-           'pi_retry_policy.mjs','pi_recovery_policy.py','pi_overload_recovery_linux.py','pi_full_protocol.py','pi_full_main_linux.py')]
+           'pi_retry_policy.mjs','pi_recovery_policy.py','pi_overload_recovery_linux.py','pi_full_protocol.py','pi_full_main_linux.py','pi_four_infra_redo_linux.py')]
     files += [ROOT/'scripts'/n for n in ('p6_checkpoint_recovery.py','p6_gc_adjudication.py','p6_gc_dependencies.py',
               'p6_gc_grader.py','p6_gc_source_policy.py','p6_science_main_linux.py','p6_gc_worker.py','p6_network_recovery.py','p6_network_policy.py','p6_main_budget.py','p6_pi_remaining_scope.py',
-              'p6_pc_grader.py','p6_pc_validation.py','p6_pc_statistics.py','p6_egl_grader.py','p6_egl_worker.py',
+              'p6_pi_four_redo_scope.py','p6_pc_grader.py','p6_pc_validation.py','p6_pc_statistics.py','p6_egl_grader.py','p6_egl_worker.py',
               'p6_egl_replay.py','p6_science_contracts.py','p6_science_sandbox.py','p6_tms_grader.py','p6_output_data.py')]
     files += [ROOT/'benchmarks/pi-comparison/tasks/science-clarifications-v1.md']
     sources={p.name:p.read_text(encoding='utf-8') for p in files}

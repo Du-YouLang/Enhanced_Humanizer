@@ -1,0 +1,10 @@
+{
+  "model": "deepseek-flash",
+  "currency": "CNY",
+  "source": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+  "verified_date": "2026-10-16",
+  "peak_per_million": {"input_cache_hit": 0.04, "input_cache_miss": 2, "output": 8},
+  "off_peak_per_million": {"input_cache_hit": 0.02, "input_cache_miss": 1, "output": 4},
+  "safety_policy": "Use peak rates for all known usage; retain full context/output reservation for unknown usage. Preserve the original nano-USD ledger as historical evidence. No currency relabeling, unknown refund or claim of actual invoice.",
+  "request_output_cap_unchanged": 256000
+}
