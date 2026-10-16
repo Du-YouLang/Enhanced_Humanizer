@@ -8,6 +8,19 @@ from p6_tms_legacy_contract import canonical_views,NF,MAX,BOUNDARY
 
 
 class LegacyContractTests(unittest.TestCase):
+    def test_explicit_motor_object_agrees_with_aliases_but_conflicts_or_other_objects_fail(self):
+        gold=self.example();actual=copy.deepcopy(gold);roi=actual['metadata'].pop('roi')
+        actual['metadata'].update(roi_motor=roi,roi_order={'motor':roi})
+        before=copy.deepcopy(actual)
+        a,_,_=canonical_views(actual,gold)
+        self.assertEqual(a['metadata']['roi'],roi);self.assertEqual(actual,before)
+        actual['metadata']['roi_order']={'motor':list(reversed(roi))}
+        with self.assertRaises(ValueError):canonical_views(actual,gold)
+        actual['metadata']['roi_order']={'motor':roi,'other':roi}
+        with self.assertRaises(ValueError):canonical_views(actual,gold)
+        actual['metadata'].pop('roi_order');actual['metadata']['roi_motor']={'motor':roi}
+        with self.assertRaises(ValueError):canonical_views(actual,gold)
+
     def example(self):
         return {'metadata':{'roi':['FC3','FC1','C3','C1'],'artifact_reviewed':True,'synthetic':True,
                             'pci_available':False,'allow_unreviewed':False},
