@@ -1,4 +1,5 @@
 import hashlib
+import importlib.util
 from pathlib import Path
 import sys
 import tempfile
@@ -9,6 +10,7 @@ from p6_owner_input import owner_npz
 from p6_output_data import bounded_npz
 
 
+@unittest.skipUnless(importlib.util.find_spec('numpy'),'Task-native NumPy required')
 class OwnerInputBoundaryTests(unittest.TestCase):
     def test_frozen_unicode_metadata_loads_without_relaxing_output_boundary(self):
         import numpy as np
