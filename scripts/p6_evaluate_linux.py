@@ -189,7 +189,10 @@ print(json.dumps(dict(uid=os.getuid(),cap_eff=next(l.split()[-1] for l in Path('
                 cases = list(ET.parse(xml).iter('testcase')) if xml.exists() else []
                 statuses,identity_mapping=pytest_statuses(cases,expected_tests)
             else:raise ValueError('Unapproved test framework')
-            ran = len(statuses)
+            # UNMAPPED records are planned identities, not observed tests.
+            # Keep the expected count separately; a denied runner has zero
+            # observed identities even when the manifest names 100 tests.
+            ran = sum(state!='UNMAPPED' for state in statuses.values())
             verdict = 'INFRA_FAIL' if not ran or 'UNMAPPED' in statuses.values() else ('PASS' if outcome.returncode == 0 and all(x == 'PASS' for x in statuses.values()) else 'FAIL')
         else:
             match = re.search(r'Ran (\d+) tests? in ', raw)
@@ -198,6 +201,7 @@ print(json.dumps(dict(uid=os.getuid(),cap_eff=next(l.split()[-1] for l in Path('
                        ('PASS' if outcome.returncode == 0 else 'FAIL'))
         result = dict(verdict=verdict, exit_code=outcome.returncode, tests_observed=ran, test_statuses=statuses,
                       private_log_sha256=digest(raw.encode()))
+        if expected_tests is not None:result['expected_tests_count']=len(statuses)
         if expected_tests is not None and test_framework=='pytest':
             result.update(full_test_identities=identity_mapping,full_tests_observed=len(cases))
     except subprocess.TimeoutExpired:

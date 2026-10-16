@@ -9,12 +9,17 @@ import unittest
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'scripts'),str(ROOT/'benchmarks/pi-comparison/runners')]
 from p6_guidance_protocol import (TASKS,BRANCHES,PROTOCOL,branch_order,digest,allowed_scope,
-    mentor_view,validate_guidance,validate_plan)
+    mentor_view,validate_guidance,validate_plan,outcome)
 from p6_main_budget import MainLedger,BudgetDenied,authorization
 from pi_full_protocol import Journal,UncertainStage
 
 
 class GuidanceTests(unittest.TestCase):
+    def test_public_infrastructure_failure_is_not_a_model_failure(self):
+        self.assertEqual(outcome('COMPLETED','INFRA_FAIL','NOT_RUN'),'INFRA_FAIL')
+        self.assertEqual(outcome('COMPLETED','FAIL','NOT_RUN'),'FAIL')
+        self.assertEqual(outcome('COMPLETED','PASS','PASS'),'PASS')
+        self.assertEqual(outcome('TIMEOUT','PASS','NOT_RUN'),'TIMEOUT')
     def setUp(self):
         self.c={'base_commit':'a'*40,'head_commit':'b'*40,'patch':'diff','source':'source',
             'test_report':{'verdict':'FAIL','log':'public only'},'known_failures':['public'],

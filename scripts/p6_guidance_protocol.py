@@ -34,6 +34,13 @@ def branch_order(task_id):
     return BRANCHES if TASKS.index(task_id) % 2 == 0 else tuple(reversed(BRANCHES))
 
 
+def outcome(worker_status, public_verdict, private_verdict):
+    """A broken evaluator is never a model FAIL, including the public gate."""
+    if worker_status!='COMPLETED':return worker_status
+    if public_verdict in ('INFRA_FAIL','INDETERMINATE','TIMEOUT'):return public_verdict
+    return private_verdict if public_verdict=='PASS' else 'FAIL'
+
+
 def mentor_view(candidate, task_prompt, trace=None):
     # Do not pass worker status, model identity or hidden acceptance into a mentor.
     view = {'task': task_prompt, 'program': {k: candidate[k] for k in

@@ -17,7 +17,7 @@ sys.path[:0] = [str(Path(__file__).parent), str(Path(__file__).parent/'src'),
 import p6_main_runtime_linux as main
 from p6_main_budget import MainLedger, task_limits, BudgetDenied
 from p6_guidance_protocol import (TASKS, BRANCHES, DS_ROLES, SOL_ROLES, digest,
-    branch_order, mentor_view, validate_guidance, validate_plan)
+    branch_order, mentor_view, validate_guidance, validate_plan,outcome)
 from p6_network_policy import RETRY10_POLICY
 from p6_trace_evidence import tool_trace
 from pi_full_protocol import Journal, UncertainStage, exclusive
@@ -50,6 +50,8 @@ def make_task(payload, tid):
             return science.test(source, hidden)
     else:
         task = main.public_task(tp); tester = main.public_test
+        from p6_guidance_helpers import bind_task
+        bind_task(task,Path(__file__).parent)
         if tid == 'SWEL-pytest-dev__pytest-11148':
             name = 'testing/test_pathlib.py'; raw = (Path(task['base'])/name).read_bytes()
             anchor = b"        # mode='importlib' fails if no spec is found to load the module\n"
@@ -209,10 +211,10 @@ def task_run(root, payload, tid):
                     return {'verdict':'INFRA_FAIL','error_type':type(error).__name__,'reason':str(error)[:700],'elapsed_seconds':0}
             acceptance=journal.run(method.replace('DS-Sol-','').replace('DS-Initial','initial')+'-acceptance',accept)
             verify(c,f)
-            outcome=acceptance['verdict'] if w['status']=='COMPLETED' and c['verdict']=='PASS' else 'FAIL' if w['status']=='COMPLETED' else w['status']
-            rows.append({'method':method,'task_id':tid,'outcome':outcome,'worker':w,'candidate':c,
+            verdict=outcome(w['status'],c['verdict'],acceptance['verdict'])
+            rows.append({'method':method,'task_id':tid,'outcome':verdict,'worker':w,'candidate':c,
                 'acceptance':acceptance,'frozen':f,'barrier_sha256':digest(barrier),
-                'scientific_review':'PENDING_SOL_SOURCE_REPORT_FIGURE' if outcome=='INDETERMINATE' else 'NOT_APPLICABLE_OR_NOT_NUMERIC_PASS'})
+                'scientific_review':'PENDING_SOL_SOURCE_REPORT_FIGURE' if verdict=='INDETERMINATE' else 'NOT_APPLICABLE_OR_NOT_NUMERIC_PASS'})
         measured=sum(w['wall_seconds'] for w in shared.ACTIVE['workers'].values())+sum(
             c.get('test_report',{}).get('elapsed_seconds',0) for c in [initial]+[
             branches[b]['candidate'] for b in BRANCHES if 'candidate' in branches[b]])
@@ -240,24 +242,37 @@ def controls(payload):
         validate_guidance(answer['guidance'],{})
         if len(driver.prompts)!=1:raise ValueError('Exactly one official fake mentor turn required')
         return {'status':'PASS_OFFICIAL_HUMANIZE_FLOW_FAKE','model_calls':0}
-    flow_receipt=asyncio.run(flow_control());rows=[]
+    flow_receipt=asyncio.run(flow_control());rows=[];public_controls=[]
     for tid in TASKS:
         dest=root/tid;dest.mkdir();(dest/'control').mkdir();(dest/'control/canary').write_text('private')
         exclusive(dest/'control/withheld-trace.json',{'private_control_trace':'must be denied'})
         tp,task,tester=make_task(payload,tid)
         with task['fixture_context'] as url:
             activate(dest,payload,tp,task,tester,url,offline=True)
+            gold=None
+            if tp['task']['family']!='scientific':
+                frozen=read(main.BASE/'science/private/public-main-controls-frozen-v2.json')
+                entry=next(r for r in frozen['tasks'] if r['task_id']==tid)
+                reference=read(entry['receipt']);gold=reference['gold']
+                gp=tester(gold,False);gh=tester(gold,True);bh=tester(task['base'],True)
+                control={'task_id':tid,'public_gold':gp,'hidden_gold':gh,'hidden_buggy':bh,
+                    'helper_binding':task['helper_binding']}
+                control['status']='PASS' if gp['verdict']=='PASS' and gh['verdict']=='PASS' and bh['verdict']=='FAIL' else 'FAIL'
+                public_controls.append(control)
+                if control['status']!='PASS':
+                    exclusive(root/('failed-public-control-'+tid+'.json'),control)
+                    raise ValueError('Actual positive/negative public helper control failed: '+tid)
             for name,backend,role in [('initial-ds','dsh','builder'),('code-tests-mentor','codex','verifier')]:
-                s=setup(dest,payload,name,backend,role,offline=True)
-                if role=='builder' and task.get('kind') not in ('gc','egl'):
+                s=setup(dest,payload,name,backend,role,source=gold if role=='builder' else None,offline=True)
+                if role=='builder' and tp['task']['family']=='scientific' and task.get('kind') not in ('gc','egl'):
                     # Baseline public checks are not expected to solve the task.
                     s['descriptor'].pop('offline_public_command',None)
                 w=execute(s)
                 rows.append({'task_id':tid,'role':role,'status':w['status'],
                     'isolation':read(Path(w['root'])/'isolation.json')})
-    okay=len(rows)==32 and all(r['status']=='COMPLETED' and r['isolation']['verdict']=='PASS' for r in rows) and sha(LEDGER)==before
+    okay=len(rows)==32 and len(public_controls)==12 and all(r['status']=='PASS' for r in public_controls) and all(r['status']=='COMPLETED' and r['isolation']['verdict']=='PASS' for r in rows) and sha(LEDGER)==before
     r={'status':'PASS_GUIDANCE_ZERO_MODEL_CONTROLS' if okay else 'CONTROLS_FAILED',
-        'rows':rows,'official_flow_control':flow_receipt,'source_sha256':payload['plan']['source_sha256'],'plan_sha256':payload['plan']['plan_sha256'],
+        'rows':rows,'public_helper_controls':public_controls,'official_flow_control':flow_receipt,'source_sha256':payload['plan']['source_sha256'],'plan_sha256':payload['plan']['plan_sha256'],
         'ledger_sha256_before':before,'ledger_sha256_after':sha(LEDGER),'model_calls':0}
     exclusive(root/'receipt.json',r);return {'status':r['status'],'receipt':str(root/'receipt.json')}
 
