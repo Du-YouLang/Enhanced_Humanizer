@@ -78,6 +78,7 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_guidance_controller.py' -v
       - run: python -m unittest discover -s tests -p 'test_guidance_helpers.py' -v
       - run: python -m unittest discover -s tests -p 'test_guidance_continuation.py' -v
+      - run: python -m unittest discover -s tests -p 'test_guidance_shutdown.py' -v
       - run: python -m unittest discover -s tests -p 'test_p6_main_budget.py' -v
       - run: python -m unittest discover -s tests -p 'test_cash*.py' -v
       - run: python -m unittest discover -s tests -p 'test_p6_main_contract.py' -v
