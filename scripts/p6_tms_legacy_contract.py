@@ -6,7 +6,7 @@ alternate representations. All other fields remain with the frozen owner judge.
 import copy
 import math
 
-REVISION='AF_STROKE_LEGACY_REPRESENTATION_20261016_V3'
+REVISION='AF_STROKE_LEGACY_REPRESENTATION_20261016_V4'
 ROI_KEYS=('roi','roi_motor','roi_order')
 NF='natural_frequency_motor_hz'
 MAX='natural_frequency_motor_max_profile_db'
@@ -18,12 +18,20 @@ def canonical_views(actual,reference):
     metadata=a.get('metadata',{})
     present=[k for k in ROI_KEYS if k in metadata]
     if not present:raise ValueError('A current ordered ROI field is required')
-    if any(metadata[k]!=metadata[present[0]] for k in present):raise ValueError('Conflicting ROI representations')
-    if not isinstance(metadata[present[0]],list) or not all(isinstance(v,str) for v in metadata[present[0]]):
+    ordered={}
+    for key in present:
+        value=metadata[key]
+        if isinstance(value,dict):
+            if key!='roi_order' or set(value)!={'motor'}:
+                raise ValueError('Only an explicit motor ROI order object is supported')
+            value=value['motor']
+        ordered[key]=value
+    if any(ordered[k]!=ordered[present[0]] for k in present):raise ValueError('Conflicting ROI representations')
+    if not isinstance(ordered[present[0]],list) or not all(isinstance(v,str) for v in ordered[present[0]]):
         raise ValueError('Ordered ROI names must be strings')
-    if metadata[present[0]]!=r['metadata']['roi']:raise ValueError('ROI order differs from frozen reference')
+    if ordered[present[0]]!=r['metadata']['roi']:raise ValueError('ROI order differs from frozen reference')
     if 'roi' not in metadata:
-        metadata['roi']=copy.deepcopy(metadata[present[0]])
+        metadata['roi']=copy.deepcopy(ordered[present[0]])
         changes.append({'field':'metadata.roi','source_alias':present[0]})
     for key in ('artifact_reviewed','synthetic','pci_available','allow_unreviewed'):
         if type(metadata.get(key)) is not bool:raise ValueError('Original boolean metadata type required: '+key)
