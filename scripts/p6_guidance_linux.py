@@ -270,10 +270,14 @@ def controls(payload):
                 w=execute(s)
                 rows.append({'task_id':tid,'role':role,'status':w['status'],
                     'isolation':read(Path(w['root'])/'isolation.json')})
+    resume_control=None
+    if payload['plan'].get('shutdown_continuation'):
+        from p6_guidance_shutdown_linux import controls as resume_controls
+        resume_control=resume_controls(payload,root)
     okay=len(rows)==32 and len(public_controls)==12 and all(r['status']=='PASS' for r in public_controls) and all(r['status']=='COMPLETED' and r['isolation']['verdict']=='PASS' for r in rows) and sha(LEDGER)==before
     r={'status':'PASS_GUIDANCE_ZERO_MODEL_CONTROLS' if okay else 'CONTROLS_FAILED',
         'rows':rows,'public_helper_controls':public_controls,'official_flow_control':flow_receipt,'source_sha256':payload['plan']['source_sha256'],'plan_sha256':payload['plan']['plan_sha256'],
-        'ledger_sha256_before':before,'ledger_sha256_after':sha(LEDGER),'model_calls':0}
+        'ledger_sha256_before':before,'ledger_sha256_after':sha(LEDGER),'model_calls':0,'resume_control':resume_control}
     exclusive(root/'receipt.json',r);return {'status':r['status'],'receipt':str(root/'receipt.json')}
 
 

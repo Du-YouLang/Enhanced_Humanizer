@@ -195,7 +195,8 @@ with Path('/opt/workbench/pi-comparison/full-main-owner.lock').open('a') as lock
 d=json.load(sys.stdin);p=d['payload'];folder=d['folder'];root=Path('/opt/workbench/guidance/launches');root.mkdir(parents=True,exist_ok=True)
 marker=root/(p['run_id']+'.json')
 if marker.exists():raise ValueError('Existing launch; reconcile exact owner/stages before any resume')
-controller='p6_guidance_recover_linux.py' if p['plan'].get('recovery') else 'p6_guidance_linux.py'
+controller=('p6_guidance_shutdown_linux.py' if p['plan'].get('shutdown_continuation') else
+ 'p6_guidance_recover_linux.py' if p['plan'].get('recovery') else 'p6_guidance_linux.py')
 command=['/opt/workbench/.venv-linux/bin/python','-B',folder+'/'+controller]
 with (root/(p['run_id']+'.private.log')).open('xb') as log:
  child=subprocess.Popen(command,stdin=subprocess.PIPE,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
@@ -213,6 +214,29 @@ with (root/(p['run_id']+'.private.log')).open('xb') as log:
     return result
 
 
+def prepare_shutdown(original_path):
+    import copy
+    old_path=Path(original_path).resolve()
+    if not old_path.is_relative_to(INTAKE.resolve()):raise ValueError('Private original recovery contract required')
+    old=json.loads(old_path.read_bytes());budget,budget_sha=authorization(BUDGET)
+    folder,sources=deploy();run_id='guidance-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+    saved=native('''import json,sys;d=json.load(sys.stdin);sys.path[:0]=[d['folder'],d['folder']+'/src']
+from p6_guidance_shutdown_linux import snapshot
+print(json.dumps(snapshot(d)))''',{'folder':folder,'run_id':run_id,'original':old,'budget':budget},timeout=180)
+    plan=copy.deepcopy(old['plan']);plan.pop('recovery',None)
+    retained=saved.pop('retained_sha256')
+    plan.update(source_sha256=sources,retained_sha256=retained,budget=budget,budget_authorization_sha256=budget_sha,
+        ledger_archive=saved['ledger_archive'],controls_receipt='/opt/workbench/benchmark/private/guidance/'+run_id+'-controls/receipt.json',
+        shutdown_continuation=saved,source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip())
+    plan.pop('plan_sha256',None);plan['plan_sha256']=digest(plan);validate_plan(plan)
+    payload={'mode':'controls','run_id':run_id,'plan':plan,'budget':budget,'folder':folder}
+    path=INTAKE/(run_id+'.private.json')
+    with path.open('x',encoding='utf8') as stream:json.dump(payload,stream,indent=2)
+    return {'status':'SHUTDOWN_CONTINUATION_PREPARED_ZERO_MODELS','contract':str(path),'folder':folder,
+        'plan_sha256':plan['plan_sha256'],'retained_completed_model_roles':56,'remaining_interrupted_role_seconds':saved['remaining_role_seconds'],
+        'new_scientific_tasks':4,'budget':{'requests':saved['old_ledger_requests'],'cash_bound_usd':saved['old_cash_bound_usd']}}
+
+
 if __name__=='__main__':
     original=subprocess.run
     def hidden(*args,**kwargs):
@@ -220,6 +244,8 @@ if __name__=='__main__':
         return original(*args,**kwargs)
     subprocess.run=hidden
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('mode',choices=('prepare','controls','compare'))
-    parser.add_argument('--contract');parser.add_argument('--recover-helper-stop',action='store_true');args=parser.parse_args()
+    parser.add_argument('--contract');parser.add_argument('--recover-helper-stop',action='store_true')
+    parser.add_argument('--resume-user-shutdown',action='store_true');args=parser.parse_args()
     if args.recover_helper_stop and args.mode!='prepare':raise ValueError('Recovery preparation flag only')
-    print(json.dumps((prepare_recovery(args.contract) if args.recover_helper_stop else prepare()) if args.mode=='prepare' else operate(args.mode,args.contract),ensure_ascii=False))
+    if args.resume_user_shutdown and (args.mode!='prepare' or args.recover_helper_stop):raise ValueError('Exact shutdown preparation flag only')
+    print(json.dumps((prepare_shutdown(args.contract) if args.resume_user_shutdown else prepare_recovery(args.contract) if args.recover_helper_stop else prepare()) if args.mode=='prepare' else operate(args.mode,args.contract),ensure_ascii=False))

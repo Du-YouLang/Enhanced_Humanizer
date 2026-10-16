@@ -119,8 +119,9 @@ def main():
         ledger=Ledger('/opt/workbench/state/p6-budget/ledger.json',phase='P6',requests=200,codex_turns=32,cash_nano=5_000_000_000)
     label='verifier' if role=='verifier' else 'reviewer' if role=='reviewer' else 'builder'
     model='deepseek-flash' if job['backend']=='dsh' else 'gpt-6.1-sol'
+    transform=task_fence(job)
     driver=MeteredDriver(f'{label}={job["backend"]}/{model}:low',RoleLedger(ledger),job['scope'],turns,1,
-                         job['role_seconds'] if main_phase else (600 if job['backend']=='dsh' else 115),permission=permission,fence_transform=task_fence(job),
+                         job['role_seconds'] if main_phase else (600 if job['backend']=='dsh' else 115),permission=permission,fence_transform=transform,
                          external_readonly=role=='verifier',turn_seconds_ceiling=job['role_seconds'] if main_phase else 600)
     value={'kind':'REAL_MODEL_EXPERIMENT','status':'RUNNING','turns':turns,'scope':job['scope'],
            'role':role,'execution_mode':job['execution_mode'],'input_sha256':job['input_sha256'],
@@ -132,7 +133,7 @@ def main():
             from hmz.coganchor.fence import Fence
             fence=Fence.of(local='read' if role=='verifier' else 'all',user='none',system='none',online=False,
                            workdir=job['work'],home=Path.home(),write=(os.environ.get('CODEX_HOME',str(Path.home()/'.codex')),))
-            fence=task_fence(job)(fence)
+            fence=transform(fence)
             if job.get('offline_public_command'):
                 from hmz.coganchor.fence import wrapper
                 p=subprocess.run([*wrapper(fence),*job['offline_public_command']],cwd=job['work'],
@@ -140,6 +141,13 @@ def main():
                 (Path(job['root'])/'public-check.private.log').write_text(p.stdout+p.stderr)
                 if p.returncode!=job.get('offline_public_expected_exit',0):raise RuntimeError('Actual public scratch-copy check returned an unexpected baseline result')
             value.update(kind='ZERO_MODEL_CONTROL',status='COMPLETED')
+            if job.get('guidance_session_resume'):
+                from p6_guidance_session_resume import resume
+                value['session_resume_probe']=asyncio.run(resume(driver,job,Sink(),probe=True))
+        elif job.get('guidance_session_resume'):
+            from p6_guidance_session_resume import resume
+            answer=asyncio.run(resume(driver,job,Sink()))
+            value.update(status='COMPLETED',answer=answer,original_session_resumed=True)
         elif job['execution_mode']=='native_driver':
             answer=asyncio.run(native_turn(driver,job));value.update(status='COMPLETED',answer=answer)
         else:
@@ -157,6 +165,19 @@ def main():
             if job['backend']=='codex':
                 usage=collect(Path(job['root']));completed=completed_session(usage,turns)
                 value.update(usage=usage,model_id=completed['model_id'],session_id=completed['session_id'])
+                if job.get('guidance_session_resume'):
+                    from p6_guidance_shutdown import usage_segments
+                    previous=job['guidance_session_resume']['prior_usage']
+                    try:
+                        previous,delta=usage_segments(previous,completed['usage'])
+                        basis='MONOTONIC_SESSION_COUNTERS'
+                    except ValueError:
+                        delta='unavailable';basis='RESUMED_COUNTER_BASIS_UNRESOLVED'
+                    value['usage']=[dict(completed,usage=previous,usage_segment='BEFORE_USER_SHUTDOWN'),
+                        dict(completed,usage=delta,usage_segment='RESUMED_DELTA')]
+                    value['usage_accounting_basis']=basis
+                    value['session_usage_total']=completed['usage']
+                    value['prior_role_seconds_debited']=job['guidance_session_resume']['prior_seconds']
             else:value.update(model_id='deepseek-flash',session_id=turns[0]['session_id'])
     except BaseException as error:
         status='TIMEOUT' if type(error).__name__ in ('DurationExceeded','TimeoutError') else 'INFRA_FAIL'
