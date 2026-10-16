@@ -73,6 +73,7 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_benchmark.py' -v
       - run: python -m unittest discover -s tests -p 'test_pi_comparison.py' -v
       - run: python -m unittest discover -s tests -p 'test_p6_pi_full_analysis.py' -v
+      - run: python -m unittest discover -s tests -p 'test_unified_benchmark.py' -v
       - run: python -m unittest discover -s tests -p 'test_p6_main_budget.py' -v
       - run: python -m unittest discover -s tests -p 'test_cash*.py' -v
       - run: python -m unittest discover -s tests -p 'test_p6_main_contract.py' -v
