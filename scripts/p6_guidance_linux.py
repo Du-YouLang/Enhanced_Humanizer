@@ -299,6 +299,8 @@ def compare(payload):
 
 
 def entry(payload):
+    from p1_broker import protect_memory
+    protect_memory()
     if os.getuid()==0:raise ValueError('Non-root controller required')
     BASE.mkdir(parents=True,exist_ok=True)
     # The same global lock excludes older Pi executors and scientific recoveries.
