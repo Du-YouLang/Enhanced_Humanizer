@@ -33,7 +33,11 @@ async def resume(driver,job,sink,*,probe=False):
     from pathlib import PurePosixPath
     from flows.sol_guidance import Guidance
     details=job['guidance_session_resume']
-    if job['role']!='verifier' or job['backend']!='codex' or job['scope']!=scope(MENTOR):
+    from p6_guidance_protocol import allowed_scope
+    billing=details.get('billing_scope','')
+    if (job['role']!='verifier' or job['backend']!='codex' or job['scope']!=billing
+        or details.get('original_scope')!=scope(MENTOR) or billing==scope(MENTOR)
+        or not allowed_scope(billing,'subscription') or billing.split('/')[2:]!=scope(MENTOR).split('/')[2:]):
         raise ValueError('Exact read-only interrupted mentor scope required')
     if not Path(details['keeps']).resolve().is_relative_to(Path(job['root']).resolve()):
         raise ValueError('Only a separate local session snapshot may be resumed')

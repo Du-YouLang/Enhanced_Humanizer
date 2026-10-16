@@ -1,4 +1,4 @@
-import sys,unittest,sqlite3,tempfile
+import sys,unittest,sqlite3,tempfile,json
 from contextlib import closing
 from pathlib import Path
 from types import SimpleNamespace
@@ -24,6 +24,18 @@ class ShutdownTests(unittest.TestCase):
         self.assertEqual(old['input_tokens']+delta['input_tokens'],150)
         self.assertEqual(delta['cached_input_tokens'],20)
         with self.assertRaises(ValueError):usage_segments(after,before)
+    def test_same_scope_cannot_repeat_and_linked_continuation_keeps_both_reservations(self):
+        from p6_main_budget import MainLedger,BudgetDenied
+        config=json.loads((ROOT/'configs/budget-p6-main-v10-guidance-approved.json').read_text())
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'ledger.json';ledger=MainLedger(path,config)
+            old=scope(MENTOR);continued=old.replace('guidance-20261016T090045Z','guidance-20261016T235959Z')
+            ledger.reserve_codex_turn(old,'gpt-6.1-sol');before=json.loads(path.read_text())
+            with self.assertRaises(BudgetDenied):ledger.reserve_codex_turn(old,'gpt-6.1-sol')
+            ledger.reserve_codex_turn(continued,'gpt-6.1-sol');after=json.loads(path.read_text())
+            self.assertEqual(after['codex_turns'][:1],before['codex_turns'])
+            self.assertEqual(len(after['codex_turns']),2)
+            self.assertEqual(after['cash_bound_nano'],before['cash_bound_nano'])
     def test_attach_only_adopts_the_verified_original_unopened_thread(self):
         class Handle:
             def __init__(self):
