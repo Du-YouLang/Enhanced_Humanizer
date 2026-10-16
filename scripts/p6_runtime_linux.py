@@ -134,7 +134,7 @@ def test_source(source,hidden=False):
                     task['hidden'] if hidden else {},timeout=min(120,max(1,int(ACTIVE['deadline']-time.monotonic()))),**kwargs)
 
 
-def prepare_job(name,backend,role='builder',source=None,view=None,prompt=None,mode='humanize_flow',offline=False):
+def prepare_job(name,backend,role='builder',source=None,view=None,prompt=None,mode='humanize_flow',offline=False,handoff_bytes=2_000_000):
     root=ACTIVE['root']/name;root.mkdir();task=ACTIVE['task'];work=root/'code'
     clone(source or task['base'],work,'run/'+ACTIVE['root'].name+'/'+name,trusted=source is None)
     env=candidate_env(root);env.update(GIT_CONFIG_GLOBAL='/dev/null',GIT_CONFIG_NOSYSTEM='1')
@@ -149,7 +149,8 @@ def prepare_job(name,backend,role='builder',source=None,view=None,prompt=None,mo
         env['CODEX_HOME']=str(codex)
     (root/'humanize/canary').write_text('non-secret isolated role state')
     view=view or {'task':task['prompt'],'base_commit':task['base_commit']}
-    if len(json.dumps(view).encode())>2_000_000:raise ValueError('Public handoff exceeds explicit size limit')
+    if type(handoff_bytes) is not int or handoff_bytes not in (2_000_000,8_000_000):raise ValueError('Declared handoff bound required')
+    if len(json.dumps(view).encode())>handoff_bytes:raise ValueError('Public handoff exceeds explicit size limit')
     input_file=root/'input.json';exclusive_json(input_file,view)
     denied=[BASE/'private/gold/.denial-probe',BASE/'bootstrap-receipt.json',ACTIVE['root']/'control/canary']
     denied.extend(p for p in ACTIVE['root'].glob('*/humanize/canary') if p.parent.parent!=root)
@@ -170,9 +171,12 @@ def launch(job,env):
     root=Path(job['root']);tick=time.perf_counter();broker=None
     if job['backend']=='dsh' and not job.get('offline_control'):
         from p6_network_recovery import broker as make_broker
+        if job.get('deepseek_transport_policy'):
+            from p6_network_recovery import RecoveryBroker
+            make_broker=RecoveryBroker
         broker=make_broker(ACTIVE['key'],ScopedLedger(ACTIVE['ledger'],job['scope'],request_cap=ACTIVE['payload']['budget']['per_role_inference_requests'] if ACTIVE.get('main_phase') else 20,cash_cap=None if ACTIVE.get('main_phase') else 1_000_000_000),
                       job['scope'],min(ACTIVE['deadline'],time.monotonic()+job['role_seconds']),
-                      ACTIVE['payload']['budget'] if ACTIVE.get('main_phase') else {})
+                      job.get('deepseek_transport_policy',ACTIVE['payload']['budget']) if ACTIVE.get('main_phase') else {})
         broker.start();job=dict(job,capability=broker.capability,broker_url=broker.url)
     elif job['backend']=='dsh':job=dict(job,capability='offline-control',broker_url='http://offline.invalid')
     try:

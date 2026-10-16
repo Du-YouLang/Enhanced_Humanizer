@@ -145,6 +145,11 @@ def main():
         else:
             from hmz.sdk import Hmz
             flow={'verifier':'sol_judge','reviewer':'sol_synthesis','builder':'p0_coding_demo'}[role]
+            if job.get('guidance_mentor'):
+                from p6_guidance_protocol import allowed_scope
+                if role!='verifier' or job['backend']!='codex' or not allowed_scope(job['scope'],'subscription'):
+                    raise ValueError('Only a scoped read-only Sol mentor may run guidance')
+                flow='sol_guidance'
             run=Hmz(workspace=job['work']).run('/opt/workbench/source/flows/'+flow,job['prompt'],agents={label:driver},
                 budget={'duration':timedelta(seconds=job['role_seconds']),'graceful':False})
             value.update(epic=str(run.epic));value.update(answer=run.run(),status='COMPLETED')
