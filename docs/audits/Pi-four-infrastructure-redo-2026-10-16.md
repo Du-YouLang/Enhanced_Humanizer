@@ -14,3 +14,13 @@
 STROKE当时七份已执行候选×14输入共98份保留输出的全部21类数组符合原规则，不等于六臂完整通过。A–F选择分别DS0/pool-A/pool-B/D/E/F，存在共享候选，不能当六个独立基础模型。新Pi的STROKE审阅针对不同代码，不能直接拿来给旧A–F补分。
 
 本轮四格都是公共Black任务，沿用原任务、隔离、隐藏标准和模型标识；不重跑任何已通过任务、不修改科研阈值。Luna只读，Sol核验及代码。产品逐PR人审和外部发布确认继续保留，用户未跟踪科研材料不上传。
+
+## 实际启动与监控
+
+2026-10-16北京时间10:51启动`formal-infra-redo4-20261016T025151Z`，plan2d3c3319，内容寻址controller-full-d7b9b0a52fa7eb2a。原生owner386、boot361af47a、startticks546352、command889dd318均实际核对；0/4、首Black3/P0/subscription模型阶段。462项保留文件hash和原账本前缀通过，原85仍FULL_MAIN_COMPLETED，原128未覆盖。不能把控制器启动或订阅预留称为候选通过。
+
+功能源119619ad16827a86837c0f4c7832857dfe7762e6：Windows281测试（10skip）、原生281（3skip）；真实14环境SDK/公共工具/重试正负控制PASS，fullcontrols回执acf3a5b4；四目标绑定控制PASS。精确GitHub integrity/secrets/linux-budget三SUCCESS，PR67合并b89fa13c40b98f759e71bfea2d7cb43ff0bf31cf，本地main与origin/main已经fetch/ff一致。随后GitHub API只读账户预检发生TLS握手失败，没有发出新的mutation，不伪称取得main API验证；首轮PR创建预检也失败，读取列表确认空后仅创建一次PR67，失败现场保留。
+
+同锁封存原ledgerbc4bc1d6、9076请求/254订阅/$231.078648完整保留，仅变更授权、scope与500上限，新ledger588546e7。第一格订阅预留后255订阅、DS请求和费用上界不变；ledger07da79f6。实际账单仍不可见，没有人民币/美元重新贴标或未知用量退款。
+
+30秒观察器实际迁至v19，cfgf743c597/inspector524de4f8，沿用已安装登录/每分钟watchdog；预检及新鲜心跳OBSERVING_ACTIVE_WORK，Luna10:52独立复核。v18因模板替换错误产生语法错误，在预检时被拒绝、未切换路由，失败目录保留禁用；v19采用单次正则占位替换，旧观察器和模型均未被停。另已新建本会话45分钟跟进`enhanced-humanizer-pi-45`，不是声称先前删除的监控一直活跃。只有该四trial及独立验收闭合后删除新巡检，本机只读观察器保持。
