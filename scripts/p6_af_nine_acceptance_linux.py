@@ -22,6 +22,7 @@ if os.name=='posix':
 from p6_output_data import bounded_json,bounded_npz
 from p6_science_sandbox import execute
 from p6_tms_legacy_contract import canonical_views
+from p6_owner_input import owner_npz
 
 PROTOCOL='AF_NINE_FROZEN_PROGRAM_SUPPLEMENT_20261016_V1'
 ORDER=('EGL-A','EGL-B','EGL-E','STROKE-A','STROKE-B','STROKE-C','STROKE-D','STROKE-E','STROKE-F')
@@ -51,6 +52,24 @@ def verify(plan):
         if sha(path)!=h:raise ValueError('Frozen evidence or evaluator changed: '+path)
     for row in plan['cases'].values():
         if inventory(row['source'])!=row['source_inventory']:raise ValueError('Original source inventory changed')
+    debit=plan.get('prior_elapsed_debit_seconds',0)
+    if type(debit) not in (int,float) or not math.isfinite(debit) or not 0<=debit<10800:
+        raise ValueError('Finite nonnegative original elapsed debit required')
+    saved=plan.get('retained_repeat_executions',{})
+    if saved:
+        from p6_tms_grader import WORKER
+        if set(saved)!={'STROKE-A'} or plan.get('stroke_time_debits_seconds')!={'STROKE-A':30}:
+            raise ValueError('Only the independently reconciled first repeat can be retained')
+        row=saved['STROKE-A'];receipt=Path(row['receipt_path']);folder=receipt.parent
+        if plan['retained_pins'].get(str(receipt))!=row['receipt_sha256'] or read(receipt)!=row['execution']:
+            raise ValueError('Exact retained repeat receipt required')
+        if (folder/'worker.py').read_text()!=WORKER or inventory(folder/'code')!=plan['cases']['STROKE-A']['source_inventory']:
+            raise ValueError('Retained repeat worker/source differs')
+        index=read(Path(plan['stroke_root'])/'judge_private/case_index.json')
+        first=next(v for v in index.values() if v['public'])
+        if sha(folder/'inputs/input.npz')!=first['input_sha256'] or sha(folder/'inputs/profile.json')!=first['profile_sha256']:
+            raise ValueError('Retained repeat input/profile differs')
+        if debit<30:raise ValueError('Original interrupted-stage debit missing')
     # Pi legitimately appends/settles its own requests concurrently. Only the
     # immutable, closed prefix is compared, never a moving in-flight snapshot.
     # These are trusted controller-owned ledgers, not candidate JSON output.
@@ -128,9 +147,11 @@ def stroke_case(root,plan,case):
         except (AssertionError,ValueError,KeyError,TypeError) as error:
             comparisons.append({'case':key,'pass':False,'reason':str(error)[:700]})
     tick=time.perf_counter();executions=[]
+    debit=plan.get('stroke_time_debits_seconds',{}).get('STROKE-'+case['arm'],0)
+    if not 0<=debit<600:raise ValueError('Invalid original-stage time debit')
     from p6_tms_grader import WORKER
     def call(inp,profile,allow):
-        remaining=600-(time.perf_counter()-tick)
+        remaining=600-debit-(time.perf_counter()-tick)
         if remaining<2:raise TimeoutError('STROKE supplemental600-second deadline')
         execution=execute(case['source'],plan['stroke_prefix'],WORKER,
                           inputs={'input.npz':inp,'profile.json':profile},arguments=('true' if allow else 'false',),
@@ -138,7 +159,15 @@ def stroke_case(root,plan,case):
         executions.append(execution);return execution,Path(execution['output'])/'result'
     first=next(k for k,spec in index.items() if spec['public'])
     spec=index[first]
-    repeat,actual=call((base/spec['input']).read_bytes(),(base/spec['profile']).read_bytes(),spec['allow_unreviewed'])
+    saved=plan.get('retained_repeat_executions',{}).get('STROKE-'+case['arm'])
+    if saved:
+        # Recovery preparer binds the exact original worker/input/source/output
+        # receipts into retained_pins; comparison below rechecks all output data.
+        if sha(saved['receipt_path'])!=saved['receipt_sha256'] or read(saved['receipt_path'])!=saved['execution']:
+            raise ValueError('Retained repeat receipt changed')
+        repeat=saved['execution'];actual=Path(repeat['output'])/'result';executions.append(repeat)
+    else:
+        repeat,actual=call((base/spec['input']).read_bytes(),(base/spec['profile']).read_bytes(),spec['allow_unreviewed'])
     repeat_ok=False;repeat_error=None
     try:
         if repeat['status']!='COMPLETED_UNGRADED':raise AssertionError('Repeat process did not complete')
@@ -148,7 +177,8 @@ def stroke_case(root,plan,case):
         if any(not np.array_equal(aa[k],bb[k],equal_nan=True) for k in judge.ARRAY_UNITS):raise AssertionError('Repeat arrays differ exactly')
         repeat_ok=True
     except (AssertionError,ValueError,KeyError,TypeError,OSError) as error:repeat_error=str(error)[:700]
-    original_npz=bounded_npz(base/'agent_public/inputs/toy_complex.npz')
+    def owner_input(path):return owner_npz(path,plan['retained_pins'][str(path)])
+    original_npz=owner_input(base/'agent_public/inputs/toy_complex.npz')
     negatives=[]
     labels=('bad_unit','nan_data','missing_roi','bad_time_grid','single_trial','unreviewed_without_opt_in',
             'artifact_reviewed_string_false','artifact_reviewed_numeric_zero','artifact_reviewed_missing',
@@ -161,7 +191,7 @@ def stroke_case(root,plan,case):
         elif label=='bad_time_grid':values['times']*=1000
         elif label=='single_trial':values['data']=values['data'][:1]
         elif label=='unreviewed_without_opt_in':
-            values=bounded_npz(base/'agent_public/inputs/healthy_m1_mini.npz');profile=base/'agent_public/profiles/healthy_2024.json'
+            values=owner_input(base/'agent_public/inputs/healthy_m1_mini.npz');profile=base/'agent_public/profiles/healthy_2024.json'
         else:
             metadata=json.loads(str(values['metadata_json'].item()))
             key='artifact_reviewed' if label.startswith('artifact_reviewed') else 'synthetic'
@@ -192,7 +222,7 @@ def stroke_case(root,plan,case):
             'FAIL_INPUT_CONTRACT' if not negative_ok else 'PASS_CHECKS_SOURCE_REPORT_FIGURE_REVIEW_PENDING')
     return {'status':status,'original_arm':case['arm'],'original_program_sha256':case['program_identity'],
             'retained_numeric':comparisons,'new_numeric_main_replays':0,
-            'repeat':{'pass':repeat_ok,'error':repeat_error,'execution':repeat},'negative_checks':negatives,
+            'repeat':{'pass':repeat_ok,'error':repeat_error,'execution':repeat,'reused_completed_execution':bool(saved)},'negative_checks':negatives,
             'figures':figures,'executions':executions,'supplement_wall_seconds':time.perf_counter()-tick,
             'source_report_figure_review':'PENDING_SOL','model_calls':0,'clinical_validity':'NOT_ASSESSED'}
 
@@ -213,7 +243,7 @@ def run(root):
         if (root/'receipt.json').exists():raise ValueError('Closed scientific supplement cannot replay')
         started=time.perf_counter();results={}
         for name in ORDER:
-            if time.perf_counter()-started>plan['maximum_seconds']:raise TimeoutError('Finite supplement deadline')
+            if time.perf_counter()-started+plan.get('prior_elapsed_debit_seconds',0)>plan['maximum_seconds']:raise TimeoutError('Finite supplement deadline')
             case=plan['cases'][name]
             results[name]=stage(root,name,lambda n=name,c=case:egl_case(plan,c) if n.startswith('EGL-') else stroke_case(root,plan,c))
             verify(plan)
