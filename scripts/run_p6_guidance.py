@@ -85,6 +85,70 @@ print(json.dumps({'retained_sha256':{str(p):hashlib.sha256(p.read_bytes()).hexdi
             'retained_files':len(pins['retained_sha256'])}
 
 
+def prepare_recovery(original_path):
+    import copy
+    old_path=Path(original_path).resolve()
+    if not old_path.is_relative_to(INTAKE.resolve()):raise ValueError('Exact private original contract required')
+    old=json.loads(old_path.read_bytes());budget,budget_sha=authorization(BUDGET)
+    folder,sources=deploy();run_id='guidance-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+    snapshot=native('''import fcntl,json,sys,hashlib;from pathlib import Path
+d=json.load(sys.stdin);sys.path[:0]=[d['folder'],d['folder']+'/src']
+from p6_guidance_continuation import ORIGINAL_RUN,PARTIAL_TASK,RETAINED_TASKS,NEW_TASKS,role_order,remaining_partial_roles
+from p6_guidance_protocol import digest
+from p6_main_budget import MainLedger
+import p6_runtime_linux as shared
+root=Path('/opt/workbench/benchmark/private/guidance')/ORIGINAL_RUN
+boundary=Path('/opt/workbench/guidance')/(ORIGINAL_RUN+'-boundary-stop-20261016.json')
+assert json.loads(boundary.read_bytes())['status']=='BOUNDARY_INTERRUPTED_OWNER_EXITED'
+with Path('/opt/workbench/pi-comparison/full-main-owner.lock').open('a') as lock:
+ fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+ ledger=MainLedger('/opt/workbench/state/p6-main-local-20261011/ledger.json',d['budget']);value=json.loads(ledger.path.read_bytes());ledger.validate(value)
+ assert {p.name.removesuffix('.completed.json') for p in (root/'stages').glob('*.completed.json')}==set(RETAINED_TASKS)
+ stages=root/PARTIAL_TASK/'control/stages';roles=[]
+ for role in role_order(PARTIAL_TASK):
+  stage='initial' if role=='initial-ds' else role
+  if (stages/(stage+'-model.completed.json')).exists():roles.append(role)
+ remaining=remaining_partial_roles(roles)
+ assert not (stages/'code-tests-ds-model.started.json').exists()
+ scope='GUIDANCE/'+ORIGINAL_RUN+'/'+PARTIAL_TASK+'/code-tests-ds'
+ assert not any(r['experiment']==scope for r in value['requests']+value['codex_turns'])
+ pins={str(boundary):hashlib.sha256(boundary.read_bytes()).hexdigest()}
+ paths=[root/'progress.json',*root.glob('receipt-*.json'),*root.glob('*/control/stages/*.json'),
+        *root.glob('*/initial-ds/candidate-private.json'),*root.glob('*/*/controller-outcome.json'),*root.glob('*/*/candidate-private.json')]
+ for p in paths:pins[str(p)]=hashlib.sha256(p.read_bytes()).hexdigest()
+ programs=[]
+ bases={t['task_id']:t['base_commit'] for t in d['original']['plan']['manifest']['tasks']}
+ for p in root.glob('*/*/controller-outcome.json'):
+  w=json.loads(p.read_bytes());work=Path(w['work']);tid=p.parents[1].name
+  patch,source=shared.program_evidence(work,bases[tid])
+  programs.append({'work':str(work),'base_commit':bases[tid],'program_sha256':digest({'patch':patch,'source':source}),'scope':w['scope']})
+ assert len(programs)==49
+ archive=Path('/opt/workbench/guidance')/(d['run_id']+'-ledger-prefix.json')
+ with archive.open('xb') as f:f.write(ledger.path.read_bytes())
+ pins[str(archive)]=hashlib.sha256(archive.read_bytes()).hexdigest()
+ print(json.dumps({'checkpoint_sha256':pins,'model_programs':programs,'ledger_archive':str(archive),
+  'retained_sha256':{**d['original']['plan']['retained_sha256'],**d['original']['plan']['source_sha256'],**pins},
+  'remaining_partial_roles':remaining,'completed_model_roles':49,'budget_requests':len(value['requests']),
+  'budget_subscriptions':len(value['codex_turns']),'budget_bound_usd':value['cash_bound_nano']/1e9,'ledger_sha256':hashlib.sha256(ledger.path.read_bytes()).hexdigest()}))
+''',{'folder':folder,'original':old,'run_id':run_id,'budget':budget},timeout=180)
+    from p6_guidance_continuation import ORIGINAL_RUN,PARTIAL_TASK,RETAINED_TASKS,NEW_TASKS
+    plan=copy.deepcopy(old['plan']);plan.update(source_sha256=sources,retained_sha256=snapshot['retained_sha256'],
+        ledger_archive=snapshot['ledger_archive'],budget=budget,budget_authorization_sha256=budget_sha,
+        controls_receipt='/opt/workbench/benchmark/private/guidance/'+run_id+'-controls/receipt.json',
+        source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+        recovery={'revision':'GUIDANCE_HELPER_RECOVERY_20261016','original_run':ORIGINAL_RUN,'original_payload':old,
+            'retained_tasks':list(RETAINED_TASKS),'partial_task':PARTIAL_TASK,'new_tasks':list(NEW_TASKS),
+            'checkpoint_sha256':snapshot['checkpoint_sha256'],'model_programs':snapshot['model_programs'],
+            'remaining_partial_roles':snapshot['remaining_partial_roles'],
+            'scientific_claim':'Four SWEL tasks have infrastructure-affected process evidence. Corrected final-code quality is separate, never an equivalent-guidance causal claim.'})
+    plan.pop('plan_sha256',None);plan['plan_sha256']=digest(plan);validate_plan(plan)
+    payload={'mode':'controls','run_id':run_id,'plan':plan,'budget':budget,'folder':folder}
+    path=INTAKE/(run_id+'.private.json')
+    with path.open('x',encoding='utf8') as f:json.dump(payload,f,ensure_ascii=False,indent=2)
+    return {'status':'RECOVERY_PREPARED_ZERO_MODELS','contract':str(path),'folder':folder,'plan_sha256':plan['plan_sha256'],
+        'retained_models':49,'remaining_original_models':1,'new_task_count':6,'budget':{k:v for k,v in snapshot.items() if k.startswith('budget_')}}
+
+
 def operate(mode,path):
     payload=json.loads(Path(path).read_bytes());payload['mode']=mode
     folder=payload['folder']
@@ -131,7 +195,8 @@ with Path('/opt/workbench/pi-comparison/full-main-owner.lock').open('a') as lock
 d=json.load(sys.stdin);p=d['payload'];folder=d['folder'];root=Path('/opt/workbench/guidance/launches');root.mkdir(parents=True,exist_ok=True)
 marker=root/(p['run_id']+'.json')
 if marker.exists():raise ValueError('Existing launch; reconcile exact owner/stages before any resume')
-command=['/opt/workbench/.venv-linux/bin/python','-B',folder+'/p6_guidance_linux.py']
+controller='p6_guidance_recover_linux.py' if p['plan'].get('recovery') else 'p6_guidance_linux.py'
+command=['/opt/workbench/.venv-linux/bin/python','-B',folder+'/'+controller]
 with (root/(p['run_id']+'.private.log')).open('xb') as log:
  child=subprocess.Popen(command,stdin=subprocess.PIPE,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
  child.stdin.write(json.dumps(p).encode());child.stdin.close()
@@ -155,5 +220,6 @@ if __name__=='__main__':
         return original(*args,**kwargs)
     subprocess.run=hidden
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('mode',choices=('prepare','controls','compare'))
-    parser.add_argument('--contract');args=parser.parse_args()
-    print(json.dumps(prepare() if args.mode=='prepare' else operate(args.mode,args.contract),ensure_ascii=False))
+    parser.add_argument('--contract');parser.add_argument('--recover-helper-stop',action='store_true');args=parser.parse_args()
+    if args.recover_helper_stop and args.mode!='prepare':raise ValueError('Recovery preparation flag only')
+    print(json.dumps((prepare_recovery(args.contract) if args.recover_helper_stop else prepare()) if args.mode=='prepare' else operate(args.mode,args.contract),ensure_ascii=False))
