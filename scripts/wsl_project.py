@@ -3,6 +3,7 @@
 import os
 from pathlib import Path
 import subprocess
+import quiet_process
 
 ROOT = Path(__file__).resolve().parents[1]
 DISTRO = 'EnhancedHumanizer-P0'
@@ -31,5 +32,5 @@ def run(argv, *, user='workbench', cwd=BASE, input_bytes=None, timeout=120):
     child_env = os.environ | {'WSL_UTF8': '1', 'WSLENV': ''}
     command = ['wsl.exe', '-d', DISTRO, '-u', user, '--cd', cwd, '--exec',
                '/usr/bin/env', *(f'{key}={value}' for key, value in ENV.items()), *argv]
-    return subprocess.run(command, cwd=ROOT, input=input_bytes, capture_output=True,
+    return quiet_process.run(command, cwd=ROOT, input=input_bytes, capture_output=True,
                           timeout=timeout, env=child_env, check=False)

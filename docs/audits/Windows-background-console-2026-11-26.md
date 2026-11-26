@@ -1,0 +1,7 @@
+# Windows background console repair
+
+A new read-only pythonw monitor hid its own window but launched wsl.exe without Windows child-process suppression. Each polling cycle could therefore create a console. The active private monitor has been backed up, patched and restarted by exact PID/command-line ownership; no experiment controller or candidate was restarted. Read-only agent monitoring now uses direct Node filesystem reads instead of shell polling.
+
+Add an explicit noninteractive process helper using CREATE_NO_WINDOW and hidden STARTUPINFO. Apply it to host-side WSL, model-refresh preflight and guidance launch calls, including imported-module paths. Preserve arguments, standard streams, environment, return codes, exceptions and timeouts; reject conflicting interactive/detached flags. Leave embedded Linux command strings intact. This helper is for background calls, and interactive terminal entry points remain ordinary launches.
+
+Validation includes mocked flags/caller-option preservation and actual Windows child GetConsoleWindow()==0, successful stdout/stderr, propagated nonzero exit and timeout. A separate real hidden-pythonw parent launched a console Python child and performed one actual read-only WSL inspection: both child calls carried the no-window flag, parent/child console handles were zero, and the experiment controller continued. Detailed receipts remain private. No model call or ledger mutation was made by the console tests. Exact CI is reported by its actual receipt, not inferred from local checks.
