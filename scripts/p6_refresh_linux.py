@@ -14,7 +14,7 @@ import p6_guidance_linux as old
 import p6_main_runtime_linux as main
 from p6_main_budget import MainLedger,task_limits
 from p6_refresh_protocol import (TASKS,MODELS,METHODS,REVISION,expected_model,model_for_job,
-    handoff_prompt,verify_handoff_trace,method_order,require_clean_barrier,complete_group,require_operational_worker)
+    handoff_prompt,verify_handoff_trace,method_order,require_clean_barrier,complete_group,require_operational_worker,execution_host_failure)
 from p6_refresh_sessions import write_slot
 from p6_io_accounting import Epoch,require_group,actual_controls,group_path
 from p6_trace_evidence import tool_trace
@@ -66,7 +66,8 @@ def setup(payload,name,scope,role='builder',source=None,view=None,prompt=None,of
     d['deepseek_transport_policy']=RETRY10_POLICY
     if backend=='codex':
         directory=payload['plan']['codex_binary_directory']
-        env['PATH']=directory+':'+env['PATH'];d['public_read_paths'].append(directory)
+        vendor=payload['plan']['codex_installation_directory']
+        env['PATH']=directory+':'+vendor+'/codex-path:'+env['PATH'];d['public_read_paths'].append(vendor)
         d['refresh_cli_sha256']=payload['plan']['codex_binary_sha256']
     # Exact private authority/cross-role states are denied. Full input is inlined,
     # but that never grants access to sibling worktrees, hidden truth or credentials.
@@ -88,16 +89,19 @@ def execute(spec):
             raise RuntimeError('CUMULATIVE_BUDGET_STOP: preserve finished substeps; no role may be dispatched')
     if OBSERVER:OBSERVER.role(d['scope'],'STARTED')
     w=shared.launch(d,spec['env'])
-    if OBSERVER:OBSERVER.role(d['scope'],w['status'])
     if d.get('refresh_slots')==6:
         base=d['scope'].rsplit('/',1)[0]
         w['additional_accounting_scopes']=[base+'/matched-'+str(i) for i in range(2,7)]
-    if not d.get('offline_control') and d.get('refresh_handoff_required'):
+    if not d.get('offline_control') and d['backend']=='codex':
         trace=tool_trace(d['root'],max_bytes=8_000_000)
-        receipt=verify_handoff_trace(trace,d['input_file'],Path(d['input_file']).read_bytes())
-        w['handoff_receipt']=receipt
-        if receipt['status']!='HANDOFF_READ_RECEIPT_OBSERVED':
-            w.update(raw_worker_status=w['status'],status='INFRA_HANDOFF_UNCONSUMED')
+        failure=execution_host_failure(trace)
+        if failure:w.update(raw_worker_status=w['status'],status=failure['status'],execution_host_evidence=failure)
+        elif d.get('refresh_handoff_required'):
+            receipt=verify_handoff_trace(trace,d['input_file'],Path(d['input_file']).read_bytes())
+            w['handoff_receipt']=receipt
+            if receipt['status']!='HANDOFF_READ_RECEIPT_OBSERVED':
+                w.update(raw_worker_status=w['status'],status='INFRA_HANDOFF_UNCONSUMED')
+    if OBSERVER:OBSERVER.role(d['scope'],w['status'])
     shared.ACTIVE['workers'][Path(d['root']).name]=w
     return w
 
@@ -205,7 +209,7 @@ def verify_plan(payload):
     if digest(body)!=h:raise ValueError('Frozen plan differs')
     if p['tasks']!=list(TASKS) or p['models']!=MODELS or p['methods']!=list(METHODS):raise ValueError('Exact 16x3x3 plan required')
     if payload['budget']!=p['budget']:raise ValueError('Budget differs')
-    for path,value in {**p['source_sha256'],**p['retained_sha256']}.items():
+    for path,value in {**p['source_sha256'],**p['retained_sha256'],**p.get('runtime_tools_sha256',{})}.items():
         if sha(path)!=value:raise ValueError('Frozen/retained file changed: '+path)
     return p
 
@@ -242,6 +246,8 @@ def controls(payload):
     root=BASE/(payload['run_id']+'-controls');root.mkdir(parents=True,exist_ok=False)
     from p6_refresh_controls import session_controls
     sessions=session_controls(payload['budget'])
+    from p6_codex_tools_control import run_controls as actual_tool_controls
+    tools=actual_tool_controls({'vendor':plan['codex_installation_directory'],'missing_binary_directory':'/opt/workbench/model-refresh-20261126/tools/codex-0.172.0','prefix':str(main.BASE/'envs/black-py383'),'budget':payload['budget']})
     rows=[];positives=[]
     for tid in TASKS:
         dest=root/tid;dest.mkdir();(dest/'control').mkdir();(dest/'control/canary').write_text('controller only')
@@ -272,7 +278,7 @@ def controls(payload):
     if sha(LEDGER)!=before:raise ValueError('Controls modified real ledger')
     result={'status':'PASS_REFRESH_ZERO_MODEL_CONTROLS','rows':rows,'public_helper_controls':positives,
         'plan_sha256':plan['plan_sha256'],'source_sha256':plan['source_sha256'],
-        'ledger_sha256_before':before,'ledger_sha256_after':sha(LEDGER),'provider_model_calls':0,'matched_session_control':sessions,'io_accounting_controls':io_control}
+        'ledger_sha256_before':before,'ledger_sha256_after':sha(LEDGER),'provider_model_calls':0,'matched_session_control':sessions,'io_accounting_controls':io_control,'actual_codex_tool_controls':tools}
     exclusive(root/'receipt.json',result)
     return {'status':result['status'],'receipt':str(root/'receipt.json'),'fenced_roles':len(rows),'public_task_positive_negative_controls':len(positives)}
 
@@ -301,7 +307,11 @@ def entry(payload):
                 raise ValueError('Exact controls missing')
             if sha(LEDGER)!=plan['prior_ledger_sha256']:raise ValueError('Ledger changed before authorized amendment')
             ledger=MainLedger(LEDGER,payload['budget'])
-            amendment=ledger.amend_authorization(payload['previous_budget'],plan['ledger_archive'])
+            # This infrastructure trial already has the exact authorized caps.
+            # Preserve the current bytes, including the invalid trial's charges;
+            # do not amend, reset or refund any request/subscription reservation.
+            from p6_refresh_accounting import preserve_authorized_ledger
+            amendment=preserve_authorized_ledger(ledger,plan['prior_ledger_sha256'],plan['ledger_archive'])
             root=BASE/payload['run_id'];root.mkdir(parents=True,exist_ok=True)
             exclusive(root/'amendment.json',amendment);exclusive(root/'plan.json',plan)
             from p6_refresh_observer import Observer

@@ -36,8 +36,16 @@ for root in ['/opt/workbench/benchmark/private/guidance','/opt/workbench/benchma
  for pattern in ['*/receipt*.json','*/progress.json','*/*/result.json','*/arm-*.json','*/frozen-selections.json']:
   for path in Path(root).glob(pattern):paths.add(str(path))
 ledger=Path('/opt/workbench/state/p6-main-local-20261011/ledger.json')
-assert hashlib.sha256(ledger.read_bytes()).hexdigest()=='878754e2d22171274ee88a94dafd80f587f3565b9b4c255b59c78021ba2fe07b'
-print(json.dumps({'retained_sha256':{p:hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in paths},'ledger_sha256':hashlib.sha256(ledger.read_bytes()).hexdigest()}))''',{},timeout=600)
+sys.path[:0]=['/PLACEHOLDER_FOLDER','/PLACEHOLDER_FOLDER/src'];from p6_main_budget import MainLedger
+v=json.loads(ledger.read_bytes());MainLedger(ledger,json.load(sys.stdin)['budget']).validate(v)
+prior=Path('/opt/workbench/benchmark/private/model-refresh/refresh-20261126T032113Z')
+if prior.exists():
+ for pattern in ('*.json','*/*/control/stages/*.json','*/*/*/worker.json','*/*/*/controller-outcome.json','*/*/*/candidate-private.json'):
+  paths.update(str(f) for f in prior.glob(pattern) if f.name not in ('heartbeat.json','progress.json'))
+print(json.dumps({'retained_sha256':{p:hashlib.sha256(Path(p).read_bytes()).hexdigest() for p in paths},'ledger_sha256':hashlib.sha256(ledger.read_bytes()).hexdigest()}))'''.replace('/PLACEHOLDER_FOLDER',folder),{'budget':budget},timeout=600)
+    installed=json.loads((Path('D:/Desktop/Enhanced_Humanizer/.local-workbench/audits/model-refresh-20261126/complete-codex-install.private.json')).read_bytes())
+    vendor=installed['root']+'/package/vendor/x86_64-unknown-linux-musl'
+    tool_pins={installed['root']+'/'+name:value['sha256'] for name,value in installed['files'].items()}
     manifest=json.loads((ROOT/'configs/benchmark-p6-v12-final2.json').read_bytes())
     plan={'protocol':'MODEL_REFRESH_20261126_V1','run_id':run_id,'tasks':list(TASKS),'models':MODELS,'methods':list(METHODS),'budget':budget,
         'manifest':manifest,'budget_authorization_sha256':budget_sha,
@@ -46,7 +54,8 @@ print(json.dumps({'retained_sha256':{p:hashlib.sha256(Path(p).read_bytes()).hexd
         'ledger_archive':'/opt/workbench/benchmark/private/model-refresh/'+run_id+'-ledger-before.json',
         'io_accounting':'PER_METHOD_CGROUP_PSI_FULL_STALL_SECONDARY_ESTIMATE',
         'controls_receipt':'/opt/workbench/benchmark/private/model-refresh/'+run_id+'-controls/receipt.json',
-        'codex_binary_directory':'/opt/workbench/model-refresh-20261126/tools/codex-0.172.0',
+        'codex_binary_directory':vendor+'/bin','codex_installation_directory':vendor,'runtime_tools_sha256':tool_pins,
+        'infrastructure_trial_supersedes':'refresh-20261126T032113Z: five tool-host-blocked roles retained, zero closed model-task groups, no hidden acceptance',
         'codex_binary_sha256':'ad83b94c093f0cdd8176a6bc8005a461bdf23a759863e157d40f562b8a9d664d',
         'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         'effort':'low','builder_pool_concurrency':3,'public_gpu_acceptance_concurrency':1,'request_output_tokens':256000,'request_timeout_seconds':600,

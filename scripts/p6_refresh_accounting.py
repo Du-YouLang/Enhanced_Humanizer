@@ -34,3 +34,17 @@ def summarize(ledger,workers,scope_prefix):
         'model_activity_seconds':sum(w.get('wall_seconds',0) for w in active),
         'completed_role_slots':sum(len(w.get('matched_slot_receipts',[])) if w.get('matched_slot_receipts') else w.get('status')=='COMPLETED' for w in active),
         'activity_excludes_hidden_scientific_acceptance':True}
+
+
+def preserve_authorized_ledger(ledger,expected_sha,archive):
+    """Caller holds the experiment-owner lock; archive only, never reset/refund."""
+    import hashlib,json,os
+    from pathlib import Path
+    raw=ledger.path.read_bytes()
+    if hashlib.sha256(raw).hexdigest()!=expected_sha:raise ValueError('Current ledger differs; reconcile before spending')
+    value=json.loads(raw);ledger.validate(value)
+    archive=Path(archive);archive.parent.mkdir(parents=True,exist_ok=True)
+    with archive.open('xb') as output:output.write(raw);output.flush();os.fsync(output.fileno())
+    if ledger.path.read_bytes()!=raw:raise ValueError('Concurrent ledger change while preserving history')
+    return {'status':'EXISTING_AUTHORIZATION_RETAINED_NO_RESET','archive_sha256':expected_sha,
+        'requests_retained':len(value['requests']),'subscriptions_retained':len(value['codex_turns']),'caps':ledger.caps()}

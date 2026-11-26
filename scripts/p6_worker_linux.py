@@ -136,7 +136,7 @@ def main():
     value={'kind':'REAL_MODEL_EXPERIMENT','status':'RUNNING','turns':turns,'scope':job['scope'],
            'role':role,'execution_mode':job['execution_mode'],'input_sha256':job['input_sha256'],
            'configured_role_seconds':job['role_seconds'],'effective_harness_turn_seconds':driver.turn_seconds}
-    if main_phase:value['configured_request_output_tokens']=ledger.max_output
+    if main_phase:value['configured_request_output_tokens']=ledger.max_output if job['backend']=='dsh' else 'UNAVAILABLE_NATIVE_CODEX_LIMIT'
     try:
         if job.get('offline_control'):
             value['kind']='ZERO_MODEL_CONTROL'

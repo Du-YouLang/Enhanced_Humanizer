@@ -81,12 +81,21 @@ def verify_handoff_trace(trace,path,raw):
     calls={};results=[]
     for record in trace.get('records',[]):
         d=record.get('data',{})
-        if record.get('type')=='tool/call':calls[d.get('callId')]=d
-        if record.get('type')=='tool/result':results.append(d.get('message',{}))
-    for result in results:
-        call=calls.get(result.get('source',{}).get('callId'))
+        if record.get('type')=='tool/call':
+            call_id=d.get('call_id',d.get('callId'))
+            if call_id: calls[call_id]=d
+        if record.get('type')=='tool/result':results.append(d)
+    for data in results:
+        message=data.get('message')
+        if isinstance(message,dict):
+            call_id=message.get('source',{}).get('callId',message.get('call_id'))
+            output=json.dumps(message,ensure_ascii=False)
+        else:
+            call_id=data.get('call_id',data.get('callId'))
+            output=json.dumps(data.get('output',''),ensure_ascii=False)
+        call=calls.get(call_id)
         if call is None:continue
-        args=str(call.get('arguments',''));output=json.dumps(result,ensure_ascii=False)
+        args=str(call.get('arguments',call.get('input','')))
         if str(path) in args and expected in output and str(size) in output:
             return {'status':'HANDOFF_READ_RECEIPT_OBSERVED','path':str(path),'sha256':expected,'bytes':size,
                     'semantic_comprehension_proven':False}
@@ -122,3 +131,13 @@ def require_operational_worker(worker):
     if str(worker.get('status','')).startswith('INFRA'):
         raise RuntimeError('INFRASTRUCTURE_BOUNDARY_STOP: '+str(worker.get('scope',''))+' '+worker['status']+'; preserve journal and reconcile; no automatic replay')
     return worker
+
+
+def execution_host_failure(trace):
+    for record in trace.get('records',[]):
+        d=record.get('data',{})
+        if record.get('type')=='tool/result' and d.get('type')=='custom_tool_call_output':
+            output=d.get('output')
+            if isinstance(output,str) and output.startswith('failed to spawn code-mode host ') and 'host executable was not found' in output:
+                return {'status':'INFRA_EXECUTION_HOST_UNAVAILABLE','call_id':d.get('call_id'),'evidence':output}
+    return None

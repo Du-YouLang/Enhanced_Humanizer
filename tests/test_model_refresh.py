@@ -67,6 +67,19 @@ class RefreshTests(unittest.TestCase):
             with self.assertRaises(BudgetDenied):new.reserve_request('GUIDANCE/old/role')
             with self.assertRaises(BudgetDenied):new.reserve_request(scope('GPT62-Sol'))
             new.reserve_request(scope())
+    def test_infrastructure_trial_archives_existing_authorization_without_a_ledger_write(self):
+        from p6_refresh_accounting import preserve_authorized_ledger
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)/'ledger';ledger=MainLedger(p,self.new,fixture=True)
+            ledger.reserve_request('old-unknown-preserved')
+            ledger.reserve_codex_turn('old-completed-infra-role','gpt-6.1-sol')
+            raw=p.read_bytes();sha=hashlib.sha256(raw).hexdigest();archive=Path(d)/'archive'
+            result=preserve_authorized_ledger(ledger,sha,archive)
+            self.assertEqual(p.read_bytes(),raw);self.assertEqual(archive.read_bytes(),raw)
+            self.assertEqual(result['requests_retained'],1);self.assertEqual(result['subscriptions_retained'],1)
+            with self.assertRaises(ValueError):preserve_authorized_ledger(ledger,'0'*64,Path(d)/'wrong')
+            self.assertFalse((Path(d)/'wrong').exists())
+
     def test_scope_amendment_cannot_relax_cash_or_role_watchdogs(self):
         for key,value in [('api_cash_usd',501),('per_role_inference_requests',2000),('per_request_timeout_seconds',1200),('deepseek_inference_requests',26000)]:
             c={**self.new,key:value}
@@ -88,6 +101,19 @@ class RefreshTests(unittest.TestCase):
         trace['records'].pop()
         self.assertEqual(verify_handoff_trace(trace,path,raw)['status'],'INFRA_HANDOFF_UNCONSUMED')
         with self.assertRaises(ValueError):handoff_prompt(path,b'x'*8_000_001,'task')
+    def test_actual_codex_custom_tool_envelope_and_missing_host_negative(self):
+        from p6_refresh_protocol import execution_host_failure
+        raw=b'{"public":"complete"}';path=PurePosixPath('/opt/task/input.json');sha=hashlib.sha256(raw).hexdigest()
+        call={'type':'tool/call','source_backend':'codex','data':{'type':'custom_tool_call','call_id':'call-real-envelope','name':'exec','input':"text(await tools.exec_command({cmd:'python reads "+str(path)+"'}));"}}
+        output={'type':'tool/result','source_backend':'codex','data':{'type':'custom_tool_call_output','call_id':'call-real-envelope','output':str(len(raw))+' '+sha}}
+        trace={'truncated':False,'records':[call,output]}
+        self.assertEqual(verify_handoff_trace(trace,path,raw)['status'],'HANDOFF_READ_RECEIPT_OBSERVED')
+        output['data']['output']='failed to spawn code-mode host /opt/tools/codex-code-mode-host: host executable was not found'
+        self.assertEqual(execution_host_failure(trace)['status'],'INFRA_EXECUTION_HOST_UNAVAILABLE')
+        self.assertEqual(verify_handoff_trace(trace,path,raw)['status'],'INFRA_HANDOFF_UNCONSUMED')
+        output['data']['output']='Chunk ID: example\nOutput: failed to spawn code-mode host is quoted documentation'
+        self.assertIsNone(execution_host_failure(trace))
+
     def test_three_method_freeze_and_counterbalanced_order(self):
         self.assertEqual({method_order(i,0)[0] for i in range(3)},set(('Direct','Enhanced','SingleAgent-MatchedBudget')))
         rows={k:{'hidden_seen':False,'program_sha256':'a'*64} for k in method_order(0,0)}
