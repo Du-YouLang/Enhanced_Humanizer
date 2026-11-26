@@ -241,6 +241,28 @@ class RecoveryPreservationTests(unittest.TestCase):
             spec['partial_worker_sha256']='0'*64
             with self.assertRaisesRegex(ValueError,'journal changed'):seed_partial(j,dest,spec)
             self.assertEqual(old.read_bytes(),raw)
+    def test_only_identical_public_helper_alias_preserves_original_task_bytes(self):
+        from p6_refresh_recovery import bind_retained_public_task,sha
+        from p6_refresh_protocol import complete_group
+        from p2_candidates import digest
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);old=root/'old';new=root/'new';prior=root/'prior'
+            for folder in (old,new,prior):folder.mkdir()
+            for folder in (old,new):(folder/'p6_public_visible.py').write_text('public checker only')
+            legacy='Solve task; run '+str(old)+'/p6_public_visible.py'
+            groups={}
+            for label in ('GPT61-Sol','GPT62-Sol'):
+                p=prior/(label+'.json');complete_group(p,label,{'methods':{'Enhanced':{'pool':{'task_contract':legacy}}}});groups[label]=str(p)
+            (prior/'plan.json').write_text(json.dumps({'source_sha256':{str(old/'p6_refresh_linux.py'):'unused',str(old/'p6_public_visible.py'):sha(old/'p6_public_visible.py')}}))
+            payload={'folder':str(new),'plan':{'score_contract_recovery':{'prior_root':str(prior),'retained_groups':groups}}}
+            task={'id':'BIP-black-1','prompt':legacy.replace(str(old),str(new)),'public_read_paths':[]}
+            value=bind_retained_public_task(copy.deepcopy(task),payload)
+            self.assertEqual(value['prompt'],legacy);self.assertEqual(value['recovery_public_helper_binding']['task_hash'],digest(legacy.encode()))
+            self.assertEqual(value['public_read_paths'],[str(old/'p6_public_visible.py')])
+            with self.assertRaisesRegex(ValueError,'differs beyond'):bind_retained_public_task(dict(task,prompt=task['prompt']+'change threshold'),payload)
+            (new/'p6_public_visible.py').write_text('different checker')
+            with self.assertRaisesRegex(ValueError,'not the identical'):bind_retained_public_task(copy.deepcopy(task),payload)
+
     def test_changed_journal_is_not_accepted(self):
         from p6_refresh_recovery import journal_value
         with tempfile.TemporaryDirectory() as temp:

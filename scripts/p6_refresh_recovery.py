@@ -165,3 +165,24 @@ def actual_recovery_controls(spec):
     return {'status':'PASS_ACTUAL_RETAINED_JOURNAL_CODE_AND_J3_CONTROLS','retained_result_cells':6,
             'retained_model_roles':17,'completed_DS_session_reused':True,'copy_hashes_equal':True,'internal_dangling_link_preserved':True,'escaping_link_denied':True,
             'candidate_executions':0,'provider_calls':0,'real_ledger_writes':0,'pools':pools}
+
+
+def bind_retained_public_task(task,payload):
+    """Keep the original task bytes; alias one identical public helper, never an oracle."""
+    spec=payload['plan'].get('score_contract_recovery')
+    if not spec or task['id']!='BIP-black-1':return task
+    first=journal_value(spec['retained_groups'][LABELS[0]])['methods']['Enhanced']['pool']
+    second=journal_value(spec['retained_groups'][LABELS[1]])['methods']['Enhanced']['pool']
+    legacy=first['task_contract'];prior_plan=read(Path(spec['prior_root'])/'plan.json')
+    old_folder=str(Path(next(p for p in prior_plan['source_sha256'] if Path(p).name=='p6_refresh_linux.py')).parent)
+    expected=task['prompt'].replace(payload['folder'],old_folder)
+    if legacy!=second['task_contract'] or legacy!=expected:raise ValueError('Retained task differs beyond exact public helper location')
+    old_helper=Path(old_folder)/'p6_public_visible.py';new_helper=Path(payload['folder'])/'p6_public_visible.py'
+    if sha(old_helper)!=prior_plan['source_sha256'][str(old_helper)] or sha(old_helper)!=sha(new_helper):
+        raise ValueError('Original public helper is not the identical frozen script')
+    task['prompt']=legacy
+    task['public_read_paths']=[*task['public_read_paths'],str(old_helper)]
+    task['recovery_public_helper_binding']={'original':str(old_helper),'current':str(new_helper),
+        'sha256':sha(old_helper),'task_hash':digest(legacy.encode()),'exact_original_task_bytes':True,
+        'permission_extension':'one identical public-only helper; no controller, oracle or private data directory'}
+    return task

@@ -139,6 +139,8 @@ def run_model_task(root,payload,tid,label,supplement=False):
     canary=dest/'control/canary'
     if not canary.exists():canary.write_text('private controller authority')
     j=Journal(dest/'control/stages');tp,task,tester=old.make_task(payload,tid)
+    from p6_refresh_recovery import bind_retained_public_task
+    bind_retained_public_task(task,payload)
     io_root=require_group(payload['run_id']);results={};timings={};base_scope='REFRESH/'+payload['run_id']+'/'+tid+'/'+label
     with task['fixture_context'] as url:
         old.activate(dest,payload,tp,task,tester,url)
@@ -307,9 +309,19 @@ def controls(payload):
     for tid in TASKS:
         dest=root/tid;dest.mkdir();(dest/'control').mkdir();(dest/'control/canary').write_text('controller only')
         tp,task,tester=old.make_task(payload,tid)
+        from p6_refresh_recovery import bind_retained_public_task
+        bind_retained_public_task(task,payload)
         with task['fixture_context'] as url:
             old.activate(dest,payload,tp,task,tester,url,offline=True)
             gold=None
+            if task.get('recovery_public_helper_binding'):
+                from p6_refresh_recovery import retained_builders,journal_value
+                for label in plan['score_contract_recovery']['supplement_labels']:
+                    retained,_=retained_builders(plan['score_contract_recovery'],label)
+                    actual_pool=shared.public_pool(retained)
+                    original_pool=journal_value(Path(plan['score_contract_recovery']['prior_root'])/'BIP-black-1'/label/'control/stages/public-pool.completed.json')
+                    if actual_pool!=original_pool:raise ValueError('Restored public pool changed task/rubric/evidence')
+                recovery_control['exact_original_public_pool_binding']=task['recovery_public_helper_binding']
             if tp['task']['family']!='scientific':
                 frozen=read(main.BASE/'science/private/public-main-controls-frozen-v2.json')
                 entry=next(c for c in frozen['tasks'] if c['task_id']==tid);gold=read(entry['receipt'])['gold']
@@ -323,6 +335,8 @@ def controls(payload):
             for name,label,method,role,agent_role,matched in settings:
                 scope='REFRESH/'+payload['run_id']+'/'+tid+'/'+label+'/'+method+'/'+role
                 spec=setup(payload,name,scope,agent_role,source=gold if agent_role=='builder' else None,offline=True,matched=matched)
+                if agent_role=='builder' and task.get('recovery_public_helper_binding'):
+                    spec['descriptor']['offline_public_command']=[task['prefix']+'/bin/python','-B',task['recovery_public_helper_binding']['original'],'--contract',str(Path(spec['descriptor']['root'])/'visible-contract.json')]
                 if agent_role=='builder' and tp['task']['family']=='scientific' and task.get('kind') not in ('gc','egl'):
                     spec['descriptor'].pop('offline_public_command',None)
                 worker=execute(spec)
