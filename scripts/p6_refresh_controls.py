@@ -9,7 +9,8 @@ from p6_refresh_sessions import run_matched
 
 
 def session_controls(budget):
-    from hmz.sdk.fakes import FakeAgentDriver
+    from hmz.sdk import fakes
+    FakeAgentDriver=fakes.FakeAgentDriver
     from p1_drivers import MeteredDriver
     from p6_main_budget import MainLedger
     from p3_worker_linux import RoleLedger
