@@ -1,0 +1,15 @@
+# Fresh-model report contract
+
+The report covers exactly16 frozen tasks ×3 tested models ×3 methods =144 unique cells. Use method names Direct, Enhanced and MatchedBudget plus the actual tested model name. Enhanced includes the tested-model builders and fixed GPT6.1-Sol independent review/synthesis; this is a mixed-model workflow. Resource matching is a total model-active-time ceiling, not equal realized tokens, calls, invoices or model compute.
+
+Keep immutable raw execution rows and a separate reviewed-quality view. Two interface-correction supplements address the same two original Enhanced slots and never increase the denominator. All actual attempts, including the retained missing-execution-host prefix and invalid-score attempts, remain in observed token accounting. Display the shared retained-builder resource projection separately and never add it again as a bill.
+
+Provider input includes its cached-input subset. Output includes reasoning when the native provider defines it as a subset; do not add it twice. Show DS known usage plus unknown-request count/lower-bound flags; unavailable OpenAI telemetry is not a measured zero. Keep subscription monetary cost and actual API payment unavailable when invoices are absent.
+
+Use complete method monotonic wall time as the primary timing. Display coverage, summed measured time and median, with local cgroup-full-I/O adjustment as a separate sensitivity estimate. Never reconstruct a complete duration from a split/recovered window or global disk-busy percentages. Paired speed comparisons use mutual-success tasks with complete measurements on both sides. Pairwise success tests are exploratory: single stochastic runs, convenience sampling and tasks sharing repositories limit causal/population claims.
+
+Every scientific cell requires an independent source/method, numerical, report and figure adjudication bound to the exact exported row and frozen program. A numerical PASS alone is pending full review. Optional artifacts require an explicit task-contract reason. Failure/indeterminate adjudications retain reasons and evidence. Final-report mode refuses fewer than144 cells or fewer than36 scientific adjudications. Progress reports are visibly marked nonfinal.
+
+The exporter only reads completed hashed journals, metrics and the ledger. It never calls providers, edits candidates, trains or runs numerical acceptance. Outputs are local HTML, typed JSON and CSV with fixed explicit archive contents and inventory/CRC checks. Actual outcomes and billing records remain private; unit tests use MOCK data.
+
+Method time means solving plus public verification and excludes hidden numerical acceptance, which is reported separately. The sum of these disjoint active phases excludes waiting for the other experimental methods and unmeasured outer bookkeeping; do not label it observed calendar end-to-end latency. Cache/output lower-bound markers apply to both displayed numbers. Raw failure audits read existing logs/code only and never feed private acceptance back into subsequent solver contexts.
