@@ -8,11 +8,14 @@ def summarize(ledger,workers,scope_prefix):
     unknown=sum(not isinstance(v.get('usage'),dict) for v in ds)
     sessions={};missing=[]
     for w in active:
-        if not any(t.get('harness')=='codex' for t in w.get('turns',[])):continue
+        if not any(t.get('harness')=='codex' for t in w.get('turns',[])) and not any(r['experiment']==w['scope'] or r['experiment'] in w.get('additional_accounting_scopes',[]) for r in subscriptions):continue
         rows=w.get('usage',[])
         if not rows:missing.append(w['scope']);continue
         for row in rows:
             if not isinstance(row,dict) or not isinstance(row.get('usage'),dict):missing.append(w['scope']);continue
+            v=row['usage']
+            if not row.get('session_id') or any(type(v.get(k)) is not int or v[k]<0 for k in ('input_tokens','cached_input_tokens','output_tokens')) or v['cached_input_tokens']>v['input_tokens']:
+                missing.append(w['scope']);continue
             key=(row.get('session_id'),row.get('usage_segment','COMPLETE_TOTAL'))
             if key in sessions and sessions[key]!=row['usage']:raise ValueError('Conflicting duplicate session usage')
             sessions[key]=row['usage']
@@ -26,6 +29,7 @@ def summarize(ledger,workers,scope_prefix):
         'openai':{'subscription_reservations':len(subscriptions),'recorded_session_usage_segments':len(sessions),
         'input_tokens_recorded':sub_total('input_tokens'),'cached_input_tokens_subset':sub_total('cached_input_tokens'),
         'output_tokens_recorded':sub_total('output_tokens'),'unknown_usage_scopes':sorted(set(missing)),
+        'token_totals_are_lower_bounds':bool(missing),
         'actual_subscription_cash_usd':'unavailable','reasoning_tokens_not_added_to_output_again':True},
         'model_activity_seconds':sum(w.get('wall_seconds',0) for w in active),
         'completed_role_slots':sum(len(w.get('matched_slot_receipts',[])) if w.get('matched_slot_receipts') else w.get('status')=='COMPLETED' for w in active),

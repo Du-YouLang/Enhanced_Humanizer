@@ -114,6 +114,16 @@ class RefreshAccountingTests(unittest.TestCase):
         self.assertTrue(value['deepseek']['token_totals_are_lower_bounds'])
         self.assertEqual(value['deepseek']['unknown_usage_requests'],1)
         self.assertEqual(value['openai']['actual_subscription_cash_usd'],'unavailable')
+    def test_failed_subscription_without_turn_or_complete_usage_stays_unknown(self):
+        from p6_refresh_accounting import summarize
+        prefix='REFRESH/run/task/model/method';sc=prefix+'/role'
+        ledger={'requests':[],'codex_turns':[{'experiment':sc}]}
+        for usage in ([],[{'session_id':'s','usage':{'output_tokens':4}}]):
+            value=summarize(ledger,{'w':{'scope':sc,'status':'INFRA_FAIL','usage':usage}},prefix)
+            self.assertEqual(value['openai']['unknown_usage_scopes'],[sc])
+            self.assertTrue(value['openai']['token_totals_are_lower_bounds'])
+            self.assertEqual(value['openai']['recorded_session_usage_segments'],0)
+
     def test_matched_slot_ledger_denies_slot_seven_and_maps_each_request_to_exact_trusted_slot(self):
         from p6_refresh_sessions import write_slot,MatchedSlotLedger
         with tempfile.TemporaryDirectory() as d:
