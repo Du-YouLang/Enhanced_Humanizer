@@ -112,3 +112,13 @@ def complete_group(path,name,value):
     from pi_full_protocol import exclusive,digest as journal_digest
     if not name or any(c not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_' for c in name):raise ValueError('Unsafe stage name')
     exclusive(path,{'stage':name,'value':value,'value_sha256':journal_digest(value)})
+
+
+def require_operational_worker(worker):
+    # Preserve the completed worker/journal first. A service/auth/isolation or
+    # missing-handoff failure must not cause hundreds of fresh roles to launch
+    # into the same unresolved infrastructure problem. Time/output/role caps
+    # remain model-budget outcomes and are not relabelled as service failures.
+    if str(worker.get('status','')).startswith('INFRA'):
+        raise RuntimeError('INFRASTRUCTURE_BOUNDARY_STOP: '+str(worker.get('scope',''))+' '+worker['status']+'; preserve journal and reconcile; no automatic replay')
+    return worker

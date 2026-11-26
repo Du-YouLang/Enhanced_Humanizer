@@ -14,7 +14,7 @@ import p6_guidance_linux as old
 import p6_main_runtime_linux as main
 from p6_main_budget import MainLedger,task_limits
 from p6_refresh_protocol import (TASKS,MODELS,METHODS,REVISION,expected_model,model_for_job,
-    handoff_prompt,verify_handoff_trace,method_order,require_clean_barrier,complete_group)
+    handoff_prompt,verify_handoff_trace,method_order,require_clean_barrier,complete_group,require_operational_worker)
 from p6_refresh_sessions import write_slot
 from p6_trace_evidence import tool_trace
 from p6_network_policy import RETRY10_POLICY
@@ -100,6 +100,7 @@ def execute(spec):
 def candidate(journal,payload,name,scope,source=None,view=None,prompt=None,matched=False):
     spec=journal.run(name+'-setup',lambda:setup(payload,name,scope,source=source,view=view,prompt=prompt,matched=matched))
     worker=journal.run(name+'-model',lambda:execute(spec))
+    require_operational_worker(worker)
     shared.ACTIVE['workers'][name]=worker
     value=journal.run(name+'-public',lambda:shared.candidate(name,worker))
     frozen=journal.run(name+'-freeze',lambda:old.freeze(value))
@@ -110,7 +111,7 @@ def judge(journal,payload,name,scope,pool):
     view=evidence(pool)
     prompt='Independently score every candidate including failures against the frozen rubric. Read and hash the complete input. Rank each ID once and cite code/public tests. No edits, subagents, installs, credentials or hidden oracle.'
     spec=journal.run(name+'-setup',lambda:setup(payload,name,scope,'verifier',view=view,prompt=prompt))
-    worker=journal.run(name+'-model',lambda:execute(spec));shared.ACTIVE['workers'][name]=worker
+    worker=journal.run(name+'-model',lambda:execute(spec));require_operational_worker(worker);shared.ACTIVE['workers'][name]=worker
     def decision():
         if worker['status']!='COMPLETED':return {'status':worker['status']}
         try:return J3(lambda _: (worker['answer']['judgment'],{'session_id':worker['session_id'],'usage':worker['usage']})).judge(pool)
@@ -149,6 +150,7 @@ def run_model_task(root,payload,tid,label):
                     pending=[(cid,name,executor.submit(j.run,name+'-model',lambda v=spec:execute(v))) for cid,name,spec in prepared]
                     completed=[(cid,name,future.result()) for cid,name,future in pending]
                 for cid,name,worker in completed:
+                    require_operational_worker(worker)
                     shared.ACTIVE['workers'][name]=worker
                     value=j.run(name+'-public',lambda n=name,w=worker:shared.candidate(n,w))
                     j.run(name+'-freeze',lambda v=value:old.freeze(v))
@@ -158,7 +160,7 @@ def run_model_task(root,payload,tid,label):
                 view={'task':task['prompt'],'pool':pool,'judgments':[initial_judge]}
                 prompt=task['prompt']+'\nAct as an independent Reviewer. Consider every A/B/C candidate including failures. Implement and commit M, or explicitly REFUSE. Existing tests/dependencies immutable; read and hash full input. Report all considered IDs.'
                 spec=j.run('reviewer-setup',lambda:setup(payload,'reviewer',base_scope+'/Enhanced/reviewer','reviewer',view=view,prompt=prompt))
-                w=j.run('reviewer-model',lambda:execute(spec));shared.ACTIVE['workers']['reviewer']=w
+                w=j.run('reviewer-model',lambda:execute(spec));require_operational_worker(w);shared.ACTIVE['workers']['reviewer']=w
                 merged=j.run('reviewer-public',lambda:shared.candidate('M',w))
                 decision=w.get('answer',{}).get('decision',{})
                 if sorted(decision.get('considered_candidates',[]))!=['A','B','C'] or decision.get('action')!='IMPLEMENTED':merged['verdict']='FAIL'

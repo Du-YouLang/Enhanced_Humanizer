@@ -33,6 +33,14 @@ class RefreshTests(unittest.TestCase):
         self.assertEqual(expected_model(scope(method='Enhanced',role='reviewer')),'gpt-6.1-sol')
         for bad in [scope()+'/extra',scope().replace(TASKS[0],'other'),scope().replace('/direct','/matched-7')]:
             self.assertFalse(allowed_scope(bad,'deepseek'))
+    def test_infrastructure_stops_after_preserved_worker_without_reclassifying_role_budgets(self):
+        from p6_refresh_protocol import require_operational_worker
+        for status in ('INFRA_FAIL','INFRA_RETRY_PENDING','INFRA_HANDOFF_UNCONSUMED'):
+            with self.assertRaisesRegex(RuntimeError,'INFRASTRUCTURE_BOUNDARY_STOP'):
+                require_operational_worker({'status':status,'scope':scope()})
+        for status in ('COMPLETED','TIMEOUT','OUTPUT_LIMIT','BUDGET_EXHAUSTED'):
+            self.assertEqual(require_operational_worker({'status':status})['status'],status)
+
     def test_no_silent_model_or_harness_substitution(self):
         j={'scope':scope('GPT62-Sol'),'requested_model':'gpt-6.2-sol','backend':'codex','budget':self.new}
         for bad in [{**j,'requested_model':'gpt-6.1-sol'},{**j,'backend':'dsh'},{**j,'budget':self.old}]:
