@@ -14,7 +14,8 @@ import p6_guidance_linux as old
 import p6_main_runtime_linux as main
 from p6_main_budget import MainLedger,task_limits
 from p6_refresh_protocol import (TASKS,MODELS,METHODS,REVISION,expected_model,model_for_job,
-    handoff_prompt,verify_handoff_trace,method_order,require_clean_barrier,complete_group,require_operational_worker,execution_host_failure)
+    handoff_prompt,verify_handoff_trace,method_order,require_clean_barrier,complete_group,require_operational_worker,execution_host_failure,
+    refresh_judge_prompt,require_valid_refresh_judgment)
 from p6_refresh_sessions import write_slot
 from p6_io_accounting import Epoch,require_group,actual_controls,group_path
 from p6_trace_evidence import tool_trace
@@ -118,14 +119,16 @@ def candidate(journal,payload,name,scope,source=None,view=None,prompt=None,match
 
 def judge(journal,payload,name,scope,pool):
     view=evidence(pool)
-    prompt='Independently score every candidate including failures against the frozen rubric. Read and hash the complete input. Rank each ID once and cite code/public tests. No edits, subagents, installs, credentials or hidden oracle.'
+    prompt=refresh_judge_prompt(pool)
     spec=journal.run(name+'-setup',lambda:setup(payload,name,scope,'verifier',view=view,prompt=prompt))
     worker=journal.run(name+'-model',lambda:execute(spec));require_operational_worker(worker);shared.ACTIVE['workers'][name]=worker
     def decision():
         if worker['status']!='COMPLETED':return {'status':worker['status']}
         try:return J3(lambda _: (worker['answer']['judgment'],{'session_id':worker['session_id'],'usage':worker['usage']})).judge(pool)
-        except (ValueError,KeyError,TypeError):return {'status':'INVALID_JUDGMENT'}
-    return journal.run(name+'-judgment',decision)
+        except (ValueError,KeyError,TypeError) as error:
+            return {'status':'INVALID_JUDGMENT','error_type':type(error).__name__,'reason':str(error)}
+    value=journal.run(name+'-judgment',decision)
+    return require_valid_refresh_judgment(value)
 
 
 def run_model_task(root,payload,tid,label):

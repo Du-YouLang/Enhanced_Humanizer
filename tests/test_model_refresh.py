@@ -194,4 +194,30 @@ class IOAccountingTests(unittest.TestCase):
         with self.assertRaises(ValueError):group_path('../other-project')
         self.assertTrue(str(group_path('refresh-20261126T030117Z')).replace('\\','/').endswith('/non-systemd/eh-refresh-20261126T030117Z'))
 
+
+class JudgeWireContractTests(unittest.TestCase):
+    def test_prompt_example_roundtrips_real_j3_and_ten_point_output_stays_rejected(self):
+        from p6_refresh_protocol import refresh_judge_prompt,require_valid_refresh_judgment
+        from p2_candidates import RUBRIC,digest
+        from p2_judges import J3
+        task='Frozen public task'
+        p={'task_contract':task,'task_hash':digest(task.encode()),'base_commit':'base','env_hash':'env',
+           'rubric':copy.deepcopy(RUBRIC),'rubric_hash':digest(RUBRIC),'candidates':[
+               {'id':c,'base_commit':'base','env_hash':'env','prompt_hash':digest(task.encode()),'verdict':'PASS'} for c in 'ABCM']}
+        p['pool_hash']=digest(p);before=copy.deepcopy(p)
+        prompt=refresh_judge_prompt(p)
+        raw=json.loads(prompt.split('Required judgment JSON shape: ',1)[1])
+        raw['candidates'][0]['correctness']=4
+        value=J3(lambda _:(raw,{})).judge(p)
+        self.assertEqual(value['status'],'COMPLETED');self.assertEqual(p,before)
+        self.assertIn('INTEGER from 0 through 4 inclusive',prompt)
+        for bad in (9,4.0,True,-1):
+            invalid=copy.deepcopy(raw);invalid['candidates'][0]['correctness']=bad
+            with self.assertRaisesRegex(ValueError,'out of range'):J3(lambda _:(invalid,{})).judge(p)
+        self.assertEqual(require_valid_refresh_judgment(value),value)
+        with self.assertRaisesRegex(RuntimeError,'JUDGMENT_CONTRACT_BOUNDARY_STOP'):
+            require_valid_refresh_judgment({'status':'INVALID_JUDGMENT','reason':'Sol rubric score out of range'})
+        # A role budget outcome keeps its actual status; it is not a wire-contract failure.
+        self.assertEqual(require_valid_refresh_judgment({'status':'TIMEOUT'}),{'status':'TIMEOUT'})
+
 if __name__=='__main__':unittest.main()

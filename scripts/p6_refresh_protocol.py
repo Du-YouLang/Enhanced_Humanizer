@@ -141,3 +141,29 @@ def execution_host_failure(trace):
             if isinstance(output,str) and output.startswith('failed to spawn code-mode host ') and 'host executable was not found' in output:
                 return {'status':'INFRA_EXECUTION_HOST_UNAVAILABLE','call_id':d.get('call_id'),'evidence':output}
     return None
+
+
+def refresh_judge_prompt(pool):
+    """Expose the existing J3 wire contract; do not change the frozen rubric."""
+    import json
+    from p2_candidates import validate_pool
+    validate_pool(pool)
+    ids=[c['id'] for c in pool['candidates']]
+    example={'candidates':[dict(id=cid,**{d:0 for d in pool['rubric']['dimensions']},evidence=['actual code or public-test citation']) for cid in ids],
+             'ranking':ids,'rationale':'Explain the independent ranking from the frozen public evidence.'}
+    return ('Independently score every candidate, including failures, against the frozen rubric. '
+        'The existing J3 parser requires each dimension score to be an INTEGER from 0 through 4 inclusive. '
+        'Do not use a 0-10 or percentage scale, floats, booleans, or rescaled scores. '
+        'Return each candidate ID exactly once and rank every ID exactly once; include nonempty evidence per candidate. '
+        'The zeros and ID order below illustrate the output shape only; supply your independent scores and ranking. '
+        'Read and hash the complete input. No edits, subagents, installs, credentials or hidden oracle. '
+        'Required judgment JSON shape: '+json.dumps(example,ensure_ascii=False,sort_keys=True))
+
+
+def require_valid_refresh_judgment(value):
+    # Call only AFTER the invalid output and diagnostic have been journaled.
+    # A broken scoring interface must not silently invalidate every later flow.
+    if value.get('status')=='INVALID_JUDGMENT':
+        raise RuntimeError('JUDGMENT_CONTRACT_BOUNDARY_STOP: preserve the original output and charges; '
+                           'no automatic rescaling or model replay; '+str(value.get('reason','')))
+    return value
