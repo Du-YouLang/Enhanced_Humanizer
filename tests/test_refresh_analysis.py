@@ -70,6 +70,9 @@ class AnalysisTests(unittest.TestCase):
         self.assertEqual(t['openai']['input_tokens_recorded'],10);self.assertEqual(t['io_adjusted_estimate_seconds'],8)
         r['acceptance_io_adjustment']={'raw_elapsed_seconds':50}
         t=telemetry(r);self.assertEqual(t['hidden_acceptance_seconds'],50);self.assertEqual(t['active_phase_sum_seconds'],60)
+        summary=build({'groups':[{'rows':[r]}]})['summary'][0]
+        self.assertEqual(summary['elapsed_sum_seconds'],10);self.assertEqual(summary['hidden_acceptance_sum_seconds'],50)
+        self.assertEqual(summary['active_phase_sum_seconds'],60);self.assertEqual(summary['io_adjusted_sum_seconds'],8)
         r['method_timing']['io_adjustment']['raw_elapsed_seconds']=11
         with self.assertRaisesRegex(ValueError,'I/O adjustment'):telemetry(r)
         r['method_timing']['elapsed_seconds']='unavailable_interrupted_method';self.assertIsNone(telemetry(r)['io_adjusted_estimate_seconds']);self.assertIsNone(telemetry(r)['active_phase_sum_seconds'])

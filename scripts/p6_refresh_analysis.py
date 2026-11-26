@@ -147,9 +147,9 @@ def summaries(raw,reviewed,infrastructure_attempts=()):
                 'successes':counts.get('PASS',0),'outcomes':counts,'software_successes':sum(v['reviewed_outcome']=='PASS' for v in items if not v['task_id'].startswith('SCI-')),
                 'scientific_successes':sum(v['reviewed_outcome']=='PASS' for v in items if v['task_id'].startswith('SCI-')),
                 'elapsed_measured_cells':len(times),'elapsed_sum_seconds':sum(times) if times else None,'elapsed_median_seconds':statistics.median(times) if times else None,
-                'hidden_acceptance_measured_cells':len(hidden),'hidden_acceptance_median_seconds':statistics.median(hidden) if hidden else None,
-                'active_phase_sum_measured_cells':len(active_sums),'active_phase_sum_median_seconds':statistics.median(active_sums) if active_sums else None,
-                'io_adjusted_measured_cells':len(adjusted),'io_adjusted_median_seconds':statistics.median(adjusted) if adjusted else None,
+                'hidden_acceptance_measured_cells':len(hidden),'hidden_acceptance_sum_seconds':sum(hidden) if hidden else None,'hidden_acceptance_median_seconds':statistics.median(hidden) if hidden else None,
+                'active_phase_sum_measured_cells':len(active_sums),'active_phase_sum_seconds':sum(active_sums) if active_sums else None,'active_phase_sum_median_seconds':statistics.median(active_sums) if active_sums else None,
+                'io_adjusted_measured_cells':len(adjusted),'io_adjusted_sum_seconds':sum(adjusted) if adjusted else None,'io_adjusted_median_seconds':statistics.median(adjusted) if adjusted else None,
                 'all_attempt_deepseek':aggregate_provider(attempts,'deepseek'),'all_attempt_openai':aggregate_provider(attempts,'openai'),
                 'completed_cell_deepseek_projection':aggregate_provider(projections,'deepseek'),'completed_cell_openai_projection':aggregate_provider(projections,'openai'),
                 'actual_cash':'unavailable','shared_builder_projection_is_not_an_additional_bill':True})
