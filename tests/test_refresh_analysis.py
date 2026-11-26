@@ -90,6 +90,16 @@ class AnalysisTests(unittest.TestCase):
         result=build({'groups':[{'rows':rows}]});p=next(p for p in result['paired'] if p['model']=='GPT61-Sol' and p['left']=='Enhanced' and p['right']=='Direct')
         self.assertEqual(p['paired_tasks'],4);self.assertEqual(p['discordant_pairs'],3);self.assertEqual(p['exploratory_paired_sign_p'],.25)
         self.assertEqual(p['mutual_success_timing_pairs'],1);self.assertEqual(p['median_left_over_right_elapsed'],.5)
+    def test_corrected_interface_quality_is_separate_from_unchanged_process_pairs(self):
+        raw=row(method='Enhanced',status='INDETERMINATE');raw['candidate']=None;raw['frozen']=None
+        sup=row(method='Enhanced',seconds='unavailable_split_flow')
+        result=build({'groups':[{'rows':[raw,row()]}],'interface_supplements':[{'rows':[sup]}]})
+        select=lambda name:next(p for p in result[name] if p['model']=='GPT61-Sol' and p['left']=='Enhanced' and p['right']=='Direct')
+        strict=select('paired');quality=select('paired_quality_including_corrections')
+        self.assertEqual(strict['paired_tasks'],0);self.assertEqual(strict['excluded_corrected_tasks'],[TASKS[0]])
+        self.assertEqual(quality['paired_tasks'],1);self.assertEqual(quality['mutual_success_timing_pairs'],0)
+        self.assertEqual(next(s for s in result['summary'] if s['name']=='Enhanced-GPT-6.1-Sol')['successes'],1)
+
     def test_html_escapes_values_and_archive_never_includes_unrelated_files(self):
         r=row(status='<script>unsafe</script>');snap={'groups':[{'rows':[r]}]};result=build(snap)
         text=render(result);self.assertNotIn('<script>',text);self.assertIn('&lt;script&gt;',text)

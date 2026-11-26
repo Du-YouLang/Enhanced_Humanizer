@@ -162,12 +162,13 @@ def binary_outcome(status):
     return None
 
 
-def paired_comparisons(reviewed):
+def paired_comparisons(reviewed,*,include_corrected=False):
     output=[]
     for model in MODELS:
         for left,right in (('Enhanced','Direct'),('Enhanced','SingleAgent-MatchedBudget'),('SingleAgent-MatchedBudget','Direct')):
             pairs=[(reviewed.get((t,model,left)),reviewed.get((t,model,right))) for t in TASKS]
-            complete=[(a,b) for a,b in pairs if a and b and binary_outcome(a['reviewed_outcome'])is not None and binary_outcome(b['reviewed_outcome'])is not None]
+            excluded=[t for t,(a,b) in zip(TASKS,pairs) if a and b and not include_corrected and any(r.get('result_origin')=='SEPARATE_INTERFACE_SUPPLEMENT' for r in (a,b))]
+            complete=[(a,b) for t,(a,b) in zip(TASKS,pairs) if t not in excluded and a and b and binary_outcome(a['reviewed_outcome'])is not None and binary_outcome(b['reviewed_outcome'])is not None]
             wins=sum(binary_outcome(a['reviewed_outcome'])is True and binary_outcome(b['reviewed_outcome'])is False for a,b in complete)
             losses=sum(binary_outcome(a['reviewed_outcome'])is False and binary_outcome(b['reviewed_outcome'])is True for a,b in complete);n=wins+losses
             p=min(1.,2*sum(math.comb(n,k) for k in range(min(wins,losses)+1))/2**n) if n else 1.
@@ -177,7 +178,7 @@ def paired_comparisons(reviewed):
                 ta,tb=telemetry(a),telemetry(b)
                 if ta['elapsed_seconds']is not None and tb['elapsed_seconds']is not None and tb['elapsed_seconds']>0:ratios.append(ta['elapsed_seconds']/tb['elapsed_seconds'])
                 if ta['io_adjusted_estimate_seconds']is not None and tb['io_adjusted_estimate_seconds']is not None and tb['io_adjusted_estimate_seconds']>0:adjusted.append(ta['io_adjusted_estimate_seconds']/tb['io_adjusted_estimate_seconds'])
-            output.append({'model':model,'left':left,'right':right,'paired_tasks':len(complete),'discordant_pairs':n,'left_only_success':wins,'right_only_success':losses,
+            output.append({'model':model,'left':left,'right':right,'comparison_view':'QUALITY_WITH_CORRECTED_SUPPLEMENTS' if include_corrected else 'UNCHANGED_PROCESS_PAIRS','excluded_corrected_tasks':excluded,'paired_tasks':len(complete),'discordant_pairs':n,'left_only_success':wins,'right_only_success':losses,
                 'exploratory_paired_sign_p':p,'bonferroni_nine_comparisons_p':min(1.,9*p),'mutual_success_timing_pairs':len(ratios),
                 'median_left_over_right_elapsed':statistics.median(ratios) if ratios else None,'io_adjusted_pairs':len(adjusted),
                 'median_left_over_right_io_estimate':statistics.median(adjusted) if adjusted else None,
@@ -215,12 +216,13 @@ def build(snapshot,*,final=False):
     accounting=accounting_reconciliation(summary,snapshot.get('all_refresh_accounting_reference'),final=final)
     return {'status':'FINAL_REVIEWED_144' if final else 'PROGRESS_SNAPSHOT_NOT_FINAL','unique_cells':len(raw),'expected_cells':144,
         'science_audits':len(snapshot.get('science_adjudications',[])),'interface_supplements_separate':len(supplements),
-        'summary':summary,'accounting_reconciliation':accounting,'paired':paired_comparisons(reviewed),'raw_rows':[raw[k] for k in sorted(raw)],
+        'summary':summary,'accounting_reconciliation':accounting,'paired':paired_comparisons(reviewed),'paired_quality_including_corrections':paired_comparisons(reviewed,include_corrected=True),'raw_rows':[raw[k] for k in sorted(raw)],
         'reviewed_rows':[reviewed[k] for k in sorted(reviewed)],'run_id':snapshot.get('run_id'),'provenance':snapshot.get('provenance'),
         'budget':snapshot.get('budget'),'infrastructure_attempts_separate':snapshot.get('infrastructure_attempts',[]),'shared_projections_not_additive_bills':True,
         'limitations':['Resource match is total model-active-time ceiling, not equal realized tokens/calls/cash.',
         'Enhanced uses tested-model builders plus fixed GPT-6.1-Sol reviewers/judges.',
         'Original invalid interface outcomes/costs stay retained; corrected supplements do not increase144-cell denominator.',
+        'Main quality counts include the two explicitly corrected interface cells. Unchanged-process pair comparisons exclude them; a separate all-quality comparison remains available.',
         'Method elapsed includes solving/public checks and excludes hidden acceptance; the latter is reported separately. Active-phase sums exclude waiting for other experimental methods and unmeasured outer bookkeeping.',
         'Local I/O-adjusted estimates are sensitivity measurements, not causal zero-latency-disk speed.',
         'Missing/split durations remain unavailable. Cache input and reasoning output are subsets, not extra tokens.',
