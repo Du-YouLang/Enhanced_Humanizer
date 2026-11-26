@@ -68,7 +68,8 @@ def views(rows,supplements=(),adjudications=(),*,final=False):
         if a.get('status')not in ('PASS','FAIL','INDETERMINATE'):raise ValueError('Explicit science status required')
         if a['status']!='PASS' and (not a.get('reason') or not a.get('evidence')):raise ValueError('Unresolved/failed science review requires reason and retained evidence')
         if a['status']=='PASS':
-            if row.get('candidate',{}).get('verdict')!='PASS':raise ValueError('Science review cannot bypass failed public contract')
+            if (row.get('candidate')or{}).get('verdict')!='PASS':raise ValueError('Science review cannot bypass failed public contract')
+            if a.get('numerical')!='PASS' or a.get('source_method')!='PASS':raise ValueError('Scientific PASS always requires numerical and source-method PASS')
             for field in ('numerical','source_method','report','figure'):
                 value=a.get(field)
                 if value not in ('PASS','NOT_REQUIRED'):raise ValueError('Scientific PASS needs independent source/report/figure/numeric review')

@@ -48,7 +48,9 @@ class AnalysisTests(unittest.TestCase):
         snap['science_adjudications']=[a];self.assertEqual(build(snap)['reviewed_rows'][0]['reviewed_outcome'],'PASS')
         a['program_sha256']='2'*64
         with self.assertRaisesRegex(ValueError,'another program'):build(snap)
-        a['program_sha256']='1'*64;a['figure']='NOT_REQUIRED'
+        a['program_sha256']='1'*64;a['numerical']='NOT_REQUIRED';a['numerical_reason']='not a valid exclusion'
+        with self.assertRaisesRegex(ValueError,'always requires'):build(snap)
+        a['numerical']='PASS';a['figure']='NOT_REQUIRED'
         with self.assertRaisesRegex(ValueError,'contract evidence'):build(snap)
         a['status']='INDETERMINATE'
         with self.assertRaisesRegex(ValueError,'requires reason'):build(snap)
