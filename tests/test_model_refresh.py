@@ -220,4 +220,31 @@ class JudgeWireContractTests(unittest.TestCase):
         # A role budget outcome keeps its actual status; it is not a wire-contract failure.
         self.assertEqual(require_valid_refresh_judgment({'status':'TIMEOUT'}),{'status':'TIMEOUT'})
 
+
+class RecoveryPreservationTests(unittest.TestCase):
+    def test_completed_session_copy_never_calls_model_and_hash_mismatch_denies(self):
+        from p6_refresh_recovery import seed_partial,journal_value,sha
+        from p6_refresh_protocol import complete_group
+        from pi_full_protocol import Journal
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp);source=root/'old/code';source.mkdir(parents=True);(source/'solver.py').write_text('print(1)')
+            old=root/'model.completed.json';worker={'status':'COMPLETED','scope':'REFRESH/old/task/model/SingleAgent-MatchedBudget/matched-1','model_id':'deepseek-flash','root':str(source.parent),'work':str(source),'usage':[]}
+            complete_group(old,'matched-model',worker);raw=old.read_bytes()
+            spec={'partial_work':str(source),'partial_worker_journal':str(old),'partial_worker_sha256':sha(old)}
+            dest=root/'new/task';j=Journal(dest/'control/stages');seed_partial(j,dest,spec)
+            def replay():raise AssertionError('Must not dispatch')
+            reused=j.run('matched-model',replay)
+            self.assertEqual((Path(reused['work'])/'solver.py').read_bytes(),(source/'solver.py').read_bytes())
+            self.assertEqual(reused['scope'],worker['scope']);self.assertEqual(old.read_bytes(),raw)
+            self.assertTrue(j.run('matched-setup',replay)['descriptor']['retained_only'])
+            seed_partial(j,dest,spec)
+            spec['partial_worker_sha256']='0'*64
+            with self.assertRaisesRegex(ValueError,'journal changed'):seed_partial(j,dest,spec)
+            self.assertEqual(old.read_bytes(),raw)
+    def test_changed_journal_is_not_accepted(self):
+        from p6_refresh_recovery import journal_value
+        with tempfile.TemporaryDirectory() as temp:
+            p=Path(temp)/'stage.json';p.write_text(json.dumps({'value':{'x':1},'value_sha256':'0'*64}))
+            with self.assertRaisesRegex(ValueError,'hash mismatch'):journal_value(p)
+
 if __name__=='__main__':unittest.main()

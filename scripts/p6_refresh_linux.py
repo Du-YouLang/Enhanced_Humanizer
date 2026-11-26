@@ -84,6 +84,7 @@ def setup(payload,name,scope,role='builder',source=None,view=None,prompt=None,of
 
 def execute(spec):
     d=spec['descriptor']
+    if d.get('retained_only'):raise RuntimeError('Retained completed model must never dispatch')
     if not d.get('offline_control'):
         ledger=shared.ACTIVE['ledger'];current=read(LEDGER);ledger.validate(current)
         if d['backend']=='dsh' and (len(current['requests'])>=ledger.requests or current['cash_bound_nano']+ledger.request_reserve>ledger.cash_nano):
@@ -131,8 +132,8 @@ def judge(journal,payload,name,scope,pool):
     return require_valid_refresh_judgment(value)
 
 
-def run_model_task(root,payload,tid,label):
-    dest=root/tid/label;dest.mkdir(parents=True,exist_ok=True);(dest/'control').mkdir(exist_ok=True)
+def run_model_task(root,payload,tid,label,supplement=False):
+    dest=(root/'supplements'/tid/label) if supplement else root/tid/label;dest.mkdir(parents=True,exist_ok=True);(dest/'control').mkdir(exist_ok=True)
     canary=dest/'control/canary'
     if not canary.exists():canary.write_text('private controller authority')
     j=Journal(dest/'control/stages');tp,task,tester=old.make_task(payload,tid)
@@ -140,7 +141,13 @@ def run_model_task(root,payload,tid,label):
     with task['fixture_context'] as url:
         old.activate(dest,payload,tp,task,tester,url)
         shared.test_source=lambda source,hidden=False:measured_test(tester,source,hidden)
-        for method in method_order(TASKS.index(tid),list(MODELS).index(label)):
+        recovery=payload['plan'].get('score_contract_recovery')
+        retained_partial=bool(recovery and not supplement and tid+'/'+label==recovery['partial_model_task'])
+        if retained_partial:
+            from p6_refresh_recovery import seed_partial
+            seed_partial(j,dest,recovery)
+        methods=('Enhanced',) if supplement else method_order(TASKS.index(tid),list(MODELS).index(label))
+        for method in methods:
             # Family activity limits apply to each method, not an unfair combined
             # envelope consumed by whichever method happens to run first.
             limits=task_limits(payload['budget'],tp['task'])
@@ -152,22 +159,27 @@ def run_model_task(root,payload,tid,label):
                 elif method=='SingleAgent-MatchedBudget':
                     results[method]=candidate(j,payload,'matched',base_scope+'/'+method+'/matched-1',matched=True)
                 else:
-                    pool_rows=[];prepared=[]
-                    # Independent model work runs concurrently. Public/GPU checks
-                    # remain serial after all three builders finish.
-                    for cid in ('A','B','C'):
-                        name='pool-'+cid;scope=base_scope+'/Enhanced/'+name
-                        spec=j.run(name+'-setup',lambda n=name,s=scope:setup(payload,n,s))
-                        prepared.append((cid,name,spec))
-                    with ThreadPoolExecutor(max_workers=3) as executor:
-                        pending=[(cid,name,executor.submit(j.run,name+'-model',lambda v=spec:execute(v))) for cid,name,spec in prepared]
-                        completed=[(cid,name,future.result()) for cid,name,future in pending]
-                    for cid,name,worker in completed:
-                        require_operational_worker(worker)
-                        shared.ACTIVE['workers'][name]=worker
-                        value=j.run(name+'-public',lambda n=name,w=worker:shared.candidate(n,w))
-                        j.run(name+'-freeze',lambda v=value:old.freeze(v))
-                        pool_rows.append(dict(value,id=cid))
+                    if supplement:
+                        from p6_refresh_recovery import retained_builders
+                        pool_rows,retained_workers=retained_builders(recovery,label)
+                        shared.ACTIVE['workers'].update(retained_workers)
+                    else:
+                        pool_rows=[];prepared=[]
+                        # Independent model work runs concurrently. Public/GPU checks
+                        # remain serial after all three builders finish.
+                        for cid in ('A','B','C'):
+                            name='pool-'+cid;scope=base_scope+'/Enhanced/'+name
+                            spec=j.run(name+'-setup',lambda n=name,s=scope:setup(payload,n,s))
+                            prepared.append((cid,name,spec))
+                        with ThreadPoolExecutor(max_workers=3) as executor:
+                            pending=[(cid,name,executor.submit(j.run,name+'-model',lambda v=spec:execute(v))) for cid,name,spec in prepared]
+                            completed=[(cid,name,future.result()) for cid,name,future in pending]
+                        for cid,name,worker in completed:
+                            require_operational_worker(worker)
+                            shared.ACTIVE['workers'][name]=worker
+                            value=j.run(name+'-public',lambda n=name,w=worker:shared.candidate(n,w))
+                            j.run(name+'-freeze',lambda v=value:old.freeze(v))
+                            pool_rows.append(dict(value,id=cid))
                     pool=j.run('public-pool',lambda:shared.public_pool(pool_rows))
                     initial_judge=judge(j,payload,'judge-input',base_scope+'/Enhanced/judge-input',pool)
                     view={'task':task['prompt'],'pool':pool,'judgments':[initial_judge]}
@@ -187,9 +199,14 @@ def run_model_task(root,payload,tid,label):
             timings[method]['journal_clock_elapsed_seconds']=timings[method]['elapsed_seconds']
             timings[method]['elapsed_seconds']=io_epoch.measurement['raw_elapsed_seconds']
             timings[method]['io_adjustment']=j.run(method+'-io-observation',lambda:io_epoch.measurement)
-        barrier=j.run('three-methods-frozen',lambda:{m:{'program_sha256':r['frozen']['program_sha256'] if r['frozen'] else '0'*64,'hidden_seen':False,'no_eligible_selection':r['candidate'] is None} for m,r in results.items()})
-        require_clean_barrier(barrier);rows=[]
-        for method in METHODS:
+        if supplement:
+            barrier=j.run('supplement-final-frozen',lambda:{'program_sha256':results['Enhanced']['frozen']['program_sha256'] if results['Enhanced']['frozen'] else '0'*64,
+                'new_models_received_hidden_results':False,'not_a_fresh_three_method_causal_comparison':True,'retained_builders':3})
+        else:
+            barrier=j.run('three-methods-frozen',lambda:{m:{'program_sha256':r['frozen']['program_sha256'] if r['frozen'] else '0'*64,'hidden_seen':False,'no_eligible_selection':r['candidate'] is None} for m,r in results.items()})
+            require_clean_barrier(barrier)
+        rows=[]
+        for method in (('Enhanced',) if supplement else METHODS):
             r=results[method];c=r['candidate'];w=r['worker']
             if c:old.verify(c,r['frozen'])
             def accept():
@@ -202,9 +219,23 @@ def run_model_task(root,payload,tid,label):
             if c:old.verify(c,r['frozen'])
             status=w['status'] if w['status']!='COMPLETED' else c['verdict'] if c['verdict']!='PASS' else acceptance['verdict']
             from p6_refresh_accounting import summarize
-            metrics=summarize(read(LEDGER),shared.ACTIVE['workers'],base_scope+'/'+method)
+            metric_scope=base_scope+'/'+method
+            if retained_partial and method=='SingleAgent-MatchedBudget':
+                metric_scope=w['scope'].rsplit('/',1)[0]
+                timings[method].update(elapsed_seconds='unavailable_interrupted_method',
+                    recovery_window_only=True,retained_model_seconds=w['wall_seconds'],old_model_replayed=False)
+            metrics=summarize(read(LEDGER),shared.ACTIVE['workers'],metric_scope)
+            if supplement:
+                timings[method].update(elapsed_seconds='unavailable_split_flow',new_downstream_window_only=True,
+                    original_failed_interface_costs_retained_in_prior_run=True,retained_builders_replayed=False)
+                prior_prefix='REFRESH/'+recovery['prior_run_id']+'/'+tid+'/'+label+'/Enhanced'
+                prior_workers={k:v for k,v in shared.ACTIVE['workers'].items() if k in ('pool-A','pool-B','pool-C')}
+                ledger=read(LEDGER);retained_ledger=dict(ledger)
+                for key in ('requests','codex_turns'):
+                    retained_ledger[key]=[v for v in ledger[key] if v['experiment'].startswith(prior_prefix+'/pool-')]
+                metrics['retained_builders_projection_not_additive_bill']=summarize(retained_ledger,prior_workers,prior_prefix)
             rows.append({'task_id':tid,'model':label,'method':method,'outcome':status,'candidate':c,'acceptance':acceptance,'frozen':r['frozen'],'barrier_sha256':digest(barrier),'scientific_review':'PENDING_SOURCE_REPORT_FIGURE' if tp['task']['family']=='scientific' else 'NOT_APPLICABLE','metrics':metrics,'method_timing':timings[method],'acceptance_io_adjustment':acceptance_io_measurement})
-    return {'task_id':tid,'model':label,'status':'THREE_METHOD_EXECUTION_CLOSED','rows':rows,'methods':results,'workers':shared.ACTIVE['workers']}
+    return {'task_id':tid,'model':label,'status':'THREE_METHOD_EXECUTION_CLOSED','rows':rows,'methods':results,'workers':shared.ACTIVE['workers'],'is_interface_supplement':supplement}
 
 
 def verify_plan(payload):
@@ -212,6 +243,9 @@ def verify_plan(payload):
     if digest(body)!=h:raise ValueError('Frozen plan differs')
     if p['tasks']!=list(TASKS) or p['models']!=MODELS or p['methods']!=list(METHODS):raise ValueError('Exact 16x3x3 plan required')
     if payload['budget']!=p['budget']:raise ValueError('Budget differs')
+    if p.get('score_contract_recovery'):
+        from p6_refresh_recovery import validate_spec
+        validate_spec(p['score_contract_recovery'])
     for path,value in {**p['source_sha256'],**p['retained_sha256'],**p.get('runtime_tools_sha256',{})}.items():
         if sha(path)!=value:raise ValueError('Frozen/retained file changed: '+path)
     return p
@@ -223,7 +257,19 @@ def compare(payload):
     ledger=MainLedger(LEDGER,payload['budget']);ledger.validate(read(LEDGER))
     prior=read(plan['ledger_archive']);current=read(LEDGER)
     if any(current[k][:len(prior[k])]!=prior[k] for k in ('requests','codex_turns')):raise ValueError('Legacy ledger prefix differs')
-    root=BASE/payload['run_id'];root.mkdir(parents=True,exist_ok=True);j=Journal(root/'stages');results=[]
+    root=BASE/payload['run_id'];root.mkdir(parents=True,exist_ok=True);j=Journal(root/'stages');results=[];supplements=[]
+    recovery=plan.get('score_contract_recovery')
+    if recovery:
+        from p6_refresh_recovery import bootstrap,journal_value
+        bootstrap(root,recovery)
+        for label in recovery['supplement_labels']:
+            name='BIP-black-1--'+label+'--Enhanced-interface-supplement'
+            path=root/'supplement-stages'/(name+'.completed.json');path.parent.mkdir(exist_ok=True)
+            if path.exists():value=journal_value(path)
+            else:
+                value=run_model_task(root,payload,'BIP-black-1',label,supplement=True)
+                complete_group(path,name,value)
+            supplements.append(value)
     for task_index,tid in enumerate(TASKS):
         labels=list(MODELS);shift=task_index%len(labels)
         for label in labels[shift:]+labels[:shift]:
@@ -235,9 +281,9 @@ def compare(payload):
                 result=run_model_task(root,payload,tid,label)
                 complete_group(done,name,result)
             results.append(result)
-            if OBSERVER:OBSERVER.closed=len(results)*3
-            (root/'progress.json').write_text(json.dumps({'status':'RUNNING','closed_model_task_groups':len(results),'closed_result_cells':len(results)*3,'expected_result_cells':144,'checked_unix':time.time()},indent=2))
-    receipt={'status':'REFRESH_EXECUTION_COMPLETED_SCIENCE_REVIEW_PENDING','closed_result_cells':144,'results':results,'ledger_sha256':sha(LEDGER),'plan_sha256':plan['plan_sha256'],'old_experiment_replays':0}
+            if OBSERVER:OBSERVER.closed=max(plan.get('score_contract_recovery',{}).get('retained_result_cells',0),len(results)*3)
+            (root/'progress.json').write_text(json.dumps({'status':'RUNNING','closed_model_task_groups':len(results),'closed_result_cells':max(plan.get('score_contract_recovery',{}).get('retained_result_cells',0),len(results)*3),'expected_result_cells':144,'checked_unix':time.time()},indent=2))
+    receipt={'status':'REFRESH_EXECUTION_COMPLETED_SCIENCE_REVIEW_PENDING','closed_result_cells':144,'results':results,'interface_supplements':supplements,'ledger_sha256':sha(LEDGER),'plan_sha256':plan['plan_sha256'],'old_experiment_replays':0}
     exclusive(root/'receipt.json',receipt);(root/'progress.json').write_text(json.dumps({k:v for k,v in receipt.items() if k!='results'},indent=2))
     return {'status':receipt['status'],'root':str(root)}
 
@@ -250,6 +296,10 @@ def controls(payload):
     from p6_refresh_controls import session_controls
     sessions=session_controls(payload['budget'])
     from p6_codex_tools_control import run_controls as actual_tool_controls
+    recovery_control=None
+    if plan.get('score_contract_recovery'):
+        from p6_refresh_recovery import actual_recovery_controls
+        recovery_control=actual_recovery_controls(plan['score_contract_recovery'])
     tools=actual_tool_controls({'vendor':plan['codex_installation_directory'],'missing_binary_directory':'/opt/workbench/model-refresh-20261126/tools/codex-0.172.0','prefix':str(main.BASE/'envs/black-py383'),'budget':payload['budget']})
     rows=[];positives=[]
     for tid in TASKS:
@@ -281,7 +331,7 @@ def controls(payload):
     if sha(LEDGER)!=before:raise ValueError('Controls modified real ledger')
     result={'status':'PASS_REFRESH_ZERO_MODEL_CONTROLS','rows':rows,'public_helper_controls':positives,
         'plan_sha256':plan['plan_sha256'],'source_sha256':plan['source_sha256'],
-        'ledger_sha256_before':before,'ledger_sha256_after':sha(LEDGER),'provider_model_calls':0,'matched_session_control':sessions,'io_accounting_controls':io_control,'actual_codex_tool_controls':tools}
+        'ledger_sha256_before':before,'ledger_sha256_after':sha(LEDGER),'provider_model_calls':0,'matched_session_control':sessions,'io_accounting_controls':io_control,'actual_codex_tool_controls':tools,'recovery_controls':recovery_control}
     exclusive(root/'receipt.json',result)
     return {'status':result['status'],'receipt':str(root/'receipt.json'),'fenced_roles':len(rows),'public_task_positive_negative_controls':len(positives)}
 

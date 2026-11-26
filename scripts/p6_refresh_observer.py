@@ -17,7 +17,7 @@ def owner_identity(pid):
 class Observer:
     def __init__(self,root,plan,ledger):
         self.root,self.plan,self.ledger=Path(root),plan,Path(ledger)
-        self.owner=owner_identity(os.getpid());self.roles={};self.closed=0
+        self.owner=owner_identity(os.getpid());self.roles={};self.closed=plan.get('score_contract_recovery',{}).get('retained_result_cells',0)
         self.state='RUNNING';self.lock=threading.RLock();self.stop=threading.Event()
         self.thread=threading.Thread(target=self.loop,name='refresh-readonly-observer',daemon=True)
     def start(self):
@@ -33,7 +33,7 @@ class Observer:
             raw=self.ledger.read_bytes();value=json.loads(raw)
             snapshot={'status':self.state,'checked_unix':time.time(),'owner':self.owner,
                 'plan_sha256':self.plan['plan_sha256'],'closed_result_cells':self.closed,'expected_result_cells':144,
-                'roles':dict(self.roles),'ledger_sha256':hashlib.sha256(raw).hexdigest(),
+                'roles':dict(self.roles),'retained_model_roles':self.plan.get('score_contract_recovery',{}).get('retained_model_roles',0),'retained_result_cells':self.plan.get('score_contract_recovery',{}).get('retained_result_cells',0),'interface_supplements_separate':bool(self.plan.get('score_contract_recovery')),'ledger_sha256':hashlib.sha256(raw).hexdigest(),
                 'requests':len(value['requests']),'subscription_reservations':len(value['codex_turns']),
                 'cash_bound_usd':value['cash_bound_nano']/1e9,'aggregate_caps':value['aggregate_caps'],
                 'actual_cash':'unavailable','provider_dispatches_by_observer':0,'automatic_recovery':False}

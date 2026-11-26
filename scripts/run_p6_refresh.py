@@ -24,7 +24,7 @@ def native(code,payload,timeout=120):
     return json.loads(r.stdout)
 
 
-def prepare():
+def prepare(recover_from=None):
     budget,budget_sha=authorization(BUDGET)
     folder,sources=old.deploy()
     run_id='refresh-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
@@ -63,6 +63,10 @@ print(json.dumps({'retained_sha256':{p:hashlib.sha256(Path(p).read_bytes()).hexd
         'resource_matching_axis':'TOTAL_MODEL_ACTIVE_SECONDS_CEILING',
         'openai_wire_request_counts':'unavailable unless official Harness telemetry exposes them; no exact equal-wire-count claim',
         'scientific_review_required':True,'old_result_replay':False,'external_release_authorized':False}
+    if recover_from:
+        spec=native("import sys,json;v=json.load(sys.stdin);sys.path[:0]=[v['folder'],v['folder']+'/src'];from p6_refresh_recovery import build_spec;print(json.dumps(build_spec(v['prior_root'])))",{'folder':folder,'prior_root':recover_from},timeout=600)
+        plan['score_contract_recovery']=spec
+        plan['retained_sha256'].update(spec['retained_sha256'])
     plan['plan_sha256']=digest(plan)
     payload={'mode':'controls','run_id':run_id,'plan':plan,'budget':budget,'folder':folder}
     INTAKE.mkdir(parents=True,exist_ok=True);path=INTAKE/(run_id+'.private.json')
@@ -129,6 +133,6 @@ def launch(path):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('action',choices=['prepare','controls','launch']);p.add_argument('--contract');a=p.parse_args()
-    result=prepare() if a.action=='prepare' else controls(a.contract) if a.action=='controls' else launch(a.contract)
+    p=argparse.ArgumentParser();p.add_argument('action',choices=['prepare','controls','launch']);p.add_argument('--contract');p.add_argument('--recover-from');a=p.parse_args()
+    result=prepare(a.recover_from) if a.action=='prepare' else controls(a.contract) if a.action=='controls' else launch(a.contract)
     print(json.dumps(result,ensure_ascii=False))
