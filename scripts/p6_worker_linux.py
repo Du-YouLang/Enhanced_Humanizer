@@ -74,7 +74,9 @@ private_pid_namespace=os.readlink('/proc/self/ns/pid')!=j['parent_namespace'])))
         if job['backend']=='codex':spec['readonly'].append(str(auth))
         p=subprocess.run([*wrapper(fence),sys.executable,'-B','-c',code,json.dumps(spec)],
                          cwd=job['work'],capture_output=True,text=True,timeout=20)
-        if p.returncode:raise RuntimeError('P6 actual runtime fence probe did not execute')
+        if p.returncode:
+            exclusive_json(Path(job['root'])/'fence-probe-failed.private.json',{'exit_code':p.returncode,'stdout':p.stdout,'stderr':p.stderr,'spec':spec})
+            raise RuntimeError('P6 actual runtime fence probe did not execute')
         row=json.loads(p.stdout)
         expected='WRITE_DENIED' if job['role']=='verifier' else 'WRITE_ALLOWED'
         row['verdict']='PASS' if row['uid']!=0 and row['cap_eff']=='0000000000000000' and row['private_pid_namespace'] and row['own_workspace']==expected and row['denied']==['DENIED']*len(spec['denied']) and row['readonly']==['DENIED']*len(spec['readonly']) and row['authority_writes']==['DENIED']*len(spec['write_denied']) else 'FAIL'
@@ -160,9 +162,16 @@ def main():
                 (Path(job['root'])/'public-check.private.log').write_text(p.stdout+p.stderr)
                 if p.returncode!=job.get('offline_public_expected_exit',0):raise RuntimeError('Actual public scratch-copy check returned an unexpected baseline result')
             value.update(kind='ZERO_MODEL_CONTROL',status='COMPLETED')
-            if job.get('guidance_session_resume'):
+            if job.get('refresh_judge_resume'):
+                from p6_refresh_session_resume import resume
+                value['session_resume_probe']=asyncio.run(resume(driver,job,Sink(),probe=True))
+            elif job.get('guidance_session_resume'):
                 from p6_guidance_session_resume import resume
                 value['session_resume_probe']=asyncio.run(resume(driver,job,Sink(),probe=True))
+        elif job.get('refresh_judge_resume'):
+            from p6_refresh_session_resume import resume
+            answer=asyncio.run(resume(driver,job,Sink()))
+            value.update(status='COMPLETED',answer=answer,original_session_resumed=True)
         elif job.get('guidance_session_resume'):
             from p6_guidance_session_resume import resume
             answer=asyncio.run(resume(driver,job,Sink()))
@@ -192,6 +201,13 @@ def main():
                     completed=verify_session(usage,turns,model)
                 else:completed=completed_session(usage,turns)
                 value.update(usage=usage,model_id=completed['model_id'],session_id=completed['session_id'])
+                if job.get('refresh_judge_resume'):
+                    from p6_guidance_shutdown import usage_segments
+                    d=job['refresh_judge_resume'];before=d['prior_usage'];basis='MONOTONIC_SESSION_COUNTERS'
+                    try:before,delta=usage_segments(before,completed['usage'])
+                    except ValueError:delta='unavailable';basis='RESUMED_COUNTER_BASIS_UNRESOLVED'
+                    value['usage']=[dict(completed,usage=before,usage_segment='BEFORE_USER_SHUTDOWN'),dict(completed,usage=delta,usage_segment='RESUMED_DELTA')]
+                    value.update(session_usage_total=completed['usage'],prior_role_seconds_debited=d['prior_seconds'],original_interrupted_scope=d['original_scope'],usage_accounting_basis=basis)
                 if job.get('guidance_session_resume'):
                     from p6_guidance_shutdown import usage_segments
                     previous=job['guidance_session_resume']['prior_usage']
