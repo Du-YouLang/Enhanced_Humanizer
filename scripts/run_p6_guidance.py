@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import quiet_process
 import sys
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -27,7 +28,7 @@ def native(code,value,timeout=90):
 
 def deploy():
     # A new content-addressed snapshot. Old source trees are never overwritten.
-    tracked=subprocess.check_output(['git','ls-files','-z'],cwd=ROOT).decode().split('\0')
+    tracked=quiet_process.check_output(['git','ls-files','-z'],cwd=ROOT).decode().split('\0')
     tracked += [str(p.relative_to(ROOT)).replace('\\','/') for p in (ROOT/'scripts').glob('*guidance*.py')]
     files={}
     for name in set(tracked):
@@ -73,7 +74,7 @@ print(json.dumps({'retained_sha256':{str(p):hashlib.sha256(p.read_bytes()).hexdi
         'source_sha256':sources,'retained_sha256':pins['retained_sha256'],'budget':budget,
         'budget_authorization_sha256':budget_sha,'ledger_archive':archive,'manifest':manifest,
         'controls_receipt':'/opt/workbench/benchmark/private/guidance/'+run_id+'-controls/receipt.json',
-        'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+        'source_commit':quiet_process.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         'analysis':'Paired one-seed pilot; report initial and both branches, repair/regression counts and provider-separated tokens. Shared-first projections are not additive bills; no equal-token or universal claim.',
         'scientific_acceptance':'Frozen current numeric thresholds plus independent Sol source/report/figure review; no old-result replacement.',
         'recovery':'Completed journal substeps reused, started-without-completion blocked; never automatic model replay.'}
@@ -135,7 +136,7 @@ with Path('/opt/workbench/pi-comparison/full-main-owner.lock').open('a') as lock
     plan=copy.deepcopy(old['plan']);plan.update(source_sha256=sources,retained_sha256=snapshot['retained_sha256'],
         ledger_archive=snapshot['ledger_archive'],budget=budget,budget_authorization_sha256=budget_sha,
         controls_receipt='/opt/workbench/benchmark/private/guidance/'+run_id+'-controls/receipt.json',
-        source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+        source_commit=quiet_process.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         recovery={'revision':'GUIDANCE_HELPER_RECOVERY_20261016','original_run':ORIGINAL_RUN,'original_payload':old,
             'retained_tasks':list(RETAINED_TASKS),'partial_task':PARTIAL_TASK,'new_tasks':list(NEW_TASKS),
             'checkpoint_sha256':snapshot['checkpoint_sha256'],'model_programs':snapshot['model_programs'],
@@ -161,17 +162,17 @@ def operate(mode,path):
         raise ValueError('Actual exact-source CI receipt required')
     commit=evidence.get('functional_commit','')
     if not __import__('re').fullmatch('[0-9a-f]{40}',commit):raise ValueError('Exact tested functional commit required')
-    subprocess.run(['git','merge-base','--is-ancestor',commit,'HEAD'],cwd=ROOT,check=True)
+    quiet_process.run(['git','merge-base','--is-ancestor',commit,'HEAD'],cwd=ROOT,check=True)
     for absolute,expected in payload['plan']['source_sha256'].items():
         name=absolute.removeprefix(folder+'/')
         if name.startswith('flows/'):repository='.hmz/'+name
         elif name=='pi_full_protocol.py':repository='benchmarks/pi-comparison/runners/'+name
         elif name=='science-clarifications-v1.md':repository='benchmarks/pi-comparison/tasks/'+name
         else:repository=name if name.startswith('src/') else 'scripts/'+name
-        raw=subprocess.check_output(['git','show',commit+':'+repository],cwd=ROOT).decode('utf8').replace('\r\n','\n')
+        raw=quiet_process.check_output(['git','show',commit+':'+repository],cwd=ROOT).decode('utf8').replace('\r\n','\n')
         if hashlib.sha256(raw.replace('/opt/workbench/source',folder).encode()).hexdigest()!=expected:
             raise ValueError('Native snapshot differs from exact CI source: '+repository)
-    source_changed=subprocess.check_output(['git','diff','--name-only','HEAD','--','scripts','.hmz','configs'],cwd=ROOT).strip()
+    source_changed=quiet_process.check_output(['git','diff','--name-only','HEAD','--','scripts','.hmz','configs'],cwd=ROOT).strip()
     if source_changed:raise ValueError('Commit exact implementation before launch')
     old=authorization(OLD)[0]
     gate=native('''import sys,json,fcntl,hashlib;from pathlib import Path
@@ -227,7 +228,7 @@ print(json.dumps(snapshot(d)))''',{'folder':folder,'run_id':run_id,'original':ol
     retained=saved.pop('retained_sha256')
     plan.update(source_sha256=sources,retained_sha256=retained,budget=budget,budget_authorization_sha256=budget_sha,
         ledger_archive=saved['ledger_archive'],controls_receipt='/opt/workbench/benchmark/private/guidance/'+run_id+'-controls/receipt.json',
-        shutdown_continuation=saved,source_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip())
+        shutdown_continuation=saved,source_commit=quiet_process.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip())
     plan.pop('plan_sha256',None);plan['plan_sha256']=digest(plan);validate_plan(plan)
     payload={'mode':'controls','run_id':run_id,'plan':plan,'budget':budget,'folder':folder}
     path=INTAKE/(run_id+'.private.json')

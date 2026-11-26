@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import quiet_process
 import sys
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'scripts')]
@@ -57,7 +58,7 @@ print(json.dumps({'retained_sha256':{p:hashlib.sha256(Path(p).read_bytes()).hexd
         'codex_binary_directory':vendor+'/bin','codex_installation_directory':vendor,'runtime_tools_sha256':tool_pins,
         'infrastructure_trial_supersedes':'refresh-20261126T032113Z: five tool-host-blocked roles retained, zero closed model-task groups, no hidden acceptance',
         'codex_binary_sha256':'ad83b94c093f0cdd8176a6bc8005a461bdf23a759863e157d40f562b8a9d664d',
-        'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+        'source_commit':quiet_process.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
         'effort':'low','builder_pool_concurrency':3,'public_gpu_acceptance_concurrency':1,'request_output_tokens':256000,'request_timeout_seconds':600,
         'reviewer_and_judges':'fixed-gpt-6.1-sol','matched_control':'one official session six bounded turns; match total model-active-time ceiling, actual tokens/requests/costs reported separately',
         'resource_matching_axis':'TOTAL_MODEL_ACTIVE_SECONDS_CEILING',
@@ -85,9 +86,9 @@ def controls(path):
 
 def verify_ci_and_source(payload):
     commit=payload['plan']['source_commit'];folder=payload['folder']
-    if subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()!=commit:
+    if quiet_process.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()!=commit:
         raise ValueError('Freeze after committing the exact source')
-    if subprocess.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=ROOT).strip():
+    if quiet_process.check_output(['git','status','--porcelain','--untracked-files=no'],cwd=ROOT).strip():
         raise ValueError('Tracked working tree differs from committed source')
     for absolute,expected in payload['plan']['source_sha256'].items():
         name=absolute.removeprefix(folder+'/')
@@ -95,11 +96,11 @@ def verify_ci_and_source(payload):
         elif name=='pi_full_protocol.py':repository='benchmarks/pi-comparison/runners/'+name
         elif name=='science-clarifications-v1.md':repository='benchmarks/pi-comparison/tasks/'+name
         else:repository=name if name.startswith('src/') else 'scripts/'+name
-        raw=subprocess.check_output(['git','show',commit+':'+repository],cwd=ROOT).decode('utf8').replace('\r\n','\n')
+        raw=quiet_process.check_output(['git','show',commit+':'+repository],cwd=ROOT).decode('utf8').replace('\r\n','\n')
         if hashlib.sha256(raw.replace('/opt/workbench/source',folder).encode()).hexdigest()!=expected:
             raise ValueError('Frozen snapshot differs from exact CI commit: '+repository)
     env=os.environ|{'HTTPS_PROXY':'http://127.0.0.1:7897','HTTP_PROXY':'http://127.0.0.1:7897','GH_PROMPT_DISABLED':'1'}
-    response=subprocess.run(['gh','api','repos/Du-YouLang/Enhanced_Humanizer/commits/'+commit+'/check-runs'],
+    response=quiet_process.run(['gh','api','repos/Du-YouLang/Enhanced_Humanizer/commits/'+commit+'/check-runs'],
         env=env,cwd=ROOT,capture_output=True,text=True,check=True)
     checks=json.loads(response.stdout)['check_runs'];required=('integrity','secrets','linux-budget')
     selected=[]
