@@ -119,10 +119,14 @@ def main():
         ledger=Ledger('/opt/workbench/state/p6-budget/ledger.json',phase='P6',requests=200,codex_turns=32,cash_nano=5_000_000_000)
     label='verifier' if role=='verifier' else 'reviewer' if role=='reviewer' else 'builder'
     model='deepseek-flash' if job['backend']=='dsh' else 'gpt-6.1-sol'
+    refresh=job.get('budget',{}).get('cash_budget_revision')=='USER_APPROVED_2026-11-26_MODEL_REFRESH_25000_USD500'
+    if refresh:
+        from p6_refresh_protocol import model_for_job
+        model=model_for_job(job)
     transform=task_fence(job)
     driver=MeteredDriver(f'{label}={job["backend"]}/{model}:low',RoleLedger(ledger),job['scope'],turns,1,
-                         job['role_seconds'] if main_phase else (600 if job['backend']=='dsh' else 115),permission=permission,fence_transform=transform,
-                         external_readonly=role=='verifier',turn_seconds_ceiling=job['role_seconds'] if main_phase else 600)
+                         job.get('refresh_per_turn_seconds',job['role_seconds']) if main_phase else (600 if job['backend']=='dsh' else 115),permission=permission,fence_transform=transform,
+                         external_readonly=role=='verifier',turn_seconds_ceiling=job.get('refresh_per_turn_seconds',job['role_seconds']) if main_phase else 600)
     value={'kind':'REAL_MODEL_EXPERIMENT','status':'RUNNING','turns':turns,'scope':job['scope'],
            'role':role,'execution_mode':job['execution_mode'],'input_sha256':job['input_sha256'],
            'configured_role_seconds':job['role_seconds'],'effective_harness_turn_seconds':driver.turn_seconds}
@@ -134,6 +138,15 @@ def main():
             fence=Fence.of(local='read' if role=='verifier' else 'all',user='none',system='none',online=False,
                            workdir=job['work'],home=Path.home(),write=(os.environ.get('CODEX_HOME',str(Path.home()/'.codex')),))
             fence=transform(fence)
+            if refresh and job['backend']=='codex':
+                import hashlib,shutil
+                binary=shutil.which('codex')
+                if not binary or hashlib.sha256(Path(binary).read_bytes()).hexdigest()!=job['refresh_cli_sha256']:
+                    raise ValueError('Actual CLI selected by official Harness differs')
+                from hmz.coganchor.fence import wrapper
+                version=subprocess.run([*wrapper(fence),binary,'--version'],cwd=job['work'],capture_output=True,text=True,timeout=20)
+                if version.returncode:raise ValueError('Pinned CLI failed inside actual OS fence')
+                value['native_cli_control']={'binary':binary,'sha256':job['refresh_cli_sha256'],'version':version.stdout.strip(),'model_calls':0}
             if job.get('offline_public_command'):
                 from hmz.coganchor.fence import wrapper
                 p=subprocess.run([*wrapper(fence),*job['offline_public_command']],cwd=job['work'],
@@ -148,6 +161,10 @@ def main():
             from p6_guidance_session_resume import resume
             answer=asyncio.run(resume(driver,job,Sink()))
             value.update(status='COMPLETED',answer=answer,original_session_resumed=True)
+        elif refresh and job.get('refresh_slots')==6:
+            from p6_refresh_sessions import run_matched
+            answer,slots=asyncio.run(run_matched(driver,job))
+            value.update(status='COMPLETED',answer=answer,matched_slot_receipts=slots)
         elif job['execution_mode']=='native_driver':
             answer=asyncio.run(native_turn(driver,job));value.update(status='COMPLETED',answer=answer)
         else:
@@ -163,7 +180,11 @@ def main():
             value.update(epic=str(run.epic));value.update(answer=run.run(),status='COMPLETED')
         if not job.get('offline_control'):
             if job['backend']=='codex':
-                usage=collect(Path(job['root']));completed=completed_session(usage,turns)
+                usage=collect(Path(job['root']))
+                if refresh:
+                    from p6_refresh_protocol import verify_session
+                    completed=verify_session(usage,turns,model)
+                else:completed=completed_session(usage,turns)
                 value.update(usage=usage,model_id=completed['model_id'],session_id=completed['session_id'])
                 if job.get('guidance_session_resume'):
                     from p6_guidance_shutdown import usage_segments

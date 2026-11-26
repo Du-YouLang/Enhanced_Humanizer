@@ -174,7 +174,11 @@ def launch(job,env):
         if job.get('deepseek_transport_policy'):
             from p6_network_recovery import RecoveryBroker
             make_broker=RecoveryBroker
-        broker=make_broker(ACTIVE['key'],ScopedLedger(ACTIVE['ledger'],job['scope'],request_cap=ACTIVE['payload']['budget']['per_role_inference_requests'] if ACTIVE.get('main_phase') else 20,cash_cap=None if ACTIVE.get('main_phase') else 1_000_000_000),
+        scoped_ledger=ScopedLedger(ACTIVE['ledger'],job['scope'],request_cap=ACTIVE['payload']['budget']['per_role_inference_requests'] if ACTIVE.get('main_phase') else 20,cash_cap=None if ACTIVE.get('main_phase') else 1_000_000_000)
+        if job.get('refresh_slots')==6:
+            from p6_refresh_sessions import MatchedSlotLedger
+            scoped_ledger=MatchedSlotLedger(ACTIVE['ledger'],job)
+        broker=make_broker(ACTIVE['key'],scoped_ledger,
                       job['scope'],min(ACTIVE['deadline'],time.monotonic()+job['role_seconds']),
                       job.get('deepseek_transport_policy',ACTIVE['payload']['budget']) if ACTIVE.get('main_phase') else {})
         broker.start();job=dict(job,capability=broker.capability,broker_url=broker.url)
