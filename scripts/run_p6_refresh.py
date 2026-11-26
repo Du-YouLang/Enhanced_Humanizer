@@ -43,7 +43,8 @@ print(json.dumps({'retained_sha256':{p:hashlib.sha256(Path(p).read_bytes()).hexd
         'manifest':manifest,'budget_authorization_sha256':budget_sha,
         'source_sha256':sources,'retained_sha256':snapshot['retained_sha256'],
         'prior_ledger_sha256':snapshot['ledger_sha256'],
-        'ledger_archive':'/opt/workbench/model-refresh-20261126/'+run_id+'-ledger-before.json',
+        'ledger_archive':'/opt/workbench/benchmark/private/model-refresh/'+run_id+'-ledger-before.json',
+        'io_accounting':'PER_METHOD_CGROUP_PSI_FULL_STALL_SECONDARY_ESTIMATE',
         'controls_receipt':'/opt/workbench/benchmark/private/model-refresh/'+run_id+'-controls/receipt.json',
         'codex_binary_directory':'/opt/workbench/model-refresh-20261126/tools/codex-0.172.0',
         'codex_binary_sha256':'ad83b94c093f0cdd8176a6bc8005a461bdf23a759863e157d40f562b8a9d664d',
@@ -62,7 +63,9 @@ print(json.dumps({'retained_sha256':{p:hashlib.sha256(Path(p).read_bytes()).hexd
 
 def controls(path):
     payload=json.loads(Path(path).read_bytes());payload['mode']='controls'
-    result=native("import json,sys;v=json.load(sys.stdin);sys.path[:0]=[v['folder'],v['folder']+'/src'];from p6_refresh_linux import entry;print(json.dumps(entry(v)))",payload,timeout=2400)
+    r=run(['/opt/workbench/.venv-linux/bin/python','-B',payload['folder']+'/p6_refresh_root.py'],user='root',input_bytes=json.dumps(payload).encode(),timeout=2400)
+    if r.returncode:raise RuntimeError(r.stderr.decode(errors='replace')[-4000:])
+    result=json.loads(r.stdout)
     receipt=Path(path).with_name(Path(path).stem+'-controls.private.json')
     receipt.write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding='utf8');return result
 
@@ -106,23 +109,10 @@ def launch(path):
     native("import sys,json;v=json.load(sys.stdin);sys.path[:0]=[v['folder'],v['folder']+'/src'];from p6_refresh_linux import prelaunch;print(json.dumps(prelaunch(v)))",payload,timeout=600)
     import yaml
     payload['key']=yaml.safe_load((Path(os.environ['USERPROFILE'])/'.dsh/.credentials.yaml').read_text(encoding='utf8'))['refs']['DEEPSEEK_API_KEY']
-    code="""import sys;sys.path.insert(0,"""+repr(folder)+""");from p1_broker import protect_memory;protect_memory()
-import json,subprocess,time,hashlib
-from pathlib import Path
-v=json.load(sys.stdin);folder=v['folder'];root=Path('/opt/workbench/model-refresh-20261126/launches');root.mkdir(parents=True,exist_ok=True)
-marker=root/(v['run_id']+'.json')
-if marker.exists():raise ValueError('Existing launch: reconcile owner/journal; never replay automatically')
-command=['/opt/workbench/.venv-linux/bin/python','-B',folder+'/p6_refresh_linux.py']
-with (root/(v['run_id']+'.private.log')).open('xb') as log:
- child=subprocess.Popen(command,stdin=subprocess.PIPE,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
- child.stdin.write(json.dumps(v).encode());child.stdin.close()
- from p6_refresh_observer import owner_identity
- owner=owner_identity(child.pid)
- value={'status':'DISPATCHED_OWNER_HEARTBEAT_VERIFICATION_REQUIRED','owner':owner,'run_id':v['run_id'],'folder':folder,'plan_sha256':v['plan']['plan_sha256'],'started_unix':time.time(),'automatic_model_replay':False}
- with marker.open('x') as f:json.dump(value,f,indent=2)
- print(json.dumps(value))
-"""
-    try:receipt=native(code,payload)
+    try:
+        r=run(['/opt/workbench/.venv-linux/bin/python','-B',folder+'/p6_refresh_root.py'],user='root',input_bytes=json.dumps(payload).encode(),timeout=120)
+        if r.returncode:raise RuntimeError(r.stderr.decode(errors='replace')[-2000:])
+        receipt=json.loads(r.stdout)
     finally:payload.pop('key',None)
     receipt['exact_ci']=ci
     with path.with_name(path.stem+'-launch.private.json').open('x',encoding='utf8') as f:json.dump(receipt,f,ensure_ascii=False,indent=2)

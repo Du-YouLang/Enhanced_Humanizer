@@ -49,6 +49,12 @@ for p in j['denied']:
  except PermissionError:state='DENIED'
  except FileNotFoundError:state='MISSING_NOT_PROOF'
  denied.append(state)
+authority_writes=[]
+for p in j.get('write_denied',[]):
+ try:
+  with open(p,'ab'):pass
+  authority_writes.append('ALLOWED_FAILURE')
+ except PermissionError:authority_writes.append('DENIED')
 readonly=[]
 for p in j['readonly']:
  with open(p,'rb') as f:f.read(1)
@@ -59,19 +65,19 @@ for p in j['readonly']:
 p=Path('.p6-probe')
 try:p.write_text('probe');p.unlink();write='WRITE_ALLOWED'
 except PermissionError:write='WRITE_DENIED'
-print(json.dumps(dict(denied=denied,readonly=readonly,own_workspace=write,uid=os.getuid(),
+print(json.dumps(dict(denied=denied,readonly=readonly,authority_writes=authority_writes,own_workspace=write,uid=os.getuid(),
 cap_eff=next(l.split()[-1] for l in Path('/proc/self/status').read_text().splitlines() if l.startswith('CapEff:')),
 private_pid_namespace=os.readlink('/proc/self/ns/pid')!=j['parent_namespace'])))
 '''
         spec={'denied':job['denied_paths'],'readonly':[job['input_file'],job['prefix']+'/conda-meta/history'],
-              'parent_namespace':job['parent_namespace']}
+              'parent_namespace':job['parent_namespace'],'write_denied':job.get('authority_write_denied_paths',[])}
         if job['backend']=='codex':spec['readonly'].append(str(auth))
         p=subprocess.run([*wrapper(fence),sys.executable,'-B','-c',code,json.dumps(spec)],
                          cwd=job['work'],capture_output=True,text=True,timeout=20)
         if p.returncode:raise RuntimeError('P6 actual runtime fence probe did not execute')
         row=json.loads(p.stdout)
         expected='WRITE_DENIED' if job['role']=='verifier' else 'WRITE_ALLOWED'
-        row['verdict']='PASS' if row['uid']!=0 and row['cap_eff']=='0000000000000000' and row['private_pid_namespace'] and row['own_workspace']==expected and row['denied']==['DENIED']*len(spec['denied']) and row['readonly']==['DENIED']*len(spec['readonly']) else 'FAIL'
+        row['verdict']='PASS' if row['uid']!=0 and row['cap_eff']=='0000000000000000' and row['private_pid_namespace'] and row['own_workspace']==expected and row['denied']==['DENIED']*len(spec['denied']) and row['readonly']==['DENIED']*len(spec['readonly']) and row['authority_writes']==['DENIED']*len(spec['write_denied']) else 'FAIL'
         exclusive_json(Path(job['root'])/'isolation.json',row)
         if row['verdict']!='PASS':raise RuntimeError('P6 task isolation failed closed')
         checked=True

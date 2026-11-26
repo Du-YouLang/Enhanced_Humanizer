@@ -150,4 +150,22 @@ class RefreshAccountingTests(unittest.TestCase):
             Path(job['refresh_slot_file']).write_text(json.dumps({'index':7,'scope':'arbitrary'}))
             with self.assertRaises(ValueError):ledger.reserve_request('ignored')
 
+class IOAccountingTests(unittest.TestCase):
+    def test_adjustment_uses_full_union_not_some_or_summed_process_delays(self):
+        from p6_io_accounting import pressure,correction
+        a=pressure('some avg10=0.0 total=1000000\nfull avg10=0.0 total=500000\n')
+        b=pressure('some avg10=20.0 total=9000000\nfull avg10=10.0 total=2500000\n')
+        v=correction(a,b,10)
+        self.assertEqual(v['some_local_io_stall_seconds'],8)
+        self.assertEqual(v['full_local_io_stall_seconds'],2)
+        self.assertEqual(v['io_adjusted_elapsed_estimate_seconds'],8)
+        self.assertEqual(v['primary_metric'],'RAW_ELAPSED')
+    def test_missing_or_incompatible_accounting_never_becomes_zero(self):
+        from p6_io_accounting import pressure,correction,group_path
+        for raw in ('some total=0','some total=nan\nfull total=0','some total=1\nfull total=2'):
+            with self.assertRaises(ValueError):pressure(raw)
+        with self.assertRaises(ValueError):correction({'some':0,'full':0},{'some':10000000,'full':9000000},1)
+        with self.assertRaises(ValueError):group_path('../other-project')
+        self.assertTrue(str(group_path('refresh-20261126T030117Z')).replace('\\','/').endswith('/non-systemd/eh-refresh-20261126T030117Z'))
+
 if __name__=='__main__':unittest.main()
