@@ -48,7 +48,17 @@ attempts=[]
 for method in ('Direct','Enhanced'):
  prefix='REFRESH/refresh-20261126T032113Z/BIP-black-1/GPT61-Sol/'+method
  attempts.append({'cell':['BIP-black-1','GPT61-Sol',method],'kind':'RETAINED_MISSING_CODE_MODE_HOST_INFRASTRUCTURE_PREFIX','metrics':summarize(ledger,workers,prefix)})
-print(json.dumps({'run_id':rid,'groups':groups('stages/*.completed.json'),'interface_supplements':groups('supplement-stages/*.completed.json'),
+all_workers={}
+for origin in source_runs:
+ origin_root=base/origin
+ paths=list(origin_root.glob('*/*/*/controller-outcome.json'))+list(origin_root.glob('supplements/*/*/*/controller-outcome.json'))
+ for worker_path in paths:
+  if worker_path.parent.name not in ('direct','matched','pool-A','pool-B','pool-C','reviewer','judge-input','judge-final'):continue
+  if worker_path.is_symlink() or any(p.is_symlink() for p in worker_path.parents if p!=origin_root and origin_root in p.parents):raise ValueError('Untrusted worker outcome link')
+  worker=json.loads(worker_path.read_bytes())
+  if isinstance(worker,dict) and isinstance(worker.get('scope'),str):all_workers[str(worker_path)]=worker
+all_attempts=summarize(ledger,all_workers,'REFRESH')
+print(json.dumps({'run_id':rid,'groups':groups('stages/*.completed.json'),'interface_supplements':groups('supplement-stages/*.completed.json'),'all_refresh_accounting_reference':all_attempts,
  'infrastructure_attempts':attempts,'science_adjudications':[],
  'budget':{'requests':len(ledger['requests']),'subscriptions':len(ledger['codex_turns']),'conservative_bound_usd':ledger['cash_bound_nano']/1e9,'caps':ledger['aggregate_caps'],'actual_cash':'unavailable','ledger_sha256':hashlib.sha256(raw).hexdigest()},
  'snapshot_schema':'MODEL_REFRESH_REPORT_V1','provenance':{'execution_source_commits_by_run':source_runs,'plan_sha256':v['plan']['plan_sha256'],'native_source_commit':v['plan']['source_commit'],'export_model_dispatches':0,'export_candidate_executions':0,'raw_records_edited':False}}))

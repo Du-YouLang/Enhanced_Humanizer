@@ -61,9 +61,14 @@ class AnalysisTests(unittest.TestCase):
         for r in rows:
             if not r['task_id'].startswith('SCI-'):continue
             audits.append({'cell':[r['task_id'],r['model'],r['method']],'row_sha256':digest(r),'program_sha256':'1'*64,'independent_review':True,'status':'PASS','numerical':'PASS','source_method':'PASS','report':'PASS','figure':'PASS','evidence':['MOCK independent review']})
-        snap['science_adjudications']=audits;result=build(snap,final=True)
+        snap['science_adjudications']=audits;snap['all_refresh_accounting_reference']=metrics(144);result=build(snap,final=True)
         self.assertEqual(result['status'],'FINAL_REVIEWED_144');self.assertEqual(len(result['summary']),9)
         self.assertTrue(all(s['successes']==16 for s in result['summary']))
+        self.assertEqual(result['accounting_reconciliation']['status'],'EXACT_ALL_ATTEMPTS_RECONCILED')
+        snap['all_refresh_accounting_reference']['openai']['input_tokens_recorded']+=10
+        with self.assertRaisesRegex(ValueError,'does not reconcile'):build(snap,final=True)
+        snap.pop('all_refresh_accounting_reference')
+        with self.assertRaisesRegex(ValueError,'accounting reference'):build(snap,final=True)
     def test_cache_is_subset_unknown_is_lower_bound_and_invalid_io_is_rejected(self):
         r=row();r['metrics']['deepseek'].update(requests=2,unknown_usage_requests=1)
         t=telemetry(r);self.assertTrue(t['deepseek']['lower_bound']);self.assertEqual(t['deepseek']['input_tokens_known'],10)

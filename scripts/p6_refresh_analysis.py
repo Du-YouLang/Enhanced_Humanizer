@@ -185,13 +185,37 @@ def paired_comparisons(reviewed):
     return output
 
 
+def accounting_reconciliation(summary,reference,*,final=False):
+    # A final directory must account for ALL refresh attempts across all three
+    # run IDs, including retained infrastructure prefixes and supplements.
+    fields={'deepseek':('requests','known_usage_requests','unknown_usage_requests','input_tokens_known','cache_read_input_tokens_known','output_tokens_known'),
+            'openai':('subscription_reservations','recorded_session_usage_segments','input_tokens_recorded','cached_input_tokens_subset','output_tokens_recorded')}
+    if reference is None:
+        if final:raise ValueError('Final report requires independent all-refresh accounting reference')
+        return {'status':'REFERENCE_UNAVAILABLE_PROGRESS_ONLY'}
+    comparisons={};equal=True
+    for provider,names in fields.items():
+        expected=telemetry({'metrics':reference})[provider]
+        if expected is None:raise ValueError('Provider accounting reference unavailable')
+        actual=[row['all_attempt_'+provider] for row in summary if row['all_attempt_'+provider]is not None]
+        comparisons[provider]={}
+        for name in names:
+            observed=sum(v[name] for v in actual);target=expected[name]
+            comparisons[provider][name]={'closed_directory':observed,'all_refresh_attempts':target,'difference':target-observed}
+            equal=equal and observed==target
+    if final and not equal:raise ValueError('Final refresh accounting does not reconcile with all retained attempts')
+    return {'status':'EXACT_ALL_ATTEMPTS_RECONCILED' if equal else 'PROGRESS_UNCLOSED_OR_INFLIGHT_USAGE_REMAINS','comparisons':comparisons}
+
+
 def build(snapshot,*,final=False):
     rows=[r for g in snapshot.get('groups',[]) for r in g['rows']]
     supplements=[r for g in snapshot.get('interface_supplements',[]) for r in g['rows']]
     raw,reviewed=views(rows,supplements,snapshot.get('science_adjudications',[]),final=final)
+    summary=summaries(raw,reviewed,snapshot.get('infrastructure_attempts',[]))
+    accounting=accounting_reconciliation(summary,snapshot.get('all_refresh_accounting_reference'),final=final)
     return {'status':'FINAL_REVIEWED_144' if final else 'PROGRESS_SNAPSHOT_NOT_FINAL','unique_cells':len(raw),'expected_cells':144,
         'science_audits':len(snapshot.get('science_adjudications',[])),'interface_supplements_separate':len(supplements),
-        'summary':summaries(raw,reviewed,snapshot.get('infrastructure_attempts',[])),'paired':paired_comparisons(reviewed),'raw_rows':[raw[k] for k in sorted(raw)],
+        'summary':summary,'accounting_reconciliation':accounting,'paired':paired_comparisons(reviewed),'raw_rows':[raw[k] for k in sorted(raw)],
         'reviewed_rows':[reviewed[k] for k in sorted(reviewed)],'run_id':snapshot.get('run_id'),'provenance':snapshot.get('provenance'),
         'budget':snapshot.get('budget'),'infrastructure_attempts_separate':snapshot.get('infrastructure_attempts',[]),'shared_projections_not_additive_bills':True,
         'limitations':['Resource match is total model-active-time ceiling, not equal realized tokens/calls/cash.',
