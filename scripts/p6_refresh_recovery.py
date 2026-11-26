@@ -2,6 +2,7 @@
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import shutil
@@ -12,7 +13,10 @@ LABELS=('GPT61-Sol','GPT62-Sol')
 
 
 def read(path):return json.loads(Path(path).read_bytes())
-def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+def sha(path):
+    p=Path(path)
+    raw=b'symlink\0'+os.fsencode(os.readlink(p)) if p.is_symlink() else p.read_bytes()
+    return hashlib.sha256(raw).hexdigest()
 
 
 def journal_value(path):
@@ -25,8 +29,11 @@ def journal_value(path):
 def tree_pins(root):
     root=Path(root);pins={}
     for p in sorted(root.rglob('*')):
-        if p.is_symlink():raise ValueError('Retained worktree symlink is not transferable')
-        if p.is_file():pins[str(p)]=sha(p)
+        if p.is_symlink():
+            target=Path(os.readlink(p))
+            if target.is_absolute() or not p.resolve().is_relative_to(root.resolve()):raise ValueError('Retained worktree link escapes its root')
+            pins[str(p)]=sha(p)
+        elif p.is_file():pins[str(p)]=sha(p)
     return pins
 
 
@@ -98,7 +105,7 @@ def seed_partial(journal,dest,spec):
         return
     source=Path(spec['partial_work']);target=Path(dest)/'matched';target.mkdir()
     for name in ('home','git-tmp','tmp','cache'):(target/name).mkdir()
-    before=tree_pins(source);shutil.copytree(source,target/'code')
+    before=tree_pins(source);shutil.copytree(source,target/'code',symlinks=True)
     copied=tree_pins(target/'code')
     if {str(Path(p).relative_to(source)):h for p,h in before.items()}!={str(Path(p).relative_to(target/'code')):h for p,h in copied.items()}:
         raise ValueError('Copied completed program differs')
@@ -130,6 +137,12 @@ def actual_recovery_controls(spec):
     validate_spec(spec)
     with tempfile.TemporaryDirectory(prefix='refresh-recovery-control-',dir='/opt/workbench/tmp') as temp:
         root=Path(temp);bootstrap(root,spec)
+        links=root/'link-controls';links.mkdir();(links/'internal').symlink_to('not-generated.txt')
+        assert len(tree_pins(links))==1
+        (links/'escape').symlink_to('../outside.txt')
+        try:tree_pins(links)
+        except ValueError:pass
+        else:raise AssertionError('Escaping link must be denied')
         stage=root/'partial/control/stages';j=Journal(stage)
         seed_partial(j,root/'partial',spec)
         def deny():raise AssertionError('Completed model was replayed')
@@ -150,5 +163,5 @@ def actual_recovery_controls(spec):
             assert len(values)==3 and len(workers)==3
             pools.append({'label':label,'candidate_ids':[c['id'] for c in values],'actual_J3_status':result['status']})
     return {'status':'PASS_ACTUAL_RETAINED_JOURNAL_CODE_AND_J3_CONTROLS','retained_result_cells':6,
-            'retained_model_roles':17,'completed_DS_session_reused':True,'copy_hashes_equal':True,
+            'retained_model_roles':17,'completed_DS_session_reused':True,'copy_hashes_equal':True,'internal_dangling_link_preserved':True,'escaping_link_denied':True,
             'candidate_executions':0,'provider_calls':0,'real_ledger_writes':0,'pools':pools}

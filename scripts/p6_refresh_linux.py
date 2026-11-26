@@ -31,7 +31,9 @@ OBSERVER=None
 
 
 def read(p):return json.loads(Path(p).read_bytes())
-def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+def sha(p):
+    from p6_refresh_recovery import sha as pinned_sha
+    return pinned_sha(p)
 
 
 def measured_test(tester,source,hidden=False):
