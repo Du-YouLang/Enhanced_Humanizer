@@ -9,13 +9,38 @@ import re
 import sys
 from p6_refresh_analysis import build,telemetry,method_label
 
-EXPORT=r"""import json,sys,pathlib,hashlib
+def continuation_sources(base,original_run):
+    """Bind actual launched continuation records; never infer launch from prepare."""
+    from pathlib import Path
+    import json,re,hashlib
+    sources={};proofs=[]
+    for path in sorted(Path(base).glob('refresh-*/continuation.json')):
+        launch=path.parent/'launch.json'
+        if not launch.exists():continue
+        detail=json.loads(path.read_bytes());record=json.loads(launch.read_bytes())
+        if detail.get('original_payload',{}).get('run_id')!=original_run:continue
+        cid=detail.get('continuation_id');commit=detail.get('source_commit')
+        if (not isinstance(cid,str) or not re.fullmatch(r'refresh-[0-9]{8}T[0-9]{6}Z',cid)
+            or cid!=path.parent.name or record.get('continuation_id')!=cid
+            or record.get('original_run')!=original_run or record.get('controller_uid')!=1000
+            or not isinstance(commit,str) or not re.fullmatch(r'[0-9a-f]{40}',commit)):
+            raise ValueError('Invalid launched shutdown continuation binding')
+        sources[cid]=commit
+        proofs.append({'run_id':cid,'source_commit':commit,'original_run':original_run,
+            'continuation_record_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),
+            'launch_record_sha256':hashlib.sha256(launch.read_bytes()).hexdigest()})
+    return sources,proofs
+
+
+import inspect
+EXPORT=inspect.getsource(continuation_sources)+'\n'+r"""import json,sys,pathlib,hashlib
 v=json.load(sys.stdin);rid=v['run_id']
 import re
 if not re.fullmatch(r'refresh-[0-9]{8}T[0-9]{6}Z',rid):raise ValueError('Exact run ID required')
 base=pathlib.Path('/opt/workbench/benchmark/private/model-refresh');root=base/rid
 recovery=v['plan'].get('score_contract_recovery')or{}
 source_runs={rid:v['plan']['source_commit']}
+resume_sources,resume_proofs=continuation_sources(base,rid);source_runs.update(resume_sources)
 if recovery:
  prior=json.loads((pathlib.Path(recovery['prior_root'])/'plan.json').read_bytes());source_runs[recovery['prior_run_id']]=prior['source_commit']
 infra_plan=base/'refresh-20261126T032113Z/plan.json'
@@ -25,10 +50,10 @@ from pi_full_protocol import digest
 
 def compact(row,path,group_sha,origin_run):
  c=row.get('candidate');a=row.get('acceptance')or{}
- return {**{k:row.get(k) for k in ('task_id','model','method','outcome','frozen','barrier_sha256','scientific_review','metrics','method_timing','acceptance_io_adjustment')},
+ return {**{k:row.get(k) for k in ('task_id','model','method','outcome','frozen','barrier_sha256','scientific_review','metrics','method_timing','acceptance_io_adjustment','shutdown_continuation')},
  'candidate':{k:c.get(k) for k in ('id','root','head_commit','base_commit','verdict','working_tree','protected_paths_modified','test_report')} if c else None,
  'acceptance':{**{k:a.get(k) for k in ('verdict','numeric_verdict','reason','error_type','evidence_root','elapsed_seconds','trusted_measurement')},'detail_sha256':digest(a.get('detail')) if a.get('detail')else None},
- 'original_row_sha256':digest(row),'method_source_run_id':origin_run,'method_source_commit':source_runs[origin_run],'candidate_scope':c.get('scope') if c else None,'source_group_file':str(path),'source_group_sha256':group_sha}
+ 'original_row_sha256':digest(row),'method_source_run_id':origin_run,'method_source_commit':source_runs[origin_run],'method_additional_source_run_ids':[row['shutdown_continuation']] if row.get('shutdown_continuation') in resume_sources else [],'candidate_scope':c.get('scope') if c else None,'source_group_file':str(path),'source_group_sha256':group_sha}
 
 def groups(pattern):
  out=[]
@@ -61,7 +86,7 @@ all_attempts=summarize(ledger,all_workers,'REFRESH')
 print(json.dumps({'run_id':rid,'groups':groups('stages/*.completed.json'),'interface_supplements':groups('supplement-stages/*.completed.json'),'all_refresh_accounting_reference':all_attempts,
  'infrastructure_attempts':attempts,'science_adjudications':[],
  'budget':{'requests':len(ledger['requests']),'subscriptions':len(ledger['codex_turns']),'conservative_bound_usd':ledger['cash_bound_nano']/1e9,'caps':ledger['aggregate_caps'],'actual_cash':'unavailable','ledger_sha256':hashlib.sha256(raw).hexdigest()},
- 'snapshot_schema':'MODEL_REFRESH_REPORT_V1','provenance':{'execution_source_commits_by_run':source_runs,'plan_sha256':v['plan']['plan_sha256'],'native_source_commit':v['plan']['source_commit'],'export_model_dispatches':0,'export_candidate_executions':0,'raw_records_edited':False}}))
+ 'snapshot_schema':'MODEL_REFRESH_REPORT_V1','provenance':{'execution_source_commits_by_run':source_runs,'shutdown_continuation_proofs':resume_proofs,'plan_sha256':v['plan']['plan_sha256'],'native_source_commit':v['plan']['source_commit'],'export_model_dispatches':0,'export_candidate_executions':0,'raw_records_edited':False}}))
 """
 
 
