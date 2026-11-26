@@ -116,7 +116,7 @@ def aggregate_provider(items,name):
     present=[v[name] for v in items if v[name]is not None]
     if not present:return None
     keys=[k for k in present[0] if k!='lower_bound']
-    return dict({k:sum(v[k] for v in present) for k in keys},lower_bound=len(present)!=len(items) or any(v['lower_bound'] for v in present),telemetry_cells=len(present))
+    return dict({k:sum(v[k] for v in present) for k in keys},lower_bound=len(present)!=len(items) or any(v['lower_bound'] for v in present),telemetry_components=len(present))
 
 
 def summaries(raw,reviewed,infrastructure_attempts=()):

@@ -14,15 +14,21 @@ v=json.load(sys.stdin);rid=v['run_id']
 import re
 if not re.fullmatch(r'refresh-[0-9]{8}T[0-9]{6}Z',rid):raise ValueError('Exact run ID required')
 base=pathlib.Path('/opt/workbench/benchmark/private/model-refresh');root=base/rid
+recovery=v['plan'].get('score_contract_recovery')or{}
+source_runs={rid:v['plan']['source_commit']}
+if recovery:
+ prior=json.loads((pathlib.Path(recovery['prior_root'])/'plan.json').read_bytes());source_runs[recovery['prior_run_id']]=prior['source_commit']
+infra_plan=base/'refresh-20261126T032113Z/plan.json'
+if infra_plan.exists():source_runs['refresh-20261126T032113Z']=json.loads(infra_plan.read_bytes())['source_commit']
 sys.path[:0]=[v['folder'],v['folder']+'/src'];from p6_refresh_accounting import summarize
 from pi_full_protocol import digest
 
-def compact(row,path,group_sha):
+def compact(row,path,group_sha,origin_run):
  c=row.get('candidate');a=row.get('acceptance')or{}
  return {**{k:row.get(k) for k in ('task_id','model','method','outcome','frozen','barrier_sha256','scientific_review','metrics','method_timing','acceptance_io_adjustment')},
  'candidate':{k:c.get(k) for k in ('id','root','head_commit','base_commit','verdict','working_tree','protected_paths_modified','test_report')} if c else None,
  'acceptance':{**{k:a.get(k) for k in ('verdict','numeric_verdict','reason','error_type','evidence_root','elapsed_seconds','trusted_measurement')},'detail_sha256':digest(a.get('detail')) if a.get('detail')else None},
- 'original_row_sha256':digest(row),'source_group_file':str(path),'source_group_sha256':group_sha}
+ 'original_row_sha256':digest(row),'method_source_run_id':origin_run,'method_source_commit':source_runs[origin_run],'candidate_scope':c.get('scope') if c else None,'source_group_file':str(path),'source_group_sha256':group_sha}
 
 def groups(pattern):
  out=[]
@@ -31,7 +37,9 @@ def groups(pattern):
   if d.get('value_sha256')!=digest(d['value']):raise ValueError('Completed group hash mismatch')
   g=d['value']
   if not isinstance(g,dict) or 'rows'not in g:continue
-  h=hashlib.sha256(raw).hexdigest();out.append({'rows':[compact(r,p,h) for r in g['rows']],'stage':d['stage']})
+  h=hashlib.sha256(raw).hexdigest();origin_run=rid
+  if not g.get('is_interface_supplement') and g.get('task_id')=='BIP-black-1' and g.get('model')in recovery.get('retained_groups',{}):origin_run=recovery['prior_run_id']
+  out.append({'rows':[compact(r,p,h,origin_run) for r in g['rows']],'stage':d['stage']})
  return out
 l=pathlib.Path('/opt/workbench/state/p6-main-local-20261011/ledger.json');raw=l.read_bytes();ledger=json.loads(raw)
 infra=base/'refresh-20261126T032113Z';workers={}
@@ -43,7 +51,7 @@ for method in ('Direct','Enhanced'):
 print(json.dumps({'run_id':rid,'groups':groups('stages/*.completed.json'),'interface_supplements':groups('supplement-stages/*.completed.json'),
  'infrastructure_attempts':attempts,'science_adjudications':[],
  'budget':{'requests':len(ledger['requests']),'subscriptions':len(ledger['codex_turns']),'conservative_bound_usd':ledger['cash_bound_nano']/1e9,'caps':ledger['aggregate_caps'],'actual_cash':'unavailable','ledger_sha256':hashlib.sha256(raw).hexdigest()},
- 'provenance':{'plan_sha256':v['plan']['plan_sha256'],'native_source_commit':v['plan']['source_commit'],'export_model_dispatches':0,'export_candidate_executions':0,'raw_records_edited':False}}))
+ 'snapshot_schema':'MODEL_REFRESH_REPORT_V1','provenance':{'execution_source_commits_by_run':source_runs,'plan_sha256':v['plan']['plan_sha256'],'native_source_commit':v['plan']['source_commit'],'export_model_dispatches':0,'export_candidate_executions':0,'raw_records_edited':False}}))
 """
 
 
@@ -124,6 +132,8 @@ def write(result,output,snapshot):
 if __name__=='__main__':
     p=argparse.ArgumentParser();source=p.add_mutually_exclusive_group(required=True);source.add_argument('--contract');source.add_argument('--snapshot');p.add_argument('--adjudications');p.add_argument('--output',required=True);p.add_argument('--final',action='store_true');a=p.parse_args()
     snapshot=export(a.contract) if a.contract else json.loads(Path(a.snapshot).read_bytes())
+    import hashlib
+    snapshot.setdefault('provenance',{})['reporter_source_sha256']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in (Path(__file__),Path(__file__).with_name('p6_refresh_analysis.py'))}
     if a.adjudications:snapshot['science_adjudications']=json.loads(Path(a.adjudications).read_bytes())
     result=build(snapshot,final=a.final);artifact=write(result,a.output,snapshot)
     print(json.dumps({'status':result['status'],'unique_cells':result['unique_cells'],'science_audits':result['science_audits'],**artifact},ensure_ascii=False))
