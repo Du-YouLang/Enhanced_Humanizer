@@ -162,12 +162,19 @@ def main():
                 (Path(job['root'])/'public-check.private.log').write_text(p.stdout+p.stderr)
                 if p.returncode!=job.get('offline_public_expected_exit',0):raise RuntimeError('Actual public scratch-copy check returned an unexpected baseline result')
             value.update(kind='ZERO_MODEL_CONTROL',status='COMPLETED')
-            if job.get('refresh_judge_resume'):
+            if job.get('refresh_matched_resume'):
+                from p6_refresh_matched_resume import resume
+                value['session_resume_probe']=asyncio.run(resume(driver,job,Sink(),probe=True))
+            elif job.get('refresh_judge_resume'):
                 from p6_refresh_session_resume import resume
                 value['session_resume_probe']=asyncio.run(resume(driver,job,Sink(),probe=True))
             elif job.get('guidance_session_resume'):
                 from p6_guidance_session_resume import resume
                 value['session_resume_probe']=asyncio.run(resume(driver,job,Sink(),probe=True))
+        elif job.get('refresh_matched_resume'):
+            from p6_refresh_matched_resume import resume
+            answer,slots=asyncio.run(resume(driver,job,Sink()))
+            value.update(status='COMPLETED',answer=answer,matched_slot_receipts=slots,original_session_resumed=True)
         elif job.get('refresh_judge_resume'):
             from p6_refresh_session_resume import resume
             answer=asyncio.run(resume(driver,job,Sink()))
@@ -201,6 +208,14 @@ def main():
                     completed=verify_session(usage,turns,model)
                 else:completed=completed_session(usage,turns)
                 value.update(usage=usage,model_id=completed['model_id'],session_id=completed['session_id'])
+                if job.get('refresh_matched_resume'):
+                    from p6_guidance_shutdown import usage_segments
+                    d=job['refresh_matched_resume'];before=d['prior_usage'];basis='MONOTONIC_SESSION_COUNTERS'
+                    try:before,delta=usage_segments(before,completed['usage'])
+                    except ValueError:delta='unavailable';basis='RESUMED_COUNTER_BASIS_UNRESOLVED'
+                    value['usage']=[dict(completed,usage=before,usage_segment='BEFORE_USER_SHUTDOWN'),dict(completed,usage=delta,usage_segment='RESUMED_DELTA')]
+                    value.update(session_usage_total=completed['usage'],prior_role_seconds_debited=d['prior_seconds'],original_interrupted_scope=d['original_scope'],usage_accounting_basis=basis)
+
                 if job.get('refresh_judge_resume'):
                     from p6_guidance_shutdown import usage_segments
                     d=job['refresh_judge_resume'];before=d['prior_usage'];basis='MONOTONIC_SESSION_COUNTERS'
