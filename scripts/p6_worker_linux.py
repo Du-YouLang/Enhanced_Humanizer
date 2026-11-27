@@ -7,6 +7,8 @@ import os
 from pathlib import Path,PurePosixPath
 import subprocess
 import sys
+# The continuation worker reuses all dependencies from the immutable executor.
+sys.path[:0]=['/opt/workbench/guidance/executor-fbf96ba9cf225ed7f235','/opt/workbench/guidance/executor-fbf96ba9cf225ed7f235/src']
 import time
 
 from p1_broker import protect_memory
