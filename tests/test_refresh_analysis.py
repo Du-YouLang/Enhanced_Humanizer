@@ -1,0 +1,163 @@
+"""MOCK data only: immutable144 directory, audits, costs and complete-time coverage."""
+import copy
+import csv
+import json
+from pathlib import Path
+import sys
+import tempfile
+import unittest
+import zipfile
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'scripts'))
+from p6_refresh_analysis import build,digest,telemetry,TASKS,MODELS,METHODS
+from report_p6_refresh import render,write,continuation_sources
+from p6_refresh_accounting import summarize
+
+
+def metrics(units=1):
+    return {'deepseek':{'requests':units,'known_usage_requests':units,'unknown_usage_requests':0,'input_tokens_known':10*units,'cache_read_input_tokens_known':8*units,'output_tokens_known':2*units},
+    'openai':{'subscription_reservations':units,'recorded_session_usage_segments':units,'input_tokens_recorded':10*units,'cached_input_tokens_subset':8*units,'output_tokens_recorded':2*units,'token_totals_are_lower_bounds':False,'unknown_usage_scopes':[]}}
+
+
+def row(task=TASKS[0],model='GPT61-Sol',method='Direct',status='PASS',seconds=10):
+    return {'task_id':task,'model':model,'method':method,'outcome':status,'candidate':{'id':'sample','root':'MOCK','base_commit':'base','head_commit':'fixed','verdict':'PASS','test_report':{'verdict':'PASS'},'working_tree':'','protected_paths_modified':[]},
+    'frozen':{'program_sha256':'1'*64},'acceptance':{'verdict':'PASS' if status=='PASS' else 'FAIL'},'metrics':metrics(),
+    'method_timing':{'elapsed_seconds':seconds,'io_adjustment':{'raw_elapsed_seconds':10,'full_local_io_stall_seconds':2,'io_adjusted_elapsed_estimate_seconds':8}} if seconds==10 else {'elapsed_seconds':seconds}}
+
+
+class AnalysisTests(unittest.TestCase):
+    def test_duplicate_cells_and_unexpected_supplements_fail_closed(self):
+        r=row()
+        with self.assertRaisesRegex(ValueError,'duplicate'):build({'groups':[{'rows':[r,copy.deepcopy(r)]}]})
+        with self.assertRaisesRegex(ValueError,'Unexpected'):build({'groups':[{'rows':[r]}],'interface_supplements':[{'rows':[r]}]})
+        missing=copy.deepcopy(r);missing['candidate'].pop('protected_paths_modified')
+        with self.assertRaisesRegex(ValueError,'Software PASS lacks'):build({'groups':[{'rows':[missing]}]})
+    def test_corrected_supplement_preserves_raw_and_does_not_rebill_shared_builders(self):
+        raw=row(method='Enhanced',status='INDETERMINATE');raw['metrics']=metrics(6);raw['candidate']=None;raw['frozen']=None
+        sup=row(method='Enhanced',seconds='unavailable_split_flow');sup['metrics']=metrics(3);sup['metrics']['retained_builders_projection_not_additive_bill']=metrics(3)
+        infra={'cell':[TASKS[0],'GPT61-Sol','Enhanced'],'metrics':metrics(4)}
+        snap={'groups':[{'rows':[raw]}],'interface_supplements':[{'rows':[sup]}],'infrastructure_attempts':[infra]};before=copy.deepcopy(snap)
+        result=build(snap);self.assertEqual(snap,before);self.assertEqual(result['unique_cells'],1)
+        self.assertEqual(result['raw_rows'][0]['outcome'],'INDETERMINATE');self.assertEqual(result['reviewed_rows'][0]['reviewed_outcome'],'PASS')
+        s=next(s for s in result['summary'] if s['name']=='Enhanced-GPT-6.1-Sol')
+        self.assertEqual(s['all_attempt_openai']['input_tokens_recorded'],130)
+        self.assertEqual(s['completed_cell_openai_projection']['input_tokens_recorded'],60)
+        self.assertEqual(s['elapsed_measured_cells'],0);self.assertIsNone(s['io_adjusted_median_seconds'])
+    def test_science_numeric_pass_never_becomes_full_pass_without_bound_independent_review(self):
+        r=row(task='SCI-EGL');snap={'groups':[{'rows':[r]}]};result=build(snap)
+        self.assertEqual(result['reviewed_rows'][0]['reviewed_outcome'],'PENDING_SCIENTIFIC_REVIEW')
+        a={'cell':['SCI-EGL','GPT61-Sol','Direct'],'row_sha256':digest(r),'program_sha256':'1'*64,'independent_review':True,'status':'PASS','numerical':'PASS','source_method':'PASS','report':'PASS','figure':'PASS','evidence':['MOCK source, report and actual figure audit']}
+        snap['science_adjudications']=[a];self.assertEqual(build(snap)['reviewed_rows'][0]['reviewed_outcome'],'PASS')
+        a['program_sha256']='2'*64
+        with self.assertRaisesRegex(ValueError,'another program'):build(snap)
+        a['program_sha256']='1'*64;a['numerical']='NOT_REQUIRED';a['numerical_reason']='not a valid exclusion'
+        with self.assertRaisesRegex(ValueError,'always requires'):build(snap)
+        a['numerical']='PASS';a['figure']='NOT_REQUIRED'
+        with self.assertRaisesRegex(ValueError,'contract evidence'):build(snap)
+        a['status']='INDETERMINATE'
+        with self.assertRaisesRegex(ValueError,'requires reason'):build(snap)
+    def test_final_requires144_unique_cells_and36_audits(self):
+        rows=[row(t,m,f) for t in TASKS for m in MODELS for f in METHODS];snap={'groups':[{'rows':rows}]}
+        with self.assertRaisesRegex(ValueError,'144 unique'):build(snap,final=True)
+        audits=[]
+        for r in rows:
+            if not r['task_id'].startswith('SCI-'):continue
+            audits.append({'cell':[r['task_id'],r['model'],r['method']],'row_sha256':digest(r),'program_sha256':'1'*64,'independent_review':True,'status':'PASS','numerical':'PASS','source_method':'PASS','report':'PASS','figure':'PASS','evidence':['MOCK independent review']})
+        snap['science_adjudications']=audits;snap['all_refresh_accounting_reference']=metrics(144);result=build(snap,final=True)
+        self.assertEqual(result['status'],'FINAL_REVIEWED_144');self.assertEqual(len(result['summary']),9)
+        self.assertTrue(all(s['successes']==16 for s in result['summary']))
+        self.assertEqual(result['accounting_reconciliation']['status'],'EXACT_ALL_ATTEMPTS_RECONCILED')
+        snap['all_refresh_accounting_reference']['openai']['input_tokens_recorded']+=10
+        with self.assertRaisesRegex(ValueError,'does not reconcile'):build(snap,final=True)
+        snap.pop('all_refresh_accounting_reference')
+        with self.assertRaisesRegex(ValueError,'accounting reference'):build(snap,final=True)
+    def test_cache_is_subset_unknown_is_lower_bound_and_invalid_io_is_rejected(self):
+        r=row();r['metrics']['deepseek'].update(requests=2,unknown_usage_requests=1)
+        t=telemetry(r);self.assertTrue(t['deepseek']['lower_bound']);self.assertEqual(t['deepseek']['input_tokens_known'],10)
+        self.assertEqual(t['openai']['input_tokens_recorded'],10);self.assertEqual(t['io_adjusted_estimate_seconds'],8)
+        r['acceptance_io_adjustment']={'raw_elapsed_seconds':50}
+        t=telemetry(r);self.assertEqual(t['hidden_acceptance_seconds'],50);self.assertEqual(t['active_phase_sum_seconds'],60)
+        summary=build({'groups':[{'rows':[r]}]})['summary'][0]
+        self.assertEqual(summary['elapsed_sum_seconds'],10);self.assertEqual(summary['hidden_acceptance_sum_seconds'],50)
+        self.assertEqual(summary['active_phase_sum_seconds'],60);self.assertEqual(summary['io_adjusted_sum_seconds'],8)
+        r['method_timing']['io_adjustment']['raw_elapsed_seconds']=11
+        with self.assertRaisesRegex(ValueError,'I/O adjustment'):telemetry(r)
+        r['method_timing']['elapsed_seconds']='unavailable_interrupted_method';self.assertIsNone(telemetry(r)['io_adjusted_estimate_seconds']);self.assertIsNone(telemetry(r)['active_phase_sum_seconds'])
+        r['metrics']['openai']['cached_input_tokens_subset']=11
+        with self.assertRaisesRegex(ValueError,'subset'):telemetry(r)
+    def test_pairing_counts_role_timeouts_as_unsolved_but_excludes_infrastructure(self):
+        rows=[]
+        for t in TASKS[:3]:rows += [row(t,method='Enhanced'),row(t,method='Direct',status='TIMEOUT')]
+        rows += [row(TASKS[3],method='Enhanced',seconds=5),row(TASKS[3],method='Direct',seconds=10)]
+        result=build({'groups':[{'rows':rows}]});p=next(p for p in result['paired'] if p['model']=='GPT61-Sol' and p['left']=='Enhanced' and p['right']=='Direct')
+        self.assertEqual(p['paired_tasks'],4);self.assertEqual(p['discordant_pairs'],3);self.assertEqual(p['exploratory_paired_sign_p'],.25)
+        self.assertEqual(p['mutual_success_timing_pairs'],1);self.assertEqual(p['median_left_over_right_elapsed'],.5)
+    def test_corrected_interface_quality_is_separate_from_unchanged_process_pairs(self):
+        raw=row(method='Enhanced',status='INDETERMINATE');raw['candidate']=None;raw['frozen']=None
+        sup=row(method='Enhanced',seconds='unavailable_split_flow')
+        result=build({'groups':[{'rows':[raw,row()]}],'interface_supplements':[{'rows':[sup]}]})
+        select=lambda name:next(p for p in result[name] if p['model']=='GPT61-Sol' and p['left']=='Enhanced' and p['right']=='Direct')
+        strict=select('paired');quality=select('paired_quality_including_corrections')
+        self.assertEqual(strict['paired_tasks'],0);self.assertEqual(strict['excluded_corrected_tasks'],[TASKS[0]])
+        self.assertEqual(quality['paired_tasks'],1);self.assertEqual(quality['mutual_success_timing_pairs'],0)
+        self.assertEqual(next(s for s in result['summary'] if s['name']=='Enhanced-GPT-6.1-Sol')['successes'],1)
+
+    def test_shutdown_continuation_requires_actual_launch_bound_to_original_run(self):
+        with tempfile.TemporaryDirectory()as temp:
+            base=Path(temp);cid='refresh-20261126T144822Z';root=base/cid;root.mkdir()
+            d={'continuation_id':cid,'source_commit':'a'*40,'original_payload':{'run_id':'refresh-20261126T060538Z'}}
+            (root/'continuation.json').write_text(json.dumps(d))
+            self.assertEqual(continuation_sources(base,d['original_payload']['run_id']),({},[]))
+            launch={'continuation_id':cid,'original_run':d['original_payload']['run_id'],'controller_uid':1000}
+            (root/'launch.json').write_text(json.dumps(launch))
+            sources,proofs=continuation_sources(base,d['original_payload']['run_id'])
+            self.assertEqual(sources,{cid:'a'*40});self.assertEqual(len(proofs),1)
+            launch['original_run']='wrong';(root/'launch.json').write_text(json.dumps(launch))
+            with self.assertRaisesRegex(ValueError,'binding'):continuation_sources(base,d['original_payload']['run_id'])
+
+    def test_shutdown_segments_and_both_subscription_reservations_count_once(self):
+        old='REFRESH/old/task/model/Enhanced/judge';new='REFRESH/new/task/model/Enhanced/judge'
+        def segment(name,inputs,cached,outputs):return {'session_id':'SAME_THREAD','usage_segment':name,'usage':{'input_tokens':inputs,'cached_input_tokens':cached,'output_tokens':outputs}}
+        worker={'scope':new,'status':'COMPLETED','usage':[segment('BEFORE_USER_SHUTDOWN',100,50,5),segment('RESUMED_DELTA',20,10,2)]}
+        ledger={'requests':[],'codex_turns':[{'experiment':old},{'experiment':new}]}
+        result=summarize(ledger,{'resume':worker,'duplicate_same_receipt':worker},'REFRESH')['openai']
+        self.assertEqual(result['subscription_reservations'],2);self.assertEqual(result['recorded_session_usage_segments'],2)
+        self.assertEqual(result['input_tokens_recorded'],120);self.assertEqual(result['output_tokens_recorded'],7)
+        conflicting=copy.deepcopy(worker);conflicting['usage'][1]['usage']['input_tokens']=21
+        with self.assertRaisesRegex(ValueError,'Conflicting'):summarize(ledger,{'one':worker,'two':conflicting},'REFRESH')
+
+    def test_resumed_method_quality_retained_but_not_strict_process_pair(self):
+        recovered=row(method='Enhanced',seconds='unavailable_user_shutdown_split_method')
+        recovered['shutdown_continuation']='refresh-20261126T144822Z'
+        result=build({'groups':[{'rows':[recovered,row()]}]})
+        select=lambda field:next(p for p in result[field] if p['model']=='GPT61-Sol' and p['left']=='Enhanced' and p['right']=='Direct')
+        self.assertEqual(select('paired')['paired_tasks'],0)
+        self.assertEqual(select('paired')['excluded_shutdown_recovery_tasks'],[TASKS[0]])
+        self.assertEqual(select('paired_quality_including_corrections')['paired_tasks'],1)
+        self.assertEqual(select('paired_quality_including_corrections')['mutual_success_timing_pairs'],0)
+
+    def test_shutdown_timing_uses_only_same_original_interval_with_bound_evidence(self):
+        r=row();r['method_timing'].update(start={'boot_id':'OLD','monotonic_ns':1},end={'boot_id':'OLD','monotonic_ns':2},elapsed_seconds=.01)
+        corrected=copy.deepcopy(r['method_timing']);corrected['elapsed_seconds']=10
+        a={'cell':[r['task_id'],r['model'],r['method']],'row_sha256':digest(r),'program_sha256':'1'*64,'reason':'SHUTDOWN_REUSED_COMPLETED_MODEL_PHASE','evidence_sha256':{'start':'a'*64,'end':'b'*64,'io':'c'*64},'method_timing':corrected}
+        snap={'groups':[{'rows':[r]}],'timing_adjudications':[a]};before=copy.deepcopy(snap)
+        result=build(snap);self.assertEqual(snap,before);self.assertEqual(result['raw_rows'][0]['method_timing']['elapsed_seconds'],.01)
+        self.assertEqual(result['reviewed_rows'][0]['method_timing']['elapsed_seconds'],10)
+        for field in ('program_sha256','row_sha256'):
+            bad=copy.deepcopy(snap);bad['timing_adjudications'][0][field]='0'*64
+            with self.assertRaises(ValueError):build(bad)
+        bad=copy.deepcopy(snap);bad['timing_adjudications'][0]['method_timing']['start']['boot_id']='NEW'
+        with self.assertRaisesRegex(ValueError,'interval'):build(bad)
+        bad=copy.deepcopy(snap);bad['timing_adjudications'][0]['method_timing']['elapsed_seconds']=9
+        with self.assertRaisesRegex(ValueError,'complete IO'):build(bad)
+
+    def test_html_escapes_values_and_archive_never_includes_unrelated_files(self):
+        r=row(status='<script>unsafe</script>');snap={'groups':[{'rows':[r]}]};result=build(snap)
+        text=render(result);self.assertNotIn('<script>',text);self.assertIn('&lt;script&gt;',text)
+        with tempfile.TemporaryDirectory()as temp:
+            root=Path(temp);(root/'unrelated.private').write_text('must not be zipped')
+            artifact=write(result,root,snap)
+            with zipfile.ZipFile(root/'report.zip')as z:self.assertNotIn('unrelated.private',z.namelist());self.assertIsNone(z.testzip())
+            with (root/'summary.csv').open(encoding='utf-8-sig',newline='')as f:
+                records=list(csv.DictReader(f));self.assertIn('openai_input_tokens_recorded',records[0]);self.assertEqual(len(records),9)
+
+if __name__=='__main__':unittest.main()
