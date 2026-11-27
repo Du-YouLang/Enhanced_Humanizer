@@ -139,7 +139,7 @@ def summaries(raw,reviewed,infrastructure_attempts=()):
             attempts=[]
             for k,row in reviewed.items():
                 if k[1:]!=(model,method):continue
-                attempts.append(telemetry(raw[k]))
+                attempts.append(telemetry({'metrics':raw[k].get('metrics')}))
                 if row['result_origin']=='SEPARATE_INTERFACE_SUPPLEMENT':attempts.append(telemetry(row))
             for attempt in infrastructure_attempts:
                 if tuple(attempt['cell'])[1:]==(model,method):attempts.append(telemetry({'metrics':attempt['metrics']}))
@@ -209,14 +209,36 @@ def accounting_reconciliation(summary,reference,*,final=False):
     return {'status':'EXACT_ALL_ATTEMPTS_RECONCILED' if equal else 'PROGRESS_UNCLOSED_OR_INFLIGHT_USAGE_REMAINS','comparisons':comparisons}
 
 
+def reviewed_timing(rows,adjudications):
+    """Restore only a proven original completed phase; never edit raw rows."""
+    seen=set()
+    for a in adjudications:
+        k=tuple(a['cell'])
+        if k not in rows or k in seen:raise ValueError('Unknown/duplicate timing correction')
+        row=rows[k];t=row.get('method_timing')or{};new=a.get('method_timing')or{}
+        if a.get('row_sha256')!=digest({key:v for key,v in row.items() if key not in ('reviewed_outcome','result_origin','science_adjudication')}):
+            raise ValueError('Timing correction is not bound to original row')
+        if a.get('program_sha256')!=(row.get('frozen')or{}).get('program_sha256'):raise ValueError('Timing correction program mismatch')
+        if a.get('reason')!='SHUTDOWN_REUSED_COMPLETED_MODEL_PHASE' or not a.get('evidence_sha256'):raise ValueError('Timing correction lacks evidence')
+        if any(not isinstance(h,str)or len(h)!=64 for h in a['evidence_sha256'].values()):raise ValueError('Timing receipt hashes required')
+        for field in ('start','end','io_adjustment'):
+            if not t.get(field)or new.get(field)!=t[field]:raise ValueError('Original timing interval changed')
+        if t['start']['boot_id']!=t['end']['boot_id']:raise ValueError('Cross-boot phase unavailable')
+        measured=elapsed(t['io_adjustment'].get('raw_elapsed_seconds'))
+        if measured is None or measured<=0 or new.get('elapsed_seconds')!=measured:raise ValueError('Original complete IO interval required')
+        row['method_timing']=copy.deepcopy(new);row['timing_adjudication']=copy.deepcopy(a);seen.add(k)
+    return rows
+
+
 def build(snapshot,*,final=False):
     rows=[r for g in snapshot.get('groups',[]) for r in g['rows']]
     supplements=[r for g in snapshot.get('interface_supplements',[]) for r in g['rows']]
     raw,reviewed=views(rows,supplements,snapshot.get('science_adjudications',[]),final=final)
+    reviewed_timing(reviewed,snapshot.get('timing_adjudications',[]))
     summary=summaries(raw,reviewed,snapshot.get('infrastructure_attempts',[]))
     accounting=accounting_reconciliation(summary,snapshot.get('all_refresh_accounting_reference'),final=final)
     return {'status':'FINAL_REVIEWED_144' if final else 'PROGRESS_SNAPSHOT_NOT_FINAL','unique_cells':len(raw),'expected_cells':144,
-        'science_audits':len(snapshot.get('science_adjudications',[])),'interface_supplements_separate':len(supplements),
+        'science_audits':len(snapshot.get('science_adjudications',[])),'timing_adjudications':copy.deepcopy(snapshot.get('timing_adjudications',[])),'interface_supplements_separate':len(supplements),
         'summary':summary,'accounting_reconciliation':accounting,'paired':paired_comparisons(reviewed),'paired_quality_including_corrections':paired_comparisons(reviewed,include_corrected=True),'raw_rows':[raw[k] for k in sorted(raw)],
         'reviewed_rows':[reviewed[k] for k in sorted(reviewed)],'run_id':snapshot.get('run_id'),'provenance':snapshot.get('provenance'),
         'budget':snapshot.get('budget'),'infrastructure_attempts_separate':snapshot.get('infrastructure_attempts',[]),'shared_projections_not_additive_bills':True,

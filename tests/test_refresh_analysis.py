@@ -135,6 +135,21 @@ class AnalysisTests(unittest.TestCase):
         self.assertEqual(select('paired_quality_including_corrections')['paired_tasks'],1)
         self.assertEqual(select('paired_quality_including_corrections')['mutual_success_timing_pairs'],0)
 
+    def test_shutdown_timing_uses_only_same_original_interval_with_bound_evidence(self):
+        r=row();r['method_timing'].update(start={'boot_id':'OLD','monotonic_ns':1},end={'boot_id':'OLD','monotonic_ns':2},elapsed_seconds=.01)
+        corrected=copy.deepcopy(r['method_timing']);corrected['elapsed_seconds']=10
+        a={'cell':[r['task_id'],r['model'],r['method']],'row_sha256':digest(r),'program_sha256':'1'*64,'reason':'SHUTDOWN_REUSED_COMPLETED_MODEL_PHASE','evidence_sha256':{'start':'a'*64,'end':'b'*64,'io':'c'*64},'method_timing':corrected}
+        snap={'groups':[{'rows':[r]}],'timing_adjudications':[a]};before=copy.deepcopy(snap)
+        result=build(snap);self.assertEqual(snap,before);self.assertEqual(result['raw_rows'][0]['method_timing']['elapsed_seconds'],.01)
+        self.assertEqual(result['reviewed_rows'][0]['method_timing']['elapsed_seconds'],10)
+        for field in ('program_sha256','row_sha256'):
+            bad=copy.deepcopy(snap);bad['timing_adjudications'][0][field]='0'*64
+            with self.assertRaises(ValueError):build(bad)
+        bad=copy.deepcopy(snap);bad['timing_adjudications'][0]['method_timing']['start']['boot_id']='NEW'
+        with self.assertRaisesRegex(ValueError,'interval'):build(bad)
+        bad=copy.deepcopy(snap);bad['timing_adjudications'][0]['method_timing']['elapsed_seconds']=9
+        with self.assertRaisesRegex(ValueError,'complete IO'):build(bad)
+
     def test_html_escapes_values_and_archive_never_includes_unrelated_files(self):
         r=row(status='<script>unsafe</script>');snap={'groups':[{'rows':[r]}]};result=build(snap)
         text=render(result);self.assertNotIn('<script>',text);self.assertIn('&lt;script&gt;',text)

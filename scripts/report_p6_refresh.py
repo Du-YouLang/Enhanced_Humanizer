@@ -171,10 +171,11 @@ def write(result,output,snapshot):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();source=p.add_mutually_exclusive_group(required=True);source.add_argument('--contract');source.add_argument('--snapshot');p.add_argument('--adjudications');p.add_argument('--output',required=True);p.add_argument('--final',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser();source=p.add_mutually_exclusive_group(required=True);source.add_argument('--contract');source.add_argument('--snapshot');p.add_argument('--adjudications');p.add_argument('--timing-adjudications');p.add_argument('--output',required=True);p.add_argument('--final',action='store_true');a=p.parse_args()
     snapshot=export(a.contract) if a.contract else json.loads(Path(a.snapshot).read_bytes())
     import hashlib
     snapshot.setdefault('provenance',{})['reporter_source_sha256']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in (Path(__file__),Path(__file__).with_name('p6_refresh_analysis.py'))}
     if a.adjudications:snapshot['science_adjudications']=json.loads(Path(a.adjudications).read_bytes())
+    if a.timing_adjudications:snapshot['timing_adjudications']=json.loads(Path(a.timing_adjudications).read_bytes())
     result=build(snapshot,final=a.final);artifact=write(result,a.output,snapshot)
     print(json.dumps({'status':result['status'],'unique_cells':result['unique_cells'],'science_audits':result['science_audits'],**artifact},ensure_ascii=False))
