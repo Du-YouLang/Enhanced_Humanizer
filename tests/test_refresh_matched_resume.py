@@ -28,15 +28,35 @@ class MatchedResumeTests(unittest.TestCase):
  def test_official_resume_explicitly_rebinds_cwd_and_does_not_reopen_held_thread(self):
   from types import SimpleNamespace
   class Server:
-   def __init__(self):self.bound=False;self.calls=[];self.cwd='/resume/code'
+   def __init__(self):self.bound=False;self.calls=[];self.cwd='/resume/code';self.given=0
+   def give(self):self.given+=1
    def holds(self,*a):return self.bound
    def holding(self,*a):self.bound=True
    def call(self,method,params):self.calls.append((method,params));return {'thread':{'id':SESSION,'cwd':self.cwd}}
-  server=Server();cog=SimpleNamespace(_agent=SimpleNamespace(_taken=lambda:server),_permitted=lambda _: {'sandbox':'danger-full-access'},_thread=lambda _:SESSION)
+  server=Server();cog=SimpleNamespace(_agent=SimpleNamespace(_taken=lambda held=None:server),_permitted=lambda _: {'sandbox':'danger-full-access'},_thread=lambda _:SESSION)
   j=job();j['work']='/resume/code';result=bind_workspace(cog,j,force=True);self.assertEqual(result['workspace'],j['work']);self.assertEqual(server.calls[0][1]['cwd'],j['work'])
-  bind_workspace(cog,j);self.assertEqual(len(server.calls),1)
+  bind_workspace(cog,j);self.assertEqual(len(server.calls),1);self.assertIs(cog._on,server);self.assertEqual(server.given,2)
   server.bound=False;server.cwd='/original/code'
   with self.assertRaisesRegex(ValueError,'workspace'):bind_workspace(cog,j)
+
+ def test_resume_and_subsequent_turn_share_one_server_checkout(self):
+  from types import SimpleNamespace
+  created=[]
+  class Server:
+   def __init__(self):self.bound=False;self.busy=0
+   def give(self):self.busy-=1
+   def holds(self,*a):return self.bound
+   def holding(self,*a):self.bound=True
+   def call(self,*a):return {'thread':{'id':SESSION,'cwd':'/resume/code'}}
+  def taken(held=None):
+   if held is None:
+    server=next((s for s in created if s.busy==0),None)
+    if server is None:server=Server();created.append(server)
+   else:server=held
+   server.busy+=1;return server
+  cog=SimpleNamespace(_agent=SimpleNamespace(_taken=taken),_permitted=lambda _: {},_thread=lambda _:SESSION);j=job();j['work']='/resume/code'
+  bind_workspace(cog,j,force=True);bind_workspace(cog,j);server=taken(cog._on);server.give()
+  self.assertEqual(len(created),1);self.assertEqual(created[0].busy,0)
 
  def test_actual_ledger_duplicate_denial_and_new_linked_scope_preserve_old(self):
   config=json.loads((Path(__file__).resolve().parents[1]/'configs/budget-p6-model-refresh-approved.json').read_bytes())

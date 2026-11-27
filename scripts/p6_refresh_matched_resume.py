@@ -27,16 +27,19 @@ def slots(job):
  return [(index,(1200-d['prior_seconds'])if index==2 else 1200,(job['scope']if index==2 else ORIGINAL).rsplit('/',1)[0]+'/matched-'+str(index)) for index in range(2,7)]
 
 def bind_workspace(cog,job,*,force=False):
-    """Official thread/resume must explicitly bind the independent workspace."""
-    server=cog._agent._taken();rung=cog._permitted(server)
-    if force or not server.holds(SESSION,rung):
-        response=server.call('thread/resume',{**rung,'threadId':SESSION,'cwd':job['work'],'model':'gpt-6.1-sol'})
-        thread=response['thread']
-        if thread.get('id')!=SESSION or PurePosixPath(thread.get('cwd',''))!=PurePosixPath(job['work']):
-            raise ValueError('Official resumed thread workspace differs from isolated snapshot')
-        server.holding(SESSION,rung)
-    if cog._thread(server)!=SESSION:raise ValueError('Original official thread binding changed')
-    return {'session_id':SESSION,'workspace':job['work']}
+    """Keep the official thread on its held server and balance the checkout."""
+    server=cog._agent._taken(getattr(cog,'_on',None));cog._on=server
+    try:
+        rung=cog._permitted(server)
+        if force or not server.holds(SESSION,rung):
+            response=server.call('thread/resume',{**rung,'threadId':SESSION,'cwd':job['work'],'model':'gpt-6.1-sol'})
+            thread=response['thread']
+            if thread.get('id')!=SESSION or PurePosixPath(thread.get('cwd',''))!=PurePosixPath(job['work']):
+                raise ValueError('Official resumed thread workspace differs from isolated snapshot')
+            server.holding(SESSION,rung)
+        if cog._thread(server)!=SESSION:raise ValueError('Original official thread binding changed')
+        return {'session_id':SESSION,'workspace':job['work'],'held_server_reused':True}
+    finally:server.give()
 
 async def resume(driver,job,sink,*,probe=False):
  from hmz.runtime.flowing.spi import Placement,HookTable,TurnRequest,Limits
@@ -49,6 +52,7 @@ async def resume(driver,job,sink,*,probe=False):
   if session.id!=SESSION:raise ValueError('Thread adoption failed')
   binding=bind_workspace(session.inner.coganchor,job,force=True)
   if probe:
+   bind_workspace(session.inner.coganchor,job)
    return {'status':'PASS_MATCHED_ORIGINAL_THREAD_ZERO_INFERENCE',**binding,'model_calls':0}
   receipts=[{'index':1,'scope':ORIGINAL,'elapsed_seconds':'unavailable_original_driver_interval','same_official_session_id':SESSION,'retained_completed_turn':True,'official_event_interval_seconds':d['completed_event_seconds']}]
   answer=None
