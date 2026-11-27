@@ -26,6 +26,18 @@ def slots(job):
  d=validate(job)
  return [(index,(1200-d['prior_seconds'])if index==2 else 1200,(job['scope']if index==2 else ORIGINAL).rsplit('/',1)[0]+'/matched-'+str(index)) for index in range(2,7)]
 
+def bind_workspace(cog,job,*,force=False):
+    """Official thread/resume must explicitly bind the independent workspace."""
+    server=cog._agent._taken();rung=cog._permitted(server)
+    if force or not server.holds(SESSION,rung):
+        response=server.call('thread/resume',{**rung,'threadId':SESSION,'cwd':job['work'],'model':'gpt-6.1-sol'})
+        thread=response['thread']
+        if thread.get('id')!=SESSION or PurePosixPath(thread.get('cwd',''))!=PurePosixPath(job['work']):
+            raise ValueError('Official resumed thread workspace differs from isolated snapshot')
+        server.holding(SESSION,rung)
+    if cog._thread(server)!=SESSION:raise ValueError('Original official thread binding changed')
+    return {'session_id':SESSION,'workspace':job['work']}
+
 async def resume(driver,job,sink,*,probe=False):
  from hmz.runtime.flowing.spi import Placement,HookTable,TurnRequest,Limits
  from hmz.flows import EnvBackendKind
@@ -35,13 +47,13 @@ async def resume(driver,job,sink,*,probe=False):
   if session.id is not None:raise ValueError('Unopened original thread handle required')
   session.inner.agent.keeps=Path(d['keeps']);session.inner.coganchor._adopt(SESSION)
   if session.id!=SESSION:raise ValueError('Thread adoption failed')
+  binding=bind_workspace(session.inner.coganchor,job,force=True)
   if probe:
-   cog=session.inner.coganchor
-   if cog._thread(cog._agent._taken())!=SESSION:raise ValueError('Official thread/resume failed')
-   return {'status':'PASS_MATCHED_ORIGINAL_THREAD_ZERO_INFERENCE','session_id':SESSION,'model_calls':0}
+   return {'status':'PASS_MATCHED_ORIGINAL_THREAD_ZERO_INFERENCE',**binding,'model_calls':0}
   receipts=[{'index':1,'scope':ORIGINAL,'elapsed_seconds':'unavailable_original_driver_interval','same_official_session_id':SESSION,'retained_completed_turn':True,'official_event_interval_seconds':d['completed_event_seconds']}]
   answer=None
   for index,seconds,billing in slots(job):
+   bind_workspace(session.inner.coganchor,job)
    driver.experiment=billing
    slot=Path(job['root'])/'controller-slot.json';slot.write_text(__import__('json').dumps({'index':index,'scope':billing,'original_slot_scope':ORIGINAL.rsplit('/',1)[0]+'/matched-'+str(index)}))
    prompt=('Continue the SAME interrupted second work slot in the same session and retained workspace after human shutdown. Slot1 is already complete; do not repeat it. Finish the interrupted inspection, edits and public verification, preserving original task and immutable tests. '+job['prompt'])if index==2 else ('Continue your own previous solution in the same session and workspace. Use this additional bounded work slot to inspect correctness, edge cases and public tests. No other agent advice or hidden acceptance is available. Preserve immutable tests and dependencies; commit cleanly. Report remaining issues and validation evidence.')

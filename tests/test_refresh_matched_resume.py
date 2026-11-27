@@ -3,7 +3,7 @@ import sys,tempfile,sqlite3,json,copy,unittest
 from pathlib import Path
 from contextlib import closing
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
-from p6_refresh_matched_resume import slots,validate,relocate,SESSION,ORIGINAL
+from p6_refresh_matched_resume import slots,validate,relocate,SESSION,ORIGINAL,bind_workspace
 from p6_main_budget import MainLedger
 from p1_budget import BudgetDenied
 
@@ -25,6 +25,19 @@ class MatchedResumeTests(unittest.TestCase):
    with closing(sqlite3.connect(p/'state_5.sqlite'))as db,db:db.execute('CREATE TABLE threads(id TEXT,rollout_path TEXT)');db.execute('INSERT INTO threads VALUES (?,?)',(SESSION,'/old/path'))
    self.assertEqual(relocate(p)['history_edits'],0);self.assertEqual(trace.read_text(),'MOCK immutable history')
    with closing(sqlite3.connect(p/'state_5.sqlite'))as db:self.assertEqual(db.execute('SELECT rollout_path FROM threads').fetchone()[0],str(trace))
+ def test_official_resume_explicitly_rebinds_cwd_and_does_not_reopen_held_thread(self):
+  from types import SimpleNamespace
+  class Server:
+   def __init__(self):self.bound=False;self.calls=[];self.cwd='/resume/code'
+   def holds(self,*a):return self.bound
+   def holding(self,*a):self.bound=True
+   def call(self,method,params):self.calls.append((method,params));return {'thread':{'id':SESSION,'cwd':self.cwd}}
+  server=Server();cog=SimpleNamespace(_agent=SimpleNamespace(_taken=lambda:server),_permitted=lambda _: {'sandbox':'danger-full-access'},_thread=lambda _:SESSION)
+  j=job();j['work']='/resume/code';result=bind_workspace(cog,j,force=True);self.assertEqual(result['workspace'],j['work']);self.assertEqual(server.calls[0][1]['cwd'],j['work'])
+  bind_workspace(cog,j);self.assertEqual(len(server.calls),1)
+  server.bound=False;server.cwd='/original/code'
+  with self.assertRaisesRegex(ValueError,'workspace'):bind_workspace(cog,j)
+
  def test_actual_ledger_duplicate_denial_and_new_linked_scope_preserve_old(self):
   config=json.loads((Path(__file__).resolve().parents[1]/'configs/budget-p6-model-refresh-approved.json').read_bytes())
   with tempfile.TemporaryDirectory()as tmp:
